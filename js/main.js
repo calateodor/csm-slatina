@@ -67,10 +67,61 @@
     });
   }
 
-  /* ---------- Dublăm pistele de marquee pt. buclă continuă ---------- */
-  document.querySelectorAll(".ticker-track, .band-track").forEach(function (track) {
-    track.innerHTML += track.innerHTML;
-  });
+  /* ---------- Marquee infinit ----------
+     Clonăm setul de itemi până acoperim de două ori lățimea containerului,
+     apoi deplasăm exact cu lățimea unui set (inclusiv gap-ul), ca reluarea
+     să fie invizibilă indiferent de lățimea ecranului. */
+  function setupMarquee(track) {
+    var parent = track.parentElement;
+    if (!parent) return;
+    var originals = Array.prototype.slice.call(track.children);
+    if (!originals.length) return;
+
+    var styles = getComputedStyle(track);
+    var gap = parseFloat(styles.columnGap || styles.gap) || 0;
+
+    // lățimea unui set complet = suma lățimilor + gap-urile dintre itemi + gap-ul de legătură
+    function setWidth() {
+      var w = 0;
+      originals.forEach(function (el) { w += el.getBoundingClientRect().width; });
+      return w + gap * originals.length;
+    }
+
+    var oneSet = setWidth();
+    if (oneSet <= 0) return;
+
+    // câte seturi trebuie ca pista să depășească 2× containerul
+    var needed = Math.max(2, Math.ceil((parent.getBoundingClientRect().width * 2) / oneSet) + 1);
+    for (var i = 1; i < needed; i++) {
+      originals.forEach(function (el) { track.appendChild(el.cloneNode(true)); });
+    }
+
+    track.style.setProperty("--marquee-shift", oneSet + "px");
+    // viteză constantă (px/secundă), indiferent de câte seturi are pista
+    var speed = track.classList.contains("ticker-track") ? 70 : 90;
+    track.style.animationDuration = (oneSet / speed) + "s";
+  }
+
+  var marquees = document.querySelectorAll(".ticker-track, .band-track");
+  marquees.forEach(setupMarquee);
+
+  // la redimensionare recalculăm (numărul de seturi depinde de lățimea ecranului)
+  var resizeTimer;
+  window.addEventListener("resize", function () {
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(function () {
+      marquees.forEach(function (track) {
+        var shift = parseFloat(track.style.getPropertyValue("--marquee-shift"));
+        var parentW = track.parentElement.getBoundingClientRect().width;
+        if (shift && track.getBoundingClientRect().width < parentW * 2 + shift) {
+          // ecranul s-a lărgit peste acoperirea actuală — mai adăugăm un set
+          var kids = Array.prototype.slice.call(track.children);
+          var perSet = Math.round(track.children.length / Math.round(track.getBoundingClientRect().width / shift)) || kids.length;
+          for (var i = 0; i < perSet && i < kids.length; i++) track.appendChild(kids[i].cloneNode(true));
+        }
+      });
+    }, 250);
+  }, { passive: true });
 
   /* ---------- FAQ accordion ---------- */
   document.querySelectorAll(".faq-item").forEach(function (item) {
