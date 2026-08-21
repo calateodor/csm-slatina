@@ -419,22 +419,20 @@ body.menu-open .menu-overlay { visibility: visible; opacity: 1; pointer-events: 
 /* fotografia secției, vizibilă sus-dreapta și acoperită de un voal alb
    în degradeu peste zona de text (voalul e în background, nu opacity,
    ca fotografia să rămână saturată) */
+/* fotografia acoperă tot cardul, la 50%, desaturată și cu umbrele ridicate
+   (contrast redus) ca textul să rămână lizibil peste orice zonă a pozei */
 .sport-card .card-bg {
   position: absolute; inset: 0; z-index: 0;
   background-size: cover;
-  background-position: center 28%;
-  transition: transform 0.6s ease;
+  background-position: center;
+  opacity: 0.5;
+  filter: saturate(0.2) contrast(0.45) brightness(1.12);
+  transition: transform 0.6s ease, filter 0.4s ease;
 }
-/* voalul alb care lasă fotografia vizibilă doar în banda de sus */
-.sport-card .card-bg::after {
-  content: ""; position: absolute; inset: 0;
-  background: linear-gradient(180deg,
-    rgba(255,255,255,0.02) 0%,
-    rgba(255,255,255,0.06) 24%,
-    rgba(255,255,255,0.97) 33%,
-    rgba(255,255,255,0.99) 100%);
+.sport-card:hover .card-bg {
+  transform: scale(1.05);
+  filter: saturate(0.4) contrast(0.5) brightness(1.1);
 }
-.sport-card:hover .card-bg { transform: scale(1.05); }
 .sport-card > *:not(.card-bg) { position: relative; z-index: 1; }
 .sport-card::after { z-index: 2; }
 /* iconița stă peste banda foto, ca o insignă mată */
@@ -451,10 +449,11 @@ body.menu-open .menu-overlay { visibility: visible; opacity: 1; pointer-events: 
 .sport-card:hover .sport-icon { background: #fff; transform: translateY(-2px); }
 .sport-icon svg { width: 34px; height: 34px; stroke: currentColor; fill: none; stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; }
 .sport-card h3 { font-size: 1.18rem; font-weight: 700; }
-.sport-card p { font-size: 0.92rem; color: var(--ink-soft); flex: 1; }
+/* text puțin mai închis decât în restul site-ului: stă peste fotografie */
+.sport-card p { font-size: 0.92rem; color: #24304f; flex: 1; }
 .sport-card .more {
   font-family: var(--font-display); font-weight: 600; font-size: 0.88rem;
-  color: var(--blue); display: inline-flex; align-items: center; gap: 8px;
+  color: #12306e; display: inline-flex; align-items: center; gap: 8px;
 }
 .sport-card .more::after { content: "→"; transition: transform 0.25s ease; }
 .sport-card:hover .more::after { transform: translateX(5px); }
