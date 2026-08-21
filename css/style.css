@@ -212,15 +212,15 @@ body.menu-open .menu-overlay { visibility: visible; opacity: 1; pointer-events: 
   background: url("../assets/img/fundal.jpg") center 30% / cover no-repeat;
 }
 .layer-athletes {
-  left: 50%; bottom: -7%;
-  width: min(1440px, 110vw);
+  left: 50%; bottom: -10%;
+  width: min(1310px, 100vw);
   max-width: none;
   transform: translateX(-50%);
   z-index: 3; /* peste slogan — sportivii „ies" din text pentru efect 3D */
 }
 .layer-athletes img { width: 100%; height: auto; filter: drop-shadow(0 30px 60px rgba(3, 8, 25, 0.55)); }
 .layer-slogan {
-  left: 50%; top: 5%;
+  left: 50%; top: 4%;
   width: min(950px, 94vw);
   transform: translateX(-50%);
   z-index: 2;
@@ -661,7 +661,7 @@ body.menu-open .menu-overlay { visibility: visible; opacity: 1; pointer-events: 
 
 @media (max-width: 640px) {
   .layer-slogan { top: 7%; width: 97vw; }
-  .layer-athletes { width: 182vw; max-width: none; bottom: 6vh; }
+  .layer-athletes { width: 190vw; max-width: none; bottom: 12vh; }
   .hero { min-height: 500px; }
   .cred-float { width: 76px; height: 76px; }
   .cred-float img { width: 50px; }
