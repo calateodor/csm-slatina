@@ -18,6 +18,14 @@
   background: url("../assets/img/sectii/inot/03.webp") center / cover no-repeat;
   transform: scale(1.06);
 }
+.pool-hero .bg video {
+  position: absolute; inset: 0;
+  width: 100%; height: 100%;
+  object-fit: cover;
+}
+@media (prefers-reduced-motion: reduce) {
+  .pool-hero .bg video { display: none; }
+}
 .pool-hero::after {
   content: ""; position: absolute; inset: 0;
   background: linear-gradient(to bottom, rgba(7,19,48,0.55) 0%, rgba(7,19,48,0.25) 45%, rgba(7,19,48,0.78) 100%);
