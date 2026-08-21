@@ -17,5 +17,10 @@ Rulează momentan în **mod demonstrativ**: codul „SMS" este afișat într-o n
 - trimiterea SMS — punct de integrare în `js/padel-booking.js` (funcția `sendSms`), de conectat la Firebase Phone Auth / Twilio Verify / SMSLink;
 - stocarea rezervărilor — punct de integrare în `js/padel-store.js`, de conectat la Firestore / Supabase / API propriu.
 
+## Credite foto
+Fundalurile estompate ale cardurilor de secții folosesc fotografii proprii ale clubului plus:
+- Handbal: „Team Handball Jumpshot 09 USA Nationals" — Wikimedia Commons, licență CC BY-SA 3.0
+- Tenis de câmp, Box, Kempo: fotografii Unsplash (licență Unsplash)
+
 ## Tehnologii
 HTML/CSS/JS static, animații GSAP + ScrollTrigger, fonturi Google (Poppins, Manrope, Barlow Condensed pe pagina de padel). Fără build — se poate servi direct (GitHub Pages).
