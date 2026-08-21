@@ -143,6 +143,7 @@
   gsap.utils.toArray(".reveal").forEach(function (el) {
     gsap.to(el, {
       opacity: 1, y: 0, duration: 0.9, ease: "power3.out",
+      delay: parseFloat(el.getAttribute("data-delay")) || 0,
       scrollTrigger: { trigger: el, start: "top 85%", once: true }
     });
   });
