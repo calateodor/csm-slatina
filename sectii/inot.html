@@ -4,21 +4,26 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Înot — CSM Slatina</title>
-  <meta name="description" content="De la primele lungimi de bazin la performanță — apa este acasă pentru sportivii noștri.">
+  <meta name="description" content="Secția de înot a CSM Slatina: inițiere de la 5–6 ani, grupe de performanță și cele patru stiluri, la bazinul din Slatina.">
   <link rel="icon" type="image/png" href="../assets/img/logo.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700;800&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="../css/inot.css">
 </head>
 <body>
 
-  <header class="site-header scrolled">
+  <header class="site-header">
     <div class="header-inner">
       <a class="brand" href="../index.html">
         <img src="../assets/img/logo.png" alt="Stema CSM Slatina">
-        <span class="brand-name">CSM Slatina<small>Club Sportiv Municipal</small></span>
+        <span class="brand-name"><small>Clubul Sportiv Municipal</small>Slatina</span>
       </a>
+      <div class="header-crests">
+        <img src="../assets/img/cred-in-slatina.png" alt="Cred în Slatina">
+        <img src="../assets/img/primaria-slatina.png" alt="Primăria Slatina">
+      </div>
       <button class="nav-toggle" aria-label="Deschide meniul" aria-expanded="false">
         <span class="bars"><span></span><span></span><span></span></span>
       </button>
@@ -31,6 +36,7 @@
         <ul class="menu-primary">
           <li><a href="../index.html">Acasă</a></li>
           <li><a href="../index.html#sectii">Secțiile clubului</a></li>
+          <li><a href="../padel.html">Padel</a></li>
           <li><a href="../plaja-olt.html">Plaja Olt</a></li>
           <li><a href="../index.html#despre">Despre club</a></li>
           <li><a href="../contact.html">Contact</a></li>
@@ -48,6 +54,7 @@
             <li><a href="atletism.html">Atletism</a></li>
             <li><a href="box.html">Box</a></li>
             <li><a href="karate.html">Karate</a></li>
+            <li><a href="judo.html">Judo</a></li>
             <li><a href="lupte.html">Lupte</a></li>
             <li><a href="kempo.html">Kempo</a></li>
           </ul>
@@ -62,49 +69,125 @@
   </div>
 
   <main>
-    <section class="page-hero">
-      <span class="sport-ghost" aria-hidden="true">ÎNOT</span>
-      <img class="hero-art" src="../assets/icons/swiming.webp" alt="" aria-hidden="true">
+    <!-- ================= Hero foto ================= -->
+    <section class="pool-hero">
+      <div class="bg" aria-hidden="true"></div>
       <div class="container">
-        <nav class="breadcrumb reveal"><a href="../index.html">Acasă</a> / <a href="../index.html#sectii">Secții</a> / Înot</nav>
-        <h1 class="reveal">Înot</h1>
-        <p class="lead reveal">De la primele lungimi de bazin la performanță — apa este acasă pentru sportivii noștri.</p>
+        <span class="eyebrow reveal">Secția de înot · CSM Slatina</span>
+        <h1 class="reveal">Apa e acasă.</h1>
+        <p class="lead reveal">De la primele lungimi de bazin la podiumurile campionatelor naționale — aici copiii Slatinei învață să înoate și campionii învață să câștige.</p>
+        <a class="btn btn-ghost reveal" href="#despre-inot">Descoperă secția <span class="arrow">↓</span></a>
+      </div>
+      <span class="arrow-down" aria-hidden="true">↓</span>
+    </section>
+
+    <!-- ================= Repere ================= -->
+    <section class="pool-stats" aria-label="Repere ale secției">
+      <div class="container">
+        <div class="row">
+          <div class="cell"><strong>5–6 ani</strong><span>vârsta primului antrenament</span></div>
+          <div class="cell"><strong>4 stiluri</strong><span>craul, spate, bras, fluture</span></div>
+          <div class="cell"><strong>2 direcții</strong><span>inițiere și performanță</span></div>
+        </div>
       </div>
     </section>
 
-    <section>
+    <!-- ================= Ce oferim ================= -->
+    <section class="pool-services" id="despre-inot">
       <div class="container">
-        <div class="detail-grid">
-          <div class="detail-copy reveal-left">
-            <span class="eyebrow">Despre secție</span>
-            <h2>Înot la CSM Slatina</h2>
-            <p>Secția de înot a CSM Slatina învață copiii Slatinei să înoate și formează sportivi de performanță. Cursurile de inițiere sunt primul pas, iar grupele de performanță concurează la campionatele naționale.</p>
-            <p>Înotul dezvoltă armonios întregul corp și este recomandat de la 5–6 ani. Antrenorii noștri lucrează în grupe mici, cu atenție la tehnica fiecărui stil: craul, spate, bras și fluture.</p>
-            <a class="btn btn-blue" href="../contact.html">Vino la un antrenament <span class="arrow">→</span></a>
+        <div class="section-head center">
+          <span class="eyebrow">Ce oferim</span>
+          <h2 class="section-title reveal">În apa liniștită a bazinului se formează campionii</h2>
+        </div>
+        <div class="pool-cards">
+          <a class="pool-card reveal" href="../contact.html">
+            <img src="../assets/img/sectii/inot/02.webp" alt="Copii la cursul de inițiere în înot" loading="lazy">
+            <span class="veil" aria-hidden="true"></span>
+            <div class="body">
+              <h3>Inițiere pentru copii</h3>
+              <p>Primele lungimi de bazin, în siguranță, în grupe mici, cu antrenori dedicați.</p>
+            </div>
+          </a>
+          <a class="pool-card reveal" href="../contact.html">
+            <img src="../assets/img/sectii/inot/01.webp" alt="Grupa de performanță a secției de înot" loading="lazy">
+            <span class="veil" aria-hidden="true"></span>
+            <div class="body">
+              <h3>Grupe de performanță</h3>
+              <p>Antrenamente zilnice, tehnică șlefuită și obiective de campionat național.</p>
+            </div>
+          </a>
+          <a class="pool-card reveal" href="../contact.html">
+            <img src="../assets/img/sectii/inot/06.webp" alt="Sportivi premiați la competiții de înot" loading="lazy">
+            <span class="veil" aria-hidden="true"></span>
+            <div class="body">
+              <h3>Competiții și medalii</h3>
+              <p>Sportivii noștri concurează și urcă pe podium la concursurile naționale.</p>
+            </div>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= Split ================= -->
+    <section class="pool-split">
+      <div class="container">
+        <div class="grid">
+          <div class="photo reveal-left">
+            <img src="../assets/img/sectii/inot/04.webp" alt="Înotători CSM Slatina la start" loading="lazy">
           </div>
-          <div class="info-cards reveal-right">
-            <div class="info-card">
-              <h3>Unde ne antrenăm</h3>
-              <p>Bazinul de înot, Slatina</p>
-            </div>
-            <div class="info-card">
-              <h3>Program antrenamente</h3>
-              <p>Programul grupelor este stabilit la începutul fiecărui sezon. Contactează secția pentru orarul curent.</p>
-            </div>
-            <div class="info-card">
-              <h3>Înscrieri</h3>
-              <p>Telefon: <a href="tel:+40349738657">0349 738 657</a><br>E-mail: <a href="mailto:csmslatina@yahoo.com">csmslatina@yahoo.com</a></p>
-            </div>
+          <div class="reveal-right">
+            <span class="eyebrow">Metoda noastră</span>
+            <h2>Tehnica înainte de viteză</h2>
+            <p>Fiecare stil se construiește pas cu pas: respirație, plutire, alunecare, apoi viteză. Antrenorii noștri lucrează în grupe mici, ca fiecare copil să primească atenția de care are nevoie.</p>
+            <ul class="pool-styles">
+              <li>Craul <small>— baza vitezei, primul stil învățat</small></li>
+              <li>Spate <small>— echilibru și postură corectă</small></li>
+              <li>Bras <small>— coordonare și control</small></li>
+              <li>Fluture <small>— forța și eleganța marilor campioni</small></li>
+            </ul>
+            <a class="btn btn-blue" href="../contact.html">Vino la un antrenament <span class="arrow">→</span></a>
           </div>
         </div>
       </div>
     </section>
 
+    <!-- ================= Orar ================= -->
+    <section class="pool-schedule">
+      <div class="container">
+        <div class="section-head center">
+          <span class="eyebrow">Program</span>
+          <h2 class="section-title reveal">Orar orientativ al grupelor</h2>
+        </div>
+        <div class="schedule-table">
+          <div class="schedule-row"><div class="day">Luni — Vineri<small>Grupele de inițiere</small></div><div class="time">17:00 – 18:00</div></div>
+          <div class="schedule-row"><div class="day">Luni — Vineri<small>Grupele de performanță</small></div><div class="time">18:00 – 20:00</div></div>
+          <div class="schedule-row"><div class="day">Sâmbătă<small>Antrenamente și concursuri</small></div><div class="time">09:00 – 12:00</div></div>
+        </div>
+        <p class="schedule-note">Orarul exact al fiecărei grupe este stabilit la începutul sezonului — contactează secția la <a href="tel:+40349738657" style="color:#fff;font-weight:600;">0349 738 657</a> pentru programul curent.</p>
+      </div>
+    </section>
+
+    <!-- ================= Galerie ================= -->
+    <section class="gallery-block">
+      <div class="container">
+        <div class="section-head">
+          <span class="eyebrow">Galerie</span>
+          <h2 class="section-title reveal">Secția în imagini</h2>
+        </div>
+        <div class="sport-gallery">
+          <figure class="reveal"><img src="../assets/img/sectii/inot/05.webp" alt="Concurs de înot" loading="lazy"></figure>
+          <figure class="reveal"><img src="../assets/img/sectii/inot/07.webp" alt="Grupa de înot la antrenament" loading="lazy"></figure>
+          <figure class="reveal"><img src="../assets/img/sectii/inot/03.webp" alt="Bazinul de înot din Slatina" loading="lazy"></figure>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= CTA ================= -->
     <section class="cta-banner">
       <div class="cta-bg" aria-hidden="true"></div>
       <div class="container">
         <span class="eyebrow">Intră în echipă</span>
-        <h2 class="reveal">Construim campioni. <span class="gold">Inspirăm generații.</span></h2>
+        <h2 class="reveal">Apa își așteaptă <span class="gold">următorul campion.</span></h2>
         <a class="btn btn-gold" href="../contact.html">Înscrie-te acum <span class="arrow">→</span></a>
       </div>
     </section>
@@ -122,6 +205,7 @@
           <ul>
             <li><a href="../index.html#despre">Despre noi</a></li>
             <li><a href="../index.html#sectii">Secții sportive</a></li>
+            <li><a href="../padel.html">Padel</a></li>
             <li><a href="../plaja-olt.html">Plaja Olt</a></li>
             <li><a href="../contact.html">Contact</a></li>
           </ul>

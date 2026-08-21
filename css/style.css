@@ -116,13 +116,27 @@ body.menu-open .site-header { z-index: 340; background: transparent; box-shadow:
 .brand img { height: 52px; width: auto; filter: drop-shadow(0 4px 10px rgba(0,0,0,0.35)); transition: height 0.35s ease; }
 .site-header.scrolled .brand img { height: 44px; }
 .brand-name {
-  font-family: var(--font-display); font-weight: 700; color: #fff;
-  font-size: 1.02rem; line-height: 1.15; letter-spacing: 0.01em;
+  font-family: var(--font-display); font-weight: 800; color: #fff;
+  font-size: 1.22rem; line-height: 1.05; letter-spacing: 0.08em;
+  text-transform: uppercase;
 }
 .brand-name small {
-  display: block; font-weight: 500; font-size: 0.68rem;
-  letter-spacing: 0.22em; text-transform: uppercase; color: var(--sky);
+  display: block; font-weight: 600; font-size: 0.62rem;
+  letter-spacing: 0.2em; text-transform: uppercase; color: var(--sky);
+  margin-bottom: 3px;
 }
+
+/* sigle instituționale în header */
+.header-crests {
+  display: flex; align-items: center; gap: 16px;
+  margin-left: auto; margin-right: 22px;
+}
+.header-crests img {
+  height: 46px; width: auto;
+  filter: drop-shadow(0 3px 8px rgba(0,0,0,0.35));
+  transition: height 0.35s ease;
+}
+.site-header.scrolled .header-crests img { height: 38px; }
 
 .nav-toggle {
   position: relative; z-index: 320;
@@ -198,15 +212,18 @@ body.menu-open .menu-overlay { visibility: visible; opacity: 1; pointer-events: 
   background: url("../assets/img/fundal.jpg") center 30% / cover no-repeat;
 }
 .layer-athletes {
-  left: 50%; bottom: -4%;
-  width: min(1060px, 92vw);
+  left: 50%; bottom: -6%;
+  width: min(1380px, 106vw);
+  max-width: none;
   transform: translateX(-50%);
+  z-index: 3; /* peste slogan — sportivii „ies" din text pentru efect 3D */
 }
 .layer-athletes img { width: 100%; height: auto; filter: drop-shadow(0 30px 60px rgba(3, 8, 25, 0.55)); }
 .layer-slogan {
-  left: 50%; top: 16%;
-  width: min(680px, 86vw);
+  left: 50%; top: 9%;
+  width: min(950px, 94vw);
   transform: translateX(-50%);
+  z-index: 2;
 }
 .layer-slogan img { width: 100%; height: auto; }
 .hero-vignette {
@@ -218,26 +235,26 @@ body.menu-open .menu-overlay { visibility: visible; opacity: 1; pointer-events: 
   position: absolute; left: 0; right: 0; bottom: -2px; height: 26vh;
   background: linear-gradient(to bottom, rgba(10,28,74,0) 0%, var(--navy-800) 92%);
   pointer-events: none;
+  z-index: 4;
 }
 
-/* insigna rotativă scroll-down */
-.scroll-badge {
-  position: absolute; right: clamp(20px, 6vw, 80px); bottom: clamp(26px, 7vh, 70px);
-  width: 108px; height: 108px; z-index: 5;
+/* insigna plutitoare „Cred în Slatina" — apare la scroll */
+.cred-float {
+  position: fixed; right: clamp(18px, 4vw, 44px); bottom: clamp(18px, 5vh, 44px);
+  width: 96px; height: 96px; z-index: 150;
   display: grid; place-items: center;
-  color: #fff;
+  border-radius: 50%;
+  background: radial-gradient(120% 120% at 30% 25%, var(--navy-800) 0%, var(--navy-950) 75%);
+  border: 1px solid rgba(255,255,255,0.14);
+  box-shadow: 0 16px 40px rgba(4, 10, 30, 0.45);
+  opacity: 0; transform: translateY(24px) scale(0.9);
+  pointer-events: none;
+  transition: opacity 0.5s ease, transform 0.5s ease;
 }
-.scroll-badge svg { position: absolute; inset: 0; width: 100%; height: 100%; animation: spin 14s linear infinite; }
-.scroll-badge svg text { fill: rgba(255,255,255,0.85); font-family: var(--font-display); font-size: 11.5px; font-weight: 600; letter-spacing: 2.5px; }
-.scroll-badge .dot {
-  width: 56px; height: 56px; border-radius: 50%;
-  background: var(--gold); color: var(--navy-900);
-  display: grid; place-items: center; font-size: 1.3rem;
-  box-shadow: 0 12px 30px rgba(246, 200, 28, 0.4);
-  animation: bounce-soft 2.2s ease-in-out infinite;
-}
-@keyframes spin { to { transform: rotate(360deg); } }
-@keyframes bounce-soft { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(7px); } }
+.cred-float img { width: 64px; height: auto; animation: float-soft 3.4s ease-in-out infinite; }
+.cred-float.visible { opacity: 1; transform: translateY(0) scale(1); pointer-events: auto; }
+.cred-float:hover { box-shadow: 0 18px 48px rgba(246, 200, 28, 0.25); border-color: rgba(246,200,28,0.5); }
+@keyframes float-soft { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-6px); } }
 
 /* ==========================================================================
    Ticker orizontal (marquee)
@@ -269,6 +286,21 @@ body.menu-open .menu-overlay { visibility: visible; opacity: 1; pointer-events: 
    Secții — grid carduri
    ========================================================================== */
 .sections-block { background: var(--paper); }
+.group-title {
+  display: flex; align-items: center; gap: 16px;
+  font-family: var(--font-display); font-weight: 700;
+  font-size: 0.85rem; letter-spacing: 0.26em; text-transform: uppercase;
+  color: var(--navy-800);
+  margin: 0 0 26px;
+}
+.group-title .tag {
+  display: inline-grid; place-items: center;
+  min-width: 30px; height: 30px; padding: 0 9px; border-radius: 999px;
+  background: var(--gold); color: var(--navy-900);
+  font-size: 0.8rem; letter-spacing: 0;
+}
+.group-title::after { content: ""; flex: 1; height: 1px; background: var(--line); }
+.sections-grid + .group-title { margin-top: clamp(44px, 6vw, 64px); }
 .sections-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
@@ -479,12 +511,23 @@ body.menu-open .menu-overlay { visibility: visible; opacity: 1; pointer-events: 
   display: flex; flex-wrap: wrap; justify-content: center; gap: 18px;
   margin-top: 10px;
 }
-.partner-slot {
-  min-width: 170px; padding: 26px 30px;
-  border: 1px dashed var(--line); border-radius: 14px;
-  color: #b3bed6; font-family: var(--font-display); font-weight: 600; font-size: 0.9rem;
-  letter-spacing: 0.08em; text-transform: uppercase;
+.partner-logo {
+  display: flex; align-items: center; justify-content: center;
+  min-width: 160px; min-height: 92px; padding: 22px 30px;
+  border: 1px solid var(--line); border-radius: 14px;
+  background: #fff;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
 }
+.partner-logo img {
+  height: 40px; width: auto; max-width: 180px; object-fit: contain;
+  filter: grayscale(1); opacity: 0.7;
+  transition: filter 0.3s ease, opacity 0.3s ease;
+}
+.partner-logo:hover {
+  border-color: var(--blue); transform: translateY(-3px);
+  box-shadow: 0 12px 30px rgba(9, 30, 74, 0.08);
+}
+.partner-logo:hover img { filter: none; opacity: 1; }
 .partners-note { margin-top: 22px; color: var(--ink-soft); font-size: 0.92rem; }
 
 /* ==========================================================================
@@ -579,6 +622,25 @@ body.menu-open .menu-overlay { visibility: visible; opacity: 1; pointer-events: 
 .info-card p { color: var(--ink-soft); font-size: 0.95rem; }
 .info-card a { color: var(--blue); font-weight: 600; }
 
+/* Galerie foto secție */
+.gallery-block { background: var(--paper); }
+.sport-gallery {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 14px; margin-top: 10px;
+}
+.sport-gallery figure {
+  margin: 0; border-radius: 14px; overflow: hidden;
+  border: 1px solid var(--line); background: #fff;
+}
+.sport-gallery img {
+  display: block; width: 100%; height: 100%;
+  aspect-ratio: 4 / 3; object-fit: cover;
+  transition: transform 0.5s ease;
+}
+.sport-gallery figure:hover img { transform: scale(1.045); }
+.sport-gallery.solo { grid-template-columns: minmax(0, 620px); justify-content: center; }
+.sport-gallery.solo img { aspect-ratio: auto; }
+
 /* ==========================================================================
    Reveal helpers (GSAP)
    ========================================================================== */
@@ -598,12 +660,15 @@ body.menu-open .menu-overlay { visibility: visible; opacity: 1; pointer-events: 
 }
 
 @media (max-width: 640px) {
-  .layer-slogan { top: 13%; width: 88vw; }
-  .layer-athletes { width: 145vw; max-width: none; bottom: 10vh; }
+  .layer-slogan { top: 10%; width: 97vw; }
+  .layer-athletes { width: 175vw; max-width: none; bottom: 8vh; }
   .hero { min-height: 560px; }
-  .scroll-badge { right: 50%; transform: translateX(50%); bottom: 18px; width: 92px; height: 92px; }
-  .scroll-badge .dot { width: 48px; height: 48px; }
+  .cred-float { width: 76px; height: 76px; }
+  .cred-float img { width: 50px; }
   .brand-name { display: none; }
+  .header-crests { margin-right: 14px; gap: 10px; }
+  .header-crests img { height: 36px; }
+  .site-header.scrolled .header-crests img { height: 32px; }
   .footer-grid { grid-template-columns: 1fr; gap: 34px; }
   .band { font-size: 0.95rem; }
   .menu-sections ul { grid-template-columns: 1fr 1fr; }
@@ -616,6 +681,6 @@ body.menu-open .menu-overlay { visibility: visible; opacity: 1; pointer-events: 
 
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
-  .ticker-track, .band-track, .scroll-badge svg, .scroll-badge .dot, .about-media .crest { animation: none !important; }
+  .ticker-track, .band-track, .cred-float img, .about-media .crest { animation: none !important; }
   .reveal, .reveal-left, .reveal-right, .sport-card, .plaja-item { opacity: 1 !important; transform: none !important; }
 }

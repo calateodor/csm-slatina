@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>CSM Slatina — Construim campioni. Inspirăm generații.</title>
-  <meta name="description" content="Clubul Sportiv Municipal Slatina — 10 secții sportive și Clubul Nautic Plaja Olt. Slatina, oraș al performanței!">
+  <meta name="description" content="Clubul Sportiv Municipal Slatina — 11 secții sportive și Clubul Nautic Plaja Olt. Slatina, oraș al performanței!">
   <link rel="icon" type="image/png" href="assets/img/logo.png">
   <meta property="og:title" content="CSM Slatina — Construim campioni. Inspirăm generații.">
   <meta property="og:image" content="assets/img/hero-static.jpg">
@@ -20,8 +20,12 @@
     <div class="header-inner">
       <a class="brand" href="index.html">
         <img src="assets/img/logo.png" alt="Stema CSM Slatina">
-        <span class="brand-name">CSM Slatina<small>Club Sportiv Municipal</small></span>
+        <span class="brand-name"><small>Clubul Sportiv Municipal</small>Slatina</span>
       </a>
+      <div class="header-crests">
+        <img src="assets/img/cred-in-slatina.png" alt="Cred în Slatina">
+        <img src="assets/img/primaria-slatina.png" alt="Primăria Slatina">
+      </div>
       <button class="nav-toggle" aria-label="Deschide meniul" aria-expanded="false">
         <span class="bars"><span></span><span></span><span></span></span>
       </button>
@@ -35,6 +39,7 @@
         <ul class="menu-primary">
           <li><a href="index.html">Acasă</a></li>
           <li><a href="index.html#sectii">Secțiile clubului</a></li>
+          <li><a href="padel.html">Padel</a></li>
           <li><a href="plaja-olt.html">Plaja Olt</a></li>
           <li><a href="index.html#despre">Despre club</a></li>
           <li><a href="contact.html">Contact</a></li>
@@ -52,6 +57,7 @@
             <li><a href="sectii/atletism.html">Atletism</a></li>
             <li><a href="sectii/box.html">Box</a></li>
             <li><a href="sectii/karate.html">Karate</a></li>
+            <li><a href="sectii/judo.html">Judo</a></li>
             <li><a href="sectii/lupte.html">Lupte</a></li>
             <li><a href="sectii/kempo.html">Kempo</a></li>
           </ul>
@@ -77,13 +83,6 @@
         <img src="assets/img/slogan.webp" alt="Construim campioni. Inspirăm generații.">
       </div>
       <div class="hero-bottom-fade"></div>
-      <a class="scroll-badge" href="#sectii" aria-label="Derulează în jos">
-        <svg viewBox="0 0 100 100" aria-hidden="true">
-          <defs><path id="circlePath" d="M 50,50 m -38,0 a 38,38 0 1,1 76,0 a 38,38 0 1,1 -76,0"></path></defs>
-          <text><textPath href="#circlePath">DERULEAZĂ &#183; DESCOPERĂ &#183; </textPath></text>
-        </svg>
-        <span class="dot">↓</span>
-      </a>
     </section>
 
     <!-- ================= Ticker ================= -->
@@ -95,7 +94,7 @@
         <span class="ticker-item"><span class="star">✦</span> Slatina, oraș al performanței</span>
         <span class="ticker-item"><span class="star">✦</span> Din 2009, în inima Oltului</span>
         <span class="ticker-item"><span class="star">✦</span> Alb-albaștrii</span>
-        <span class="ticker-item"><span class="star">✦</span> 10 secții sportive</span>
+        <span class="ticker-item"><span class="star">✦</span> 11 secții sportive</span>
       </div>
     </div>
 
@@ -104,8 +103,10 @@
       <div class="container">
         <div class="section-head">
           <span class="eyebrow">Secțiile noastre</span>
-          <h2 class="section-title reveal">Zece secții, o singură inimă <span class="accent">albastru-alb</span></h2>
+          <h2 class="section-title reveal">Unsprezece secții, o singură inimă <span class="accent">albastru-alb</span></h2>
         </div>
+
+        <h3 class="group-title">Sporturi de echipă <span class="tag">2</span></h3>
         <div class="sections-grid">
 
           <a class="sport-card" href="sectii/fotbal.html">
@@ -121,6 +122,11 @@
             <p>Handbal feminin de elită — luptăm în prima ligă a României.</p>
             <span class="more">Vezi secția</span>
           </a>
+
+        </div>
+
+        <h3 class="group-title">Sporturi individuale <span class="tag">9</span></h3>
+        <div class="sections-grid">
 
           <a class="sport-card" href="sectii/tenis-de-camp.html">
             <span class="sport-icon"><svg viewBox="0 0 24 24"><ellipse cx="14.5" cy="8" rx="6" ry="6.8" transform="rotate(35 14.5 8)"/><path d="M10.3 13.3 4.5 19.5M12 5.5c1.7 1.2 3.3 2.8 4.5 4.5"/><circle cx="6" cy="8" r="1.6"/></svg></span>
@@ -164,6 +170,13 @@
             <span class="more">Vezi secția</span>
           </a>
 
+          <a class="sport-card" href="sectii/judo.html">
+            <span class="sport-icon"><svg viewBox="0 0 24 24"><circle cx="7.6" cy="12.6" r="1.8"/><path d="M9.2 13.8c2.3.8 3.7 2.3 4.2 4.5l.5 3.2M9.2 13.8 6.2 16.4 5 21.5"/><circle cx="17" cy="6.6" r="1.8"/><path d="M15.2 7.2c-2.3 1.5-4.9 1.8-7.3.9M8.6 8.6 6.2 5.6M11.6 8.6 10.4 5"/></svg></span>
+            <h3>Judo</h3>
+            <p>Tehnică și echilibru pe tatami — de la prima ukemi la ippon.</p>
+            <span class="more">Vezi secția</span>
+          </a>
+
           <a class="sport-card" href="sectii/lupte.html">
             <span class="sport-icon"><svg viewBox="0 0 24 24"><circle cx="7.5" cy="5.5" r="1.8"/><circle cx="16.5" cy="5.5" r="1.8"/><path d="M7.5 8.5 10.5 12l3-3.5M16.5 8.5 13.5 12M10.5 12l-3 4-2 4.5M13.5 12l3 4 2 4.5M9 14.5h6"/></svg></span>
             <h3>Lupte</h3>
@@ -191,7 +204,7 @@
       </div>
       <div class="band band-gold">
         <div class="band-track">
-          <span>#Fotbal</span><span>#Handbal</span><span>#Box</span><span>#Karate</span><span>#Lupte</span><span>#Kempo</span><span>#Înot</span><span>#Atletism</span><span>#TenisDeCâmp</span><span>#TenisDeMasă</span>
+          <span>#Fotbal</span><span>#Handbal</span><span>#Box</span><span>#Karate</span><span>#Judo</span><span>#Lupte</span><span>#Kempo</span><span>#Înot</span><span>#Atletism</span><span>#TenisDeCâmp</span><span>#TenisDeMasă</span>
         </div>
       </div>
     </section>
@@ -207,7 +220,7 @@
           <div class="about-copy reveal-right">
             <span class="eyebrow">Despre club</span>
             <h2 class="section-title">Performanța are un oraș: <span class="accent">Slatina</span></h2>
-            <p>Din 2009, Clubul Sportiv Municipal Slatina crește campionii orașului. De la primii pași pe teren până la podiumurile naționale și internaționale, zece secții sportive antrenează zilnic copii, juniori și seniori sub aceleași culori alb-albastre.</p>
+            <p>Din 2009, Clubul Sportiv Municipal Slatina crește campionii orașului. De la primii pași pe teren până la podiumurile naționale și internaționale, unsprezece secții sportive antrenează zilnic copii, juniori și seniori sub aceleași culori alb-albastre.</p>
             <p>Credem că sportul schimbă destine. De aceea investim în antrenori dedicați, baze sportive moderne și în fiecare copil care ne calcă pragul cu un vis.</p>
             <a class="btn btn-blue" href="contact.html">Înscrie-te la o secție <span class="arrow">→</span></a>
           </div>
@@ -215,7 +228,7 @@
 
         <div class="counters">
           <div class="counter">
-            <div class="num"><span data-count="10">0</span></div>
+            <div class="num"><span data-count="11">0</span></div>
             <div class="label">Secții sportive</div>
           </div>
           <div class="counter">
@@ -315,13 +328,14 @@
           <h2 class="section-title reveal">Împreună pentru sportul slătinean</h2>
         </div>
         <div class="partners-row">
-          <div class="partner-slot">Partener</div>
-          <div class="partner-slot">Partener</div>
-          <div class="partner-slot">Partener</div>
-          <div class="partner-slot">Partener</div>
-          <div class="partner-slot">Partener</div>
+          <div class="partner-logo"><img src="assets/img/sponsori/alro.webp" alt="Vimetco Alro" loading="lazy"></div>
+          <div class="partner-logo"><img src="assets/img/sponsori/prysmian.webp" alt="Prysmian Group" loading="lazy"></div>
+          <div class="partner-logo"><img src="assets/img/sponsori/affidea.webp" alt="Affidea" loading="lazy"></div>
+          <div class="partner-logo"><img src="assets/img/sponsori/avincis.webp" alt="Avincis" loading="lazy"></div>
+          <div class="partner-logo"><img src="assets/img/sponsori/azuga.webp" alt="Azuga" loading="lazy"></div>
+          <div class="partner-logo"><img src="assets/img/sponsori/adonis.webp" alt="Adonis" loading="lazy"></div>
         </div>
-        <p class="partners-note">Lista sponsorilor și partenerilor va fi publicată în curând.</p>
+        <p class="partners-note">Le mulțumim partenerilor care susțin sportul slătinean.</p>
       </div>
     </section>
   </main>
@@ -339,7 +353,8 @@
           <ul>
             <li><a href="index.html#despre">Despre noi</a></li>
             <li><a href="index.html#sectii">Secții sportive</a></li>
-            <li><a href="plaja-olt.html">Plaja Olt</a></li>
+            <li><a href="padel.html">Padel</a></li>
+          <li><a href="plaja-olt.html">Plaja Olt</a></li>
             <li><a href="contact.html">Contact</a></li>
           </ul>
         </div>
@@ -368,6 +383,10 @@
       </div>
     </div>
   </footer>
+
+  <a class="cred-float" href="#despre" aria-label="Cred în Slatina — despre club">
+    <img src="assets/img/cred-in-slatina.png" alt="Cred în Slatina">
+  </a>
 
   <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>

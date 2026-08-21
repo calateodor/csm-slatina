@@ -25,6 +25,17 @@
   window.addEventListener("scroll", onScrollHeader, { passive: true });
   onScrollHeader();
 
+  /* ---------- Insigna „Cred în Slatina": apare după hero ---------- */
+  var credFloat = document.querySelector(".cred-float");
+  function onScrollCred() {
+    if (!credFloat) return;
+    credFloat.classList.toggle("visible", window.scrollY > window.innerHeight * 0.55);
+  }
+  if (credFloat) {
+    window.addEventListener("scroll", onScrollCred, { passive: true });
+    onScrollCred();
+  }
+
   /* ---------- Meniu overlay ---------- */
   var toggle = document.querySelector(".nav-toggle");
   var overlay = document.querySelector(".menu-overlay");
@@ -106,13 +117,11 @@
     heroTl
       .to(".layer-bg", { yPercent: 14, scale: 1.06, ease: "none" }, 0)
       .to(".layer-athletes", { yPercent: -6, ease: "none" }, 0)
-      .to(".layer-slogan", { yPercent: -46, opacity: 0.15, ease: "none" }, 0)
-      .to(".scroll-badge", { opacity: 0, ease: "none" }, 0);
+      .to(".layer-slogan", { yPercent: -46, opacity: 0.15, ease: "none" }, 0);
 
     // intrare la încărcare
     gsap.from(".layer-athletes", { y: 90, opacity: 0, duration: 1.2, ease: "power3.out", delay: 0.15 });
     gsap.from(".layer-slogan", { y: -40, opacity: 0, scale: 0.92, duration: 1.1, ease: "power3.out", delay: 0.45 });
-    gsap.from(".scroll-badge", { opacity: 0, duration: 0.8, delay: 1.1 });
 
     // parallax subtil la mișcarea mouse-ului (doar desktop)
     if (window.matchMedia("(pointer: fine)").matches) {
