@@ -416,44 +416,31 @@ body.menu-open .menu-overlay { visibility: visible; opacity: 1; pointer-events: 
   transition: transform 0.35s ease;
 }
 .sport-card:hover::after { transform: scaleX(1); }
-/* fotografia secției, vizibilă sus-dreapta și acoperită de un voal alb
-   în degradeu peste zona de text (voalul e în background, nu opacity,
-   ca fotografia să rămână saturată) */
-/* fotografia acoperă tot cardul, la 50%, desaturată și cu umbrele ridicate
-   (contrast redus) ca textul să rămână lizibil peste orice zonă a pozei */
+/* fotografie de fundal foarte estompată, dizolvată spre zona de text */
 .sport-card .card-bg {
   position: absolute; inset: 0; z-index: 0;
-  background-size: cover;
-  background-position: center;
-  opacity: 0.5;
-  filter: saturate(0.2) contrast(0.45) brightness(1.12);
-  transition: transform 0.6s ease, filter 0.4s ease;
+  background-size: cover; background-position: center;
+  opacity: 0.15;
+  filter: saturate(0.5);
+  -webkit-mask-image: linear-gradient(205deg, #000 0%, rgba(0,0,0,0.4) 52%, transparent 82%);
+  mask-image: linear-gradient(205deg, #000 0%, rgba(0,0,0,0.4) 52%, transparent 82%);
+  transition: opacity 0.45s ease, transform 0.45s ease;
 }
-.sport-card:hover .card-bg {
-  transform: scale(1.05);
-  filter: saturate(0.4) contrast(0.5) brightness(1.1);
-}
+.sport-card:hover .card-bg { opacity: 0.3; transform: scale(1.06); }
 .sport-card > *:not(.card-bg) { position: relative; z-index: 1; }
 .sport-card::after { z-index: 2; }
-/* iconița stă peste banda foto, ca o insignă mată */
 .sport-icon {
   width: 62px; height: 62px; border-radius: 16px;
-  background: rgba(255, 255, 255, 0.82);
-  backdrop-filter: blur(8px);
-  border: 1px solid rgba(255, 255, 255, 0.9);
-  box-shadow: 0 8px 22px rgba(9, 30, 74, 0.18);
+  background: linear-gradient(140deg, #eaf1ff, #f6f9ff);
   display: grid; place-items: center;
   color: var(--blue);
-  transition: background 0.3s ease, transform 0.3s ease;
 }
-.sport-card:hover .sport-icon { background: #fff; transform: translateY(-2px); }
 .sport-icon svg { width: 34px; height: 34px; stroke: currentColor; fill: none; stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; }
 .sport-card h3 { font-size: 1.18rem; font-weight: 700; }
-/* text puțin mai închis decât în restul site-ului: stă peste fotografie */
-.sport-card p { font-size: 0.92rem; color: #24304f; flex: 1; }
+.sport-card p { font-size: 0.92rem; color: var(--ink-soft); flex: 1; }
 .sport-card .more {
   font-family: var(--font-display); font-weight: 600; font-size: 0.88rem;
-  color: #12306e; display: inline-flex; align-items: center; gap: 8px;
+  color: var(--blue); display: inline-flex; align-items: center; gap: 8px;
 }
 .sport-card .more::after { content: "→"; transition: transform 0.25s ease; }
 .sport-card:hover .more::after { transform: translateX(5px); }
