@@ -119,8 +119,8 @@ body.menu-open .site-header { z-index: 340; background: transparent; box-shadow:
   display: flex; align-items: center; justify-content: space-between;
 }
 .brand { display: flex; align-items: center; gap: 14px; }
-.brand img { height: 52px; width: auto; filter: drop-shadow(0 4px 10px rgba(0,0,0,0.35)); transition: height 0.35s ease; }
-.site-header.scrolled .brand img { height: 44px; }
+.brand img { height: 68px; width: auto; filter: drop-shadow(0 4px 10px rgba(0,0,0,0.35)); transition: height 0.35s ease; }
+.site-header.scrolled .brand img { height: 54px; }
 .brand-name {
   font-family: var(--font-display); font-weight: 800; color: #fff;
   font-size: 1.22rem; line-height: 1.05; letter-spacing: 0.08em;
@@ -138,11 +138,66 @@ body.menu-open .site-header { z-index: 340; background: transparent; box-shadow:
   margin-left: auto; margin-right: 22px;
 }
 .header-crests img {
-  height: 46px; width: auto;
+  height: 58px; width: auto;
   filter: drop-shadow(0 3px 8px rgba(0,0,0,0.35));
   transition: height 0.35s ease;
 }
-.site-header.scrolled .header-crests img { height: 38px; }
+.site-header.scrolled .header-crests img { height: 48px; }
+
+/* ---------- Navbar orizontal (desktop) ---------- */
+.main-nav { flex: 1; display: flex; justify-content: center; min-width: 0; }
+.main-nav > ul { display: flex; align-items: center; gap: clamp(10px, 1.5vw, 26px); }
+.main-nav a {
+  display: inline-flex; align-items: center; gap: 6px;
+  font-family: var(--font-display); font-weight: 600; font-size: 0.92rem;
+  color: #fff; white-space: nowrap;
+  padding: 10px 2px;
+  transition: color 0.2s ease;
+}
+.main-nav > ul > li > a { position: relative; }
+.main-nav > ul > li > a::after {
+  content: ""; position: absolute; left: 2px; right: 2px; bottom: 4px;
+  height: 2px; border-radius: 2px; background: var(--gold);
+  transform: scaleX(0); transform-origin: left;
+  transition: transform 0.25s ease;
+}
+.main-nav > ul > li > a:hover { color: var(--gold); }
+.main-nav > ul > li > a:hover::after { transform: scaleX(1); }
+.main-nav .car { font-size: 0.68em; opacity: 0.7; }
+.main-nav .has-sub { position: relative; }
+.main-nav .sub {
+  position: absolute; top: 100%; left: 50%;
+  transform: translateX(-50%) translateY(10px);
+  min-width: 200px;
+  background: rgba(7, 19, 48, 0.97);
+  backdrop-filter: blur(14px);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 14px;
+  box-shadow: 0 22px 50px rgba(4, 10, 30, 0.5);
+  padding: 10px;
+  display: grid; gap: 2px;
+  opacity: 0; visibility: hidden; pointer-events: none;
+  transition: opacity 0.25s ease, transform 0.25s ease, visibility 0.25s ease;
+}
+.main-nav .has-sub:hover .sub,
+.main-nav .has-sub:focus-within .sub {
+  opacity: 1; visibility: visible; pointer-events: auto;
+  transform: translateX(-50%) translateY(0);
+}
+.main-nav .sub a {
+  display: block; padding: 9px 14px; border-radius: 9px;
+  font-weight: 500; font-size: 0.9rem;
+  color: rgba(255,255,255,0.85);
+}
+.main-nav .sub a:hover { background: rgba(255,255,255,0.08); color: var(--gold); }
+
+/* sub 1200px: navbar-ul cedează locul meniului overlay */
+@media (max-width: 1199px) {
+  .main-nav { display: none; }
+}
+@media (min-width: 1200px) {
+  .site-header .nav-toggle { display: none; }
+}
 
 .nav-toggle {
   position: relative; z-index: 320;
@@ -192,6 +247,7 @@ body.menu-open .menu-overlay { visibility: visible; opacity: 1; pointer-events: 
   color: var(--sky); font-size: 0.78rem; font-weight: 700;
   letter-spacing: 0.28em; text-transform: uppercase; margin-bottom: 18px;
 }
+.menu-sections h4.mt { margin-top: 26px; }
 .menu-sections ul { display: grid; grid-template-columns: 1fr 1fr; gap: 6px 24px; }
 .menu-sections a {
   color: rgba(255,255,255,0.78); font-size: 1.02rem; font-weight: 500;
@@ -683,8 +739,10 @@ body.menu-open .menu-overlay { visibility: visible; opacity: 1; pointer-events: 
   .cred-float img { width: 50px; }
   .brand-name { display: none; }
   .header-crests { margin-right: 14px; gap: 10px; }
-  .header-crests img { height: 36px; }
-  .site-header.scrolled .header-crests img { height: 32px; }
+  .header-crests img { height: 44px; }
+  .site-header.scrolled .header-crests img { height: 38px; }
+  .brand img { height: 56px; }
+  .site-header.scrolled .brand img { height: 48px; }
   .footer-grid { grid-template-columns: 1fr; gap: 34px; }
   .band { font-size: 0.95rem; }
   .menu-sections ul { grid-template-columns: 1fr 1fr; }
