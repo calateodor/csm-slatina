@@ -171,7 +171,7 @@
 .hero-avatars .av:nth-child(2) { background: var(--sand); }
 .hero-avatars .av:nth-child(3) { background: var(--lime-deep); }
 .hero-avatars .note { margin-left: 26px; color: rgba(226,226,226,0.75); font-size: 0.88rem; max-width: 20ch; }
-.hero-card.olive .row { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.hero-card.olive .row { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
 @media (prefers-reduced-motion: reduce) { .k-hero .video-bg iframe { display: none; } }
 
 /* ==========================================================================
@@ -299,6 +299,8 @@
   gap: 20px; align-items: end;
   margin-top: clamp(30px, 4vw, 48px);
 }
+/* elementele cu scroll intern (banda de zile) nu au voie să lățească grid-ul */
+.k-booking .trays > .tray, .booking-shell, .bk-panel { min-width: 0; }
 .k-booking .tray { padding-bottom: 0; }
 .lime-card {
   background: var(--lime);

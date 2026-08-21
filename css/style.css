@@ -743,23 +743,21 @@ body.menu-open .menu-overlay { visibility: visible; opacity: 1; pointer-events: 
 }
 
 @media (max-width: 640px) {
-  .layer-slogan { top: 7%; width: 97vw; }
-  .layer-athletes { width: 190vw; max-width: none; bottom: 12vh; }
-  .hero { min-height: 500px; }
-  /* pe mobil sportivii sunt ridicati (bottom pozitiv), deci marginea taiata
-     a imaginii trebuie acoperita de fade, ca pe desktop */
-  .hero-bottom-fade {
-    height: 34vh;
-    background: linear-gradient(to bottom, rgba(10,28,74,0) 0%, var(--navy-800) 52%);
-  }
+  /* hero scurt și compact: sloganul sub header, sportivii imediat sub el */
+  .hero { height: 78svh; min-height: 480px; }
+  .layer-slogan { top: 11%; width: 96vw; }
+  .layer-athletes { width: 215vw; max-width: none; bottom: -2%; }
   .cred-float { width: 76px; height: 76px; }
   .cred-float img { width: 50px; }
-  .brand-name { display: none; }
-  .header-crests { margin-right: 14px; gap: 10px; }
-  .header-crests img { height: 44px; }
-  .site-header.scrolled .header-crests img { height: 38px; }
-  .brand img { height: 56px; }
-  .site-header.scrolled .brand img { height: 48px; }
+  .brand { gap: 8px; }
+  .brand-name { font-size: 0.8rem; letter-spacing: 0.05em; }
+  .brand-name small { font-size: 0.48rem; letter-spacing: 0.14em; margin-bottom: 2px; }
+  .header-crests { margin-right: 10px; gap: 8px; }
+  .header-crests img { height: 40px; }
+  .site-header.scrolled .header-crests img { height: 34px; }
+  .brand img { height: 48px; }
+  .site-header.scrolled .brand img { height: 42px; }
+  .nav-toggle { width: 46px; height: 46px; }
   .footer-grid { grid-template-columns: 1fr; gap: 34px; }
   .band { font-size: 0.95rem; }
   .menu-sections { margin-top: 26px; }
