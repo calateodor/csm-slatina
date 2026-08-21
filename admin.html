@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Administrare Padel — CSM Slatina</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="icon" type="image/png" href="assets/img/logo.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700;800&family=Manrope:wght@400;500;600;700&family=Barlow+Condensed:ital,wght@0,600;0,700;0,800;1,700;1,800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/padel.css">
+</head>
+<body class="padel-page admin-body">
+
+  <!-- ================= Poartă de acces ================= -->
+  <div class="admin-gate" id="gate">
+    <div class="gate-card">
+      <img src="assets/img/logo.png" alt="Stema CSM Slatina">
+      <h1>Administrare Padel</h1>
+      <p>Introdu codul PIN de administrator pentru a gestiona rezervările.</p>
+      <input type="password" id="gate-pin" inputmode="numeric" maxlength="8" placeholder="····" aria-label="Cod PIN">
+      <div class="bk-error" id="gate-err" role="alert"></div>
+      <button type="button" class="btn btn-lime" id="gate-enter" style="width:100%; justify-content:center">Intră în panou</button>
+    </div>
+  </div>
+
+  <!-- ================= Panoul propriu-zis ================= -->
+  <div class="admin-wrap" id="panel" hidden>
+    <div class="admin-top">
+      <div>
+        <h1>Rezervări <span style="color:var(--lime)">Padel</span></h1>
+        <div class="sub">Panou de administrare · CSM Slatina</div>
+      </div>
+      <div style="display:flex; gap:10px; flex-wrap:wrap">
+        <button type="button" class="abtn" id="btn-export">Exportă CSV</button>
+        <button type="button" class="abtn" id="btn-pin">Schimbă PIN</button>
+        <button type="button" class="abtn danger" id="btn-logout">Ieși</button>
+      </div>
+    </div>
+
+    <div class="admin-stats">
+      <div class="astat"><strong id="stat-azi">0</strong><span>rezervări azi</span></div>
+      <div class="astat"><strong id="stat-active">0</strong><span>rezervări active (azi și în viitor)</span></div>
+      <div class="astat"><strong id="stat-blocate">0</strong><span>intervale blocate</span></div>
+    </div>
+
+    <!-- Tabla zilei -->
+    <div class="admin-panel">
+      <h2>Tabla zilei</h2>
+      <div class="admin-controls">
+        <label for="day-pick" style="font-size:0.85rem; color:rgba(232,228,216,0.6)">Ziua:</label>
+        <input type="date" id="day-pick">
+        <span style="flex:1"></span>
+        <select id="block-slot" aria-label="Ora de blocat"></select>
+        <select id="block-court" aria-label="Terenul de blocat">
+          <option value="1">Teren 1</option>
+          <option value="2">Teren 2</option>
+        </select>
+        <input type="text" id="block-motiv" placeholder="Motiv (opțional)" style="width:160px">
+        <button type="button" class="abtn" id="btn-block">Blochează intervalul</button>
+      </div>
+      <div class="slot-board" id="board"></div>
+    </div>
+
+    <!-- Toate rezervările -->
+    <div class="admin-panel">
+      <h2>Toate rezervările</h2>
+      <div class="admin-controls">
+        <input type="search" id="search" placeholder="Caută după nume sau telefon…" style="flex:1; min-width:220px">
+        <select id="filter-status">
+          <option value="">Toate statusurile</option>
+          <option value="confirmata">Confirmate</option>
+          <option value="anulata">Anulate</option>
+        </select>
+      </div>
+      <div style="overflow-x:auto">
+        <table class="admin-table">
+          <thead>
+            <tr><th>Ref</th><th>Data</th><th>Ora</th><th>Teren</th><th>Client</th><th>Telefon</th><th>Status</th><th></th></tr>
+          </thead>
+          <tbody id="rows"></tbody>
+        </table>
+      </div>
+      <p class="bk-hint" id="rows-empty" hidden>Nicio rezervare care să se potrivească filtrelor.</p>
+    </div>
+
+    <p class="demo-note">Mod demonstrativ: datele sunt stocate în browserul curent (localStorage). Pentru un sistem multi-dispozitiv este necesar un backend (Firebase/Supabase/API propriu) — punctul de integrare este <code>js/padel-store.js</code>.</p>
+  </div>
+
+  <script src="js/padel-store.js"></script>
+  <script src="js/padel-admin.js"></script>
+</body>
+</html>

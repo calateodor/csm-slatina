@@ -1,0 +1,364 @@
+/* ==========================================================================
+   Padel CSM Slatina — pagină + sistem de rezervări
+   Direcție: teren nocturn — verde-negru profund + lime electric, tipografie
+   condensată în italic (Barlow Condensed), în contrast intenționat cu restul
+   site-ului. Folosită și de panoul de administrare.
+   ========================================================================== */
+
+:root {
+  --pitch-950: #08120c;
+  --pitch-900: #0c1a11;
+  --pitch-800: #12271a;
+  --pitch-line: rgba(200, 245, 66, 0.16);
+  --lime: #c8f542;
+  --lime-deep: #a9d626;
+  --sand: #e8e4d8;
+  --font-condensed: "Barlow Condensed", "Poppins", sans-serif;
+}
+
+.padel-page {
+  background: var(--pitch-950);
+  color: var(--sand);
+}
+.padel-page h1, .padel-page h2, .padel-page h3, .padel-page h4 {
+  font-family: var(--font-condensed);
+  color: #fff;
+  text-transform: uppercase;
+  letter-spacing: 0.01em;
+}
+.padel-page .eyebrow { color: var(--lime); }
+.padel-page .eyebrow::before { background: var(--lime); }
+
+.btn-lime {
+  background: var(--lime); color: var(--pitch-950);
+  font-family: var(--font-condensed); font-weight: 700; font-size: 1.15rem;
+  text-transform: uppercase; letter-spacing: 0.06em;
+  box-shadow: 0 10px 34px rgba(200, 245, 66, 0.3);
+}
+.btn-lime:hover { transform: translateY(-3px); background: #d8ff55; }
+.btn-outline-lime {
+  border: 2px solid rgba(200, 245, 66, 0.5); color: var(--lime);
+  font-family: var(--font-condensed); font-weight: 600; font-size: 1.05rem;
+  text-transform: uppercase; letter-spacing: 0.06em;
+}
+.btn-outline-lime:hover { border-color: var(--lime); transform: translateY(-3px); }
+
+/* ---------- Hero ---------- */
+.padel-hero {
+  position: relative;
+  min-height: 100svh;
+  display: flex; align-items: center;
+  padding: calc(var(--header-h) + 40px) 0 80px;
+  overflow: hidden;
+  background:
+    radial-gradient(90% 70% at 75% 15%, rgba(200, 245, 66, 0.09), transparent 60%),
+    linear-gradient(160deg, var(--pitch-900) 0%, var(--pitch-950) 70%);
+}
+.padel-hero .ghost {
+  position: absolute; right: -1%; bottom: 4%;
+  font-family: var(--font-condensed); font-weight: 800; font-style: italic;
+  font-size: clamp(7rem, 24vw, 21rem); line-height: 0.8;
+  color: transparent;
+  -webkit-text-stroke: 2px rgba(200, 245, 66, 0.13);
+  pointer-events: none; user-select: none;
+}
+.padel-hero .container { position: relative; z-index: 2; display: grid; grid-template-columns: 1.2fr 1fr; gap: 50px; align-items: center; }
+.padel-hero h1 {
+  font-size: clamp(3.4rem, 8.5vw, 6.8rem);
+  font-weight: 800; font-style: italic; line-height: 0.95;
+  margin: 10px 0 24px;
+}
+.padel-hero h1 .lime { color: var(--lime); }
+.padel-hero .lead { color: rgba(232, 228, 216, 0.75); max-width: 52ch; margin-bottom: 36px; font-size: 1.08rem; }
+.padel-hero .cta-row { display: flex; flex-wrap: wrap; gap: 16px; }
+
+/* teren văzut de sus, în SVG */
+.court-art { position: relative; }
+.court-art svg { width: 100%; height: auto; filter: drop-shadow(0 24px 60px rgba(0, 0, 0, 0.45)); }
+
+/* ---------- Bandă de facilități ---------- */
+.padel-features { border-block: 1px solid var(--pitch-line); background: var(--pitch-900); padding: 0; }
+.padel-features .row { display: grid; grid-template-columns: repeat(4, 1fr); }
+.padel-features .cell {
+  padding: 30px 24px;
+  border-right: 1px solid var(--pitch-line);
+  display: flex; align-items: center; gap: 14px;
+}
+.padel-features .cell:last-child { border-right: none; }
+.padel-features .num {
+  font-family: var(--font-condensed); font-weight: 800; font-style: italic;
+  font-size: 1.9rem; color: var(--lime);
+}
+.padel-features .cell p { font-size: 0.9rem; color: rgba(232, 228, 216, 0.72); line-height: 1.4; }
+
+/* ---------- Tarife ---------- */
+.padel-pricing { background: var(--pitch-950); }
+.price-cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+.price-card {
+  border: 1px solid var(--pitch-line); border-radius: var(--radius);
+  background: linear-gradient(170deg, var(--pitch-800), var(--pitch-900) 70%);
+  padding: 34px 30px;
+}
+.price-card.featured { border-color: rgba(200, 245, 66, 0.55); position: relative; }
+.price-card.featured::before {
+  content: "Cel mai cerut";
+  position: absolute; top: -13px; left: 26px;
+  background: var(--lime); color: var(--pitch-950);
+  font-family: var(--font-condensed); font-weight: 700; font-size: 0.8rem;
+  text-transform: uppercase; letter-spacing: 0.08em;
+  padding: 3px 12px; border-radius: 999px;
+}
+.price-card h3 { font-size: 1.25rem; margin-bottom: 6px; }
+.price-card .interval { color: rgba(232, 228, 216, 0.6); font-size: 0.88rem; }
+.price-card .amount {
+  font-family: var(--font-condensed); font-weight: 800; font-style: italic;
+  font-size: 3.4rem; color: var(--lime); line-height: 1;
+  margin: 18px 0 4px;
+}
+.price-card .per { color: rgba(232, 228, 216, 0.6); font-size: 0.85rem; }
+.pricing-note { margin-top: 22px; color: rgba(232, 228, 216, 0.5); font-size: 0.85rem; text-align: center; }
+
+/* ==========================================================================
+   Rezervare — widget cu pași
+   ========================================================================== */
+.padel-booking { background: var(--pitch-900); border-top: 1px solid var(--pitch-line); }
+.booking-shell {
+  max-width: 860px; margin-inline: auto;
+  border: 1px solid var(--pitch-line); border-radius: var(--radius);
+  background: var(--pitch-950);
+  padding: clamp(24px, 4vw, 44px);
+}
+.booking-steps {
+  display: flex; gap: 8px; margin-bottom: 30px;
+  font-family: var(--font-condensed); text-transform: uppercase; letter-spacing: 0.05em;
+}
+.booking-steps .st {
+  flex: 1; text-align: center; font-size: 0.85rem; font-weight: 600;
+  color: rgba(232, 228, 216, 0.4);
+  padding-bottom: 10px; border-bottom: 2px solid var(--pitch-line);
+}
+.booking-steps .st.on { color: var(--lime); border-color: var(--lime); }
+.booking-steps .st.done { color: rgba(200, 245, 66, 0.55); border-color: rgba(200, 245, 66, 0.4); }
+
+.bk-label {
+  display: block;
+  font-family: var(--font-condensed); font-weight: 600; font-size: 0.95rem;
+  text-transform: uppercase; letter-spacing: 0.08em; color: #fff;
+  margin: 22px 0 10px;
+}
+.bk-label:first-child { margin-top: 0; }
+
+.date-strip { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 6px; scrollbar-width: thin; }
+.date-chip {
+  flex: 0 0 auto; min-width: 76px;
+  border: 1px solid var(--pitch-line); border-radius: 12px;
+  padding: 10px 8px; text-align: center;
+  color: var(--sand); background: transparent;
+  transition: border-color 0.2s ease, background 0.2s ease;
+}
+.date-chip small { display: block; font-size: 0.68rem; text-transform: uppercase; letter-spacing: 0.1em; color: rgba(232,228,216,0.55); }
+.date-chip strong { font-family: var(--font-condensed); font-size: 1.3rem; font-weight: 700; }
+.date-chip:hover { border-color: rgba(200, 245, 66, 0.5); }
+.date-chip.sel { background: var(--lime); border-color: var(--lime); }
+.date-chip.sel small, .date-chip.sel strong { color: var(--pitch-950); }
+
+.court-toggle { display: flex; gap: 10px; }
+.court-btn {
+  flex: 1; padding: 14px;
+  border: 1px solid var(--pitch-line); border-radius: 12px;
+  font-family: var(--font-condensed); font-weight: 700; font-size: 1.1rem;
+  text-transform: uppercase; letter-spacing: 0.05em; color: var(--sand);
+  transition: border-color 0.2s ease, background 0.2s ease, color 0.2s ease;
+}
+.court-btn:hover { border-color: rgba(200, 245, 66, 0.5); }
+.court-btn.sel { background: var(--lime); border-color: var(--lime); color: var(--pitch-950); }
+
+.slot-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(96px, 1fr)); gap: 8px; }
+.slot {
+  padding: 12px 6px; text-align: center;
+  border: 1px solid var(--pitch-line); border-radius: 10px;
+  font-family: var(--font-condensed); font-weight: 600; font-size: 1.02rem;
+  color: var(--sand);
+  transition: border-color 0.2s ease, background 0.2s ease, color 0.2s ease;
+}
+.slot:hover:not(:disabled) { border-color: rgba(200, 245, 66, 0.6); }
+.slot.sel { background: var(--lime); border-color: var(--lime); color: var(--pitch-950); }
+.slot:disabled { opacity: 0.25; cursor: not-allowed; text-decoration: line-through; }
+
+.bk-form { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+.bk-field { display: grid; gap: 6px; }
+.bk-field.full { grid-column: 1 / -1; }
+.bk-field label { font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.1em; color: rgba(232,228,216,0.6); }
+.bk-field input {
+  background: var(--pitch-800); color: #fff;
+  border: 1px solid var(--pitch-line); border-radius: 10px;
+  padding: 13px 16px; font: inherit; font-size: 1rem;
+}
+.bk-field input:focus { outline: 2px solid var(--lime); outline-offset: 1px; border-color: transparent; }
+
+.bk-summary {
+  display: flex; flex-wrap: wrap; gap: 10px 22px;
+  background: var(--pitch-800); border: 1px solid var(--pitch-line);
+  border-radius: 12px; padding: 16px 20px; margin-bottom: 8px;
+  font-size: 0.93rem;
+}
+.bk-summary strong { color: var(--lime); font-family: var(--font-condensed); font-size: 1.05rem; letter-spacing: 0.03em; }
+
+.bk-actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 26px; align-items: center; }
+.bk-error { color: #ff8f7a; font-size: 0.9rem; margin-top: 12px; min-height: 1.2em; }
+.bk-hint { color: rgba(232,228,216,0.5); font-size: 0.85rem; margin-top: 10px; }
+
+/* codul SMS */
+.code-inputs { display: flex; gap: 10px; }
+.code-inputs input {
+  width: 54px; height: 62px; text-align: center;
+  font-family: var(--font-condensed); font-size: 1.8rem; font-weight: 700;
+  background: var(--pitch-800); color: var(--lime);
+  border: 1px solid var(--pitch-line); border-radius: 10px;
+}
+.code-inputs input:focus { outline: 2px solid var(--lime); border-color: transparent; }
+
+/* confirmare */
+.bk-done { text-align: center; padding: 20px 0; }
+.bk-done .check {
+  width: 74px; height: 74px; margin: 0 auto 20px;
+  border-radius: 50%; display: grid; place-items: center;
+  background: var(--lime); color: var(--pitch-950); font-size: 2rem; font-weight: 800;
+}
+.bk-done h3 { font-size: 2rem; margin-bottom: 8px; }
+.bk-done .ref {
+  font-family: var(--font-condensed); font-weight: 800; font-style: italic;
+  font-size: 2.6rem; color: var(--lime); letter-spacing: 0.04em;
+  margin: 12px 0;
+}
+.bk-done p { color: rgba(232,228,216,0.7); max-width: 46ch; margin-inline: auto; }
+
+/* SMS simulat — bulă de notificare */
+.sms-toast {
+  position: fixed; left: 20px; bottom: 20px; z-index: 400;
+  max-width: 330px;
+  background: #101418; color: #e9edf2;
+  border: 1px solid rgba(255,255,255,0.14); border-radius: 16px;
+  padding: 14px 18px;
+  box-shadow: 0 18px 50px rgba(0,0,0,0.55);
+  transform: translateY(140%); opacity: 0;
+  transition: transform 0.45s ease, opacity 0.45s ease;
+  font-size: 0.9rem; line-height: 1.5;
+}
+.sms-toast.show { transform: translateY(0); opacity: 1; }
+.sms-toast .from { font-weight: 700; font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.1em; color: #9fb3c8; margin-bottom: 4px; }
+.sms-toast .code { font-family: var(--font-condensed); font-weight: 800; font-size: 1.5rem; color: var(--lime); letter-spacing: 0.15em; }
+
+.demo-note {
+  max-width: 860px; margin: 18px auto 0;
+  font-size: 0.82rem; color: rgba(232,228,216,0.45); text-align: center;
+}
+
+/* ---------- Reguli ---------- */
+.padel-rules { background: var(--pitch-950); }
+.rules-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+.rule {
+  border: 1px solid var(--pitch-line); border-radius: var(--radius);
+  padding: 26px;
+}
+.rule h3 { font-size: 1.1rem; margin-bottom: 8px; color: var(--lime); }
+.rule p { font-size: 0.92rem; color: rgba(232,228,216,0.7); }
+
+/* ==========================================================================
+   Panou administrare
+   ========================================================================== */
+.admin-body { background: var(--pitch-950); color: var(--sand); min-height: 100vh; }
+.admin-wrap { width: min(1080px, 94vw); margin-inline: auto; padding: 40px 0 80px; }
+.admin-top { display: flex; flex-wrap: wrap; gap: 16px; align-items: center; justify-content: space-between; margin-bottom: 30px; }
+.admin-top h1 { font-size: clamp(1.8rem, 4vw, 2.6rem); font-style: italic; }
+.admin-top .sub { color: rgba(232,228,216,0.55); font-size: 0.9rem; }
+.admin-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-bottom: 30px; }
+.astat {
+  border: 1px solid var(--pitch-line); border-radius: 14px; padding: 20px 22px;
+  background: var(--pitch-900);
+}
+.astat strong { display: block; font-family: var(--font-condensed); font-weight: 800; font-size: 2.2rem; color: var(--lime); line-height: 1.1; }
+.astat span { font-size: 0.85rem; color: rgba(232,228,216,0.6); }
+
+.admin-panel {
+  border: 1px solid var(--pitch-line); border-radius: var(--radius);
+  background: var(--pitch-900); padding: clamp(20px, 3vw, 32px); margin-bottom: 26px;
+}
+.admin-panel h2 { font-size: 1.3rem; margin-bottom: 18px; }
+.admin-controls { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; margin-bottom: 20px; }
+.admin-controls input, .admin-controls select {
+  background: var(--pitch-800); color: #fff;
+  border: 1px solid var(--pitch-line); border-radius: 10px;
+  padding: 10px 14px; font: inherit; font-size: 0.95rem;
+  color-scheme: dark;
+}
+.admin-controls input:focus, .admin-controls select:focus { outline: 2px solid var(--lime); }
+
+.slot-board { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+.slot-board h3 { font-size: 1.05rem; margin-bottom: 12px; color: var(--lime); }
+.aslot {
+  display: grid; grid-template-columns: 70px 1fr auto; gap: 12px; align-items: center;
+  padding: 10px 12px; border-bottom: 1px solid rgba(200,245,66,0.08);
+  font-size: 0.9rem;
+}
+.aslot .t { font-family: var(--font-condensed); font-weight: 700; font-size: 1.05rem; }
+.aslot .who { color: rgba(232,228,216,0.85); }
+.aslot .who small { display: block; color: rgba(232,228,216,0.5); }
+.aslot.free .who { color: rgba(232,228,216,0.35); }
+.aslot.blocked { background: rgba(255, 143, 122, 0.06); }
+.aslot.blocked .who { color: #ff8f7a; }
+.abtn {
+  border: 1px solid var(--pitch-line); border-radius: 8px;
+  padding: 6px 12px; font-size: 0.8rem; color: var(--sand);
+  transition: border-color 0.2s ease, color 0.2s ease;
+}
+.abtn:hover { border-color: var(--lime); color: var(--lime); }
+.abtn.danger:hover { border-color: #ff8f7a; color: #ff8f7a; }
+
+.admin-table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
+.admin-table th {
+  text-align: left; font-family: var(--font-condensed); text-transform: uppercase;
+  letter-spacing: 0.08em; font-size: 0.8rem; color: rgba(232,228,216,0.55);
+  padding: 10px 12px; border-bottom: 1px solid var(--pitch-line);
+}
+.admin-table td { padding: 10px 12px; border-bottom: 1px solid rgba(200,245,66,0.07); }
+.admin-table .st-confirmata { color: var(--lime); }
+.admin-table .st-anulata { color: #ff8f7a; }
+
+/* login admin */
+.admin-gate {
+  min-height: 100vh; display: grid; place-items: center;
+}
+.gate-card {
+  width: min(400px, 92vw); text-align: center;
+  border: 1px solid var(--pitch-line); border-radius: var(--radius);
+  background: var(--pitch-900); padding: 44px 36px;
+}
+.gate-card img { width: 84px; margin: 0 auto 18px; }
+.gate-card h1 { font-size: 1.6rem; margin-bottom: 6px; }
+.gate-card p { color: rgba(232,228,216,0.6); font-size: 0.9rem; margin-bottom: 24px; }
+.gate-card input {
+  width: 100%; text-align: center;
+  font-family: var(--font-condensed); font-size: 1.6rem; font-weight: 700; letter-spacing: 0.4em;
+  background: var(--pitch-800); color: var(--lime);
+  border: 1px solid var(--pitch-line); border-radius: 12px;
+  padding: 14px; margin-bottom: 16px;
+}
+.gate-card input:focus { outline: 2px solid var(--lime); }
+
+/* ---------- Responsive ---------- */
+@media (max-width: 960px) {
+  .padel-hero .container { grid-template-columns: 1fr; }
+  .court-art { max-width: 420px; margin-inline: auto; }
+  .padel-features .row { grid-template-columns: 1fr 1fr; }
+  .padel-features .cell:nth-child(2n) { border-right: none; }
+  .padel-features .cell { border-bottom: 1px solid var(--pitch-line); }
+  .price-cards, .rules-grid { grid-template-columns: 1fr; }
+  .slot-board { grid-template-columns: 1fr; }
+  .admin-stats { grid-template-columns: 1fr; }
+}
+@media (max-width: 640px) {
+  .bk-form { grid-template-columns: 1fr; }
+  .code-inputs input { width: 44px; height: 54px; font-size: 1.5rem; }
+  .sms-toast { left: 12px; right: 12px; max-width: none; }
+}
