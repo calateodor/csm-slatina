@@ -415,6 +415,14 @@ body.menu-open .menu-overlay { visibility: visible; opacity: 1; pointer-events: 
     0 0 0 2px rgba(246, 200, 28, 0.55),
     0 22px 44px -14px rgba(9, 17, 35, 0.28);
 }
+/* bara albastru->auriu care se „desenează" jos la hover (pastrata din vechiul design) */
+.sport-card::after {
+  content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 4px; z-index: 3;
+  background: linear-gradient(90deg, var(--blue), var(--gold));
+  transform: scaleX(0); transform-origin: left;
+  transition: transform 0.35s ease;
+}
+.sport-card:hover::after { transform: scaleX(1); }
 /* zona foto: ~65% din card */
 .sport-card .card-media {
   position: relative; display: block;
