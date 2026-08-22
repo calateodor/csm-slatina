@@ -409,10 +409,8 @@ body.menu-open .menu-overlay { visibility: visible; opacity: 1; pointer-events: 
 }
 .sport-card:hover {
   transform: translateY(-6px);
-  border-color: rgba(246, 200, 28, 0.9);
   box-shadow:
     inset 0 1px 0 rgba(255, 255, 255, 0.7),
-    0 0 0 2px rgba(246, 200, 28, 0.55),
     0 22px 44px -14px rgba(9, 17, 35, 0.28);
 }
 /* bara albastru->auriu care se „desenează" jos la hover (pastrata din vechiul design) */
