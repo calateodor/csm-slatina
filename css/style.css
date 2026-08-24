@@ -1,6 +1,6 @@
 /* ==========================================================================
    CSM Slatina — stil global
-   Paletă: albastru-alb (brand club) + auriu (slogan "INSPIRĂM")
+   Paletă: albastru (brand club) + auriu (slogan "INSPIRĂM")
    Tipografie: Poppins (display) + Manrope (text)
    ========================================================================== */
 
@@ -343,14 +343,16 @@ body.menu-open .menu-overlay { visibility: visible; opacity: 1; pointer-events: 
    Ticker orizontal (marquee)
    ========================================================================== */
 .ticker {
-  position: relative; z-index: 6;
+  /* fără z-index propriu: fundalul ticker-ului rămâne sub benzile diagonale,
+     iar pastilele (.ticker-track, z-index 8) trec peste ele */
+  position: relative;
   background: var(--navy-800);
   border-top: 1px solid rgba(255,255,255,0.08);
   border-bottom: 1px solid rgba(255,255,255,0.08);
   padding: 22px 0;
   overflow: hidden;
 }
-.ticker-track { display: flex; gap: 18px; width: max-content; animation: marquee 30s linear infinite; will-change: transform; }
+.ticker-track { position: relative; z-index: 8; display: flex; gap: 18px; width: max-content; animation: marquee 30s linear infinite; will-change: transform; }
 .ticker:hover .ticker-track { animation-play-state: paused; }
 .ticker-item {
   display: inline-flex; align-items: center; gap: 18px;
@@ -373,6 +375,8 @@ body.menu-open .menu-overlay { visibility: visible; opacity: 1; pointer-events: 
    Secții — grid carduri
    ========================================================================== */
 .sections-block { background: var(--paper); }
+/* secțiile vin imediat sub benzi — spațiu de sus mai mic, ca banda aurie să stea aproape de titlu */
+.bands + .sections-block { padding-top: clamp(46px, 5vw, 72px); }
 .group-title {
   display: flex; align-items: center; gap: 16px;
   font-family: var(--font-display); font-weight: 700;
@@ -467,22 +471,32 @@ body.menu-open .menu-overlay { visibility: visible; opacity: 1; pointer-events: 
    ========================================================================== */
 .bands {
   position: relative;
-  padding: clamp(90px, 12vw, 150px) 0;
-  background: #fff;
-  overflow: hidden;
+  z-index: 7;               /* peste ticker (z-index 6) — benzile intră puțin peste el */
+  padding: calc(4.9vw + 10px) 0;
+  background: var(--white);
+  overflow: hidden;            /* fallback pentru browsere fără overflow: clip */
+  overflow-x: clip;
+  overflow-y: visible;         /* banda aurie poate ieși peste secțiunea următoare */
+  pointer-events: none;        /* banda care intră peste secțiuni nu blochează click-urile */
 }
 .band {
   position: absolute; left: -6%; width: 112%;
-  padding: 16px 0;
+  padding: clamp(13px, 1.5vw, 22px) 0;
   overflow: hidden;
-  font-family: var(--font-display); font-weight: 700; font-size: 1.15rem;
-  box-shadow: 0 14px 40px rgba(14, 29, 64, 0.18);
+  font-family: var(--font-display); font-weight: 700;
+  font-size: clamp(1.15rem, 1.65vw, 1.7rem);
+  box-shadow: 0 16px 46px rgba(14, 29, 64, 0.2);
 }
-.band-track { display: flex; gap: 44px; width: max-content; animation: marquee 26s linear infinite; will-change: transform; }
+.band-track { display: flex; gap: clamp(38px, 4vw, 62px); width: max-content; animation: marquee 26s linear infinite; will-change: transform; }
 .band span { white-space: nowrap; }
-.band-navy { background: var(--navy-800); color: #fff; transform: rotate(-3.5deg); top: 50%; margin-top: -60px; }
+/* offset-ul compensează exact „urcarea" colțului la rotire (3.42vw = jumătate din
+   deplasarea verticală a benzii late de 112%), ca distanța față de ticker să fie
+   aceeași pe orice lățime de ecran */
+/* filet fin alb: delimitează banda bleumarin acolo unde trece peste ticker-ul bleumarin */
+.band-navy { background: var(--navy-800); color: #fff; transform: rotate(-2.6deg); top: calc(2.54vw - 30px);
+  box-shadow: 0 16px 46px rgba(14, 29, 64, 0.24), inset 0 0 0 1px rgba(255,255,255,0.18); }
 .band-navy .band-track { animation-duration: 32s; }
-.band-gold { background: var(--gold); color: var(--navy-900); transform: rotate(2.8deg); top: 50%; margin-top: 10px; animation-direction: reverse; }
+.band-gold { background: var(--gold); color: var(--navy-900); transform: rotate(2.2deg); top: calc(7.7vw - 8px); animation-direction: reverse; }
 .band-gold .band-track { animation-direction: reverse; }
 
 /* ==========================================================================
@@ -797,7 +811,7 @@ body.menu-open .menu-overlay { visibility: visible; opacity: 1; pointer-events: 
   .site-header.scrolled .brand img { height: 42px; }
   .nav-toggle { width: 46px; height: 46px; }
   .footer-grid { grid-template-columns: 1fr; gap: 34px; }
-  .band { font-size: 0.95rem; }
+  .band { font-size: 1.05rem; padding: 12px 0; }
   .menu-sections { margin-top: 26px; }
 }
 
