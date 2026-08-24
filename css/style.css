@@ -643,6 +643,90 @@ body.menu-open .menu-overlay { visibility: visible; opacity: 1; pointer-events: 
 .plaja-cta { margin-top: clamp(44px, 6vw, 64px); }
 
 /* ==========================================================================
+   Plajă & agrement pe apă — tarife la fața locului (pagina Plaja Olt)
+   ========================================================================== */
+.apa-block { background: linear-gradient(180deg, #eaf3ff 0%, var(--paper) 100%); }
+.apa-note { max-width: 52ch; color: var(--ink-soft); margin-top: 14px; }
+.apa-grid {
+  display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+  gap: clamp(16px, 2.2vw, 28px); align-items: start;
+}
+.apa-card {
+  background: var(--white);
+  border: 1px solid var(--line);
+  border-radius: 20px;
+  box-shadow: 0 18px 40px -22px rgba(9, 17, 35, 0.25);
+  overflow: hidden;
+}
+
+/* biletul de plajă: antet albastru cu program, listă de tarife cu puncte de ghidaj */
+.apa-plaja .apa-head {
+  display: flex; align-items: center; gap: 16px;
+  padding: 20px 22px;
+  background: linear-gradient(135deg, var(--royal), var(--blue) 70%, #3f74f0);
+  color: #fff;
+}
+.apa-plaja .apa-head h3 { color: #fff; font-size: 1.15rem; font-weight: 800; }
+.apa-plaja .a-program { font-size: 0.78rem; color: rgba(255,255,255,0.8); margin-top: 2px; }
+.apa-plaja .a-icon { background: rgba(255,255,255,0.16); border-color: rgba(255,255,255,0.25); color: #fff; }
+.tarife { padding: 10px 22px 18px; }
+.tarife li {
+  display: flex; align-items: baseline; gap: 12px;
+  padding: 11px 0;
+  font-size: 0.95rem; color: var(--ink);
+}
+.tarife li + li { border-top: 1px dashed var(--line); }
+.tarife li i { flex: 1; border-bottom: 2px dotted var(--line); transform: translateY(-4px); }
+.tarife li em { font-style: normal; font-size: 0.8rem; color: var(--ink-soft); }
+.tarife li strong { font-family: var(--font-display); font-weight: 800; color: var(--navy-800); white-space: nowrap; }
+
+/* activitățile pe apă: rânduri cu iconiță, nume și pastile de preț */
+.apa-activitati { display: grid; gap: clamp(12px, 1.6vw, 18px); }
+.apa-row {
+  display: flex; align-items: center; gap: 16px;
+  padding: 18px 20px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+}
+.apa-row:hover {
+  transform: translateY(-4px);
+  border-color: rgba(36, 87, 214, 0.35);
+  box-shadow: 0 24px 44px -22px rgba(9, 17, 35, 0.35);
+}
+.a-icon {
+  flex-shrink: 0;
+  width: 48px; height: 48px; border-radius: 15px;
+  display: grid; place-items: center;
+  background: rgba(36, 87, 214, 0.08);
+  border: 1px solid rgba(36, 87, 214, 0.16);
+  color: var(--blue);
+}
+.a-icon svg { width: 26px; height: 26px; stroke: currentColor; fill: none; stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; }
+.a-nume { flex: 1; min-width: 0; }
+.a-nume h3 { font-size: 1.02rem; font-weight: 800; color: var(--navy-900); }
+.a-nume p { font-size: 0.8rem; color: var(--ink-soft); margin-top: 1px; }
+.a-preturi { display: flex; gap: 8px; flex-shrink: 0; }
+.a-chip {
+  display: grid; justify-items: center; gap: 1px;
+  min-width: 76px; padding: 7px 12px;
+  border-radius: 13px;
+  background: linear-gradient(160deg, rgba(36, 87, 214, 0.08), rgba(36, 87, 214, 0.03));
+  border: 1px solid rgba(36, 87, 214, 0.14);
+  font-family: var(--font-display); font-weight: 800; font-size: 0.92rem;
+  color: var(--navy-800); white-space: nowrap;
+}
+.a-chip em { font-style: normal; font-weight: 600; font-size: 0.62rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--blue); }
+
+@media (max-width: 960px) {
+  .apa-grid { grid-template-columns: 1fr; }
+}
+@media (max-width: 640px) {
+  .apa-row { flex-wrap: wrap; }
+  .a-nume { flex-basis: calc(100% - 64px); }
+  .a-preturi { width: 100%; }
+  .a-chip { flex: 1; }
+}
+
+/* ==========================================================================
    Banner CTA cu fundal fix
    ========================================================================== */
 .cta-banner {

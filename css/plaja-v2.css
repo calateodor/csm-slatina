@@ -1,0 +1,317 @@
+/* ==========================================================================
+   Plaja Olt v2 — pagină experimentală
+   Capitole: dronă → hartă → rezervări → plajă, cu benzi de tranziție (swipe)
+   ========================================================================== */
+
+.v2-body { background: var(--navy-950); }
+.v2 { overflow-x: clip; }
+
+/* etichete și titluri proprii capitolelor */
+.v2-eyebrow {
+  display: inline-block;
+  font-family: var(--font-display); font-weight: 700;
+  font-size: 0.72rem; letter-spacing: 0.3em; text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 14px;
+}
+.v2-title {
+  font-size: clamp(2.1rem, 4.6vw, 3.4rem);
+  font-weight: 800; letter-spacing: -0.02em;
+  color: #fff;
+  margin-bottom: 12px;
+}
+.v2-sub { max-width: 56ch; color: rgba(255,255,255,0.72); }
+
+/* cuvântul-fantomă din fundalul fiecărui capitol (parallax pe orizontală) */
+.v2-ghost {
+  position: absolute; top: 6%; left: 0;
+  font-family: var(--font-display); font-weight: 800;
+  font-size: clamp(5rem, 17vw, 15rem); letter-spacing: 0.04em;
+  color: transparent;
+  -webkit-text-stroke: 1px rgba(255,255,255,0.07);
+  pointer-events: none; user-select: none;
+  white-space: nowrap;
+}
+
+/* ---------- 1. Hero: vedere din dronă ---------- */
+.v2-hero {
+  position: relative;
+  height: 100svh; min-height: 540px;
+  overflow: hidden;
+  display: flex; align-items: flex-end;
+}
+.v2-aer, .v2-aer img {
+  position: absolute; inset: 0;
+  width: 100%; height: 100%;
+  object-fit: cover; object-position: 55% 45%;
+}
+.v2-aer img { transform: scale(1.18); transform-origin: center 40%; will-change: transform; }
+.v2-hero-veil {
+  position: absolute; inset: 0;
+  background:
+    linear-gradient(to bottom, rgba(7,19,48,0.55) 0%, rgba(7,19,48,0) 30%),
+    linear-gradient(to top, var(--navy-950) 0%, rgba(7,19,48,0.35) 34%, rgba(7,19,48,0) 60%);
+  pointer-events: none;
+}
+.v2-hero-copy {
+  position: relative; z-index: 2;
+  width: min(1200px, 92vw); margin-inline: auto;
+  padding-bottom: clamp(70px, 12svh, 130px);
+}
+.v2-hero-copy h1 {
+  font-size: clamp(2.4rem, 6vw, 4.6rem);
+  font-weight: 800; line-height: 1.02; letter-spacing: -0.02em;
+  color: #fff;
+  text-shadow: 0 10px 40px rgba(3, 8, 25, 0.6);
+}
+.v2-hero-copy p { margin-top: 14px; max-width: 44ch; color: rgba(255,255,255,0.85); }
+.v2-scroll-hint {
+  position: absolute; right: clamp(18px, 4vw, 48px); bottom: 26px; z-index: 2;
+  display: flex; align-items: center; gap: 10px;
+  font-family: var(--font-display); font-weight: 600;
+  font-size: 0.68rem; letter-spacing: 0.26em; text-transform: uppercase;
+  color: rgba(255,255,255,0.75);
+}
+.v2-scroll-hint span {
+  width: 1px; height: 44px;
+  background: linear-gradient(to bottom, transparent, var(--gold));
+  animation: hintdrop 1.8s ease-in-out infinite;
+}
+@keyframes hintdrop { 0% { transform: scaleY(0); transform-origin: top; } 55% { transform: scaleY(1); } 100% { transform: scaleY(0); transform-origin: bottom; } }
+
+/* ---------- benzile de tranziție (swipe) ---------- */
+.wipe { position: fixed; inset: 0; z-index: 90; pointer-events: none; overflow: hidden; }
+.streak {
+  position: absolute; top: -12%; height: 124%;
+  width: 72vw; left: 0;
+  /* fără translate aici — orice valoare din CSS ar deveni offset permanent în
+     GSAP; benzile stau ascunse până le așază JS-ul în afara ecranului */
+  transform: rotate(-7deg);
+  visibility: hidden;
+  will-change: transform;
+}
+/* marginile transparente ale gradientului dau efectul de obiect defocalizat */
+.streak.s1 { background: linear-gradient(100deg, transparent 0%, var(--wipe-a, rgba(18,58,158,0.5)) 38%, var(--wipe-a, rgba(18,58,158,0.5)) 62%, transparent 100%); }
+.streak.s2 { width: 34vw; background: linear-gradient(100deg, transparent 0%, var(--wipe-b, rgba(246,200,28,0.35)) 45%, transparent 100%); }
+.wipe[data-wipe="#harta"]    { --wipe-a: rgba(18, 58, 158, 0.55); --wipe-b: rgba(127, 180, 255, 0.30); }
+.wipe[data-wipe="#servicii"] { --wipe-a: rgba(244, 247, 254, 0.55); --wipe-b: rgba(246, 200, 28, 0.35); }
+.wipe[data-wipe="#plaja-v2"] { --wipe-a: rgba(246, 200, 28, 0.45); --wipe-b: rgba(18, 58, 158, 0.40); }
+
+/* ---------- 2. Harta interactivă (în lucru) ---------- */
+.v2-harta {
+  position: relative;
+  padding: clamp(90px, 13vw, 160px) 0;
+  background: var(--navy-950);
+  overflow: hidden;
+}
+.v2-harta-frame {
+  position: relative;
+  margin-top: clamp(26px, 4vw, 46px);
+  border-radius: 24px;
+  border: 2px dashed rgba(127, 180, 255, 0.35);
+  padding: 10px;
+}
+.v2-harta-frame img {
+  width: 100%; aspect-ratio: 21 / 9; object-fit: cover;
+  border-radius: 16px;
+  opacity: 0.85;
+}
+.v2-pin {
+  position: absolute; left: var(--px); top: var(--py);
+  width: 14px; height: 14px; border-radius: 50%;
+  background: var(--gold);
+  box-shadow: 0 0 0 4px rgba(246, 200, 28, 0.25);
+  animation: pinpulse 2.2s ease-in-out infinite;
+}
+.v2-pin:nth-child(odd) { animation-delay: 0.7s; }
+@keyframes pinpulse {
+  0%, 100% { box-shadow: 0 0 0 4px rgba(246,200,28,0.25); }
+  50% { box-shadow: 0 0 0 12px rgba(246,200,28,0); }
+}
+.v2-harta-badge {
+  position: absolute; left: 50%; top: 50%;
+  transform: translate(-50%, -50%);
+  width: min(400px, 84%);
+  text-align: center;
+  padding: 26px 28px;
+  border-radius: 18px;
+  background: rgba(7, 19, 48, 0.78);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255,255,255,0.16);
+}
+.v2-harta-badge strong {
+  display: block;
+  font-family: var(--font-display); font-weight: 800; font-size: 1.2rem;
+  color: var(--gold);
+  margin-bottom: 8px;
+}
+.v2-harta-badge span { font-size: 0.9rem; color: rgba(255,255,255,0.8); line-height: 1.55; }
+
+/* ---------- 3. Rezervări online ---------- */
+.v2-servicii {
+  position: relative;
+  /* fundalul capitolului — schimbă doar variabila de mai jos (culoare, gradient sau url(...)) */
+  --servicii-bg: linear-gradient(180deg, #0b2158 0%, var(--navy-900) 100%);
+  background: var(--servicii-bg);
+  padding: clamp(90px, 13vw, 160px) 0 clamp(60px, 8vw, 100px);
+  overflow: hidden;
+}
+.v2-cards {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: clamp(14px, 1.8vw, 24px);
+  width: min(1200px, 92vw);
+  margin: clamp(30px, 4.5vw, 56px) auto 0;
+}
+.v2-card {
+  position: relative;
+  aspect-ratio: 3 / 4;
+  border-radius: 22px;
+  overflow: hidden;
+  isolation: isolate;
+}
+.v2-card img {
+  position: absolute; inset: 0; width: 100%; height: 112%;
+  object-fit: cover;
+  will-change: transform;
+}
+.v2-card-veil {
+  position: absolute; inset: 0; z-index: 1;
+  background: linear-gradient(to top, rgba(7,19,48,0.88) 0%, rgba(7,19,48,0.25) 45%, rgba(7,19,48,0.05) 70%);
+  transition: background 0.35s ease;
+}
+.v2-card:hover .v2-card-veil { background: linear-gradient(to top, rgba(7,19,48,0.92) 0%, rgba(7,19,48,0.35) 50%, rgba(7,19,48,0.1) 75%); }
+.v2-card-copy {
+  position: absolute; inset: auto 0 0 0; z-index: 2;
+  padding: 20px 22px 20px;
+  display: flex; flex-direction: column; align-items: flex-start; gap: 5px;
+}
+.v2-tag {
+  font-family: var(--font-display); font-weight: 700;
+  font-size: 0.6rem; letter-spacing: 0.16em; text-transform: uppercase;
+  color: var(--navy-900);
+  background: var(--gold);
+  padding: 4px 10px; border-radius: 999px;
+  margin-bottom: 4px;
+}
+.v2-card h3 {
+  font-size: clamp(1.25rem, 1.8vw, 1.6rem); font-weight: 800;
+  color: #fff;
+}
+.v2-card-copy p { font-size: 0.85rem; color: rgba(255,255,255,0.8); }
+.v2-cta {
+  margin-top: 10px;
+  font-family: var(--font-display); font-weight: 700; font-size: 0.82rem;
+  color: #fff;
+  border-bottom: 2px solid rgba(255,255,255,0.35);
+  padding-bottom: 2px;
+  transition: color 0.25s ease, border-color 0.25s ease, transform 0.25s ease;
+}
+.v2-cta:hover { color: var(--gold); border-color: var(--gold); transform: translateX(4px); }
+.v2-cta.gold { color: var(--gold); border-color: rgba(246,200,28,0.55); }
+.v2-cta.gold:hover { color: #ffd83d; border-color: #ffd83d; }
+.v2-si-inca {
+  width: min(1200px, 92vw); margin: clamp(22px, 3vw, 34px) auto 0;
+  font-size: 0.85rem; color: rgba(255,255,255,0.55);
+}
+
+/* ---------- 4. Plaja Olt: tarife + petreceri ---------- */
+.v2-plaja {
+  position: relative;
+  padding: clamp(90px, 13vw, 160px) 0;
+  background: linear-gradient(180deg, var(--navy-900) 0%, var(--navy-950) 100%);
+  overflow: hidden;
+}
+.v2-plaja-grid {
+  display: grid; grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+  gap: clamp(24px, 4vw, 56px);
+  margin-top: clamp(26px, 4vw, 46px);
+  align-items: start;
+}
+.v2-tarif-col h3 {
+  display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap;
+  font-size: 1.1rem; font-weight: 800; color: #fff;
+  margin-bottom: 6px;
+}
+.v2-tarif-col h3 small {
+  font-family: var(--font-body); font-weight: 600;
+  font-size: 0.72rem; letter-spacing: 0.08em; text-transform: uppercase;
+  color: var(--sky);
+}
+.v2-tarif-col h3.mt { margin-top: 34px; }
+.v2-tarife li {
+  display: flex; align-items: baseline; gap: 12px;
+  padding: 12px 0;
+  color: rgba(255,255,255,0.85); font-size: 0.95rem;
+}
+.v2-tarife li + li { border-top: 1px dashed rgba(255,255,255,0.12); }
+.v2-tarife li i { flex: 1; border-bottom: 2px dotted rgba(255,255,255,0.18); transform: translateY(-4px); }
+.v2-tarife li em { font-style: normal; font-size: 0.78rem; color: rgba(255,255,255,0.5); }
+.v2-tarife li strong { font-family: var(--font-display); font-weight: 800; color: var(--gold); white-space: nowrap; text-align: right; }
+
+.v2-party {
+  position: relative;
+  border-radius: 22px;
+  padding: 28px 28px 26px;
+  background: linear-gradient(155deg, rgba(246, 200, 28, 0.14), rgba(246, 200, 28, 0.04));
+  border: 1px solid rgba(246, 200, 28, 0.3);
+  overflow: hidden;
+}
+.v2-party::before {
+  content: "♪"; position: absolute; right: -6px; top: -22px;
+  font-size: 7rem; color: rgba(246, 200, 28, 0.08);
+  font-family: var(--font-display);
+}
+.v2-party-k {
+  font-family: var(--font-display); font-weight: 700;
+  font-size: 0.68rem; letter-spacing: 0.26em; text-transform: uppercase;
+  color: var(--gold);
+}
+.v2-party h3 { font-size: 1.35rem; font-weight: 800; color: #fff; margin: 10px 0 8px; }
+.v2-party p { font-size: 0.9rem; color: rgba(255,255,255,0.75); line-height: 1.6; }
+.v2-party-empty {
+  margin-top: 20px;
+  padding: 16px 18px;
+  border-radius: 14px;
+  border: 1px dashed rgba(255,255,255,0.25);
+  display: grid; gap: 2px;
+}
+.v2-party-empty strong { font-family: var(--font-display); font-weight: 700; font-size: 0.92rem; color: #fff; }
+.v2-party-empty span { font-size: 0.8rem; color: rgba(255,255,255,0.55); }
+
+/* footer-ul v2: rând simplu */
+.v2-body .site-footer { border-top: 1px solid rgba(255,255,255,0.08); }
+.v2-body .footer-bottom { display: flex; justify-content: space-between; gap: 14px; flex-wrap: wrap; padding: 26px 0; color: rgba(255,255,255,0.6); font-size: 0.85rem; }
+.v2-body .footer-bottom a { color: var(--gold); font-weight: 600; }
+
+/* ---------- responsive ---------- */
+@media (max-width: 960px) {
+  .v2-cards {
+    grid-template-columns: none;
+    grid-auto-flow: column; grid-auto-columns: min(300px, 78vw);
+    overflow-x: auto; width: 100vw;
+    padding: 4px 4vw 14px;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+  }
+  .v2-cards::-webkit-scrollbar { display: none; }
+  .v2-card { scroll-snap-align: center; }
+  .v2-plaja-grid { grid-template-columns: minmax(0, 1fr); }
+  .v2-harta-frame img { aspect-ratio: 16 / 10; }
+}
+@media (max-width: 640px) {
+  .v2-hero { height: 92svh; }
+  /* prețurile compuse (30 min + 1 oră) au voie să treacă pe două rânduri */
+  .v2-tarife li strong { white-space: normal; text-align: right; max-width: 46%; }
+  .v2-aer img { object-position: 42% 45%; }
+  .v2-harta-badge { padding: 18px 18px; }
+  .v2-ghost { font-size: 22vw; top: 3%; }
+}
+
+/* fără animații: benzile de tranziție dispar, imaginile stau pe loc */
+@media (prefers-reduced-motion: reduce) {
+  .wipe { display: none; }
+  .v2-aer img { transform: none; }
+  .v2-scroll-hint span, .v2-pin { animation: none; }
+}
