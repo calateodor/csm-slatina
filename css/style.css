@@ -321,6 +321,70 @@ body.menu-open .menu-overlay { visibility: visible; opacity: 1; pointer-events: 
   z-index: 4;
 }
 
+/* ---------- Acțiuni rapide: carduri glass peste parallax, jos în hero ---------- */
+.hero-actions {
+  position: absolute; left: 0; right: 0; bottom: clamp(18px, 3.2svh, 34px);
+  z-index: 5;                       /* peste atleți (3) și fade (4) */
+  width: min(1200px, 92vw); margin-inline: auto;
+  display: grid; grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: clamp(12px, 1.6vw, 22px);
+}
+.ha-card {
+  position: relative;
+  display: flex; flex-direction: column; gap: 5px;
+  padding: 16px 52px 15px 18px;
+  border-radius: 18px;
+  background: linear-gradient(150deg, rgba(18, 40, 105, 0.5), rgba(7, 19, 48, 0.45));
+  -webkit-backdrop-filter: blur(16px) saturate(1.5);
+  backdrop-filter: blur(16px) saturate(1.5);
+  border: 1px solid rgba(255,255,255,0.2);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.18), 0 18px 40px -18px rgba(3, 8, 25, 0.65);
+  overflow: hidden;
+  transition: transform 0.3s ease, border-color 0.3s ease, background 0.3s ease, box-shadow 0.3s ease;
+}
+.ha-card::before {                  /* lumină diagonală discretă */
+  content: ""; position: absolute; inset: 0; pointer-events: none;
+  background: linear-gradient(115deg, rgba(255,255,255,0.14) 0%, transparent 34%);
+  opacity: 0.7; transition: opacity 0.3s ease;
+}
+.ha-card:hover {
+  transform: translateY(-5px);
+  border-color: rgba(246, 200, 28, 0.65);
+  background: linear-gradient(150deg, rgba(22, 48, 124, 0.6), rgba(9, 24, 60, 0.55));
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.22), 0 24px 48px -18px rgba(3, 8, 25, 0.8);
+}
+.ha-card:hover::before { opacity: 1; }
+.ha-icon {
+  position: absolute; top: 14px; right: 14px;
+  width: 38px; height: 38px; border-radius: 12px;
+  display: grid; place-items: center;
+  background: rgba(255,255,255,0.1);
+  border: 1px solid rgba(255,255,255,0.16);
+  color: var(--gold);
+  transition: background 0.3s ease, color 0.3s ease, transform 0.3s ease;
+}
+.ha-icon svg { width: 20px; height: 20px; }
+.ha-card:hover .ha-icon { background: var(--gold); color: var(--navy-900); transform: rotate(-6deg) scale(1.05); }
+.ha-kicker {
+  font-family: var(--font-display); font-weight: 700;
+  font-size: 0.62rem; letter-spacing: 0.18em; text-transform: uppercase;
+  color: var(--gold);
+}
+.ha-title {
+  font-family: var(--font-display); font-weight: 800;
+  font-size: clamp(1.05rem, 1.4vw, 1.3rem); line-height: 1.1;
+  color: #fff;
+}
+.ha-text { font-size: 0.8rem; line-height: 1.45; color: rgba(255,255,255,0.78); }
+.ha-arrow {
+  position: absolute; right: 18px; bottom: 12px;
+  font-family: var(--font-display); font-weight: 700; font-size: 1rem;
+  color: var(--gold);
+  opacity: 0; transform: translateX(-8px);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+.ha-card:hover .ha-arrow { opacity: 1; transform: translateX(0); }
+
 /* insigna plutitoare „Cred în Slatina" — minimală, apare la scroll */
 .cred-float {
   position: fixed; right: clamp(18px, 4vw, 44px); bottom: clamp(18px, 5vh, 44px);
@@ -784,6 +848,17 @@ body.menu-open .menu-overlay { visibility: visible; opacity: 1; pointer-events: 
    ========================================================================== */
 @media (max-width: 960px) {
   .sections-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  /* acțiunile rapide devin bandă cu swipe orizontal, tot jos în hero */
+  .hero-actions {
+    grid-template-columns: none;
+    grid-auto-flow: column; grid-auto-columns: min(320px, 82vw);
+    overflow-x: auto; width: 100vw; margin-inline: 0;
+    padding: 6px 4vw 10px;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+  }
+  .hero-actions::-webkit-scrollbar { display: none; }
+  .ha-card { scroll-snap-align: start; }
   .menu-inner { padding: calc(var(--header-h) + 16px) 0 46px; }
   .about-grid, .detail-grid { grid-template-columns: 1fr; }
   .about-media { order: -1; }
