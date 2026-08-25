@@ -206,13 +206,16 @@
     var tl = gsap.timeline({
       scrollTrigger: {
         trigger: target,
-        // cursa ține 45% din înălțimea capitolului, nu o felie fixă de ecran:
-        // așa liniile păstrează același ritm oricât de scurte sunt secțiunile
+        // bara pornește exact când capitolul următor se ivește la marginea de
+        // jos (marginea lui de sus la 78% din ecran) și se termină lângă cea de
+        // sus — aceeași cursă la fiecare graniță, deci același ritm peste tot
         start: function () {
           var vh = window.innerHeight;
-          var final = pozitieInPagina(target) - vh * 0.05;
-          var cursa = gsap.utils.clamp(vh * 0.32, vh * 0.6, target.offsetHeight * 0.45);
-          return Math.max(0, final - cursa);
+          // cursa nu poate depăși capitolul de deasupra, altfel două bare ar fi
+          // pe ecran în același timp (se întâmplă pe telefon, unde e mai scurt)
+          var prec = target.previousElementSibling;
+          var maxim = prec ? prec.offsetHeight : vh;
+          return Math.max(0, pozitieInPagina(target) - Math.min(vh * 0.78, maxim));
         },
         end: function () {
           return pozitieInPagina(target) - window.innerHeight * 0.05;
