@@ -78,7 +78,7 @@
 .v2-hero-veil {
   position: absolute; inset: 0;
   /* același văl ca la celelalte capitole: subtil sus, dens jos */
-  background: linear-gradient(rgba(7, 19, 48, 0.1), rgba(7, 19, 48, 0.82));
+  background: linear-gradient(rgba(7, 19, 48, 0.5), rgba(7, 19, 48, 0.9));
   pointer-events: none;
 }
 .v2-hero-copy {

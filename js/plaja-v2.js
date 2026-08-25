@@ -84,7 +84,7 @@
     var poz = { p: 0 };
     var GOL = 8, MARGINE = 12;
     // cat de mult misca degetul caruselul: mai mare = mai lent, mai controlat
-    var SENS = 1, FLICK = 2.5;
+    var SENS = 1;
 
     var geometrie = function () {
       var W = banda.clientWidth;
@@ -121,14 +121,28 @@
     };
     mergiLa = function (idx) {
       idx = Math.max(0, Math.min(nAcc - 1, idx));
-      gsap.to(poz, { p: idx, duration: 0.55, ease: "power3.out", overwrite: true, onUpdate: randeaza });
+      inDrag = false;
+      gsap.to(poz, { p: idx, duration: 0.65, ease: "power4.out", overwrite: true, onUpdate: randeaza });
     };
 
-    var pX = 0, pY = 0, pP = 0, uX = 0, uT = 0, vit = 0, sens = null, apasat = false;
+    /* glisare cu inerție: degetul mută doar o țintă, iar poziția reală o
+       urmărește cu întârziere exponențială, cadru cu cadru — de aici vine
+       senzația de greutate și cursivitate, în loc de saltul 1:1 după deget */
+    var tinta = 0, inDrag = false;
+    gsap.ticker.add(function (t, dt) {
+      if (!inDrag) return;
+      var dif = tinta - poz.p;
+      if (Math.abs(dif) < 0.0004) return;
+      poz.p += dif * (1 - Math.exp(-(dt / 1000) * 14));
+      randeaza();
+    });
+
+    var pX = 0, pY = 0, pT = 0, uX = 0, uT = 0, vit = 0, sens = null, apasat = false;
     banda.addEventListener("pointerdown", function (e) {
       apasat = true; sens = null; aFostTras = false;
-      pX = uX = e.clientX; pY = e.clientY; pP = poz.p; uT = e.timeStamp; vit = 0;
+      pX = uX = e.clientX; pY = e.clientY; uT = e.timeStamp; vit = 0;
       gsap.killTweensOf(poz);
+      pT = tinta = poz.p;
     });
     banda.addEventListener("pointermove", function (e) {
       if (!apasat) return;
@@ -136,22 +150,42 @@
       if (sens === null) {
         if (Math.abs(dx) < 7 && Math.abs(dy) < 7) return;
         sens = Math.abs(dx) > Math.abs(dy) ? "h" : "v";
-        if (sens === "h" && banda.setPointerCapture) {
-          try { banda.setPointerCapture(e.pointerId); } catch (err) {}
+        if (sens === "h") {
+          inDrag = true;
+          if (banda.setPointerCapture) {
+            try { banda.setPointerCapture(e.pointerId); } catch (err) {}
+          }
         }
       }
       if (sens !== "h") return;
       aFostTras = true;
-      vit = (e.clientX - uX) / Math.max(1, e.timeStamp - uT);
+      // viteza netezită pe mai multe evenimente — flick-ul nu depinde de un singur cadru
+      var inst = (e.clientX - uX) / Math.max(1, e.timeStamp - uT);
+      vit = vit * 0.75 + inst * 0.25;
       uX = e.clientX; uT = e.timeStamp;
-      poz.p = Math.max(0, Math.min(nAcc - 1, pP - dx / (banda.clientWidth * SENS)));
-      randeaza();
+      var brut = pT - dx / (banda.clientWidth * SENS);
+      // dincolo de capete banda opune rezistență, ca un elastic
+      if (brut < 0) brut *= 0.32;
+      else if (brut > nAcc - 1) brut = (nAcc - 1) + (brut - (nAcc - 1)) * 0.32;
+      tinta = brut;
     });
     var eliberare = function () {
       if (!apasat) return;
       apasat = false;
       if (sens === "h") {
-        mergiLa(Math.round(poz.p - vit * FLICK)); // viteza flick-ului împinge spre următorul
+        inDrag = false;
+        // proiecția inerției alege cardul, dar sare cel mult unul față de cel curent
+        var vitCarduri = -vit * 1000 / (banda.clientWidth * SENS);
+        var baza = Math.round(tinta);
+        var idx = Math.max(baza - 1, Math.min(baza + 1, Math.round(tinta + vitCarduri * 0.14)));
+        idx = Math.max(0, Math.min(nAcc - 1, idx));
+        gsap.to(poz, {
+          p: idx,
+          duration: 0.55 + Math.min(0.25, Math.abs(idx - poz.p) * 0.12),
+          ease: "power4.out",
+          overwrite: true,
+          onUpdate: randeaza
+        });
         setTimeout(function () { aFostTras = false; }, 80);
       }
       sens = null;
