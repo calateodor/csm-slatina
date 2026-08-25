@@ -326,39 +326,26 @@
       });
     })();
 
-    /* Totul e condus de scroll, ca reveal-urile de la Plaja Olt: niciun card
-       nu-și schimbă vreodată geometria de layout (toate au lățimea plină și
-       amprenta unei fâșii; „plierea" e doar clip vizual). La derulare, cardul
-       vechi se împăturește exact în ritmul în care cel nou se despăturează —
-       deschiderea (--o), împingerea vecinilor (--imp), adâncimea (--ad) și
-       fișa sunt toate funcții continue de poziția de scroll, deci nu există
-       niciun moment în care ceva să poată sări. */
-    // ancora = poziția naturală a primului card (padding-ul scenei); cardul
-    // aflat exact acolo e complet despăturit
+    /* Derularea (swipe, drag, rotiță, scrollbar) selectează cardurile unul
+       câte unul: cardul ajuns în dreptul ancorei se deschide complet, cu fișă
+       și teren actualizat. E stabil pentru că deschiderea nu schimbă amprenta
+       de layout a cardului (marginea negativă absoarbe surplusul de lățime),
+       deci nimic nu se mișcă sub degetul utilizatorului și nu e nimic de
+       compensat. */
     var ANCORA = 16;
-    var rafFocal = null;
+    var blocatDeCamera = false, rafFocal = null;
     var idxDeschis = 0;
 
     /* Pozițiile din layout sunt constante prin construcție (amprenta unui card
        nu se schimbă la deschidere), deci le citim o singură dată și le
        refolosim — altfel fiecare cadru de derulare ar forța un layout. */
-    var pozitii = [], pasCard = 1, extraCard = 0;
+    var pozitii = [];
     function masoaraPozitii() {
       pozitii = carduri.map(function (c) { return c.el.offsetLeft; });
-      pasCard = pozitii.length > 1 ? pozitii[1] - pozitii[0] : 1;
-      var pliat = parseFloat(getComputedStyle(scena).getPropertyValue("--lat-pliat")) || 150;
-      extraCard = carduri[0].el.offsetWidth - pliat; // surplusul unui card despăturit
-      ANCORA = pozitii[0];
     }
     masoaraPozitii();
-    window.addEventListener("resize", function () {
-      masoaraPozitii();
-      actualizeazaVizual();
-    });
+    window.addEventListener("resize", masoaraPozitii);
 
-    // clasa „deschis" (fișă activă, teren, pointer-events) comută la mijlocul
-    // drumului dintre carduri; nu mai are niciun efect geometric, deci
-    // comutarea nu poate produce salturi
     function indexFocal() {
       var x = scena.scrollLeft + ANCORA;
       var best = 0, bestD = Infinity;
@@ -371,46 +358,29 @@
 
     // stiva 3D: adâncimi logaritmice în jurul centrului, plus împingerea
     // fâșiilor de după cardul deschis, ca acesta să nu le acopere
-    // scrie valorile doar când s-au schimbat efectiv (rotunjite), ca să nu
-    // invalidăm stilul cardurilor îndepărtate, unde adâncimea saturează
-    function scrieCard(c, o, imp, ad, z) {
-      var sO = o.toFixed(2), sImp = Math.round(imp) + "px";
-      var sAd = ad.toFixed(2), sZ = String(z);
-      if (c.o !== sO) { c.o = sO; c.el.style.setProperty("--o", sO); }
-      if (c.imp !== sImp) { c.imp = sImp; c.el.style.setProperty("--imp", sImp); }
-      if (c.ad !== sAd) { c.ad = sAd; c.el.style.setProperty("--ad", sAd); }
-      if (c.z !== sZ) { c.z = sZ; c.el.style.setProperty("--z", sZ); }
-    }
-
-    /* Starea vizuală, calculată din poziția de scroll:
-       - o („deschiderea", 0..1) crește liniar pe ultimul pas înainte de ancoră
-         și scade la fel după — două carduri vecine au mereu o₁ + o₂ = 1, deci
-         lățimea totală despăturită e constantă și fâșiile din dreapta perechii
-         nu se mișcă deloc;
-       - imp = suma surplusurilor despăturite ale cardurilor din stânga: doar
-         cardul aflat în plin schimb alunecă, exact în ritmul degetului;
-       - ad (adâncimea) dă mărimea și rotația în perspectivă. */
-    function actualizeazaVizual() {
-      var ancora = scena.scrollLeft + ANCORA;
-      var impAcum = 0;
+    function aplicaAdancimi(centru) {
       carduri.forEach(function (c, i) {
-        var d = (pozitii[i] - ancora) / pasCard;
-        var o = Math.max(0, 1 - Math.abs(d));
-        var imp = impAcum;
-        impAcum += o * extraCard;
-        scrieCard(c, o, imp, 1 - Math.pow(0.78, Math.abs(d)),
-          60 + Math.round(o * 40) - Math.min(Math.round(Math.abs(d)), 50));
+        var dist = Math.abs(i - centru);
+        // rotunjite, valorile cardurilor îndepărtate nu se schimbă între
+        // selecții, deci nu le mai rescriem stilul degeaba
+        var ad = (1 - Math.pow(0.78, dist)).toFixed(2);
+        var z = String(80 - Math.min(dist, 60));
+        var imp = i > centru ? "1" : "0";
+        if (c.ad !== ad) { c.ad = ad; c.el.style.setProperty("--ad", ad); }
+        if (c.z !== z) { c.z = z; c.el.style.setProperty("--z", z); }
+        if (c.imp !== imp) { c.imp = imp; c.el.style.setProperty("--imp", imp); }
+        c.el.classList.toggle("focal", i === centru);
       });
     }
 
     function laDerulare() {
       rafFocal = null;
+      if (blocatDeCamera) return;
       var idx = indexFocal();
       if (idx !== idxDeschis) {
         var c = carduri[idx];
         alege(c.juc, c.el, false);
       }
-      actualizeazaVizual();
     }
 
     scena.addEventListener("scroll", function () {
@@ -444,6 +414,8 @@
           b.innerHTML = "Detalii <b>+</b>";
         }
       });
+      aplicaAdancimi(idxNou);
+
       // pe teren: postul jucătorului se aprinde, restul rămân gri
       var activ = null;
       puncte.forEach(function (p) {
@@ -462,14 +434,22 @@
         }
       }
 
-      // camera alunecă lin spre ținta fixă; tot restul (deschideri, împingeri,
-      // adâncimi) decurge din scroll, prin aceeași conductă ca la derulare
+      // „camera" se mută spre cardul ales chiar în timp ce acesta se lățește:
+      // urmărire exponențială, recalculată cadru cu cadru. Pe telefon cardul
+      // se lipește de marginea stângă, ca următoarele să rămână la vedere.
+      // camera alunecă lin spre ținta fixă, în paralel cu lățirea cardului
       if (anima && tinta != null) {
+        blocatDeCamera = true;
         if (areGsap) {
           gsap.killTweensOf(scena);
-          gsap.to(scena, { scrollLeft: tinta, duration: 0.7, ease: "power3.out" });
+          gsap.to(scena, {
+            scrollLeft: tinta, duration: 0.7, ease: "power3.out",
+            onComplete: function () { blocatDeCamera = false; },
+            onInterrupt: function () { blocatDeCamera = false; }
+          });
         } else {
           scena.scrollTo({ left: tinta, behavior: "smooth" });
+          setTimeout(function () { blocatDeCamera = false; }, 700);
         }
       }
     }
@@ -480,6 +460,5 @@
         { attr: { r: 18 }, opacity: 0, duration: 1.6, ease: "power1.out", repeat: -1, repeatDelay: 0.4 });
     }
     alege(carduri[0].juc, carduri[0].el, false);
-    actualizeazaVizual();
   }
 })();
