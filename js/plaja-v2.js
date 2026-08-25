@@ -83,6 +83,8 @@
     var nAcc = cards.length;
     var poz = { p: 0 };
     var GOL = 8, MARGINE = 12;
+    // cat de mult misca degetul caruselul: mai mare = mai lent, mai controlat
+    var SENS = 1, FLICK = 2.5;
 
     var geometrie = function () {
       var W = banda.clientWidth;
@@ -142,14 +144,14 @@
       aFostTras = true;
       vit = (e.clientX - uX) / Math.max(1, e.timeStamp - uT);
       uX = e.clientX; uT = e.timeStamp;
-      poz.p = Math.max(0, Math.min(nAcc - 1, pP - dx / (banda.clientWidth * 0.5)));
+      poz.p = Math.max(0, Math.min(nAcc - 1, pP - dx / (banda.clientWidth * SENS)));
       randeaza();
     });
     var eliberare = function () {
       if (!apasat) return;
       apasat = false;
       if (sens === "h") {
-        mergiLa(Math.round(poz.p - vit * 5)); // viteza flick-ului împinge spre următorul
+        mergiLa(Math.round(poz.p - vit * FLICK)); // viteza flick-ului împinge spre următorul
         setTimeout(function () { aFostTras = false; }, 80);
       }
       sens = null;

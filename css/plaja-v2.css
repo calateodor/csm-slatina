@@ -11,6 +11,10 @@
               url("../assets/img/plaja-v2/teren-vertical-blur.webp") center / cover no-repeat var(--navy-950);
   --servicii-bg: linear-gradient(rgba(9, 26, 68, 0.1), rgba(9, 26, 68, 0.82)),
                  url("../assets/img/plaja-v2/nautic-blur.webp") center / cover no-repeat var(--navy-900);
+  /* poza cu piscina e mult mai luminoasa decat celelalte doua (cer deschis),
+     asa ca vrea un val ceva mai gros sus ca preturile aurii sa ramana lizibile */
+  --plaja-bg: linear-gradient(rgba(10, 28, 74, 0.2), rgba(10, 28, 74, 0.85)),
+              url("../assets/img/plaja-v2/plaja-blur.webp") center / cover no-repeat var(--navy-900);
 }
 .v2 { overflow-x: clip; position: relative; z-index: 1; }
 
@@ -26,7 +30,7 @@
 .bg-inner { position: absolute; inset: 0; will-change: transform; }
 .bg-layer[data-bg="#harta"] .bg-inner { background: var(--harta-bg); }
 .bg-layer[data-bg="#servicii"] .bg-inner { background: var(--servicii-bg); }
-.bg-layer[data-bg="#plaja-v2"] .bg-inner { background: linear-gradient(180deg, var(--navy-900) 0%, var(--navy-950) 100%); }
+.bg-layer[data-bg="#plaja-v2"] .bg-inner { background: var(--plaja-bg); }
 .bg-fx .v2-harta, .bg-fx .v2-servicii, .bg-fx .v2-plaja { background: transparent; }
 
 /* etichete și titluri proprii capitolelor */
@@ -288,7 +292,7 @@
 .v2-plaja {
   position: relative;
   padding: clamp(54px, 7.5vw, 96px) 0;
-  background: linear-gradient(180deg, var(--navy-900) 0%, var(--navy-950) 100%);
+  background: var(--plaja-bg);
   overflow: hidden;
 }
 .v2-plaja-grid {
