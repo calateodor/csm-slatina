@@ -50,11 +50,19 @@
 
   /* ---------- linia-divizor + fundalul capitolului, sudate ----------
      Fundalul fiecărui capitol e un strat fix (în .bg-stage) dezvăluit prin
-     clip-path exact la linia cu glow. Cursa începe abia când capitolul nou a
-     urcat până la 60% din ecran și se încheie lângă marginea de sus — deci
-     divizorul traversează ecranul de ~1,8 ori mai repede decât scrollul, iar
-     fundalul vechi stă pe loc până e acoperit. */
+     clip-path exact la linia cu glow. Cursa se încheie lângă marginea de sus a
+     ecranului și ține 45% din înălțimea capitolului — proporția rămâne aceeași
+     indiferent cât de scurte sunt secțiunile. Fundalul vechi stă pe loc până e
+     acoperit. */
   document.body.classList.add("bg-fx");
+
+  // poziția în document, independentă de scroll (ScrollTrigger recalculează la refresh)
+  function pozitieInPagina(el) {
+    var t = 0;
+    while (el) { t += el.offsetTop; el = el.offsetParent; }
+    return t;
+  }
+
   document.querySelectorAll(".wipe").forEach(function (wipe) {
     var sel = wipe.getAttribute("data-wipe");
     var target = document.querySelector(sel);
@@ -64,8 +72,17 @@
     var tl = gsap.timeline({
       scrollTrigger: {
         trigger: target,
-        start: "top 60%",
-        end: "top 5%",
+        // cursa ține 45% din înălțimea capitolului, nu o felie fixă de ecran:
+        // așa liniile păstrează același ritm oricât de scurte sunt secțiunile
+        start: function () {
+          var vh = window.innerHeight;
+          var final = pozitieInPagina(target) - vh * 0.05;
+          var cursa = gsap.utils.clamp(vh * 0.32, vh * 0.6, target.offsetHeight * 0.45);
+          return Math.max(0, final - cursa);
+        },
+        end: function () {
+          return pozitieInPagina(target) - window.innerHeight * 0.05;
+        },
         scrub: 0.4,
         invalidateOnRefresh: true
       }
@@ -74,9 +91,19 @@
     // fundalul nou se dezvăluie de jos în sus, cu linia pe muchia lui
     tl.fromTo(layer, { clipPath: "inset(100% 0% 0% 0%)" },
                      { clipPath: "inset(0% 0% 0% 0%)", duration: 1, ease: "none" }, 0)
-      .fromTo(linie, { y: "100vh" }, { y: "0vh", duration: 1, ease: "none" }, 0)
+      .fromTo(linie, { top: "100%" }, { top: "0%", duration: 1, ease: "none" }, 0)
       .fromTo(linie, { autoAlpha: 0 }, { autoAlpha: 1, duration: 0.06, ease: "none" }, 0.02)
       .to(linie, { autoAlpha: 0, duration: 0.08, ease: "none" }, 0.92);
+  });
+
+  /* ---------- fundalurile capitolelor: același parallax de dronă ca imaginea de sus ---------- */
+  document.querySelectorAll(".bg-layer[data-bg] .bg-inner").forEach(function (inner) {
+    var sec = document.querySelector(inner.parentElement.getAttribute("data-bg"));
+    if (!sec) return;
+    gsap.fromTo(inner, { scale: 1.16, yPercent: 0 }, {
+      scale: 1.02, yPercent: 7, ease: "none",
+      scrollTrigger: { trigger: sec, start: "top bottom", end: "bottom top", scrub: 0.5 }
+    });
   });
 
   /* ---------- cuvintele-fantomă: alunecă orizontal prin capitol ---------- */
