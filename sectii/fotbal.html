@@ -10,6 +10,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700;800&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="../css/lot.css">
 </head>
 <body>
 
@@ -139,6 +140,25 @@
       </div>
     </section>
 
+
+    <!-- ================= Sezonul in curs ================= -->
+    <section class="sezon-block" id="sezon">
+      <div class="container">
+        <span class="eyebrow">Sezonul în curs</span>
+        <h2 class="section-title reveal">Rezultate și <span class="accent">program</span></h2>
+        <div id="sezon-grid" data-sport="fotbal"></div>
+      </div>
+    </section>
+
+    <!-- ================= Lotul echipei ================= -->
+    <section class="lot-block" id="lot">
+      <div class="container">
+        <span class="eyebrow">Lotul echipei</span>
+        <h2 class="section-title reveal">Oamenii din <span class="accent">teren</span></h2>
+        <div id="lot-app" data-sport="fotbal"></div>
+      </div>
+    </section>
+
     <section class="cta-banner">
       <div class="cta-bg" aria-hidden="true"></div>
       <div class="container">
@@ -195,5 +215,6 @@
   <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>
   <script src="../js/main.js"></script>
+  <script src="../js/lot.js"></script>
 </body>
 </html>

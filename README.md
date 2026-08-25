@@ -26,6 +26,30 @@ Fișierul se împrospătează rulând:
 Scriptul citește programul echipelor CSM Slatina de pe Flashscore (fotbal + handbal feminin).
 Poate fi pus într-un GitHub Action pe cron pentru actualizare automată.
 
+## Sezon și loturi (fotbal + handbal)
+Paginile de fotbal și handbal afișează rezultate recente, program, forma echipei
+și un browser interactiv de lot (profil + poziția pe teren). Datele vin din
+`data/echipe.json`, împrospătat cu:
+
+    python scripts/actualizeaza-echipe.py
+
+Meciurile, lotul de fotbal, statisticile sezonului curent, data nașterii și
+valoarea de piață per jucător se citesc automat de pe Flashscore. Lotul de
+handbal este date factuale (nume, numere, posturi) după articolul Wikipedia
+„CSM Slatina (handbal feminin)" — lotul 2024/25 — și se actualizează manual în
+constanta `LOT_HANDBAL` din script. Pentru jucătorii cu articol propriu pe
+ro.wikipedia (confirmați prin legăturile din articolele despre club — lista
+`WIKI_JUCATORI` din script) se completează de pe Wikidata înălțimea, greutatea,
+data și locul nașterii, plus portretul din infobox.
+
+Portretele jucătoarelor din `assets/img/lot/handbal/` provin de pe Wikimedia
+Commons, sub licențe libere, cu creditul afișat pe site lângă fiecare poză:
+- Jovana Sazdovska — Foto: Frank Haug, CC BY 3.0
+- Merve Erbektaș — Foto: Marcus Cyron, CC BY-SA 3.0
+- Andreea Bogdanovici — Foto: Adrian Radu 74, CC BY 3.0
+Restul jucătorilor au avatare cu inițiale până când clubul furnizează fotografii
+oficiale (nu preluăm poze de agenție fără licență).
+
 ## Credite foto
 Fundalurile estompate ale cardurilor de secții folosesc fotografii proprii ale clubului plus:
 - Handbal: „Team Handball Jumpshot 09 USA Nationals" — Wikimedia Commons, licență CC BY-SA 3.0
