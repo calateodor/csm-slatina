@@ -7,56 +7,158 @@
 (function () {
   "use strict";
 
-  /* ---------- serviciile: acordeon pe desktop, carusel cu swipe pe telefon ---------- */
+  /* ---------- serviciile: acordeon pe desktop, carusel-acordeon pe telefon ---------- */
   var cards = Array.prototype.slice.call(document.querySelectorAll(".v2-card"));
   var eTelefon = window.matchMedia("(max-width: 640px)");
+  var banda = document.querySelector(".v2-cards");
+  var cutieDots = document.querySelector(".v2-dots");
+  var marcheazaDot = function () {};
+  var mergiLa = null;      // setat de caruselul-acordeon (mai jos, doar pe telefon)
+  var aFostTras = false;   // deosebește un swipe de o atingere
+
   function deschide(card) {
-    if (eTelefon.matches) return; // pe carusel toate cardurile stau deschise
+    if (eTelefon.matches) return;
     cards.forEach(function (c) { c.classList.toggle("is-open", c === card); });
   }
-  cards.forEach(function (card) {
+  cards.forEach(function (card, i) {
     card.addEventListener("pointerenter", function (e) {
       if (e.pointerType === "mouse") deschide(card);
     });
     card.addEventListener("click", function (e) {
-      if (eTelefon.matches) return; // nu bloca linkurile din carusel
+      if (eTelefon.matches) {
+        // atingerea pe o fâșie închisă o aduce în față; pe cardul activ linkul merge normal
+        if (mergiLa && !aFostTras && !card.classList.contains("acc-in-fata")) {
+          e.preventDefault();
+          mergiLa(i);
+        }
+        return;
+      }
       if (!card.classList.contains("is-open")) { e.preventDefault(); deschide(card); }
     });
     card.addEventListener("focusin", function () { deschide(card); });
   });
   if (cards.length) cards[0].classList.add("is-open");
 
-  /* punctele caruselului: arată pe ce card ești și sar la el la atingere */
-  var banda = document.querySelector(".v2-cards");
-  var cutieDots = document.querySelector(".v2-dots");
+  /* punctele: arată cardul din față și sar la el la atingere */
   if (banda && cutieDots && cards.length) {
     var dots = cards.map(function (card, i) {
       var d = document.createElement("span");
       d.className = "dot" + (i === 0 ? " activ" : "");
       d.addEventListener("click", function () {
+        if (mergiLa) { mergiLa(i); return; }
         banda.scrollTo({ left: card.offsetLeft - (banda.clientWidth - card.offsetWidth) / 2, behavior: "smooth" });
       });
       cutieDots.appendChild(d);
       return d;
     });
-    function sincron() {
-      if (!eTelefon.matches) return;
-      var mijloc = banda.scrollLeft + banda.clientWidth / 2;
-      var aproape = 0, best = Infinity;
-      cards.forEach(function (c, i) {
-        var d = Math.abs(c.offsetLeft + c.offsetWidth / 2 - mijloc);
-        if (d < best) { best = d; aproape = i; }
+    marcheazaDot = function (idx) {
+      dots.forEach(function (d, i) { d.classList.toggle("activ", i === idx); });
+    };
+    // sincronizare pentru caruselul nativ (fallback-ul fără animații)
+    banda.addEventListener("scroll", function () {
+      requestAnimationFrame(function () {
+        if (mergiLa || !eTelefon.matches) return;
+        var mijloc = banda.scrollLeft + banda.clientWidth / 2;
+        var aproape = 0, best = Infinity;
+        cards.forEach(function (c, i) {
+          var d = Math.abs(c.offsetLeft + c.offsetWidth / 2 - mijloc);
+          if (d < best) { best = d; aproape = i; }
+        });
+        marcheazaDot(aproape);
       });
-      dots.forEach(function (d, i) { d.classList.toggle("activ", i === aproape); });
-    }
-    banda.addEventListener("scroll", function () { requestAnimationFrame(sincron); }, { passive: true });
-    sincron();
+    }, { passive: true });
   }
 
   var reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   if (typeof gsap === "undefined" || typeof ScrollTrigger === "undefined" || reduceMotion) return;
 
   gsap.registerPlugin(ScrollTrigger);
+
+  /* ---------- telefonul: carusel-acordeon ----------
+     Cardul din dreptul centrului e extins și își arată conținutul; vecinii se
+     îngustează continuu în fâșii cu eticheta pe verticală. Glisarea (sau o
+     atingere pe fâșie / pe un punct) mută cardul deschis, cu animație. */
+  if (eTelefon.matches && banda && cards.length) {
+    banda.classList.add("acc-activ");
+    var nAcc = cards.length;
+    var poz = { p: 0 };
+    var GOL = 8, MARGINE = 12;
+
+    var geometrie = function () {
+      var W = banda.clientWidth;
+      var MAXW = Math.min(W * 0.62, 300), MINW = 60;
+      var latimi = cards.map(function (c, i) {
+        var o = Math.max(0, 1 - Math.abs(i - poz.p));
+        o = o * o * (3 - 2 * o); // smoothstep — lățirea se simte organică
+        return MINW + (MAXW - MINW) * o;
+      });
+      var xs = [], acc = 0;
+      latimi.forEach(function (w) { xs.push(acc); acc += w + GOL; });
+      var fl = Math.max(0, Math.min(nAcc - 1, Math.floor(poz.p)));
+      var ce = Math.min(fl + 1, nAcc - 1), fr = poz.p - fl;
+      var centru = (xs[fl] + latimi[fl] / 2) * (1 - fr) + (xs[ce] + latimi[ce] / 2) * fr;
+      var T = W / 2 - centru;
+      T = Math.min(MARGINE, Math.max(W - (acc - GOL) - MARGINE, T));
+      return { latimi: latimi, T: T };
+    };
+    var randeaza = function () {
+      var g = geometrie();
+      cards.forEach(function (c, i) {
+        gsap.set(c, { width: g.latimi[i], x: g.T });
+        var o = Math.max(0, 1 - Math.abs(i - poz.p));
+        var copy = c.querySelector(".v2-card-copy");
+        var vert = c.querySelector(".v2-vert");
+        if (copy) {
+          copy.style.opacity = o < 0.55 ? 0 : (o - 0.55) / 0.45;
+          copy.style.pointerEvents = o > 0.9 ? "auto" : "none";
+        }
+        if (vert) vert.style.opacity = o > 0.55 ? 0 : 1 - o / 0.55;
+        c.classList.toggle("acc-in-fata", Math.abs(i - poz.p) < 0.5);
+      });
+      marcheazaDot(Math.round(poz.p));
+    };
+    mergiLa = function (idx) {
+      idx = Math.max(0, Math.min(nAcc - 1, idx));
+      gsap.to(poz, { p: idx, duration: 0.55, ease: "power3.out", overwrite: true, onUpdate: randeaza });
+    };
+
+    var pX = 0, pY = 0, pP = 0, uX = 0, uT = 0, vit = 0, sens = null, apasat = false;
+    banda.addEventListener("pointerdown", function (e) {
+      apasat = true; sens = null; aFostTras = false;
+      pX = uX = e.clientX; pY = e.clientY; pP = poz.p; uT = e.timeStamp; vit = 0;
+      gsap.killTweensOf(poz);
+    });
+    banda.addEventListener("pointermove", function (e) {
+      if (!apasat) return;
+      var dx = e.clientX - pX, dy = e.clientY - pY;
+      if (sens === null) {
+        if (Math.abs(dx) < 7 && Math.abs(dy) < 7) return;
+        sens = Math.abs(dx) > Math.abs(dy) ? "h" : "v";
+        if (sens === "h" && banda.setPointerCapture) {
+          try { banda.setPointerCapture(e.pointerId); } catch (err) {}
+        }
+      }
+      if (sens !== "h") return;
+      aFostTras = true;
+      vit = (e.clientX - uX) / Math.max(1, e.timeStamp - uT);
+      uX = e.clientX; uT = e.timeStamp;
+      poz.p = Math.max(0, Math.min(nAcc - 1, pP - dx / (banda.clientWidth * 0.5)));
+      randeaza();
+    });
+    var eliberare = function () {
+      if (!apasat) return;
+      apasat = false;
+      if (sens === "h") {
+        mergiLa(Math.round(poz.p - vit * 5)); // viteza flick-ului împinge spre următorul
+        setTimeout(function () { aFostTras = false; }, 80);
+      }
+      sens = null;
+    };
+    banda.addEventListener("pointerup", eliberare);
+    banda.addEventListener("pointercancel", eliberare);
+    window.addEventListener("resize", randeaza);
+    randeaza();
+  }
 
   /* ---------- hero: efect de dronă (imaginea coboară și se apropie de scara reală) ---------- */
   gsap.to(".v2-aer img", {
