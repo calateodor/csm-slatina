@@ -87,6 +87,20 @@
 .sezon-sursa a { color: var(--sky); font-weight: 600; }
 
 /* ---------- Lotul: evantaiul 3D de carduri + teren ---------- */
+
+/* Variabilele per-card sunt declarate ne-moștenite: altfel schimbarea lor pe un
+   card ar invalida stilul întregului lui conținut, iar la derulare (unde se
+   rescriu pe toate cardurile) asta însemna sute de elemente recalculate pe
+   cadru — principala sursă de sacadare pe telefon. */
+@property --ad { syntax: "<number>"; inherits: false; initial-value: 0.5; }
+@property --imp { syntax: "<number>"; inherits: false; initial-value: 0; }
+@property --z { syntax: "<number>"; inherits: false; initial-value: 1; }
+@property --salt { syntax: "<length>"; inherits: false; initial-value: 0px; }
+@property --mx { syntax: "<angle>"; inherits: false; initial-value: 0deg; }
+@property --my { syntax: "<angle>"; inherits: false; initial-value: 0deg; }
+@property --pax { syntax: "<length>"; inherits: false; initial-value: 0px; }
+@property --pay { syntax: "<length>"; inherits: false; initial-value: 0px; }
+
 .lot-panou {
   background: linear-gradient(160deg, var(--navy-900) 0%, var(--navy-950) 100%);
   border-radius: 24px;
@@ -471,15 +485,35 @@
     padding: 12px calc(20px + var(--imp-max)) 22px 10px;
     perspective: 1100px;
   }
+  /* Pe telefon renunțăm la animarea proprietăților care declanșează layout
+     (lățime, înălțime, margine): amprenta cardului e oricum constantă, deci
+     comutarea instantanee nu mișcă nimic în jur, iar derularea nu mai trebuie
+     să recalculeze layout-ul deck-ului cadru cu cadru. */
   .jcard {
     border-radius: 16px;
     transform: translateX(calc(var(--imp, 0) * var(--imp-max)))
                translateZ(calc(-50px - 210px * var(--ad, 0.5))) rotateY(11deg);
+    /* umbre mai ieftine de desenat decât cele de pe desktop */
+    box-shadow: 0 16px 24px -12px rgba(3, 8, 25, 0.8);
+    transition: transform 0.32s cubic-bezier(0.32, 0.72, 0.28, 1),
+                box-shadow 0.3s ease,
+                border-color 0.3s ease;
   }
   .jcard.deschis {
     border-radius: 18px;
     transform: translateX(calc(var(--imp, 0) * var(--imp-max))) translateZ(0) rotateY(6deg);
+    box-shadow: 0 22px 34px -16px rgba(3, 8, 25, 0.9),
+                0 0 18px -8px rgba(246, 200, 28, 0.3);
   }
+  /* backdrop-filter reblurează fundalul la fiecare cadru în care cardul se
+     mișcă — pe mobil îl înlocuim cu un fundal opac, vizual aproape identic */
+  .j-sticla {
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+    background: rgba(9, 19, 42, 0.86);
+  }
+  .j-copy { transition: opacity 0.25s ease; }
+  .jcard.deschis .j-copy { transition-delay: 0.05s; }
   .j-nr { top: 9px; right: 10px; font-size: 0.7rem; }
   .j-vert { bottom: 16px; max-height: calc(100% - 56px); }
   .j-vert i { font-size: 0.46rem; letter-spacing: 0.08em; }

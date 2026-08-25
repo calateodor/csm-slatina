@@ -336,14 +336,23 @@
     var blocatDeCamera = false, rafFocal = null;
     var idxDeschis = 0;
 
-    // totul în spațiul de layout (offsetLeft), imun la transformările 3D
+    /* Pozițiile din layout sunt constante prin construcție (amprenta unui card
+       nu se schimbă la deschidere), deci le citim o singură dată și le
+       refolosim — altfel fiecare cadru de derulare ar forța un layout. */
+    var pozitii = [];
+    function masoaraPozitii() {
+      pozitii = carduri.map(function (c) { return c.el.offsetLeft; });
+    }
+    masoaraPozitii();
+    window.addEventListener("resize", masoaraPozitii);
+
     function indexFocal() {
       var x = scena.scrollLeft + ANCORA;
       var best = 0, bestD = Infinity;
-      carduri.forEach(function (c, i) {
-        var d = Math.abs(c.el.offsetLeft - x);
+      for (var i = 0; i < pozitii.length; i++) {
+        var d = Math.abs(pozitii[i] - x);
         if (d < bestD) { bestD = d; best = i; }
-      });
+      }
       return best;
     }
 
@@ -352,9 +361,14 @@
     function aplicaAdancimi(centru) {
       carduri.forEach(function (c, i) {
         var dist = Math.abs(i - centru);
-        c.el.style.setProperty("--z", String(80 - dist));
-        c.el.style.setProperty("--ad", (1 - Math.pow(0.78, dist)).toFixed(3));
-        c.el.style.setProperty("--imp", i > centru ? "1" : "0");
+        // adâncimea saturează spre 1; rotunjită, cardurile îndepărtate nu-și
+        // mai schimbă valoarea, deci nu le mai rescriem stilul degeaba
+        var ad = (1 - Math.pow(0.78, dist)).toFixed(2);
+        var z = String(80 - Math.min(dist, 60));
+        var imp = i > centru ? "1" : "0";
+        if (c.ad !== ad) { c.ad = ad; c.el.style.setProperty("--ad", ad); }
+        if (c.z !== z) { c.z = z; c.el.style.setProperty("--z", z); }
+        if (c.imp !== imp) { c.imp = imp; c.el.style.setProperty("--imp", imp); }
         c.el.classList.toggle("focal", i === centru);
       });
     }
@@ -385,7 +399,7 @@
       if (anima) {
         // amprentele de layout sunt constante, deci offsetLeft nu se schimbă
         // la deschidere — ținta e directă
-        tinta = cardEl.offsetLeft - ANCORA;
+        tinta = pozitii[idxNou] - ANCORA;
         tinta = Math.max(0, Math.min(tinta, scena.scrollWidth - scena.clientWidth));
       }
       idxDeschis = idxNou;
