@@ -240,16 +240,19 @@
           marcaj.setAttribute("transform", t);
         }
       }
-      // recentrează cardul abia după ce s-a terminat lățirea (tranziția de width);
-      // scroll calculat manual, doar pe orizontală, ca să nu miște pagina
+      // repoziționează banda abia după ce s-a terminat lățirea (tranziția de width);
+      // scroll calculat manual, doar pe orizontală, ca să nu miște pagina.
+      // Pe telefon fișa se lipește de marginea din stânga, ca fâșiile următoare
+      // să rămână la vedere; pe desktop e loc destul și o centrăm.
       if (anima) {
         setTimeout(function () {
           var s = scena.getBoundingClientRect();
           var r = cardEl.getBoundingClientRect();
-          scena.scrollTo({
-            left: scena.scrollLeft + (r.left - s.left) - (s.width - r.width) / 2,
-            behavior: "smooth"
-          });
+          var stanga = scena.scrollLeft + (r.left - s.left);
+          if (!window.matchMedia("(max-width: 640px)").matches) {
+            stanga -= (s.width - r.width) / 2;
+          }
+          scena.scrollTo({ left: stanga, behavior: "smooth" });
         }, 580);
       }
     }

@@ -96,6 +96,9 @@
 
 /* deck-ul: fâșii verticale; cea activă se lățește (formula Plaja Olt) */
 .lot-scena {
+  /* lățimea cardului deschis; fișa din interior o folosește la fel, ca textul
+     să nu se rearanjeze în timpul animației de lățire */
+  --lat-deschis: min(340px, 76vw);
   display: flex; align-items: stretch;
   gap: 8px;
   height: clamp(460px, 58vh, 560px);
@@ -120,7 +123,7 @@
 }
 .jcard:hover { border-color: rgba(246, 200, 28, 0.4); }
 .jcard.deschis {
-  width: min(340px, 76vw);
+  width: var(--lat-deschis);
   cursor: default;
   border-color: rgba(246, 200, 28, 0.55);
 }
@@ -181,7 +184,7 @@
 /* fișa jucătorului, dezvăluită la expandare */
 .j-copy {
   position: absolute; inset: auto 0 0 0; z-index: 2;
-  width: min(340px, 76vw);
+  width: var(--lat-deschis);
   padding: 18px 20px 16px;
   display: flex; flex-direction: column; align-items: flex-start; gap: 7px;
   opacity: 0; transform: translateY(16px);
@@ -306,13 +309,14 @@
   .sezon-panou, .lot-panou { border-radius: 18px; }
   .meci-rand { font-size: 0.82rem; gap: 9px; }
   .meci-rand .data { width: 50px; font-size: 0.66rem; }
-  .lot-scena { height: 470px; gap: 6px; }
-  .jcard { width: 68px; border-radius: 14px; }
-  .jcard.deschis { width: min(300px, 82vw); }
-  .j-copy { width: min(300px, 82vw); padding: 14px 16px 14px; }
-  .j-strip { padding: 11px 4px 13px; }
-  .j-nr { font-size: 1.25rem; }
-  .j-vert { font-size: 0.66rem; margin-top: 9px; }
+  /* pe telefon fișa ocupă ~70% din bandă, ca alături să se vadă trei fâșii */
+  .lot-scena { --lat-deschis: min(212px, 57vw); height: 470px; gap: 4px; }
+  .jcard { width: 24px; border-radius: 12px; }
+  .jcard.deschis { border-radius: 14px; }
+  .j-copy { padding: 14px 16px 14px; }
+  .j-strip { padding: 9px 2px 12px; }
+  .j-nr { font-size: 0.88rem; }
+  .j-vert { font-size: 0.6rem; margin-top: 7px; letter-spacing: 0.06em; }
   .j-nume { font-size: 1.4rem; }
   .masura b { font-size: 1.15rem; }
   .fisa { font-size: 0.74rem; }
