@@ -346,41 +346,77 @@
     masoaraPozitii();
     window.addEventListener("resize", masoaraPozitii);
 
+    /* Activ e ultimul card care a ajuns la ancoră (nu cel mai apropiat de ea).
+       Contează pentru că la momentul comutării împingerea lui continuă e deja
+       zero — dacă am comuta la jumătatea drumului, cardul ar sări lateral cu
+       jumătate din împingere exact când devine activ. */
     function indexFocal() {
-      var x = scena.scrollLeft + ANCORA;
-      var best = 0, bestD = Infinity;
+      var x = scena.scrollLeft + ANCORA + 1;
+      var idx = 0;
       for (var i = 0; i < pozitii.length; i++) {
-        var d = Math.abs(pozitii[i] - x);
-        if (d < bestD) { bestD = d; best = i; }
+        if (pozitii[i] <= x) idx = i; else break;
       }
-      return best;
+      return idx;
     }
 
     // stiva 3D: adâncimi logaritmice în jurul centrului, plus împingerea
     // fâșiilor de după cardul deschis, ca acesta să nu le acopere
+    // scrie valorile doar când s-au schimbat efectiv (rotunjite), ca să nu
+    // invalidăm stilul cardurilor îndepărtate, unde adâncimea saturează
+    function scrieCard(c, ad, imp, z) {
+      var sAd = ad.toFixed(2), sImp = imp.toFixed(2), sZ = String(z);
+      if (c.ad !== sAd) { c.ad = sAd; c.el.style.setProperty("--ad", sAd); }
+      if (c.imp !== sImp) { c.imp = sImp; c.el.style.setProperty("--imp", sImp); }
+      if (c.z !== sZ) { c.z = sZ; c.el.style.setProperty("--z", sZ); }
+    }
+
+    // varianta discretă, folosită la click: valorile-țintă se ating prin
+    // tranziția CSS, în timp ce camera alunecă spre cardul ales
     function aplicaAdancimi(centru) {
       carduri.forEach(function (c, i) {
         var dist = Math.abs(i - centru);
-        // adâncimea saturează spre 1; rotunjită, cardurile îndepărtate nu-și
-        // mai schimbă valoarea, deci nu le mai rescriem stilul degeaba
-        var ad = (1 - Math.pow(0.78, dist)).toFixed(2);
-        var z = String(80 - Math.min(dist, 60));
-        var imp = i > centru ? "1" : "0";
-        if (c.ad !== ad) { c.ad = ad; c.el.style.setProperty("--ad", ad); }
-        if (c.z !== z) { c.z = z; c.el.style.setProperty("--z", z); }
-        if (c.imp !== imp) { c.imp = imp; c.el.style.setProperty("--imp", imp); }
-        c.el.classList.toggle("focal", i === centru);
+        scrieCard(c, 1 - Math.pow(0.78, dist), i > centru ? 1 : 0, 80 - Math.min(dist, 60));
       });
     }
 
+    /* Varianta continuă, folosită în timpul derulării: distanța față de ancoră
+       se măsoară în pași de card, nu în indici. Astfel împingerea unei fâșii
+       scade lin de la 1 la 0 pe măsură ce se apropie de ancoră, în loc să sară
+       brusc când devine activă — de-acolo venea senzația că următorul card
+       „vine de foarte departe" la derularea spre dreapta. */
+    function actualizeazaVizual() {
+      var pas = pozitii.length > 1 ? (pozitii[1] - pozitii[0]) : 1;
+      var ancora = scena.scrollLeft + ANCORA;
+      carduri.forEach(function (c, i) {
+        var d = (pozitii[i] - ancora) / pas;
+        // cardul activ a trecut deja de ancoră (d ≤ 0), deci împingerea lui e
+        // zero din formulă — nicio excepție de făcut, nicio discontinuitate.
+        // Curba pătratică face ca ultima parte a apropierii de ancoră să se
+        // petreacă exact în ritmul derulării, nu mai repede decât degetul.
+        var u = Math.max(0, Math.min(1, d));
+        var imp = u * u;
+        scrieCard(c, 1 - Math.pow(0.78, Math.abs(d)), imp,
+          80 - Math.min(Math.round(Math.abs(d)), 60));
+      });
+    }
+
+    var timerDerulare = null;
     function laDerulare() {
       rafFocal = null;
-      if (blocatDeCamera) return;
+      if (blocatDeCamera) return;   // mișcarea camerei își are propria animație
+      // cât timp utilizatorul derulează, valorile se actualizează cadru cu
+      // cadru — o tranziție CSS peste ele ar rămâne în urmă și ar da senzația
+      // de plutire; o reactivăm la scurt timp după ce derularea se oprește
+      scena.classList.add("deruleaza");
+      clearTimeout(timerDerulare);
+      timerDerulare = setTimeout(function () { scena.classList.remove("deruleaza"); }, 140);
+
       var idx = indexFocal();
       if (idx !== idxDeschis) {
         var c = carduri[idx];
         alege(c.juc, c.el, false);
       }
+      actualizeazaVizual();
     }
 
     scena.addEventListener("scroll", function () {
@@ -414,7 +450,9 @@
           b.innerHTML = "Detalii <b>+</b>";
         }
       });
-      aplicaAdancimi(idxNou);
+      // la click ținem valorile discrete (tranziția CSS le duce lin la țintă);
+      // la selecția din derulare le pune imediat după, varianta continuă
+      if (anima) aplicaAdancimi(idxNou);
 
       // pe teren: postul jucătorului se aprinde, restul rămân gri
       var activ = null;
@@ -460,5 +498,6 @@
         { attr: { r: 18 }, opacity: 0, duration: 1.6, ease: "power1.out", repeat: -1, repeatDelay: 0.4 });
     }
     alege(carduri[0].juc, carduri[0].el, false);
+    actualizeazaVizual();
   }
 })();

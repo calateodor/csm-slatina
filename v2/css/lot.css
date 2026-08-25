@@ -136,6 +136,10 @@
 }
 .lot-scena.trage { cursor: grabbing; }
 .lot-scena.trage .jcard { pointer-events: none; }
+/* Cât timp utilizatorul derulează, adâncimea și împingerea se recalculează
+   cadru cu cadru; o tranziție peste ele ar rămâne în urmă și ar da senzația de
+   plutire. Fișa de sticlă (.j-copy) își păstrează tranziția, ca să apară lin. */
+.lot-scena.deruleaza .jcard { transition-duration: 0s; }
 
 .jcard {
   position: relative;
@@ -157,9 +161,16 @@
      scenei, cardurile mai adânci se văd tot mai mici, cu diferențe amortizate */
   /* --imp = împingerea spre dreapta a fâșiilor de după cardul deschis; e o
      simplă translatare, deci nu atinge layout-ul și nu destabilizează scroll-ul */
+  /* pivotul rotației stă pe marginea din stânga: altfel, când cardul se
+     lățește la deschidere, centrul lui se mută și proiecția 3D ar deplasa
+     lateral marginea din stânga — adică exact saltul de la activare */
+  transform-origin: 0% 50%;
+  /* Adâncimea și rotația sunt funcții doar de --ad, iar la --ad = 0 dau exact
+     starea cardului deschis (fața planului, rotație minimă). Astfel cardul care
+     ajunge la ancoră nu mai are nimic de „sărit" când devine activ. */
   transform: translateX(calc(var(--imp, 0) * var(--imp-max)))
-             translateZ(calc(-80px - 340px * var(--ad, 0.5)))
-             rotateY(calc(15deg + var(--my, 0deg)))
+             translateZ(calc(-420px * var(--ad, 0.5)))
+             rotateY(calc(8deg + 7deg * var(--ad, 0.5) + var(--my, 0deg)))
              rotateX(var(--mx, 0deg))
              translateY(var(--salt, 0px));
   transition: width 0.55s cubic-bezier(0.32, 0.72, 0.28, 1),
@@ -189,10 +200,7 @@
   border-color: rgba(246, 200, 28, 0.55);
   box-shadow: 0 48px 84px -26px rgba(3, 8, 25, 0.95),
               0 0 34px -8px rgba(246, 200, 28, 0.3);
-  transform: translateZ(0)
-             rotateY(calc(8deg + var(--my, 0deg)))
-             rotateX(var(--mx, 0deg))
-             translateY(var(--salt, 0px));
+  /* fără transform propriu: îl dă formula de mai sus, cu --ad ≈ 0 la ancoră */
 }
 
 /* fotografia: color doar pe cardul activ; pliate = desaturate și întunecate */
@@ -205,13 +213,7 @@
   transition: transform 0.25s ease-out, filter 0.45s ease;
 }
 .jcard:hover img { filter: grayscale(0.3) brightness(0.88) saturate(0.95); }
-/* „focal" = cardul din dreptul ancorei în timpul derulării: se aprinde doar
-   prin culoare/umbre (fără schimbare de lățime), ca dezvăluirea să fie fluidă */
-.jcard.focal { border-color: rgba(246, 200, 28, 0.45); }
-.jcard.focal img, .jcard.deschis img { filter: none; }
-.jcard.focal .j-veil {
-  background: linear-gradient(to top, rgba(7, 19, 48, 0.6) 0%, rgba(7, 19, 48, 0.16) 58%, rgba(7, 19, 48, 0.28) 100%);
-}
+.jcard.deschis img { filter: none; }
 
 .j-veil {
   position: absolute; inset: 0; z-index: 1;
@@ -492,7 +494,8 @@
   .jcard {
     border-radius: 16px;
     transform: translateX(calc(var(--imp, 0) * var(--imp-max)))
-               translateZ(calc(-50px - 210px * var(--ad, 0.5))) rotateY(11deg);
+               translateZ(calc(-260px * var(--ad, 0.5)))
+               rotateY(calc(6deg + 5deg * var(--ad, 0.5)));
     /* umbre mai ieftine de desenat decât cele de pe desktop */
     box-shadow: 0 16px 24px -12px rgba(3, 8, 25, 0.8);
     transition: transform 0.32s cubic-bezier(0.32, 0.72, 0.28, 1),
@@ -501,7 +504,6 @@
   }
   .jcard.deschis {
     border-radius: 18px;
-    transform: translateX(calc(var(--imp, 0) * var(--imp-max))) translateZ(0) rotateY(6deg);
     box-shadow: 0 22px 34px -16px rgba(3, 8, 25, 0.9),
                 0 0 18px -8px rgba(246, 200, 28, 0.3);
   }
@@ -510,7 +512,10 @@
   .j-sticla {
     -webkit-backdrop-filter: none;
     backdrop-filter: none;
-    background: rgba(9, 19, 42, 0.86);
+    /* culoarea la care ajunge sticla de pe desktop: bleumarinul semitransparent
+       peste fotografia estompată — reprodusă aici ca strat opac, ca să nu mai
+       recalculăm blurul la fiecare cadru */
+    background: rgba(29, 43, 71, 0.9);
   }
   .j-copy { transition: opacity 0.25s ease; }
   .jcard.deschis .j-copy { transition-delay: 0.05s; }
