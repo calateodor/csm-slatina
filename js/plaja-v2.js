@@ -7,6 +7,22 @@
 (function () {
   "use strict";
 
+  /* ---------- acordeonul de servicii: hover pe desktop, atingere pe mobil ---------- */
+  var cards = Array.prototype.slice.call(document.querySelectorAll(".v2-card"));
+  function deschide(card) {
+    cards.forEach(function (c) { c.classList.toggle("is-open", c === card); });
+  }
+  cards.forEach(function (card) {
+    card.addEventListener("pointerenter", function (e) {
+      if (e.pointerType === "mouse") deschide(card);
+    });
+    card.addEventListener("click", function (e) {
+      if (!card.classList.contains("is-open")) { e.preventDefault(); deschide(card); }
+    });
+    card.addEventListener("focusin", function () { deschide(card); });
+  });
+  if (cards.length) deschide(cards[0]);
+
   var reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   if (typeof gsap === "undefined" || typeof ScrollTrigger === "undefined" || reduceMotion) return;
 
@@ -32,26 +48,35 @@
   });
   gsap.from(".v2-hero-copy", { y: 60, opacity: 0, duration: 1.1, ease: "power3.out", delay: 0.2 });
 
-  /* ---------- benzile swipe: traversează ecranul cât capitolul intră în cadru ---------- */
+  /* ---------- linia-divizor + fundalul capitolului, sudate ----------
+     Fundalul fiecărui capitol e un strat fix (în .bg-stage) dezvăluit prin
+     clip-path exact la linia cu glow. Cursa începe abia când capitolul nou a
+     urcat până la 60% din ecran și se încheie lângă marginea de sus — deci
+     divizorul traversează ecranul de ~1,8 ori mai repede decât scrollul, iar
+     fundalul vechi stă pe loc până e acoperit. */
+  document.body.classList.add("bg-fx");
   document.querySelectorAll(".wipe").forEach(function (wipe) {
-    var target = document.querySelector(wipe.getAttribute("data-wipe"));
-    if (!target) return;
+    var sel = wipe.getAttribute("data-wipe");
+    var target = document.querySelector(sel);
+    var layer = document.querySelector('.bg-layer[data-bg="' + sel + '"]');
+    if (!target || !layer) return;
+    gsap.set(layer, { visibility: "visible" });
     var tl = gsap.timeline({
       scrollTrigger: {
         trigger: target,
-        start: "top 95%",
+        start: "top 60%",
         end: "top 5%",
-        scrub: 0.4
+        scrub: 0.4,
+        invalidateOnRefresh: true
       }
     });
-    // cele două dâre merg cu viteze diferite — dă adâncime trecerii;
-    // capetele curselor scot banda complet din orice ecran
-    tl.fromTo(wipe.querySelector(".s1"),
-        { xPercent: -220 }, { xPercent: 340, ease: "none" }, 0)
-      .fromTo(wipe.querySelector(".s2"),
-        { xPercent: -440 }, { xPercent: 620, ease: "none" }, 0.05);
-    // abia acum, cu pozițiile puse de GSAP, benzile pot deveni vizibile
-    gsap.set(wipe.querySelectorAll(".streak"), { visibility: "visible" });
+    var linie = wipe.querySelector(".streak");
+    // fundalul nou se dezvăluie de jos în sus, cu linia pe muchia lui
+    tl.fromTo(layer, { clipPath: "inset(100% 0% 0% 0%)" },
+                     { clipPath: "inset(0% 0% 0% 0%)", duration: 1, ease: "none" }, 0)
+      .fromTo(linie, { y: "100vh" }, { y: "0vh", duration: 1, ease: "none" }, 0)
+      .fromTo(linie, { autoAlpha: 0 }, { autoAlpha: 1, duration: 0.06, ease: "none" }, 0.02)
+      .to(linie, { autoAlpha: 0, duration: 0.08, ease: "none" }, 0.92);
   });
 
   /* ---------- cuvintele-fantomă: alunecă orizontal prin capitol ---------- */
@@ -82,11 +107,15 @@
     });
   });
 
-  /* ---------- intrări simple pentru conținutul capitolelor ---------- */
-  gsap.utils.toArray([".v2-harta .container", ".v2-servicii .container", ".v2-plaja .container"]).forEach(function (el) {
-    gsap.from(el, {
-      y: 50, opacity: 0, duration: 0.9, ease: "power3.out",
-      scrollTrigger: { trigger: el, start: "top 82%", once: true }
+  /* ---------- capitolele se despart cu parallax: conținutul plutește în ritm propriu ---------- */
+  gsap.utils.toArray([".v2-harta > .container", ".v2-servicii > .container", ".v2-plaja > .container"]).forEach(function (el) {
+    gsap.fromTo(el, { y: 90 }, {
+      y: -50, ease: "none",
+      scrollTrigger: { trigger: el.parentElement, start: "top bottom", end: "bottom top", scrub: true }
+    });
+    gsap.fromTo(el, { autoAlpha: 0 }, {
+      autoAlpha: 1, ease: "none",
+      scrollTrigger: { trigger: el.parentElement, start: "top 75%", end: "top 40%", scrub: true }
     });
   });
   ScrollTrigger.batch(".v2-card", {

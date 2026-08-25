@@ -3,8 +3,28 @@
    Capitole: dronă → hartă → rezervări → plajă, cu benzi de tranziție (swipe)
    ========================================================================== */
 
-.v2-body { background: var(--navy-950); }
-.v2 { overflow-x: clip; }
+.v2-body {
+  background: var(--navy-950);
+  /* fundalurile capitolelor — schimbă doar variabilele (gradient/culoare/url);
+     căile url() se rezolvă relativ la folderul css/ */
+  --harta-bg: linear-gradient(rgba(7, 19, 48, 0.1), rgba(7, 19, 48, 0.82)),
+              url("../assets/img/plaja-v2/teren-vertical-blur.webp") center / cover no-repeat var(--navy-950);
+  --servicii-bg: linear-gradient(rgba(9, 26, 68, 0.1), rgba(9, 26, 68, 0.82)),
+                 url("../assets/img/plaja-v2/nautic-blur.webp") center / cover no-repeat var(--navy-900);
+}
+.v2 { overflow-x: clip; position: relative; z-index: 1; }
+
+/* scena de fundaluri: straturi fixe dezvăluite prin clip-path la linia-divizor.
+   Stratul de bază e fotografia aeriană (vizibilă mereu); straturile capitolelor
+   apar doar când le pornește JS-ul, deci fără JS secțiunile își păstrează
+   fundalurile proprii — clasa .bg-fx pe body face comutarea. */
+.bg-stage { position: fixed; inset: 0; z-index: 0; pointer-events: none; }
+.bg-layer { position: absolute; inset: 0; overflow: hidden; visibility: hidden; will-change: clip-path; }
+.bg-layer.bg-hero { visibility: visible; }
+.bg-layer[data-bg="#harta"] { background: var(--harta-bg); }
+.bg-layer[data-bg="#servicii"] { background: var(--servicii-bg); }
+.bg-layer[data-bg="#plaja-v2"] { background: linear-gradient(180deg, var(--navy-900) 0%, var(--navy-950) 100%); }
+.bg-fx .v2-harta, .bg-fx .v2-servicii, .bg-fx .v2-plaja { background: transparent; }
 
 /* etichete și titluri proprii capitolelor */
 .v2-eyebrow {
@@ -37,7 +57,6 @@
 .v2-hero {
   position: relative;
   height: 100svh; min-height: 540px;
-  overflow: hidden;
   display: flex; align-items: flex-end;
 }
 .v2-aer, .v2-aer img {
@@ -81,27 +100,29 @@
 
 /* ---------- benzile de tranziție (swipe) ---------- */
 .wipe { position: fixed; inset: 0; z-index: 90; pointer-events: none; overflow: hidden; }
+/* o singură linie perfect orizontală, subțire, cu glow — urcă prin ecran la
+   fiecare graniță de capitol; poziția o dă exclusiv JS-ul (nimic translatat aici) */
 .streak {
-  position: absolute; top: -12%; height: 124%;
-  width: 72vw; left: 0;
-  /* fără translate aici — orice valoare din CSS ar deveni offset permanent în
-     GSAP; benzile stau ascunse până le așază JS-ul în afara ecranului */
-  transform: rotate(-7deg);
+  position: absolute; left: 0; width: 100%;
+  /* baza e marginea de sus; JS o plimbă cu y: 100vh -> 0, în pas cu clip-path-ul */
+  top: 0; height: 2px; border-radius: 999px;
+  background: linear-gradient(90deg, transparent 0%, var(--wipe-core) 14%, var(--wipe-core) 86%, transparent 100%);
+  box-shadow:
+    0 0 10px 1px var(--wipe-core),
+    0 0 32px 6px var(--wipe-glow),
+    0 0 90px 20px var(--wipe-glow);
   visibility: hidden;
-  will-change: transform;
+  will-change: transform, opacity;
 }
-/* marginile transparente ale gradientului dau efectul de obiect defocalizat */
-.streak.s1 { background: linear-gradient(100deg, transparent 0%, var(--wipe-a, rgba(18,58,158,0.5)) 38%, var(--wipe-a, rgba(18,58,158,0.5)) 62%, transparent 100%); }
-.streak.s2 { width: 34vw; background: linear-gradient(100deg, transparent 0%, var(--wipe-b, rgba(246,200,28,0.35)) 45%, transparent 100%); }
-.wipe[data-wipe="#harta"]    { --wipe-a: rgba(18, 58, 158, 0.55); --wipe-b: rgba(127, 180, 255, 0.30); }
-.wipe[data-wipe="#servicii"] { --wipe-a: rgba(244, 247, 254, 0.55); --wipe-b: rgba(246, 200, 28, 0.35); }
-.wipe[data-wipe="#plaja-v2"] { --wipe-a: rgba(246, 200, 28, 0.45); --wipe-b: rgba(18, 58, 158, 0.40); }
+.wipe[data-wipe="#harta"]    { --wipe-core: #9cc4ff; --wipe-glow: rgba(36, 87, 214, 0.5); }
+.wipe[data-wipe="#servicii"] { --wipe-core: #ffffff; --wipe-glow: rgba(127, 180, 255, 0.45); }
+.wipe[data-wipe="#plaja-v2"] { --wipe-core: #ffd83d; --wipe-glow: rgba(246, 200, 28, 0.45); }
 
 /* ---------- 2. Harta interactivă (în lucru) ---------- */
 .v2-harta {
   position: relative;
   padding: clamp(90px, 13vw, 160px) 0;
-  background: var(--navy-950);
+  background: var(--harta-bg);
   overflow: hidden;
 }
 .v2-harta-frame {
@@ -151,26 +172,41 @@
 /* ---------- 3. Rezervări online ---------- */
 .v2-servicii {
   position: relative;
-  /* fundalul capitolului — schimbă doar variabila de mai jos (culoare, gradient sau url(...)) */
-  --servicii-bg: linear-gradient(180deg, #0b2158 0%, var(--navy-900) 100%);
   background: var(--servicii-bg);
   padding: clamp(90px, 13vw, 160px) 0 clamp(60px, 8vw, 100px);
   overflow: hidden;
 }
 .v2-cards {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: clamp(14px, 1.8vw, 24px);
+  display: flex;
+  gap: clamp(8px, 1vw, 14px);
+  height: clamp(420px, 62vh, 560px);
   width: min(1200px, 92vw);
   margin: clamp(30px, 4.5vw, 56px) auto 0;
 }
 .v2-card {
   position: relative;
-  aspect-ratio: 3 / 4;
+  flex: 1 1 0;
+  min-width: 0;
   border-radius: 22px;
   overflow: hidden;
   isolation: isolate;
+  cursor: pointer;
+  transition: flex 0.55s cubic-bezier(0.32, 0.72, 0.28, 1);
 }
+.v2-card.is-open { flex: 4.4 1 0; cursor: default; }
+/* eticheta verticală a fâșiei pliate */
+.v2-vert {
+  position: absolute; left: 50%; bottom: 20px; z-index: 2;
+  transform: translateX(-50%) ;
+  writing-mode: vertical-rl;
+  rotate: 180deg;
+  font-family: var(--font-display); font-weight: 700; font-size: 0.92rem;
+  letter-spacing: 0.1em; text-transform: uppercase;
+  color: #fff; text-shadow: 0 2px 12px rgba(3, 8, 25, 0.8);
+  white-space: nowrap;
+  opacity: 1; transition: opacity 0.3s ease;
+}
+.v2-card.is-open .v2-vert { opacity: 0; }
 .v2-card img {
   position: absolute; inset: 0; width: 100%; height: 112%;
   object-fit: cover;
@@ -178,14 +214,23 @@
 }
 .v2-card-veil {
   position: absolute; inset: 0; z-index: 1;
-  background: linear-gradient(to top, rgba(7,19,48,0.88) 0%, rgba(7,19,48,0.25) 45%, rgba(7,19,48,0.05) 70%);
-  transition: background 0.35s ease;
+  background: linear-gradient(to top, rgba(7,19,48,0.8) 0%, rgba(7,19,48,0.45) 50%, rgba(7,19,48,0.3) 100%);
+  transition: background 0.4s ease;
 }
-.v2-card:hover .v2-card-veil { background: linear-gradient(to top, rgba(7,19,48,0.92) 0%, rgba(7,19,48,0.35) 50%, rgba(7,19,48,0.1) 75%); }
+.v2-card.is-open .v2-card-veil { background: linear-gradient(to top, rgba(7,19,48,0.88) 0%, rgba(7,19,48,0.25) 45%, rgba(7,19,48,0.05) 70%); }
 .v2-card-copy {
   position: absolute; inset: auto 0 0 0; z-index: 2;
   padding: 20px 22px 20px;
   display: flex; flex-direction: column; align-items: flex-start; gap: 5px;
+  width: max(220px, 100%);
+  opacity: 0; transform: translateY(16px);
+  pointer-events: none;
+  transition: opacity 0.35s ease, transform 0.35s ease;
+}
+.v2-card.is-open .v2-card-copy {
+  opacity: 1; transform: translateY(0);
+  pointer-events: auto;
+  transition-delay: 0.16s;
 }
 .v2-tag {
   font-family: var(--font-display); font-weight: 700;
@@ -287,21 +332,27 @@
 
 /* ---------- responsive ---------- */
 @media (max-width: 960px) {
-  .v2-cards {
-    grid-template-columns: none;
-    grid-auto-flow: column; grid-auto-columns: min(300px, 78vw);
-    overflow-x: auto; width: 100vw;
-    padding: 4px 4vw 14px;
-    scroll-snap-type: x mandatory;
-    scrollbar-width: none;
-  }
-  .v2-cards::-webkit-scrollbar { display: none; }
-  .v2-card { scroll-snap-align: center; }
+  .v2-cards { height: clamp(380px, 56svh, 480px); gap: 7px; }
+  .v2-card { border-radius: 16px; }
+  .v2-card.is-open { flex: 5.2 1 0; }
+  .v2-vert { font-size: 0.74rem; bottom: 14px; letter-spacing: 0.06em; }
+  .v2-card-copy { padding: 14px 16px 16px; width: max(200px, 100%); }
   .v2-plaja-grid { grid-template-columns: minmax(0, 1fr); }
   .v2-harta-frame img { aspect-ratio: 16 / 10; }
 }
 @media (max-width: 640px) {
   .v2-hero { height: 92svh; }
+  /* pe telefon acordeonul devine vertical: rânduri subțiri care cresc în înălțime */
+  .v2-cards { flex-direction: column; height: auto; gap: 8px; }
+  .v2-card { flex: none; height: 56px; transition: height 0.5s cubic-bezier(0.32, 0.72, 0.28, 1); border-radius: 14px; }
+  .v2-card.is-open { flex: none; height: min(58svh, 400px); }
+  .v2-vert {
+    writing-mode: horizontal-tb; rotate: none;
+    left: 18px; right: auto; bottom: 50%;
+    transform: translateY(50%);
+    font-size: 0.82rem;
+  }
+  .v2-card-copy { width: 100%; padding: 16px 18px 18px; }
   /* prețurile compuse (30 min + 1 oră) au voie să treacă pe două rânduri */
   .v2-tarife li strong { white-space: normal; text-align: right; max-width: 46%; }
   .v2-aer img { object-position: 42% 45%; }

@@ -82,20 +82,29 @@
     </div>
   </div>
 
-  <!-- benzile de tranziție (swipe) dintre capitole — decor, animate din JS -->
-  <div class="wipe" data-wipe="#harta" aria-hidden="true"><span class="streak s1"></span><span class="streak s2"></span></div>
-  <div class="wipe" data-wipe="#servicii" aria-hidden="true"><span class="streak s1"></span><span class="streak s2"></span></div>
-  <div class="wipe" data-wipe="#plaja-v2" aria-hidden="true"><span class="streak s1"></span><span class="streak s2"></span></div>
+  <!-- scena de fundaluri: câte un strat pe capitol, dezvăluit la linia-divizor (JS) -->
+  <div class="bg-stage" aria-hidden="true">
+    <div class="bg-layer bg-hero">
+      <picture class="v2-aer">
+        <source media="(max-width: 760px)" srcset="assets/img/plaja-v2/aerian-1280.webp">
+        <img src="assets/img/plaja-v2/aerian-2560.webp" alt="Vedere aeriană a Clubului Nautic și de Agrement Plaja Olt" fetchpriority="high">
+      </picture>
+      <div class="v2-hero-veil"></div>
+    </div>
+    <div class="bg-layer" data-bg="#harta"></div>
+    <div class="bg-layer" data-bg="#servicii"></div>
+    <div class="bg-layer" data-bg="#plaja-v2"></div>
+  </div>
+
+  <!-- liniile-divizor dintre capitole — decor, animate din JS -->
+  <div class="wipe" data-wipe="#harta" aria-hidden="true"><span class="streak"></span></div>
+  <div class="wipe" data-wipe="#servicii" aria-hidden="true"><span class="streak"></span></div>
+  <div class="wipe" data-wipe="#plaja-v2" aria-hidden="true"><span class="streak"></span></div>
 
   <main class="v2">
 
     <!-- ============ 1. Vedere din dronă ============ -->
     <section class="v2-hero">
-      <picture class="v2-aer">
-        <source media="(max-width: 760px)" srcset="assets/img/plaja-v2/aerian-1280.webp">
-        <img src="assets/img/plaja-v2/aerian-2560.webp" alt="Vedere aeriană a Clubului Nautic și de Agrement Plaja Olt" fetchpriority="high">
-      </picture>
-      <div class="v2-hero-veil" aria-hidden="true"></div>
       <div class="v2-hero-copy">
         <span class="v2-eyebrow">CSM Slatina · pe malul Oltului</span>
         <h1>Clubul Nautic<br>și de Agrement</h1>
@@ -134,11 +143,12 @@
         <h2 class="v2-title">Alege terenul, alege ora</h2>
         <p class="v2-sub">Padelul se rezervă online, cu confirmare prin SMS. Pentru restul, un telefon e de ajuns — răspundem zilnic între 10:00 și 20:00.</p>
       </div>
-      <div class="v2-cards" tabindex="0" aria-label="Servicii cu rezervare">
+      <div class="v2-cards" aria-label="Servicii cu rezervare">
 
         <article class="v2-card">
           <img src="assets/img/plaja-v2/sv-padel.webp" alt="Teren de padel" loading="lazy">
           <div class="v2-card-veil" aria-hidden="true"></div>
+          <span class="v2-vert" aria-hidden="true">Padel</span>
           <div class="v2-card-copy">
             <span class="v2-tag">până la 24:00</span>
             <h3>Padel</h3>
@@ -150,6 +160,7 @@
         <article class="v2-card">
           <img src="assets/img/plaja-v2/sv-tenis.webp" alt="Teren de tenis pe zgură" loading="lazy">
           <div class="v2-card-veil" aria-hidden="true"></div>
+          <span class="v2-vert" aria-hidden="true">Tenis de câmp</span>
           <div class="v2-card-copy">
             <span class="v2-tag">3 terenuri · zgură & hard</span>
             <h3>Tenis de câmp</h3>
@@ -161,6 +172,7 @@
         <article class="v2-card">
           <img src="assets/img/plaja-v2/sv-minigolf.webp" alt="Traseul de mini-golf" loading="lazy">
           <div class="v2-card-veil" aria-hidden="true"></div>
+          <span class="v2-vert" aria-hidden="true">Mini-golf</span>
           <div class="v2-card-copy">
             <span class="v2-tag">de la 4 ani</span>
             <h3>Mini-golf</h3>
@@ -172,6 +184,7 @@
         <article class="v2-card">
           <img src="assets/img/plaja-v2/sv-volei.webp" alt="Terenul de beach volley" loading="lazy">
           <div class="v2-card-veil" aria-hidden="true"></div>
+          <span class="v2-vert" aria-hidden="true">Beach volley</span>
           <div class="v2-card-copy">
             <span class="v2-tag">mai – septembrie</span>
             <h3>Beach volley</h3>
@@ -183,6 +196,7 @@
         <article class="v2-card">
           <img src="assets/img/plaja-v2/sv-masaj.webp" alt="Cameră de masaj" loading="lazy">
           <div class="v2-card-veil" aria-hidden="true"></div>
+          <span class="v2-vert" aria-hidden="true">Masaj</span>
           <div class="v2-card-copy">
             <span class="v2-tag">programare obligatorie</span>
             <h3>Masaj</h3>
@@ -194,6 +208,7 @@
         <article class="v2-card">
           <img src="assets/img/plaja-v2/sv-sauna.webp" alt="Saună" loading="lazy">
           <div class="v2-card-veil" aria-hidden="true"></div>
+          <span class="v2-vert" aria-hidden="true">Saună</span>
           <div class="v2-card-copy">
             <span class="v2-tag">relaxare</span>
             <h3>Saună</h3>
