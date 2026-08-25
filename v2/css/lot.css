@@ -96,15 +96,25 @@
   overflow: hidden;
 }
 
-/* scena: de la stânga la dreapta, cu perspectivă; drag cu inerție */
+/* scena: de la stânga la dreapta, cu perspectivă; drag cu inerție.
+   position: relative ca offsetLeft-ul cardurilor să fie relativ la scenă —
+   calculele de ancorare se fac în spațiul de layout, imun la transformările 3D */
 .lot-scena {
+  position: relative;
   --lat-deschis: min(340px, 76vw);
   --lat-pliat: 150px;
   --suprapunere: -62px;
+  /* Cât mai acoperă cardul deschis din fâșia următoare. Valoarea e negativă
+     pentru că perspectiva mărește cardul deschis (translateZ 0) față de
+     amprenta lui de layout, deci împingerea trebuie să depășească diferența
+     de lățime pură. Reglată vizual, ca numele vecinului să rămână lizibil. */
+  --supra-pastrat: 34px;
+  /* împingerea aplicată fâșiilor de după cardul deschis */
+  --imp-max: calc(var(--lat-deschis) - var(--lat-pliat) - var(--supra-pastrat));
   display: flex; align-items: center;
   height: clamp(520px, 64vh, 620px);
   overflow-x: auto;
-  padding: 20px 44px 34px 16px;
+  padding: 20px calc(44px + var(--imp-max)) 34px 16px;
   perspective: 1500px;
   perspective-origin: 50% 45%;
   cursor: grab;
@@ -131,13 +141,17 @@
   box-shadow: 0 30px 46px -18px rgba(3, 8, 25, 0.85);
   /* --ad (0..1, setat din JS) = adâncimea față de cardul activ; cu perspectiva
      scenei, cardurile mai adânci se văd tot mai mici, cu diferențe amortizate */
-  transform: translateZ(calc(-80px - 340px * var(--ad, 0.5)))
+  /* --imp = împingerea spre dreapta a fâșiilor de după cardul deschis; e o
+     simplă translatare, deci nu atinge layout-ul și nu destabilizează scroll-ul */
+  transform: translateX(calc(var(--imp, 0) * var(--imp-max)))
+             translateZ(calc(-80px - 340px * var(--ad, 0.5)))
              rotateY(calc(15deg + var(--my, 0deg)))
              rotateX(var(--mx, 0deg))
              translateY(var(--salt, 0px));
   transition: width 0.55s cubic-bezier(0.32, 0.72, 0.28, 1),
+              margin-right 0.55s cubic-bezier(0.32, 0.72, 0.28, 1),
               height 0.55s cubic-bezier(0.32, 0.72, 0.28, 1),
-              transform 0.3s ease-out,
+              transform 0.4s cubic-bezier(0.32, 0.72, 0.28, 1),
               box-shadow 0.45s ease,
               border-color 0.35s ease;
 }
@@ -151,6 +165,10 @@
 }
 .jcard.deschis {
   width: var(--lat-deschis);
+  /* amprenta în layout rămâne cea a unei fâșii pliate: surplusul de lățime se
+     întinde peste cardurile din spate (ca în referință), deci deschiderea nu
+     mișcă nimic în jur — selecția poate rula live în timpul derulării */
+  margin-right: calc(var(--lat-pliat) - var(--lat-deschis));
   height: 100%;
   z-index: 120;
   cursor: default;
@@ -173,7 +191,13 @@
   transition: transform 0.25s ease-out, filter 0.45s ease;
 }
 .jcard:hover img { filter: grayscale(0.3) brightness(0.88) saturate(0.95); }
-.jcard.deschis img { filter: none; }
+/* „focal" = cardul din dreptul ancorei în timpul derulării: se aprinde doar
+   prin culoare/umbre (fără schimbare de lățime), ca dezvăluirea să fie fluidă */
+.jcard.focal { border-color: rgba(246, 200, 28, 0.45); }
+.jcard.focal img, .jcard.deschis img { filter: none; }
+.jcard.focal .j-veil {
+  background: linear-gradient(to top, rgba(7, 19, 48, 0.6) 0%, rgba(7, 19, 48, 0.16) 58%, rgba(7, 19, 48, 0.28) 100%);
+}
 
 .j-veil {
   position: absolute; inset: 0; z-index: 1;
@@ -202,22 +226,39 @@
 }
 .jcard.deschis .j-nr { opacity: 0; }
 
-/* pastila albă cu numele — pe cardurile pliate, ca în referință */
-.j-pill {
-  position: absolute; left: 50%; bottom: 20px; z-index: 3;
-  transform: translateX(-50%);
-  max-width: calc(100% - 14px);
-  background: #fff;
-  color: var(--navy-900);
-  font-family: var(--font-display); font-weight: 700;
-  font-size: 0.66rem; letter-spacing: 0.02em;
-  padding: 7px 12px; border-radius: 999px;
-  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
-  box-shadow: 0 8px 20px -8px rgba(3, 8, 25, 0.8);
+/* numele pe verticală pe cardurile pliate, ca fâșiile de la Plaja Olt */
+.j-vert {
+  /* cardul dinaintea fiecărei fâșii stă în fața ei și îi acoperă marginea din
+     stânga, deci banda vizibilă e cea din dreapta — acolo centrăm numele */
+  position: absolute;
+  left: calc((var(--lat-pliat) - var(--suprapunere)) / 2);
+  bottom: 22px; z-index: 3;
+  /* rotația stă în transform, după translate — altfel proprietatea `rotate`
+     s-ar aplica prima și ar inversa direcția centrării */
+  transform: translateX(-50%) rotate(180deg);
+  writing-mode: vertical-rl;
+  max-height: calc(100% - 70px);
+  overflow: hidden;
+  white-space: nowrap;
   transition: opacity 0.3s ease;
   pointer-events: none;
 }
-.jcard.deschis .j-pill { opacity: 0; }
+.j-vert i {
+  display: block;
+  font-style: normal;
+  font-family: var(--font-display); font-weight: 600;
+  font-size: 0.62rem; letter-spacing: 0.16em; text-transform: uppercase;
+  color: var(--gold);
+  text-shadow: 0 2px 10px rgba(3, 8, 25, 0.9);
+}
+.j-vert b {
+  display: block;
+  font-family: var(--font-display); font-weight: 700;
+  font-size: 0.92rem; letter-spacing: 0.1em; text-transform: uppercase;
+  color: #fff;
+  text-shadow: 0 2px 12px rgba(3, 8, 25, 0.85);
+}
+.jcard.deschis .j-vert { opacity: 0; }
 
 /* numărul-fantomă de pe cardul deschis */
 .j-fantoma {
@@ -423,17 +464,26 @@
     --lat-deschis: min(204px, 55vw);
     --lat-pliat: 84px;
     --suprapunere: -34px;
+    /* pe telefon perspectiva e mai agresivă: cardul deschis (translateZ 0) apare
+       mai lat decât amprenta lui de layout, deci împingem cu un plus */
+    --supra-pastrat: -4px;
     height: 500px;
-    padding: 12px 20px 22px 10px;
+    padding: 12px calc(20px + var(--imp-max)) 22px 10px;
     perspective: 1100px;
   }
   .jcard {
     border-radius: 16px;
-    transform: translateZ(calc(-50px - 210px * var(--ad, 0.5))) rotateY(11deg);
+    transform: translateX(calc(var(--imp, 0) * var(--imp-max)))
+               translateZ(calc(-50px - 210px * var(--ad, 0.5))) rotateY(11deg);
   }
-  .jcard.deschis { border-radius: 18px; transform: translateZ(0) rotateY(6deg); }
+  .jcard.deschis {
+    border-radius: 18px;
+    transform: translateX(calc(var(--imp, 0) * var(--imp-max))) translateZ(0) rotateY(6deg);
+  }
   .j-nr { top: 9px; right: 10px; font-size: 0.7rem; }
-  .j-pill { bottom: 14px; font-size: 0.56rem; padding: 5px 9px; max-width: calc(100% - 10px); }
+  .j-vert { bottom: 16px; max-height: calc(100% - 56px); }
+  .j-vert i { font-size: 0.46rem; letter-spacing: 0.08em; }
+  .j-vert b { font-size: 0.66rem; letter-spacing: 0.04em; }
   .j-copy { left: 8px; bottom: 10px; width: calc(var(--lat-deschis) - 16px); max-height: 56%; }
   .jcard.extins .j-copy { max-height: calc(100% - 18px); }
   .j-sticla { padding: 10px 11px 10px; border-radius: 12px; }
@@ -446,8 +496,9 @@
   .g-fise { grid-template-columns: 1fr 1fr; gap: 6px 10px; }
   .fisa b { font-size: 0.7rem; }
   .jstat b { font-size: 0.88rem; }
-  .jstat i { font-size: 0.4rem; letter-spacing: 0.04em; }
-  .g-eticheta { font-size: 0.44rem; }
+  .jstat i { font-size: 0.36rem; letter-spacing: 0; }
+  .g-stats { gap: 6px; }
+  .g-eticheta { font-size: 0.42rem; }
   .g-cariera { font-size: 0.6rem; }
   .g-mai { font-size: 0.5rem; padding: 4px 10px; }
   .post-punct .p-nume { font-size: 10.5px; }

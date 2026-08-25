@@ -144,9 +144,10 @@
     h += '<div class="j-veil"></div>';
     // numărul în colț, ca „01" din referință
     h += '<b class="j-nr">' + (juc.numar != null ? juc.numar : "&nbsp;") + "</b>";
-    // pastila albă cu numele — vizibilă pe cardurile pliate
-    var scurt = (np.prenume ? np.prenume[0] + ". " : "") + np.familie;
-    h += '<span class="j-pill">' + esc(scurt) + "</span>";
+    // numele pe verticală, ca fâșiile de la Plaja Olt
+    h += '<span class="j-vert">' +
+      (np.prenume ? "<i>" + esc(np.prenume) + "</i>" : "") +
+      "<b>" + esc(np.familie) + "</b></span>";
     h += '<span class="j-fantoma">' + (juc.numar != null ? juc.numar : esc(initiale(juc.nume))) + "</span>";
 
     // fișa de sticlă, compactă (max jumătatea de jos a cardului)
@@ -276,11 +277,14 @@
       });
     }
 
-    // drag cu inerție prin deck (mouse; pe touch rămâne scroll-ul nativ cu momentum)
+    // drag cu inerție prin deck (mouse; pe touch rămâne scroll-ul nativ cu
+    // momentum). Apăsările pe scrollbar sunt lăsate în întregime browserului.
     (function () {
       var jos = false, aTras = false, x0 = 0, s0 = 0, xUltim = 0, tUltim = 0, vx = 0;
       scena.addEventListener("pointerdown", function (ev) {
         if (ev.pointerType !== "mouse" || ev.button !== 0) return;
+        // scrollbar-ul stă în afara zonei de conținut — acolo nu pornim drag
+        if (ev.offsetY >= scena.clientHeight || ev.offsetX >= scena.clientWidth) return;
         jos = true; aTras = false;
         x0 = xUltim = ev.clientX; s0 = scena.scrollLeft;
         tUltim = performance.now(); vx = 0;
@@ -322,12 +326,73 @@
       });
     })();
 
-    function alege(juc, cardEl, anima) {
-      var idxActiv = 0;
+    /* Derularea (swipe, drag, rotiță, scrollbar) selectează cardurile unul
+       câte unul: cardul ajuns în dreptul ancorei se deschide complet, cu fișă
+       și teren actualizat. E stabil pentru că deschiderea nu schimbă amprenta
+       de layout a cardului (marginea negativă absoarbe surplusul de lățime),
+       deci nimic nu se mișcă sub degetul utilizatorului și nu e nimic de
+       compensat. */
+    var ANCORA = 16;
+    var blocatDeCamera = false, rafFocal = null;
+    var idxDeschis = 0;
+
+    // totul în spațiul de layout (offsetLeft), imun la transformările 3D
+    function indexFocal() {
+      var x = scena.scrollLeft + ANCORA;
+      var best = 0, bestD = Infinity;
       carduri.forEach(function (c, i) {
+        var d = Math.abs(c.el.offsetLeft - x);
+        if (d < bestD) { bestD = d; best = i; }
+      });
+      return best;
+    }
+
+    // stiva 3D: adâncimi logaritmice în jurul centrului, plus împingerea
+    // fâșiilor de după cardul deschis, ca acesta să nu le acopere
+    function aplicaAdancimi(centru) {
+      carduri.forEach(function (c, i) {
+        var dist = Math.abs(i - centru);
+        c.el.style.setProperty("--z", String(80 - dist));
+        c.el.style.setProperty("--ad", (1 - Math.pow(0.78, dist)).toFixed(3));
+        c.el.style.setProperty("--imp", i > centru ? "1" : "0");
+        c.el.classList.toggle("focal", i === centru);
+      });
+    }
+
+    function laDerulare() {
+      rafFocal = null;
+      if (blocatDeCamera) return;
+      var idx = indexFocal();
+      if (idx !== idxDeschis) {
+        var c = carduri[idx];
+        alege(c.juc, c.el, false);
+      }
+    }
+
+    scena.addEventListener("scroll", function () {
+      if (!rafFocal) rafFocal = requestAnimationFrame(laDerulare);
+    }, { passive: true });
+
+    function alege(juc, cardEl, anima) {
+      var idxNou = 0;
+      carduri.forEach(function (c, i) { if (c.el === cardEl) idxNou = i; });
+
+      /* Ținta camerei se calculează O DATĂ, înainte de schimbarea claselor:
+         poziția actuală a cardului, corectată cu alunecarea pe care o va
+         suferi când cardul deschis dinainte (dacă e în stânga lui) se pliază.
+         O singură țintă fixă = o singură direcție de mișcare, fără dus-întors. */
+      var tinta = null;
+      if (anima) {
+        // amprentele de layout sunt constante, deci offsetLeft nu se schimbă
+        // la deschidere — ținta e directă
+        tinta = cardEl.offsetLeft - ANCORA;
+        tinta = Math.max(0, Math.min(tinta, scena.scrollWidth - scena.clientWidth));
+      }
+      idxDeschis = idxNou;
+
+      carduri.forEach(function (c) {
         var este = c.el === cardEl;
         c.el.classList.toggle("deschis", este);
-        if (este) idxActiv = i;
         if (!este && c.el.classList.contains("extins")) {
           c.el.classList.remove("extins");
           var b = c.el.querySelector(".g-mai");
@@ -335,14 +400,7 @@
           b.innerHTML = "Detalii <b>+</b>";
         }
       });
-      // stiva 3D: cel activ deasupra, vecinii coboară sub el treptat (evantai);
-      // adâncimea crește logaritmic — pași mari lângă cardul activ, diferențe
-      // tot mai mici spre margini (creștere geometric amortizată spre 1)
-      carduri.forEach(function (c, i) {
-        var dist = Math.abs(i - idxActiv);
-        c.el.style.setProperty("--z", String(80 - dist));
-        c.el.style.setProperty("--ad", (1 - Math.pow(0.78, dist)).toFixed(3));
-      });
+      aplicaAdancimi(idxNou);
 
       // pe teren: postul jucătorului se aprinde, restul rămân gri
       var activ = null;
@@ -365,25 +423,19 @@
       // „camera" se mută spre cardul ales chiar în timp ce acesta se lățește:
       // urmărire exponențială, recalculată cadru cu cadru. Pe telefon cardul
       // se lipește de marginea stângă, ca următoarele să rămână la vedere.
-      function distantaTinta() {
-        var s = scena.getBoundingClientRect();
-        var r = cardEl.getBoundingClientRect();
-        if (window.matchMedia("(max-width: 640px)").matches) {
-          return r.left - s.left - 8;
-        }
-        return (r.left - s.left) - (s.width - r.width) / 2;
-      }
-      if (anima) {
+      // camera alunecă lin spre ținta fixă, în paralel cu lățirea cardului
+      if (anima && tinta != null) {
+        blocatDeCamera = true;
         if (areGsap) {
-          gsap.to({ t: 0 }, {
-            t: 1, duration: 0.85, ease: "power2.out",
-            onUpdate: function () { scena.scrollLeft += distantaTinta() * 0.22; },
-            onComplete: function () { scena.scrollLeft += distantaTinta(); }
+          gsap.killTweensOf(scena);
+          gsap.to(scena, {
+            scrollLeft: tinta, duration: 0.7, ease: "power3.out",
+            onComplete: function () { blocatDeCamera = false; },
+            onInterrupt: function () { blocatDeCamera = false; }
           });
         } else {
-          setTimeout(function () {
-            scena.scrollTo({ left: scena.scrollLeft + distantaTinta(), behavior: "smooth" });
-          }, 580);
+          scena.scrollTo({ left: tinta, behavior: "smooth" });
+          setTimeout(function () { blocatDeCamera = false; }, 700);
         }
       }
     }
