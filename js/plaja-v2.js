@@ -7,9 +7,11 @@
 (function () {
   "use strict";
 
-  /* ---------- acordeonul de servicii: hover pe desktop, atingere pe mobil ---------- */
+  /* ---------- serviciile: acordeon pe desktop, carusel cu swipe pe telefon ---------- */
   var cards = Array.prototype.slice.call(document.querySelectorAll(".v2-card"));
+  var eTelefon = window.matchMedia("(max-width: 640px)");
   function deschide(card) {
+    if (eTelefon.matches) return; // pe carusel toate cardurile stau deschise
     cards.forEach(function (c) { c.classList.toggle("is-open", c === card); });
   }
   cards.forEach(function (card) {
@@ -17,11 +19,39 @@
       if (e.pointerType === "mouse") deschide(card);
     });
     card.addEventListener("click", function (e) {
+      if (eTelefon.matches) return; // nu bloca linkurile din carusel
       if (!card.classList.contains("is-open")) { e.preventDefault(); deschide(card); }
     });
     card.addEventListener("focusin", function () { deschide(card); });
   });
-  if (cards.length) deschide(cards[0]);
+  if (cards.length) cards[0].classList.add("is-open");
+
+  /* punctele caruselului: arată pe ce card ești și sar la el la atingere */
+  var banda = document.querySelector(".v2-cards");
+  var cutieDots = document.querySelector(".v2-dots");
+  if (banda && cutieDots && cards.length) {
+    var dots = cards.map(function (card, i) {
+      var d = document.createElement("span");
+      d.className = "dot" + (i === 0 ? " activ" : "");
+      d.addEventListener("click", function () {
+        banda.scrollTo({ left: card.offsetLeft - (banda.clientWidth - card.offsetWidth) / 2, behavior: "smooth" });
+      });
+      cutieDots.appendChild(d);
+      return d;
+    });
+    function sincron() {
+      if (!eTelefon.matches) return;
+      var mijloc = banda.scrollLeft + banda.clientWidth / 2;
+      var aproape = 0, best = Infinity;
+      cards.forEach(function (c, i) {
+        var d = Math.abs(c.offsetLeft + c.offsetWidth / 2 - mijloc);
+        if (d < best) { best = d; aproape = i; }
+      });
+      dots.forEach(function (d, i) { d.classList.toggle("activ", i === aproape); });
+    }
+    banda.addEventListener("scroll", function () { requestAnimationFrame(sincron); }, { passive: true });
+    sincron();
+  }
 
   var reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   if (typeof gsap === "undefined" || typeof ScrollTrigger === "undefined" || reduceMotion) return;

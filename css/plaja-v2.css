@@ -264,6 +264,22 @@
 .v2-cta:hover { color: var(--gold); border-color: var(--gold); transform: translateX(4px); }
 .v2-cta.gold { color: var(--gold); border-color: rgba(246,200,28,0.55); }
 .v2-cta.gold:hover { color: #ffd83d; border-color: #ffd83d; }
+/* indicatoarele caruselului (doar pe telefon) */
+.v2-dots {
+  display: none;
+  align-items: center; justify-content: center; gap: 7px;
+  margin-top: 14px;
+  color: rgba(255,255,255,0.45);
+}
+.v2-dots::before { content: "‹"; font-family: var(--font-display); font-size: 1rem; margin-right: 4px; }
+.v2-dots::after { content: "›"; font-family: var(--font-display); font-size: 1rem; margin-left: 4px; }
+.v2-dots .dot {
+  width: 6px; height: 6px; border-radius: 50%;
+  background: rgba(255,255,255,0.3);
+  transition: background 0.25s ease, transform 0.25s ease;
+}
+.v2-dots .dot.activ { background: var(--gold); transform: scale(1.35); }
+
 .v2-si-inca {
   width: min(1200px, 92vw); margin: clamp(22px, 3vw, 34px) auto 0;
   font-size: 0.85rem; color: rgba(255,255,255,0.55);
@@ -350,17 +366,25 @@
 }
 @media (max-width: 640px) {
   .v2-hero { height: 50svh; min-height: 340px; }
-  /* acordeonul rămâne orizontal și pe telefon: fâșiile pliate se subțiază mult,
-     ca fâșia deschisă să rămână destul de lată pentru preț și buton */
-  .v2-cards { width: 96vw; height: clamp(330px, 52svh, 430px); gap: 5px; }
-  .v2-card { flex: 0 0 26px; border-radius: 12px; }
-  .v2-card.is-open { flex: 1 1 auto; }
-  .v2-vert { font-size: 0.6rem; bottom: 10px; letter-spacing: 0.04em; }
-  .v2-card-copy { width: 100%; padding: 12px 12px 14px; gap: 3px; }
-  .v2-card h3 { font-size: 1.02rem; }
-  .v2-card-copy p { font-size: 0.72rem; line-height: 1.35; }
-  .v2-tag { font-size: 0.54rem; padding: 3px 8px; letter-spacing: 0.1em; }
-  .v2-cta { font-size: 0.74rem; margin-top: 7px; }
+  /* pe telefon acordeonul devine carusel cu swipe: carduri egale, mai înguste,
+     vecinii ies din ecran, iar punctele de sub ele arată că se poate glisa */
+  .v2-cards {
+    width: 100vw; height: clamp(330px, 52svh, 430px); gap: 12px;
+    overflow-x: auto; padding: 4px 17vw 8px;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+  }
+  .v2-cards::-webkit-scrollbar { display: none; }
+  .v2-card, .v2-card.is-open { flex: 0 0 66vw; scroll-snap-align: center; cursor: default; }
+  .v2-vert { display: none; }
+  /* pe carusel, fiecare card e „deschis": conținutul se vede pe toate */
+  .v2-card .v2-card-copy { opacity: 1; transform: none; pointer-events: auto; transition: none; width: 100%; padding: 14px 16px 16px; gap: 4px; }
+  .v2-card .v2-card-veil { background: linear-gradient(to top, rgba(7,19,48,0.88) 0%, rgba(7,19,48,0.25) 45%, rgba(7,19,48,0.05) 70%); }
+  .v2-card h3 { font-size: 1.05rem; }
+  .v2-card-copy p { font-size: 0.74rem; line-height: 1.4; }
+  .v2-tag { font-size: 0.56rem; padding: 3px 9px; letter-spacing: 0.1em; }
+  .v2-cta { font-size: 0.76rem; margin-top: 8px; }
+  .v2-dots { display: flex; }
   /* prețurile compuse (30 min + 1 oră) au voie să treacă pe două rânduri */
   .v2-tarife li strong { white-space: normal; text-align: right; max-width: 46%; }
   .v2-aer img { object-position: 42% 45%; }
