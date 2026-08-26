@@ -57,36 +57,35 @@
     var text = document.querySelector(".erou-text");
     if (!erou) return;
 
-    // Imaginea rămâne în urmă pe toată traversarea secțiunii. Prelungirea
-    // diagonalei trebuie să se miște exact cu ea, altfel racordul dintre
-    // fotografie și fundal s-ar despica vizibil la scroll — de aceea o
-    // deplasăm cu aceiași pixeli, nu cu același procent (au înălțimi diferite).
+    // Jucătorii rămân serios în urmă și cresc ușor, ca fundalul de la Plaja
+    // Olt. Diagonala se mișcă cu aceiași pixeli ca ei, să pară același plan;
+    // pe scală nu e nevoie de sincron, PNG-ul e transparent și nu are racord.
     var taiere = document.querySelector(".erou-taietura");
     if (poza) {
       gsap.to(poza, {
-        yPercent: 9, ease: "none",
+        yPercent: 20, scale: 1.07, transformOrigin: "50% 100%", ease: "none",
         scrollTrigger: { trigger: erou, start: "top top", end: "bottom top", scrub: 0.5 }
       });
       if (taiere) {
         gsap.to(taiere, {
           "--taiere-y": function () {
-            return (poza.offsetHeight * 0.09).toFixed(1) + "px";
+            return (poza.offsetHeight * 0.2).toFixed(1) + "px";
           },
           ease: "none",
           scrollTrigger: { trigger: erou, start: "top top", end: "bottom top", scrub: 0.5 }
         });
       }
     }
-    // calendarul și textul urcă și se sting abia când chiar ies pe sus: cursa
-    // e legată de elementul însuși, nu de secțiune, altfel s-ar decolora cât
-    // sunt încă întregi pe ecran
+    // calendarul și textul urcă apăsat și se sting pe măsură ce ies pe sus:
+    // cursa e legată de elementul însuși, nu de secțiune, altfel s-ar
+    // decolora cât sunt încă întregi pe ecran
     gsap.to(radacina, {
-      yPercent: -14, opacity: 0.1, ease: "none",
+      yPercent: -30, opacity: 0, ease: "none",
       scrollTrigger: { trigger: radacina, start: "top top", end: "bottom top", scrub: 0.5 }
     });
     if (text) {
       gsap.to(text, {
-        yPercent: -35, opacity: 0, ease: "none",
+        yPercent: -60, opacity: 0, ease: "none",
         scrollTrigger: { trigger: text, start: "top top", end: "bottom top", scrub: 0.5 }
       });
     }

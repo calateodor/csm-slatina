@@ -893,31 +893,34 @@ body.menu-open .menu-overlay { visibility: visible; opacity: 1; pointer-events: 
 .erou-calendar {
   /* înălțimea imaginii e reperul întregii compoziții; hero-ul crește după
      conținut, iar imaginea stă centrată pe pagină, lipită de bază */
+  /* --img-inalt e reperul istoric al compoziției (înălțimea vechiului
+     wallpaper); jucătorii — acum un PNG decupat, transparent — ocupă în
+     continuare 58,3% din el, deci rămân exact pe poziția veche */
   --img-inalt: clamp(760px, 122vh, 1340px);
-  --img-lat: calc(var(--img-inalt) * 0.80612);   /* raportul nativ 1264/1568 */
+  --jucatori-inalt: calc(var(--img-inalt) * 0.583);
   --cal-lat: min(94vw, 1440px);
   height: auto;
   background: #2a5298;
   padding-top: calc(var(--header-h) + clamp(26px, 3.5vh, 52px));
-  /* jucătorii ocupă 58,3% din înălțimea imaginii, de la bază în sus: lăsăm
-     exact atât liber dedesubt, ca ultimul rând al calendarului să se oprească
-     chiar deasupra capetelor lor */
-  padding-bottom: calc(var(--img-inalt) * 0.583 + 18px);
+  /* lăsăm liber dedesubt exact cât jucătorii, ca ultimul rând al
+     calendarului să se oprească chiar deasupra capetelor lor */
+  padding-bottom: calc(var(--jucatori-inalt) + 18px);
 }
 .erou-calendar::after { display: none; }
 /* centrarea se face din margin-left, nu din transform, ca GSAP să poată
-   folosi transform-ul pentru parallax fără să strice poziția */
+   folosi transform-ul pentru parallax fără să strice poziția; 0.6872 e
+   jumătate din raportul nativ al PNG-ului cu jucătorii (1237/900) */
 .erou-echipa {
   position: absolute; bottom: 0; left: 50%; z-index: 1;
-  margin-left: calc(var(--img-lat) / -2);
-  height: var(--img-inalt); width: auto;
+  margin-left: calc(var(--jucatori-inalt) * -0.6872);
+  height: var(--jucatori-inalt); width: auto;
   pointer-events: none; user-select: none;
 }
-/* Prelungirea diagonalei, în stânga și în dreapta imaginii. Un singur bloc pe
-   toată lățimea, înclinat exact în unghiul măsurat din imagine (15,1°), cu
-   originea în centrul paginii — adică fix în centrul imaginii, unde diagonala
-   ei trece prin 53,11% din înălțimea imaginii. Unghiurile fiind identice,
-   racordul e invizibil de ambele părți. */
+/* Zona deschisă de sub diagonală. Jucătorii fiind acum un PNG transparent,
+   diagonala e desenată în întregime aici: un singur bloc pe toată lățimea,
+   înclinat la 15,1° (unghiul vechiului wallpaper), trecând prin centrul
+   paginii la aceeași înălțime ca înainte — 46,89% din --img-inalt față de
+   baza secțiunii. */
 .erou-taietura {
   position: absolute; z-index: 0;
   left: 0; right: 0;
@@ -995,8 +998,12 @@ body.menu-open .menu-overlay { visibility: visible; opacity: 1; pointer-events: 
   font-size: calc(var(--cal-lat) * 0.023);
   color: #fff;
 }
+/* border: 0 (resetul de buton) ștergea și liniile grilei pe zilele cu meci,
+   așa că le redeclarăm explicit pe dreapta și jos */
 .cal-zi.meci {
   position: relative; border: 0; background: none; padding: 0; cursor: pointer;
+  border-right: 1px solid rgba(255, 255, 255, 0.14);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.14);
 }
 .cal-balon {
   width: calc(var(--cal-lat) * 0.044); height: calc(var(--cal-lat) * 0.044);
@@ -1038,8 +1045,8 @@ body.menu-open .menu-overlay { visibility: visible; opacity: 1; pointer-events: 
 }
 
 @media (max-width: 880px) {
-  /* imaginea iese din poziționarea absolută și curge sub calendar, pe toată
-     lățimea, cu diagonala ei proprie — deci nu mai avem nevoie de prelungire */
+  /* jucătorii ies din poziționarea absolută și curg sub calendar, pe toată
+     lățimea */
   .erou-calendar {
     --cal-lat: 92vw;
     display: flex; flex-direction: column;
@@ -1059,17 +1066,20 @@ body.menu-open .menu-overlay { visibility: visible; opacity: 1; pointer-events: 
     width: calc(var(--cal-lat) * 0.1); height: calc(var(--cal-lat) * 0.1);
     font-size: calc(var(--cal-lat) * 0.055);
   }
-  .erou-taietura, .erou-calendar .hero-art { display: none; }
+  .erou-calendar .hero-art { display: none; }
+  /* PNG-ul cu jucătorii e transparent, deci zona deschisă vine tot din
+     blocul înclinat: îl ancorăm sub marginea de jos, ca muchia lui teșită să
+     nu lase colțuri de albastru descoperite */
+  .erou-taietura {
+    top: auto; bottom: -15vw; height: 61vw;
+  }
   .calendar-meciuri { width: var(--cal-lat); }
-  /* imaginea are peste jumătate din înălțime albastru gol deasupra diagonalei;
-     în flux asta ar lăsa o bandă goală de sute de pixeli sub calendar, așa că
-     păstrăm doar partea de jos — diagonala și jucătorii */
   .erou-echipa {
-    position: static; order: 3; transform: none;
+    position: relative; z-index: 1;   /* peste blocul înclinat, dar în flux */
+    left: 0; bottom: auto;            /* left: 50% de pe desktop ar împinge-o */
+    order: 3;
     width: 100%; height: auto;
     margin: 20px 0 0;                 /* anulează centrarea negativă de desktop */
-    aspect-ratio: 1264 / 900;
-    object-fit: cover; object-position: 50% 100%;
   }
 }
 
