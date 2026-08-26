@@ -57,6 +57,18 @@
     var text = document.querySelector(".erou-text");
     if (!erou) return;
 
+    // Hero-ul conține două imagini mari, iar înălțimea lui se schimbă când
+    // ele se încarcă. ScrollTrigger își fixează reperele la construcție, deci
+    // fără reîmprospătare toate cursele rămân decalate — se consumau înainte
+    // ca secțiunea să ajungă pe ecran. Recalculăm după fiecare imagine.
+    function reimprospateaza() { ScrollTrigger.refresh(); }
+    window.addEventListener("load", reimprospateaza);
+    erou.querySelectorAll("img").forEach(function (im) {
+      if (im.complete) return;
+      im.addEventListener("load", reimprospateaza);
+      im.addEventListener("error", reimprospateaza);
+    });
+
     // Toate amplitudinile vin din css/erou-fotbal.css, ca reglajele să stea
     // într-un singur loc. Cu cât un strat rămâne mai mult în urmă (număr
     // pozitiv mai mare), cu atât pare mai departe.
@@ -111,19 +123,38 @@
     // în pixeli, la fiecare refresh, ca să urmeze înălțimea ferestrei.
     var urmatoare = erou.nextElementSibling;
     if (urmatoare) {
-      gsap.fromTo(urmatoare,
-        {
-          y: function () {
-            return maneta("--px-urmatoare", 14) * window.innerHeight / 100;
-          }
-        },
-        {
-          y: 0, ease: "none",
+      function cursaFoii() {
+        return maneta("--px-urmatoare", 14) * window.innerHeight / 100;
+      }
+      var declansatorFoaie = {
+        trigger: urmatoare, start: "top bottom", end: "top 40%",
+        scrub: 0.5, invalidateOnRefresh: true
+      };
+      gsap.fromTo(urmatoare, { y: cursaFoii },
+        { y: 0, ease: "none", scrollTrigger: declansatorFoaie });
+
+      // Filigranul FOTBAL și gheata urcă prinse de foaie: același declanșator,
+      // aceeași cursă în pixeli, doar că ele pornesc de la locul lor și se
+      // ridică, în loc să coboare spre zero. Rezultatul e că distanța dintre
+      // ele și muchia albă rămâne constantă — par lipite de secțiune.
+      var prinseDeFoaie = [erou.querySelector(".sport-ghost"),
+                           erou.querySelector(".hero-art")].filter(Boolean);
+      prinseDeFoaie.forEach(function (el) {
+        // filigranul e centrat cu translateY(-50%) din CSS; îl trecem explicit
+        // în yPercent, altfel GSAP citește procentul ca pixeli din matrice și
+        // elementul sare din poziție la prima animare a lui y
+        if (el.classList.contains("sport-ghost")) {
+          gsap.set(el, { yPercent: -50, y: 0 });
+        }
+        gsap.to(el, {
+          y: function () { return -cursaFoii(); },
+          ease: "none",
           scrollTrigger: {
             trigger: urmatoare, start: "top bottom", end: "top 40%",
             scrub: 0.5, invalidateOnRefresh: true
           }
         });
+      });
     }
   }
 
