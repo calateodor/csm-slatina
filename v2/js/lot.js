@@ -207,6 +207,8 @@
     h += '<button class="g-mai" type="button" aria-expanded="false">Detalii <b>+</b></button>';
     h += '<div class="g-rest"><div>' + rest + "</div></div>";
     h += "</div></div>";
+    // dunga de lucire care traversează cardul după mouse (doar pe desktop)
+    h += '<i class="j-lucire" aria-hidden="true"></i>';
     return h;
   }
 
@@ -255,6 +257,7 @@
     if (window.matchMedia("(hover: hover) and (pointer: fine)").matches) {
       carduri.forEach(function (c) {
         var el = c.el, img = el.querySelector("img");
+        var luc = el.querySelector(".j-lucire");
         el.addEventListener("mousemove", function (ev) {
           var r = el.getBoundingClientRect();
           var px = (ev.clientX - r.left) / r.width - 0.5;
@@ -265,6 +268,10 @@
             img.style.setProperty("--pax", (px * -12).toFixed(1) + "px");
             img.style.setProperty("--pay", (py * -9).toFixed(1) + "px");
           }
+          if (luc) {
+            luc.style.setProperty("--lux", px.toFixed(3));
+            luc.style.setProperty("--luy", py.toFixed(3));
+          }
         });
         el.addEventListener("mouseleave", function () {
           el.style.removeProperty("--my");
@@ -272,6 +279,10 @@
           if (img) {
             img.style.removeProperty("--pax");
             img.style.removeProperty("--pay");
+          }
+          if (luc) {
+            luc.style.removeProperty("--lux");
+            luc.style.removeProperty("--luy");
           }
         });
       });

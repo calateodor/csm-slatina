@@ -100,6 +100,8 @@
 @property --my { syntax: "<angle>"; inherits: false; initial-value: 0deg; }
 @property --pax { syntax: "<length>"; inherits: false; initial-value: 0px; }
 @property --pay { syntax: "<length>"; inherits: false; initial-value: 0px; }
+@property --lux { syntax: "<number>"; inherits: false; initial-value: 0; }
+@property --luy { syntax: "<number>"; inherits: false; initial-value: 0; }
 
 .lot-panou {
   background: linear-gradient(160deg, var(--navy-900) 0%, var(--navy-950) 100%);
@@ -213,6 +215,31 @@
   transition: transform 0.25s ease-out, filter 0.45s ease;
 }
 .jcard:hover img { filter: grayscale(0.3) brightness(0.88) saturate(0.95); }
+
+/* Dunga de lucire: o reflexie diagonală de sticlă care traversează tot cardul
+   (și fotografia, și fișa cu date) urmărind mouse-ul pe orizontală, cu o
+   ușoară alunecare pe verticală. Variabilele --lux/--luy sunt fracțiuni
+   -0.5..0.5 setate de lot.js chiar pe acest element (ne-moștenite, ca restul),
+   iar deplasarea reală iese din transform, deci nu forțează layout. Există
+   doar unde există hover adevărat; pe touch elementul rămâne ascuns, ca un
+   tap să nu lase o dungă înțepenită peste card. */
+.j-lucire { display: none; }
+@media (hover: hover) and (pointer: fine) {
+  .j-lucire {
+    display: block; position: absolute; inset: 0; z-index: 5;
+    pointer-events: none; border-radius: inherit;
+    background: linear-gradient(115deg,
+      transparent 34%,
+      rgba(255, 255, 255, 0.05) 44%,
+      rgba(255, 255, 255, 0.11) 50%,
+      rgba(255, 255, 255, 0.05) 56%,
+      transparent 66%);
+    transform: translate3d(calc(var(--lux, 0) * 160%), calc(var(--luy, 0) * 40%), 0);
+    opacity: 0;
+    transition: opacity 0.4s ease, transform 0.18s ease-out;
+  }
+  .jcard:hover .j-lucire { opacity: 1; }
+}
 /* „focal" = cardul din dreptul ancorei în timpul derulării: se aprinde doar
    prin culoare/umbre (fără schimbare de lățime), ca dezvăluirea să fie fluidă */
 .jcard.focal { border-color: rgba(246, 200, 28, 0.45); }
