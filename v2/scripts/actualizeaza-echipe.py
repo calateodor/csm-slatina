@@ -218,13 +218,72 @@ def cariera_jucator(html):
     return out
 
 
-# fotografiile oficiale ale clubului (graficele de prezentare, decupate în
-# assets/img/lot/) — se aplică la fiecare rulare, ca să nu se piardă la refresh
+# Portretele de lot. Sunt imagini generate cu Nano Banana Pro pornind de la
+# fotografiile pe care le are clubul (una per jucător) plus o poză a
+# echipamentului, ca tot lotul să arate ca o singură ședință foto de studio.
+# Pentru fiecare jucător există trei poze în assets/img/lot/fotbal/, cu sufixele
+# -incrucisate, -default și -spate; pe card intră cea aleasă mai jos, iar
+# celelalte două rămân în depozit ca să poată fi schimbate oricând doar
+# rescriind sufixul aici.
+#
+# Poza alternează din card în card: primul brațe încrucișate, al doilea default,
+# al treilea mâinile la spate, apoi de la capăt. ATENȚIE: contează ordinea în
+# care lot.js desenează cardurile, care este pe posturi (întâi portarii, apoi
+# fundașii, mijlocașii, atacanții) — nu ordinea din echipe.json. Lista de mai
+# jos este scrisă chiar în ordinea de pe pagină, ca să se vadă alternanța.
+# Dacă lotul se schimbă, ordinea se recalculează de acolo.
+#
+# Jucătorii pentru care clubul nu are încă nicio fotografie primesc silueta.
+# Se aplică la fiecare rulare, ca să nu se piardă la refresh.
+SILUETA = "assets/img/lot/fotbal/silueta.jpg"
+
+
+def _p(nume):
+    return "assets/img/lot/fotbal/%s.jpg" % nume
+
+
 POZE_CLUB = {
     "fotbal": {
-        "Solcan Alexandru Stefano": "assets/img/lot/fotbal/solcan-alexandru-stefano.jpg",
-        "Munoz Pol": "assets/img/lot/fotbal/munoz-pol.jpg",
-        "Granja Ronald": "assets/img/lot/fotbal/granja-ronald.jpg",
+        # portari
+        "Racasan Mihai": _p("racasan-mihai-incrucisate"),
+        "Glodean Alexandru": _p("glodean-alexandru-default"),
+        "Maxim Alexandru": _p("maxim-alexandru-spate"),
+        "Predut Catalin": _p("predut-catalin-incrucisate"),
+        # fundași
+        "Baraitaru Mario": _p("baraitaru-mario-default"),
+        "Georgescu Alex": _p("georgescu-alex-spate"),
+        "Munoz Pol": _p("munoz-pol-incrucisate"),
+        "Riza Robert": _p("riza-robert-default"),
+        "Serbanica Daniel": _p("serbanica-daniel-spate"),
+        "Stancu Claudiu": _p("stancu-claudiu-incrucisate"),
+        "Ureche Alexandru": _p("ureche-alexandru-default"),
+        "Andres Ionut": _p("andres-ionut-spate"),
+        "Tolu Eduard": _p("tolu-eduard-incrucisate"),
+        # mijlocași
+        "Gheoroae Stefan": _p("gheoroae-stefan-default"),
+        "Granja Ronald": _p("granja-ronald-spate"),
+        "Lapadatescu Robert": _p("lapadatescu-robert-incrucisate"),
+        "Pacionel Emilian": _p("pacionel-emilian-default"),
+        "Rauta Alexandru": _p("rauta-alexandru-spate"),
+        "Solcan Alexandru Stefano": _p("solcan-alexandru-stefano-incrucisate"),
+        "Velea Rares": SILUETA,
+        "Joia Antonio": SILUETA,
+        # atacanți
+        "Mihaiu Andreas": _p("mihaiu-andreas-incrucisate"),
+        "Muntean Denys": SILUETA,
+        "Radu Constantin": SILUETA,
+        "Serban Sebastian": SILUETA,
+        "Tabarcea Matei": SILUETA,
+        # fără post trecut în lot
+        "Bordusanu Antonio": SILUETA,
+        "Magyari Szilard": SILUETA,
+        "Matis Razvan": SILUETA,
+        "Nastasie Ionut": SILUETA,
+        "Sorescu Yanis": SILUETA,
+        "Stan Alexandru": SILUETA,
+        "Mbanga Jean": SILUETA,
+        "Stan Abel": SILUETA,
+        "Tudorache Alexandru": SILUETA,
     },
     "handbal": {},
 }
@@ -403,11 +462,12 @@ def main():
                 zi, luna, an = (int(x) for x in juc["nascut"].split("."))
                 azi = time.localtime()
                 juc["varsta"] = azi.tm_year - an - ((azi.tm_mon, azi.tm_mday) < (luna, zi))
-            # fotografiile oficiale ale clubului au prioritate
+            # portretele de lot au prioritate fata de pozele luate din Wikidata
             poza_club = POZE_CLUB.get(cheie, {}).get(juc["nume"])
             if poza_club:
                 juc["poza"] = poza_club
-                juc["pozaCredit"] = "Foto: CSM Slatina"
+                juc["pozaCredit"] = ("Siluetă generată AI" if poza_club == SILUETA
+                                     else "Portret generat AI, după fotografiile CSM Slatina")
 
     radacina = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
     cale = os.path.join(radacina, "data", "echipe.json")

@@ -144,7 +144,9 @@
      "debut": 2024,
      "meciuri": "40",
      "faraGol": "3"
-    }
+    },
+    "poza": "assets/img/lot/fotbal/racasan-mihai-incrucisate.jpg",
+    "pozaCredit": "Portret generat AI, după fotografiile CSM Slatina"
    },
    {
     "numar": 33,
@@ -178,7 +180,9 @@
      "debut": 2024,
      "meciuri": "51",
      "goluri": "4"
-    }
+    },
+    "poza": "assets/img/lot/fotbal/baraitaru-mario-default.jpg",
+    "pozaCredit": "Portret generat AI, după fotografiile CSM Slatina"
    },
    {
     "numar": 80,
@@ -213,7 +217,9 @@
      "meciuri": "15",
      "goluri": "1",
      "pase": "0"
-    }
+    },
+    "poza": "assets/img/lot/fotbal/georgescu-alex-spate.jpg",
+    "pozaCredit": "Portret generat AI, după fotografiile CSM Slatina"
    },
    {
     "numar": 16,
@@ -250,8 +256,8 @@
      "goluri": "1",
      "pase": "0"
     },
-    "poza": "assets/img/lot/fotbal/munoz-pol.jpg",
-    "pozaCredit": "Foto: CSM Slatina"
+    "poza": "assets/img/lot/fotbal/munoz-pol-incrucisate.jpg",
+    "pozaCredit": "Portret generat AI, după fotografiile CSM Slatina"
    },
    {
     "numar": 20,
@@ -286,7 +292,9 @@
      "meciuri": "55",
      "goluri": "3",
      "pase": "0"
-    }
+    },
+    "poza": "assets/img/lot/fotbal/riza-robert-default.jpg",
+    "pozaCredit": "Portret generat AI, după fotografiile CSM Slatina"
    },
    {
     "numar": 30,
@@ -322,7 +330,9 @@
      "meciuri": "188",
      "goluri": "10",
      "pase": "3"
-    }
+    },
+    "poza": "assets/img/lot/fotbal/serbanica-daniel-spate.jpg",
+    "pozaCredit": "Portret generat AI, după fotografiile CSM Slatina"
    },
    {
     "numar": 26,
@@ -358,7 +368,9 @@
      "meciuri": "4",
      "goluri": "0",
      "pase": "0"
-    }
+    },
+    "poza": "assets/img/lot/fotbal/stancu-claudiu-incrucisate.jpg",
+    "pozaCredit": "Portret generat AI, după fotografiile CSM Slatina"
    },
    {
     "numar": 3,
@@ -392,7 +404,9 @@
      "debut": 2023,
      "meciuri": "16",
      "goluri": "0"
-    }
+    },
+    "poza": "assets/img/lot/fotbal/ureche-alexandru-default.jpg",
+    "pozaCredit": "Portret generat AI, după fotografiile CSM Slatina"
    },
    {
     "numar": 18,
@@ -426,7 +440,9 @@
      "debut": 2024,
      "meciuri": "32",
      "goluri": "0"
-    }
+    },
+    "poza": "assets/img/lot/fotbal/gheoroae-stefan-default.jpg",
+    "pozaCredit": "Portret generat AI, după fotografiile CSM Slatina"
    },
    {
     "numar": 17,
@@ -461,8 +477,8 @@
      "meciuri": "39",
      "goluri": "15"
     },
-    "poza": "assets/img/lot/fotbal/granja-ronald.jpg",
-    "pozaCredit": "Foto: CSM Slatina"
+    "poza": "assets/img/lot/fotbal/granja-ronald-spate.jpg",
+    "pozaCredit": "Portret generat AI, după fotografiile CSM Slatina"
    },
    {
     "numar": 6,
@@ -496,7 +512,9 @@
      "debut": 2025,
      "meciuri": "26",
      "goluri": "1"
-    }
+    },
+    "poza": "assets/img/lot/fotbal/lapadatescu-robert-incrucisate.jpg",
+    "pozaCredit": "Portret generat AI, după fotografiile CSM Slatina"
    },
    {
     "numar": 10,
@@ -530,7 +548,9 @@
      "debut": 2020,
      "meciuri": "90",
      "goluri": "10"
-    }
+    },
+    "poza": "assets/img/lot/fotbal/pacionel-emilian-default.jpg",
+    "pozaCredit": "Portret generat AI, după fotografiile CSM Slatina"
    },
    {
     "numar": 5,
@@ -565,7 +585,9 @@
      "meciuri": "258",
      "goluri": "7",
      "pase": "5"
-    }
+    },
+    "poza": "assets/img/lot/fotbal/rauta-alexandru-spate.jpg",
+    "pozaCredit": "Portret generat AI, după fotografiile CSM Slatina"
    },
    {
     "numar": 47,
@@ -600,8 +622,8 @@
      "meciuri": "8",
      "goluri": "7"
     },
-    "poza": "assets/img/lot/fotbal/solcan-alexandru-stefano.jpg",
-    "pozaCredit": "Foto: CSM Slatina"
+    "poza": "assets/img/lot/fotbal/solcan-alexandru-stefano-incrucisate.jpg",
+    "pozaCredit": "Portret generat AI, după fotografiile CSM Slatina"
    },
    {
     "numar": 31,
@@ -635,7 +657,9 @@
      "debut": 2025,
      "meciuri": "6",
      "goluri": "0"
-    }
+    },
+    "poza": "assets/img/lot/fotbal/silueta.jpg",
+    "pozaCredit": "Siluetă generată AI"
    },
    {
     "numar": 97,
@@ -671,7 +695,9 @@
      "meciuri": "66",
      "goluri": "2",
      "pase": "3"
-    }
+    },
+    "poza": "assets/img/lot/fotbal/silueta.jpg",
+    "pozaCredit": "Siluetă generată AI"
    },
    {
     "numar": 19,
@@ -705,7 +731,9 @@
      "debut": 2019,
      "meciuri": "156",
      "goluri": "26"
-    }
+    },
+    "poza": "assets/img/lot/fotbal/silueta.jpg",
+    "pozaCredit": "Siluetă generată AI"
    },
    {
     "numar": 8,
@@ -740,7 +768,9 @@
      "meciuri": "117",
      "goluri": "8",
      "pase": "1"
-    }
+    },
+    "poza": "assets/img/lot/fotbal/silueta.jpg",
+    "pozaCredit": "Siluetă generată AI"
    },
    {
     "numar": 7,
@@ -777,7 +807,9 @@
     },
     "inaltime": 179,
     "greutate": 70,
-    "origine": "Craiova"
+    "origine": "Craiova",
+    "poza": "assets/img/lot/fotbal/silueta.jpg",
+    "pozaCredit": "Siluetă generată AI"
    },
    {
     "numar": 14,
@@ -811,7 +843,9 @@
      "debut": 2024,
      "meciuri": "4",
      "goluri": "2"
-    }
+    },
+    "poza": "assets/img/lot/fotbal/silueta.jpg",
+    "pozaCredit": "Siluetă generată AI"
    },
    {
     "numar": 9,
@@ -847,7 +881,9 @@
      "meciuri": "52",
      "goluri": "5",
      "pase": "1"
-    }
+    },
+    "poza": "assets/img/lot/fotbal/silueta.jpg",
+    "pozaCredit": "Siluetă generată AI"
    },
    {
     "numar": 33,
@@ -877,7 +913,9 @@
      "debut": 2024,
      "meciuri": "4",
      "faraGol": "0"
-    }
+    },
+    "poza": "assets/img/lot/fotbal/glodean-alexandru-default.jpg",
+    "pozaCredit": "Portret generat AI, după fotografiile CSM Slatina"
    },
    {
     "numar": 1,
@@ -907,7 +945,9 @@
      "debut": 2024,
      "meciuri": "30",
      "faraGol": "0"
-    }
+    },
+    "poza": "assets/img/lot/fotbal/maxim-alexandru-spate.jpg",
+    "pozaCredit": "Portret generat AI, după fotografiile CSM Slatina"
    },
    {
     "numar": 1,
@@ -937,7 +977,9 @@
      "debut": 2020,
      "meciuri": "3",
      "faraGol": "0"
-    }
+    },
+    "poza": "assets/img/lot/fotbal/predut-catalin-incrucisate.jpg",
+    "pozaCredit": "Portret generat AI, după fotografiile CSM Slatina"
    },
    {
     "numar": 28,
@@ -973,7 +1015,9 @@
      "meciuri": "56",
      "goluri": "2",
      "pase": "0"
-    }
+    },
+    "poza": "assets/img/lot/fotbal/andres-ionut-spate.jpg",
+    "pozaCredit": "Portret generat AI, după fotografiile CSM Slatina"
    },
    {
     "numar": 21,
@@ -1007,7 +1051,9 @@
      "debut": 2025,
      "meciuri": "1",
      "goluri": "0"
-    }
+    },
+    "poza": "assets/img/lot/fotbal/tolu-eduard-incrucisate.jpg",
+    "pozaCredit": "Portret generat AI, după fotografiile CSM Slatina"
    },
    {
     "numar": 14,
@@ -1041,7 +1087,9 @@
      "debut": 2025,
      "meciuri": "1",
      "goluri": "0"
-    }
+    },
+    "poza": "assets/img/lot/fotbal/silueta.jpg",
+    "pozaCredit": "Siluetă generată AI"
    },
    {
     "numar": 98,
@@ -1077,7 +1125,9 @@
      "meciuri": "105",
      "goluri": "9",
      "pase": "1"
-    }
+    },
+    "poza": "assets/img/lot/fotbal/mihaiu-andreas-incrucisate.jpg",
+    "pozaCredit": "Portret generat AI, după fotografiile CSM Slatina"
    },
    {
     "numar": 38,
@@ -1116,7 +1166,9 @@
      "meciuri": "1",
      "goluri": "0",
      "pase": "0"
-    }
+    },
+    "poza": "assets/img/lot/fotbal/silueta.jpg",
+    "pozaCredit": "Siluetă generată AI"
    },
    {
     "numar": 77,
@@ -1150,7 +1202,9 @@
      "debut": 2020,
      "meciuri": "100",
      "goluri": "3"
-    }
+    },
+    "poza": "assets/img/lot/fotbal/silueta.jpg",
+    "pozaCredit": "Siluetă generată AI"
    },
    {
     "numar": 39,
@@ -1159,7 +1213,9 @@
     "varsta": 20,
     "nat": "România",
     "url": "https://www.flashscore.ro/jucator/serban-sebastian/2FPfhsr4/",
-    "nascut": "13.07.2006"
+    "nascut": "13.07.2006",
+    "poza": "assets/img/lot/fotbal/silueta.jpg",
+    "pozaCredit": "Siluetă generată AI"
    },
    {
     "numar": 2,
@@ -1168,7 +1224,9 @@
     "varsta": 17,
     "nat": "România",
     "url": "https://www.flashscore.ro/jucator/tabarcea-matei/2aZ3lPPr/",
-    "nascut": "29.01.2009"
+    "nascut": "29.01.2009",
+    "poza": "assets/img/lot/fotbal/silueta.jpg",
+    "pozaCredit": "Siluetă generată AI"
    },
    {
     "numar": 19,
@@ -1202,7 +1260,9 @@
      "debut": 2023,
      "meciuri": "41",
      "goluri": "19"
-    }
+    },
+    "poza": "assets/img/lot/fotbal/silueta.jpg",
+    "pozaCredit": "Siluetă generată AI"
    },
    {
     "numar": 4,
@@ -1236,7 +1296,9 @@
      "debut": 2020,
      "meciuri": "45",
      "goluri": "0"
-    }
+    },
+    "poza": "assets/img/lot/fotbal/silueta.jpg",
+    "pozaCredit": "Siluetă generată AI"
    },
    {
     "numar": 18,
@@ -1245,7 +1307,9 @@
     "varsta": 16,
     "nat": "România",
     "url": "https://www.flashscore.ro/jucator/tudorache-alexandru/pUR1QhYa/",
-    "nascut": "01.01.2010"
+    "nascut": "01.01.2010",
+    "poza": "assets/img/lot/fotbal/silueta.jpg",
+    "pozaCredit": "Siluetă generată AI"
    }
   ]
  },
