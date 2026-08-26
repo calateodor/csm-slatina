@@ -75,7 +75,7 @@
   /* Jucătorii: jumătate din înălțimea ferestrei. E maneta principală a
      compoziției — crescând-o, scade automat spațiul rămas calendarului,
      fiindcă --cal-incape de mai jos o scade din bugetul vertical. */
-  --jucatori-inalt: clamp(560px, 96vh, 1120px);
+  --jucatori-inalt: clamp(450px, 77vh, 900px);
 
   --cal-dorita: min(92vw, 980px);
   /* 118vh, nu 100: lăsăm eroul să treacă puțin peste un ecran, cât să se
@@ -84,7 +84,7 @@
      calendar mai mic. */
   /* 170px = blocul cu titlul (acum pe un rand, ~120) plus marginea grilei */
   --cal-incape: calc((118vh - var(--header-h) - 170px - var(--jucatori-inalt)) * 2);
-  --cal-minima: min(92vw, 620px);
+  --cal-minima: min(92vw, 744px);
   --cal-lat: max(var(--cal-minima), min(var(--cal-dorita), var(--cal-incape)));
 
   /* fotografia ține locul albastrului plat; culoarea rămâne ca plasă de
