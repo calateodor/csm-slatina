@@ -220,21 +220,30 @@
    (și fotografia, și fișa cu date) urmărind mouse-ul pe orizontală, cu o
    ușoară alunecare pe verticală. Variabilele --lux/--luy sunt fracțiuni
    -0.5..0.5 setate de lot.js chiar pe acest element (ne-moștenite, ca restul),
-   iar deplasarea reală iese din transform, deci nu forțează layout. Există
-   doar unde există hover adevărat; pe touch elementul rămâne ascuns, ca un
-   tap să nu lase o dungă înțepenită peste card. */
+   iar deplasarea reală iese din transform, deci nu forțează layout.
+
+   Elementul e de trei ori mai lat decât cardul (și 150% pe înălțime), cu banda
+   desenată în treimea din mijloc: la deplasarea maximă (50% * 3 lățimi = 0,75
+   din card) marginea lui rămâne cu un sfert de card în afara zonei vizibile,
+   deci banda nu se mai termină niciodată cu o tăietură dreaptă în card, cum se
+   întâmpla când elementul era exact cât cardul. Cardul taie surplusul prin
+   overflow: hidden.
+
+   Există doar unde există hover adevărat; pe touch elementul rămâne ascuns,
+   ca un tap să nu lase o dungă înțepenită peste card. */
 .j-lucire { display: none; }
 @media (hover: hover) and (pointer: fine) {
   .j-lucire {
-    display: block; position: absolute; inset: 0; z-index: 5;
-    pointer-events: none; border-radius: inherit;
+    display: block; position: absolute;
+    top: -25%; left: -100%; width: 300%; height: 150%;
+    z-index: 5; pointer-events: none;
     background: linear-gradient(115deg,
-      transparent 34%,
-      rgba(255, 255, 255, 0.05) 44%,
+      transparent 45%,
+      rgba(255, 255, 255, 0.05) 47.5%,
       rgba(255, 255, 255, 0.11) 50%,
-      rgba(255, 255, 255, 0.05) 56%,
-      transparent 66%);
-    transform: translate3d(calc(var(--lux, 0) * 160%), calc(var(--luy, 0) * 40%), 0);
+      rgba(255, 255, 255, 0.05) 52.5%,
+      transparent 55%);
+    transform: translate3d(calc(var(--lux, 0) * 50%), calc(var(--luy, 0) * 26%), 0);
     opacity: 0;
     transition: opacity 0.4s ease, transform 0.18s ease-out;
   }
