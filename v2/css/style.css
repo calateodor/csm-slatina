@@ -890,15 +890,9 @@ body.menu-open .menu-overlay { visibility: visible; opacity: 1; pointer-events: 
    măsurat din imagine (15,1°), pornind din punctul în care diagonala
    atinge marginea stângă a imaginii (64% din înălțime). Lățimea imaginii
    e înălțimea hero-ului înmulțită cu raportul ei nativ (1264/1568). */
+/* Dimensiunile (--jucatori-inalt, --cal-lat) se stabilesc în erou-fotbal.css,
+   ca să stea lângă celelalte reglaje. */
 .erou-calendar {
-  /* înălțimea imaginii e reperul întregii compoziții; hero-ul crește după
-     conținut, iar imaginea stă centrată pe pagină, lipită de bază */
-  /* --img-inalt e reperul istoric al compoziției (înălțimea vechiului
-     wallpaper); jucătorii — acum un PNG decupat, transparent — ocupă în
-     continuare 58,3% din el, deci rămân exact pe poziția veche */
-  --img-inalt: clamp(760px, 122vh, 1340px);
-  --jucatori-inalt: calc(var(--img-inalt) * 0.583);
-  --cal-lat: min(94vw, 1440px);
   height: auto;
   background: #2a5298;
   padding-top: calc(var(--header-h) + clamp(26px, 3.5vh, 52px));
@@ -916,15 +910,15 @@ body.menu-open .menu-overlay { visibility: visible; opacity: 1; pointer-events: 
   height: var(--jucatori-inalt); width: auto;
   pointer-events: none; user-select: none;
 }
-/* Zona deschisă de sub diagonală. Jucătorii fiind acum un PNG transparent,
+/* Zona deschisă de sub diagonală. Jucătorii fiind un PNG transparent,
    diagonala e desenată în întregime aici: un singur bloc pe toată lățimea,
-   înclinat la 15,1° (unghiul vechiului wallpaper), trecând prin centrul
-   paginii la aceeași înălțime ca înainte — 46,89% din --img-inalt față de
-   baza secțiunii. */
+   înclinat la 15,1°, care trece prin centrul paginii la 80,4% din înălțimea
+   jucătorilor, măsurat de la baza secțiunii — proporția din compoziția
+   originală, păstrată indiferent cât de mari îi facem. */
 .erou-taietura {
   position: absolute; z-index: 0;
   left: 0; right: 0;
-  top: calc(100% - var(--img-inalt) * 0.4689);      /* 1 - 0.5311 */
+  top: calc(100% - var(--jucatori-inalt) * 0.804);
   height: 200vh;
   background: linear-gradient(180deg, #e9e9e7 0%, #bcbcbc 70%);
   /* deplasarea de parallax intră ca variabilă, nu direct în transform, ca
@@ -955,15 +949,15 @@ body.menu-open .menu-overlay { visibility: visible; opacity: 1; pointer-events: 
 .cal-luna {
   font-family: var(--font-display); font-weight: 800;
   text-transform: uppercase; letter-spacing: 0.16em;
-  font-size: calc(var(--cal-lat) * 0.019);
+  font-size: calc(var(--cal-lat) * 0.024);
 }
 .cal-luna span { color: rgba(255,255,255,0.55); margin-left: 4px; }
 .cal-nav { display: flex; gap: 10px; }
 .cal-nav button {
-  width: calc(var(--cal-lat) * 0.036); height: calc(var(--cal-lat) * 0.036);
+  width: calc(var(--cal-lat) * 0.046); height: calc(var(--cal-lat) * 0.046);
   border-radius: 50%;
   border: 1px solid rgba(255,255,255,0.4); background: transparent;
-  color: #fff; font-size: calc(var(--cal-lat) * 0.021); line-height: 1;
+  color: #fff; font-size: calc(var(--cal-lat) * 0.026); line-height: 1;
   cursor: pointer;
   display: flex; align-items: center; justify-content: center;
   transition: background 0.25s ease, opacity 0.25s ease;
@@ -974,10 +968,10 @@ body.menu-open .menu-overlay { visibility: visible; opacity: 1; pointer-events: 
 .cal-zile {
   display: grid; grid-template-columns: repeat(7, 1fr);
   font-family: var(--font-display); font-weight: 700;
-  font-size: calc(var(--cal-lat) * 0.0135);
+  font-size: calc(var(--cal-lat) * 0.017);
   letter-spacing: 0.18em; text-transform: uppercase;
   color: rgba(255, 255, 255, 0.5);
-  padding-bottom: calc(var(--cal-lat) * 0.009);
+  padding-bottom: calc(var(--cal-lat) * 0.011);
 }
 .cal-zile span { text-align: center; }
 
@@ -991,11 +985,11 @@ body.menu-open .menu-overlay { visibility: visible; opacity: 1; pointer-events: 
 }
 .cal-zi {
   display: flex; align-items: center; justify-content: center;
-  height: calc(var(--cal-lat) * 0.068);
+  height: calc(var(--cal-lat) * 0.072);
   border-right: 1px solid rgba(255, 255, 255, 0.14);
   border-bottom: 1px solid rgba(255, 255, 255, 0.14);
   font-family: var(--font-display); font-weight: 700;
-  font-size: calc(var(--cal-lat) * 0.023);
+  font-size: calc(var(--cal-lat) * 0.028);
   color: #fff;
 }
 /* border: 0 (resetul de buton) ștergea și liniile grilei pe zilele cu meci,
@@ -1006,13 +1000,13 @@ body.menu-open .menu-overlay { visibility: visible; opacity: 1; pointer-events: 
   border-bottom: 1px solid rgba(255, 255, 255, 0.14);
 }
 .cal-balon {
-  width: calc(var(--cal-lat) * 0.044); height: calc(var(--cal-lat) * 0.044);
+  width: calc(var(--cal-lat) * 0.05); height: calc(var(--cal-lat) * 0.05);
   display: block;
 }
 .cal-semn {
   position: absolute;
-  width: calc(var(--cal-lat) * 0.022); height: calc(var(--cal-lat) * 0.022);
-  right: calc(50% - var(--cal-lat) * 0.039); top: calc(var(--cal-lat) * 0.004);
+  width: calc(var(--cal-lat) * 0.025); height: calc(var(--cal-lat) * 0.025);
+  right: calc(50% - var(--cal-lat) * 0.044); top: calc(var(--cal-lat) * 0.004);
 }
 .cal-zi.meci:hover .cal-balon { transform: scale(1.12); }
 .cal-balon { transition: transform 0.25s ease; }
