@@ -72,17 +72,19 @@
    dori, cât încape pe înălțime și cât e minimul citibil — o alegem pe cea
    mai mică, dar niciodată sub minim. */
 .erou-calendar {
-  /* jucătorii: 36% din înălțimea ferestrei, nu 73% ca înainte */
-  --jucatori-inalt: clamp(230px, 36vh, 420px);
+  /* Jucătorii: jumătate din înălțimea ferestrei. E maneta principală a
+     compoziției — crescând-o, scade automat spațiul rămas calendarului,
+     fiindcă --cal-incape de mai jos o scade din bugetul vertical. */
+  --jucatori-inalt: clamp(560px, 96vh, 1120px);
 
   --cal-dorita: min(92vw, 980px);
-  /* 112vh, nu 100: lăsăm eroul să treacă puțin peste un ecran, cât să se
+  /* 118vh, nu 100: lăsăm eroul să treacă puțin peste un ecran, cât să se
      ghicească tălpile jucătorilor sub prima vedere și să invite la derulare.
      Coboară spre 100 dacă vrei să încapă strict într-un ecran, cu prețul unui
      calendar mai mic. */
-  /* 250px = blocul cu titlul (~205) plus marginea de deasupra grilei */
-  --cal-incape: calc((112vh - var(--header-h) - 250px - var(--jucatori-inalt)) * 2);
-  --cal-minima: min(92vw, 560px);
+  /* 170px = blocul cu titlul (acum pe un rand, ~120) plus marginea grilei */
+  --cal-incape: calc((118vh - var(--header-h) - 170px - var(--jucatori-inalt)) * 2);
+  --cal-minima: min(92vw, 620px);
   --cal-lat: max(var(--cal-minima), min(var(--cal-dorita), var(--cal-incape)));
 
   /* fotografia ține locul albastrului plat; culoarea rămâne ca plasă de
@@ -90,6 +92,25 @@
   background: #2a5298;
   padding-top: calc(var(--header-h) + clamp(18px, 2.6vh, 40px));
   padding-bottom: calc(var(--jucatori-inalt) - var(--erou-suprapunere));
+}
+
+/* Titlul și descrierea stau pe același rând, nu unul sub altul: blocul
+   scade de la ~205px la ~120px, iar înălțimea eliberată se duce în poză. */
+.erou-calendar .erou-text {
+  max-width: none;
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  grid-template-areas:
+    "firimituri firimituri"
+    "titlu      descriere";
+  column-gap: clamp(22px, 3vw, 52px);
+  align-items: baseline;
+}
+.erou-calendar .erou-text .breadcrumb { grid-area: firimituri; }
+.erou-calendar .erou-text h1 { grid-area: titlu; }
+.erou-calendar .erou-text .lead {
+  grid-area: descriere;
+  margin-top: 0; max-width: 44ch;
 }
 
 /* ---------- fundalul: fotografia din tribună, filtrată ---------- */
@@ -149,6 +170,11 @@
     --px-urmatoare: 0;
   }
   .erou-calendar { padding-bottom: 0; }
+  /* pe telefon nu e loc pentru doua coloane: descrierea revine sub titlu */
+  .erou-calendar .erou-text {
+    display: block;
+  }
+  .erou-calendar .erou-text .lead { margin-top: 14px; }
 }
 
 @media (prefers-reduced-motion: reduce) {
