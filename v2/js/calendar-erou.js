@@ -14,6 +14,9 @@
   var LUNI_SCURT = ["ian", "feb", "mar", "apr", "mai", "iun",
                     "iul", "aug", "sep", "oct", "nov", "dec"];
   var ZILE_SCURT = ["dum", "lun", "mar", "mie", "joi", "vin", "sâm"];
+  // capul de tabel, de luni la duminică
+  var INITIALE = [["L", "luni"], ["M", "marți"], ["M", "miercuri"], ["J", "joi"],
+                  ["V", "vineri"], ["S", "sâmbătă"], ["D", "duminică"]];
 
   var BALON =
     '<svg class="cal-balon" viewBox="0 0 36 36" aria-hidden="true">' +
@@ -38,6 +41,56 @@
     "</g></svg>";
 
   function cheia(an, luna) { return an * 12 + luna; }
+
+  /* Hero-ul e înalt, așa că îl parcurgem ca la Plaja Olt: imaginea rămâne
+     puțin în urmă, iar textul și calendarul urcă și se sting pe măsură ce
+     secțiunea iese din ecran. Astfel înălțimea devine o traversare, nu un
+     bloc uriaș care se târăște. Doar pe desktop — pe telefon imaginea e în
+     flux, iar mișcarea suprapusă ar face derularea greoaie. */
+  function paralax() {
+    if (typeof gsap === "undefined" || typeof ScrollTrigger === "undefined") return;
+    if (!window.matchMedia("(min-width: 881px)").matches) return;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
+    var erou = document.querySelector(".erou-calendar");
+    var poza = document.querySelector(".erou-echipa");
+    var text = document.querySelector(".erou-text");
+    if (!erou) return;
+
+    // Imaginea rămâne în urmă pe toată traversarea secțiunii. Prelungirea
+    // diagonalei trebuie să se miște exact cu ea, altfel racordul dintre
+    // fotografie și fundal s-ar despica vizibil la scroll — de aceea o
+    // deplasăm cu aceiași pixeli, nu cu același procent (au înălțimi diferite).
+    var taiere = document.querySelector(".erou-taietura");
+    if (poza) {
+      gsap.to(poza, {
+        yPercent: 9, ease: "none",
+        scrollTrigger: { trigger: erou, start: "top top", end: "bottom top", scrub: 0.5 }
+      });
+      if (taiere) {
+        gsap.to(taiere, {
+          "--taiere-y": function () {
+            return (poza.offsetHeight * 0.09).toFixed(1) + "px";
+          },
+          ease: "none",
+          scrollTrigger: { trigger: erou, start: "top top", end: "bottom top", scrub: 0.5 }
+        });
+      }
+    }
+    // calendarul și textul urcă și se sting abia când chiar ies pe sus: cursa
+    // e legată de elementul însuși, nu de secțiune, altfel s-ar decolora cât
+    // sunt încă întregi pe ecran
+    gsap.to(radacina, {
+      yPercent: -14, opacity: 0.1, ease: "none",
+      scrollTrigger: { trigger: radacina, start: "top top", end: "bottom top", scrub: 0.5 }
+    });
+    if (text) {
+      gsap.to(text, {
+        yPercent: -35, opacity: 0, ease: "none",
+        scrollTrigger: { trigger: text, start: "top top", end: "bottom top", scrub: 0.5 }
+      });
+    }
+  }
 
   fetch("../data/echipe.json")
     .then(function (r) { return r.json(); })
@@ -87,6 +140,11 @@
           (chCurent >= chMax ? " disabled" : "") + ">&#8250;</button>" +
           "</div></div>";
 
+        h += '<div class="cal-zile" aria-hidden="true">' +
+          INITIALE.map(function (z) {
+            return '<span title="' + z[1] + '">' + z[0] + "</span>";
+          }).join("") + "</div>";
+
         // grila începe de luni
         var decalaj = (new Date(an, luna, 1).getDay() + 6) % 7;
         var zile = new Date(an, luna + 1, 0).getDate();
@@ -102,6 +160,11 @@
             (mz.acasa ? "Acasă" : "Deplasare") + " · " +
             ZILE_SCURT[mz.ziSapt] + " " + mz.zi + " " + LUNI_SCURT[luna] +
             ", " + mz.ora + "</span></span></button>";
+        }
+        // completăm ultimul rând, ca linia grilei să nu se rupă la jumătate
+        var rest = (decalaj + zile) % 7;
+        if (rest) {
+          for (var k = rest; k < 7; k++) h += '<span class="cal-zi gol"></span>';
         }
         h += "</div>";
         radacina.innerHTML = h;
@@ -131,6 +194,7 @@
       });
 
       deseneaza();
+      paralax();
     })
     .catch(function () { radacina.style.display = "none"; });
 })();
