@@ -913,15 +913,25 @@ body.menu-open .menu-overlay { visibility: visible; opacity: 1; pointer-events: 
   background: linear-gradient(180deg, #e9e9e7 0%, #bcbcbc 70%);
   transform: skewY(-15.1deg); transform-origin: 100% 0;
 }
-.erou-calendar .container {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(300px, 540px);
-  gap: clamp(24px, 4vw, 72px);
-  align-items: start;
-}
+.erou-calendar .container { display: block; }
+.erou-calendar .erou-text { max-width: 56ch; }
+/* filigranul și gheata se mută în stânga, unde albastrul rămâne liber */
+.erou-calendar .sport-ghost { right: auto; left: -1%; top: 58%; }
+.erou-calendar .hero-art { right: auto; left: -30px; }
 
-/* grila calendarului: alb pe albastru, ca în referință */
-.calendar-meciuri { color: #fff; }
+/* grila calendarului: alb pe albastru, ca în referință. E ancorată de
+   imaginea echipei, nu de container: aceeași lățime ca imaginea (a cărei
+   lățime = înălțimea ei 78% din hero × raportul nativ 0.806) și cu baza
+   fixată chiar deasupra capetelor jucătorilor (~45% din hero), ca să stea
+   lipită de ei la orice lățime de ecran. */
+.calendar-meciuri {
+  color: #fff;
+  --cal-lat: calc(var(--erou-inalt) * 0.629);
+  position: absolute; z-index: 3;
+  width: calc(var(--cal-lat) * 0.9);
+  right: calc(var(--cal-lat) * 0.05 + 8px);
+  bottom: calc(var(--erou-inalt) * 0.455);
+}
 .cal-cap {
   display: flex; justify-content: space-between; align-items: center;
   margin-bottom: clamp(12px, 2vh, 22px);
@@ -940,14 +950,17 @@ body.menu-open .menu-overlay { visibility: visible; opacity: 1; pointer-events: 
 }
 .cal-nav button:hover:not(:disabled) { background: rgba(255,255,255,0.14); }
 .cal-nav button:disabled { opacity: 0.3; cursor: default; }
+/* rândurile se scalează cu înălțimea hero-ului: baza calendarului e fixată
+   deasupra capetelor jucătorilor, deci pe hero-uri mai scunde grila trebuie
+   să se comprime ca vârful ei să nu urce sub meniul site-ului */
 .cal-grila {
   display: grid; grid-template-columns: repeat(7, 1fr);
-  row-gap: clamp(8px, 1.6vh, 16px);
+  row-gap: clamp(4px, calc(var(--erou-inalt, 800px) * 0.009), 10px);
 }
 .cal-zi {
   display: flex; align-items: center; justify-content: center;
-  height: 42px;
-  font-family: var(--font-display); font-weight: 700; font-size: 1.05rem;
+  height: clamp(28px, calc((var(--erou-inalt, 800px) * 0.545 - 180px) / 6), 40px);
+  font-family: var(--font-display); font-weight: 700; font-size: 1.02rem;
   color: #fff;
 }
 .cal-zi.meci {
@@ -996,7 +1009,10 @@ body.menu-open .menu-overlay { visibility: visible; opacity: 1; pointer-events: 
   .erou-taietura { display: none; }
   .erou-calendar .hero-art { display: none; }
   .erou-calendar .container { display: block; }
-  .calendar-meciuri { margin-top: 26px; }
+  .calendar-meciuri {
+    position: static;
+    width: min(1200px, 92vw); margin: 26px auto 0;
+  }
   .cal-zi { height: 40px; font-size: 1rem; }
   .cal-balon { width: 26px; height: 26px; }
   .cal-semn { width: 13px; height: 13px; right: calc(50% - 22px); top: 3px; }
