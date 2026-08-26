@@ -1,0 +1,121 @@
+/* =========================================================
+   EROUL PAGINII DE FOTBAL — PANOUL DE REGLAJE
+   =========================================================
+
+   Aici sunt toate manetele hero-ului cu calendar: cât de dens e filtrul
+   albastru peste fotografia din tribună, cât de mult se suprapun capetele
+   jucătorilor peste calendar și cât rămâne în urmă fiecare strat la scroll.
+   Se încarcă DUPĂ style.css, deci ce e scris aici are ultimul cuvânt.
+
+   ---- FILTRUL ALBASTRU -----------------------------------
+   Ca să se vadă mai mult din fotografie, scade pe rând:
+     --bg-val-sus / --bg-val-jos   opacitatea vălului bleumarin (cel mai eficient)
+     --bg-tenta                    cât de tare e împinsă poza spre albastru
+     --bg-luminozitate             urcă spre 1 ca să fie mai luminoasă
+     --bg-saturatie                urcă spre 1 ca să revină culorile reale
+   Ca să se vadă mai puțin, urcă aceleași valori în sens invers.
+
+   ---- SUPRAPUNEREA ---------------------------------------
+     --erou-suprapunere   cât intră capetele peste ultimul rând al grilei.
+                          0px = se opresc exact sub el; valori mari = urcă
+                          peste cifre.
+
+   ---- PARALLAX -------------------------------------------
+   Numerele sunt citite din JS (calendar-erou.js). Cu cât un strat rămâne
+   mai mult în urmă, cu atât pare mai departe.
+     --px-fundal      tribuna, planul cel mai adânc
+     --px-banda       banda deschisă de sub diagonală
+     --px-jucatori    jucătorii, planul cel mai apropiat
+     --px-calendar    calendarul (negativ = urcă)
+     --px-text        titlul (negativ = urcă)
+     --px-urmatoare   secțiunea de dedesubt, cât alunecă peste erou
+   Pune 0 oriunde vrei să oprești mișcarea acelui strat.
+   ========================================================= */
+
+.erou-calendar {
+  /* --- filtru --- */
+  --bg-tenta: 0.82;              /* 0 = poza naturală, 1 = complet virată în albastru */
+  --bg-val-sus: 0.58;            /* vălul bleumarin, sus */
+  --bg-val-jos: 0.86;            /* vălul bleumarin, jos */
+  --bg-saturatie: 0.6;
+  --bg-contrast: 1.06;
+  --bg-luminozitate: 0.66;
+  --bg-neclaritate: 2px;
+  --bg-zoom: 1.1;
+
+  /* --- compoziție --- */
+  --erou-suprapunere: 30px;
+
+  /* --- parallax --- */
+  --px-fundal: 24;
+  --px-banda: 14;
+  --px-jucatori: 7;
+  --px-calendar: -30;
+  --px-text: -60;
+  --px-urmatoare: 7;
+
+  /* fotografia ține locul albastrului plat; culoarea rămâne ca plasă de
+     siguranță cât timp imaginea încă se încarcă */
+  background: #2a5298;
+  padding-bottom: calc(var(--jucatori-inalt) - var(--erou-suprapunere));
+}
+
+/* ---------- fundalul: fotografia din tribună, filtrată ---------- */
+.erou-fundal {
+  position: absolute; inset: 0; z-index: 0;
+  overflow: hidden; pointer-events: none;
+}
+.erou-fundal img {
+  position: absolute; inset: 0;
+  width: 100%; height: 100%;
+  object-fit: cover; object-position: 50% 42%;
+  /* zoom-ul dă loc parallax-ului să miște poza fără să descopere marginile */
+  transform: scale(var(--bg-zoom));
+  transform-origin: 50% 50%;
+  filter: saturate(var(--bg-saturatie))
+          contrast(var(--bg-contrast))
+          brightness(var(--bg-luminozitate))
+          blur(var(--bg-neclaritate));
+}
+/* tenta: împinge tot ce e dedesubt spre albastrul clubului, păstrând
+   luminozitatea, deci tribuna rămâne citibilă ca formă */
+.erou-fundal .tenta {
+  position: absolute; inset: 0;
+  background: #2a5298;
+  mix-blend-mode: color;
+  opacity: var(--bg-tenta);
+}
+/* vălul: densitatea propriu-zisă, mai apăsat spre bază, ca la Plaja Olt */
+.erou-fundal .val {
+  position: absolute; inset: 0;
+  background: linear-gradient(
+    rgba(19, 44, 104, var(--bg-val-sus)),
+    rgba(14, 33, 82, var(--bg-val-jos)));
+}
+
+/* jucătorii trec peste calendar, ca să li se vadă creștetele peste grilă */
+.erou-echipa { z-index: 4; }
+
+/* secțiunea următoare urcă peste erou pe măsură ce derulezi; fundalul
+   explicit o face să acopere, nu doar să alunece */
+.erou-calendar + section {
+  position: relative; z-index: 5;
+  background: var(--white);
+}
+
+@media (max-width: 880px) {
+  .erou-calendar {
+    /* pe telefon jucătorii sunt în flux, sub calendar: nu mai există
+       suprapunere de compensat */
+    --erou-suprapunere: 0px;
+    padding-bottom: 0;
+    --bg-neclaritate: 1px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .erou-calendar {
+    --px-fundal: 0; --px-banda: 0; --px-jucatori: 0;
+    --px-calendar: 0; --px-text: 0; --px-urmatoare: 0;
+  }
+}

@@ -57,37 +57,64 @@
     var text = document.querySelector(".erou-text");
     if (!erou) return;
 
-    // Jucătorii rămân serios în urmă și cresc ușor, ca fundalul de la Plaja
-    // Olt. Diagonala se mișcă cu aceiași pixeli ca ei, să pară același plan;
-    // pe scală nu e nevoie de sincron, PNG-ul e transparent și nu are racord.
+    // Toate amplitudinile vin din css/erou-fotbal.css, ca reglajele să stea
+    // într-un singur loc. Cu cât un strat rămâne mai mult în urmă (număr
+    // pozitiv mai mare), cu atât pare mai departe.
+    var stil = getComputedStyle(erou);
+    function maneta(nume, implicit) {
+      var n = parseFloat(stil.getPropertyValue(nume));
+      return isNaN(n) ? implicit : n;
+    }
+    var pe = { trigger: erou, start: "top top", end: "bottom top", scrub: 0.5 };
+
+    // planul cel mai adânc: tribuna
+    var fundal = erou.querySelector(".erou-fundal img");
+    if (fundal) {
+      gsap.to(fundal, { yPercent: maneta("--px-fundal", 24), ease: "none", scrollTrigger: pe });
+    }
+    // banda deschisă de sub diagonală: plan intermediar. Se mișcă prin
+    // variabilă, nu prin transform, ca înclinarea de 15,1° să rămână intactă,
+    // și în pixeli, fiindcă blocul e mult mai înalt decât secțiunea.
     var taiere = document.querySelector(".erou-taietura");
+    if (taiere && poza) {
+      gsap.to(taiere, {
+        "--taiere-y": function () {
+          return (poza.offsetHeight * maneta("--px-banda", 14) / 100).toFixed(1) + "px";
+        },
+        ease: "none", scrollTrigger: pe
+      });
+    }
+    // jucătorii: planul cel mai apropiat, deci rămân cel mai puțin în urmă
     if (poza) {
       gsap.to(poza, {
-        yPercent: 20, scale: 1.07, transformOrigin: "50% 100%", ease: "none",
-        scrollTrigger: { trigger: erou, start: "top top", end: "bottom top", scrub: 0.5 }
+        yPercent: maneta("--px-jucatori", 7), scale: 1.05,
+        transformOrigin: "50% 100%", ease: "none", scrollTrigger: pe
       });
-      if (taiere) {
-        gsap.to(taiere, {
-          "--taiere-y": function () {
-            return (poza.offsetHeight * 0.2).toFixed(1) + "px";
-          },
-          ease: "none",
-          scrollTrigger: { trigger: erou, start: "top top", end: "bottom top", scrub: 0.5 }
-        });
-      }
     }
-    // calendarul și textul urcă apăsat și se sting pe măsură ce ies pe sus:
-    // cursa e legată de elementul însuși, nu de secțiune, altfel s-ar
-    // decolora cât sunt încă întregi pe ecran
+    // calendarul și textul urcă și se sting pe măsură ce ies pe sus: cursa e
+    // legată de elementul însuși, nu de secțiune, altfel s-ar decolora cât
+    // sunt încă întregi pe ecran
     gsap.to(radacina, {
-      yPercent: -30, opacity: 0, ease: "none",
+      yPercent: maneta("--px-calendar", -30), opacity: 0, ease: "none",
       scrollTrigger: { trigger: radacina, start: "top top", end: "bottom top", scrub: 0.5 }
     });
     if (text) {
       gsap.to(text, {
-        yPercent: -60, opacity: 0, ease: "none",
+        yPercent: maneta("--px-text", -60), opacity: 0, ease: "none",
         scrollTrigger: { trigger: text, start: "top top", end: "bottom top", scrub: 0.5 }
       });
+    }
+    // secțiunea de dedesubt alunecă peste erou, ca o foaie care îl acoperă
+    var urmatoare = erou.nextElementSibling;
+    if (urmatoare) {
+      gsap.fromTo(urmatoare,
+        { yPercent: maneta("--px-urmatoare", 7) },
+        {
+          yPercent: 0, ease: "none",
+          scrollTrigger: {
+            trigger: urmatoare, start: "top bottom", end: "top 35%", scrub: 0.5
+          }
+        });
     }
   }
 
