@@ -196,12 +196,20 @@
 }
 
 /* fotografia: color doar pe cardul activ; pliate = desaturate și întunecate */
+/* Rezerva pentru parallax se face din scale, nu din latime: regula globala
+   `img { max-width: 100% }` din style.css taia orice latime peste 100%, asa ca
+   fotografia ramanea exact cat cardul si aluneca in afara marginii. Marirea e
+   ancorata sus (transform-origin) ca sa nu coboare capul jucatorului, iar
+   deplasarea pe verticala e tinuta mereu negativa printr-un -6px constant,
+   ca marginea de sus sa fie acoperita si cand mouse-ul e in josul cardului. */
 .jcard img {
-  position: absolute; inset: -6%; z-index: 0;
-  width: 112%; height: 112%;
+  position: absolute; top: 0; left: -8px; z-index: 0;
+  width: calc(100% + 16px); height: 100%; max-width: none;
   object-fit: cover; object-position: center top;
   filter: grayscale(0.7) brightness(0.75) saturate(0.85);
-  transform: translate3d(var(--pax, 0px), var(--pay, 0px), 0);
+  transform-origin: 50% 0%;
+  transform: translate3d(var(--pax, 0px), calc(-12px + var(--pay, 0px)), 0)
+             scale(1.12);
   transition: transform 0.25s ease-out, filter 0.45s ease;
 }
 .jcard:hover img { filter: grayscale(0.3) brightness(0.88) saturate(0.95); }
