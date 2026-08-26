@@ -104,15 +104,24 @@
         scrollTrigger: { trigger: text, start: "top top", end: "bottom top", scrub: 0.5 }
       });
     }
-    // secțiunea de dedesubt alunecă peste erou, ca o foaie care îl acoperă
+    // Secțiunea de dedesubt alunecă peste erou, ca o foaie care îl acoperă.
+    // CSS-ul i-a dat o margine negativă cât suprapunerea dorită; aici o
+    // pornim coborâtă exact cu atât, deci la început e lipită de erou, fără
+    // gol, iar pe cursa de scroll urcă și îi acoperă ultima fâșie. Măsurăm
+    // în pixeli, la fiecare refresh, ca să urmeze înălțimea ferestrei.
     var urmatoare = erou.nextElementSibling;
     if (urmatoare) {
       gsap.fromTo(urmatoare,
-        { yPercent: maneta("--px-urmatoare", 7) },
         {
-          yPercent: 0, ease: "none",
+          y: function () {
+            return maneta("--px-urmatoare", 14) * window.innerHeight / 100;
+          }
+        },
+        {
+          y: 0, ease: "none",
           scrollTrigger: {
-            trigger: urmatoare, start: "top bottom", end: "top 35%", scrub: 0.5
+            trigger: urmatoare, start: "top bottom", end: "top 40%",
+            scrub: 0.5, invalidateOnRefresh: true
           }
         });
     }

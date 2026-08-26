@@ -32,7 +32,10 @@
    Pune 0 oriunde vrei să oprești mișcarea acelui strat.
    ========================================================= */
 
-.erou-calendar {
+/* Manetele stau pe :root, nu pe .erou-calendar, fiindcă de una dintre ele
+   (--px-urmatoare) are nevoie și secțiunea albă de dedesubt — care e frate
+   cu eroul, nu descendent, deci nu ar moșteni-o. */
+:root {
   /* --- filtru --- */
   --bg-tenta: 0.82;              /* 0 = poza naturală, 1 = complet virată în albastru */
   --bg-val-sus: 0.58;            /* vălul bleumarin, sus */
@@ -52,8 +55,13 @@
   --px-jucatori: 7;
   --px-calendar: -30;
   --px-text: -60;
-  --px-urmatoare: 7;
+  /* Cât urcă foaia albă peste erou, în procente din înălțimea ecranului.
+     E singurul strat care acoperă, deci mișcarea lui se vede ca o muchie
+     care urcă mai iute decât scroll-ul. 0 = stă cuminte la locul ei. */
+  --px-urmatoare: 14;
+}
 
+.erou-calendar {
   /* fotografia ține locul albastrului plat; culoarea rămâne ca plasă de
      siguranță cât timp imaginea încă se încarcă */
   background: #2a5298;
@@ -96,25 +104,31 @@
 /* jucătorii trec peste calendar, ca să li se vadă creștetele peste grilă */
 .erou-echipa { z-index: 4; }
 
-/* secțiunea următoare urcă peste erou pe măsură ce derulezi; fundalul
-   explicit o face să acopere, nu doar să alunece */
+/* Secțiunea următoare urcă peste erou pe măsură ce derulezi. Marginea
+   negativă o face să se suprapună peste ultima fâșie a eroului; JS o
+   pornește coborâtă exact cu atât (deci lipită, fără gol) și o lasă să
+   urce pe cursa de scroll. Fundalul explicit e ce o face să acopere. */
 .erou-calendar + section {
   position: relative; z-index: 5;
   background: var(--white);
+  margin-top: calc(var(--px-urmatoare) * -1vh);
 }
 
 @media (max-width: 880px) {
-  .erou-calendar {
+  :root {
     /* pe telefon jucătorii sunt în flux, sub calendar: nu mai există
        suprapunere de compensat */
     --erou-suprapunere: 0px;
-    padding-bottom: 0;
     --bg-neclaritate: 1px;
+    /* pe telefon jucătorii stau în flux, cu tălpile chiar pe muchia de jos:
+       orice suprapunere a foii albe le-ar tăia picioarele */
+    --px-urmatoare: 0;
   }
+  .erou-calendar { padding-bottom: 0; }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .erou-calendar {
+  :root {
     --px-fundal: 0; --px-banda: 0; --px-jucatori: 0;
     --px-calendar: 0; --px-text: 0; --px-urmatoare: 0;
   }
