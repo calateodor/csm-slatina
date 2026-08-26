@@ -102,13 +102,18 @@
   </div>
 
   <main>
-    <section class="page-hero">
+    <section class="page-hero erou-calendar">
       <span class="sport-ghost" aria-hidden="true">FOTBAL</span>
       <img class="hero-art" src="../assets/icons/footballing.webp" alt="" aria-hidden="true">
+      <span class="erou-taietura" aria-hidden="true"></span>
+      <img class="erou-echipa" src="../assets/img/fotbal-echipa-calendar.jpg" alt="Echipa de fotbal a CSM Slatina">
       <div class="container">
-        <nav class="breadcrumb reveal"><a href="../index.html">Acasă</a> / <a href="../index.html#sectii">Secții</a> / Fotbal</nav>
-        <h1 class="reveal">Fotbal</h1>
-        <p class="lead reveal">Echipa fanion a Slatinei și pepiniera de juniori care duce orașul pe marile stadioane.</p>
+        <div class="erou-text">
+          <nav class="breadcrumb reveal"><a href="../index.html">Acasă</a> / <a href="../index.html#sectii">Secții</a> / Fotbal</nav>
+          <h1 class="reveal">Fotbal</h1>
+          <p class="lead reveal">Echipa fanion a Slatinei și pepiniera de juniori care duce orașul pe marile stadioane.</p>
+        </div>
+        <div class="calendar-meciuri reveal" id="calendar-meciuri" data-sport="fotbal" aria-label="Calendarul meciurilor"></div>
       </div>
     </section>
 
@@ -216,5 +221,6 @@
   <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>
   <script src="../js/main.js"></script>
   <script src="../js/lot.js"></script>
+  <script src="../js/calendar-erou.js"></script>
 </body>
 </html>
