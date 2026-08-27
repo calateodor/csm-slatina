@@ -263,7 +263,7 @@
     tl.fromTo(layer, { clipPath: "inset(100% 0% 0% 0%)" },
                      { clipPath: "inset(0% 0% 0% 0%)", duration: 1, ease: "none" }, 0)
       .fromTo(linie, { top: "100%" }, { top: "0%", duration: 1, ease: "none" }, 0)
-      .fromTo(linie, { autoAlpha: 0 }, { autoAlpha: 1, duration: 0.06, ease: "none" }, 0.02)
+      .fromTo(linie, { autoAlpha: 0 }, { autoAlpha: 0.85, duration: 0.06, ease: "none" }, 0.02)
       .to(linie, { autoAlpha: 0, duration: 0.08, ease: "none" }, 0.92);
   });
 

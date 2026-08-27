@@ -7,14 +7,19 @@
   background: var(--navy-950);
   /* fundalurile capitolelor — schimbă doar variabilele (gradient/culoare/url);
      căile url() se rezolvă relativ la folderul css/ */
+  /* Fotografiile sunt cele clare, nu variantele blurate: claritatea vine din
+     imagine, iar intunecarea o face exclusiv valul de aici. Asa se regleaza
+     dintr-un singur loc — urca primul numar ca sa fie mai intunecat sus,
+     coboara-l ca sa se vada mai mult din poza. Variantele vechi, blurate,
+     au ramas in folder (*-blur.webp) daca vrei sa te intorci la ele. */
   --harta-bg: linear-gradient(rgba(7, 19, 48, 0.1), rgba(7, 19, 48, 0.82)),
-              url("../assets/img/plaja-v2/teren-vertical-blur.webp") center / cover no-repeat var(--navy-950);
+              url("../assets/img/plaja-v2/teren-vertical-clar.webp") center / cover no-repeat var(--navy-950);
   --servicii-bg: linear-gradient(rgba(9, 26, 68, 0.1), rgba(9, 26, 68, 0.82)),
-                 url("../assets/img/plaja-v2/nautic-blur.webp") center / cover no-repeat var(--navy-900);
+                 url("../assets/img/plaja-v2/nautic-clar.webp") center / cover no-repeat var(--navy-900);
   /* poza cu piscina e mult mai luminoasa decat celelalte doua (cer deschis),
      asa ca vrea un val ceva mai gros sus ca preturile aurii sa ramana lizibile */
   --plaja-bg: linear-gradient(rgba(10, 28, 74, 0.2), rgba(10, 28, 74, 0.85)),
-              url("../assets/img/plaja-v2/plaja-blur.webp") center / cover no-repeat var(--navy-900);
+              url("../assets/img/plaja-v2/plaja-clar.webp") center / cover no-repeat var(--navy-900);
 }
 .v2 { overflow-x: clip; position: relative; z-index: 1; }
 
@@ -108,26 +113,38 @@
 @keyframes hintdrop { 0% { transform: scaleY(0); transform-origin: top; } 55% { transform: scaleY(1); } 100% { transform: scaleY(0); transform-origin: bottom; } }
 
 /* ---------- benzile de tranziție (swipe) ---------- */
-.wipe { position: fixed; inset: 0; z-index: 90; pointer-events: none; overflow: hidden; }
-/* o singură linie perfect orizontală, subțire, cu glow — urcă prin ecran la
-   fiecare graniță de capitol; poziția o dă exclusiv JS-ul (nimic translatat aici) */
+/* z-index 0, nu 90: banda sta INTRE fundaluri si continut. .bg-stage e tot pe
+   0, dar vine inaintea benzilor in HTML, deci benzile se aseaza peste el; iar
+   .v2 (tot continutul) e pe z-index 1, deci trece peste benzi. Rezultatul:
+   linia mangaie doar fundalul si dispare sub titluri, carduri si poze. */
+.wipe { position: fixed; inset: 0; z-index: 0; pointer-events: none; overflow: hidden; }
+/* o singură linie perfect orizontală, de grosimea unui fir, cu o aură abia
+   ghicită — urcă prin ecran la fiecare graniță de capitol; poziția o dă
+   exclusiv JS-ul (nimic translatat aici) */
 .streak {
   position: absolute; left: 0; width: 100%;
   /* JS o plimbă cu top: 100% -> 0%, adică în procente din aceeași cutie ca
      decupajul fundalului; nu folosim vh, ca să nu se decaleze pe iOS când
      apare/dispare bara de jos a browserului și se schimbă înălțimea reală */
-  top: 100%; height: 2px; border-radius: 999px;
-  background: linear-gradient(90deg, transparent 0%, var(--wipe-core) 14%, var(--wipe-core) 86%, transparent 100%);
+  top: 100%; height: 1px;
+  /* capetele se sting lung, nu brusc: asa firul pare tras cu rigla, nu lipit */
+  background: linear-gradient(90deg,
+    transparent 0%,
+    var(--wipe-core) 30%,
+    var(--wipe-core) 70%,
+    transparent 100%);
+  /* aura: doua straturi minuscule, cat sa se simta lumina, nu cat sa orbeasca */
   box-shadow:
-    0 0 10px 1px var(--wipe-core),
-    0 0 32px 6px var(--wipe-glow),
-    0 0 90px 20px var(--wipe-glow);
+    0 0 2px 0 var(--wipe-halo),
+    0 0 6px 0 var(--wipe-halo);
+  opacity: 0.85;
   visibility: hidden;
   will-change: top, opacity;
 }
-.wipe[data-wipe="#harta"]    { --wipe-core: #9cc4ff; --wipe-glow: rgba(36, 87, 214, 0.5); }
-.wipe[data-wipe="#servicii"] { --wipe-core: #ffffff; --wipe-glow: rgba(127, 180, 255, 0.45); }
-.wipe[data-wipe="#plaja-v2"] { --wipe-core: #ffd83d; --wipe-glow: rgba(246, 200, 28, 0.45); }
+/* miezuri palide, nu saturate — un fir stins arata mai scump decat un neon */
+.wipe[data-wipe="#harta"]    { --wipe-core: #d8e6ff; --wipe-halo: rgba(150, 190, 255, 0.30); }
+.wipe[data-wipe="#servicii"] { --wipe-core: #ffffff; --wipe-halo: rgba(190, 220, 255, 0.28); }
+.wipe[data-wipe="#plaja-v2"] { --wipe-core: #ffeab4; --wipe-halo: rgba(246, 200, 28, 0.30); }
 
 /* ---------- 2. Harta interactivă (în lucru) ---------- */
 .v2-harta {
