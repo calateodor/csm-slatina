@@ -1339,3 +1339,17 @@ body.menu-open .menu-overlay { visibility: visible; opacity: 1; pointer-events: 
 /* linkul discret spre panoul de administrare, in subsol */
 .admin-link { color: inherit; opacity: 0.55; text-decoration: none; }
 .admin-link:hover { opacity: 1; text-decoration: underline; }
+
+/* ---------- bannerul de sezon al plajei (nautic + plaja-olt) ---------- */
+.sezon-plaja {
+  width: max-content;
+  max-width: calc(100% - 32px);
+  margin: 14px auto 0;
+  padding: 9px 18px;
+  border-radius: 999px;
+  background: rgba(246, 200, 28, 0.13);
+  border: 1px solid rgba(246, 200, 28, 0.45);
+  color: #f6c81c;
+  font: 600 0.84rem Manrope, sans-serif;
+  text-align: center;
+}

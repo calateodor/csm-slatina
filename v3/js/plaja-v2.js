@@ -39,6 +39,17 @@
   });
   if (cards.length) cards[0].classList.add("is-open");
 
+  /* „Vezi pe hartă” de pe card: urcăm la hartă și pinul pulsează */
+  Array.prototype.forEach.call(document.querySelectorAll(".v2-pe-harta"), function (l) {
+    l.addEventListener("click", function (e) {
+      e.preventDefault();
+      e.stopPropagation();   // nu vrem să declanșăm logica de deschidere a cardului
+      var h = document.getElementById("harta");
+      if (h) h.scrollIntoView({ behavior: "smooth", block: "start" });
+      document.dispatchEvent(new CustomEvent("harta:arata", { detail: l.getAttribute("data-pin") }));
+    });
+  });
+
   /* pinul de pe hartă duce la cardul activității: derulăm la capitolul
      de rezervări și deschidem cardul potrivit (desktop) / îl aducem în
      față (telefon). Pinurile fără card aici sunt lăsate în pace. */

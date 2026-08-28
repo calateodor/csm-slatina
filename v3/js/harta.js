@@ -7,26 +7,27 @@
   "use strict";
 
   // catalogul activităților: id, nume, iconiță, culoarea capsulei (+ text),
-  // tarif — apare în eticheta pinului la apăsare (gol = doar numele)
+  // tarif + poza — apar în eticheta pinului la apăsare (goale = doar numele)
+  var POZE = "assets/img/harta/";
   var SERVICII = [
-    { id: "fotbal",   nume: "Teren fotbal gazon",        ico: "⚽", fond: "#ffffff", text: "#0e1d40", tarif: "" },
-    { id: "sintetic", nume: "Fotbal pe sintetic",        ico: "⚽", fond: "#c7f04c", text: "#1e2a08", tarif: "110 lei/oră ziua · 130 lei/oră nocturn" },
-    { id: "balon",    nume: "Teren acoperit (balon)",    ico: "🎪", fond: "#8f7bff", text: "#fff",    tarif: "" },
-    { id: "zgura",    nume: "Tenis zgură",               ico: "🎾", fond: "#ff6b57", text: "#fff",    tarif: "40 lei/oră ziua · 45 lei/oră nocturn" },
-    { id: "hard",     nume: "Tenis hard",                ico: "🎾", fond: "#3aa0ff", text: "#fff",    tarif: "rezervări: 0349 883 938" },
-    { id: "padel",    nume: "Padel",                     ico: "🥎", fond: "#c7f04c", text: "#1e2a08", tarif: "40 lei/oră (10–16) · 60 lei/oră (16–24)" },
-    { id: "volei",    nume: "Beach volley",              ico: "🏐", fond: "#f6c81c", text: "#0e1d40", tarif: "25 lei/oră · 13 lei/30 min" },
-    { id: "futnet",   nume: "Futnet (tenis cu piciorul)",ico: "🦶", fond: "#2ec4b6", text: "#fff",    tarif: "80 lei/oră · minge inclusă" },
-    { id: "minigolf", nume: "Minigolf",                  ico: "⛳", fond: "#ffffff", text: "#0e1d40", tarif: "11 lei/oră/crosă · 7 lei/30 min" },
-    { id: "piscina",  nume: "Piscină",                   ico: "🏊", fond: "#3aa0ff", text: "#fff",    tarif: "inclusă în accesul la plajă" },
-    { id: "plaja",    nume: "Plajă & șezlonguri",        ico: "🏖️", fond: "#f6c81c", text: "#0e1d40", tarif: "20 lei adulți · 10 lei copii sub 14 · șezlong 10 lei/zi" },
-    { id: "apa",      nume: "Pe apă — caiac & hidrobiciclete", ico: "🛶", fond: "#2ec4b6", text: "#fff", tarif: "caiac 30 lei/30 min · hidrobicicletă 20 lei/30 min" },
-    { id: "pontoane", nume: "Pontoane & evenimente",     ico: "🎉", fond: "#8f7bff", text: "#fff",    tarif: "evenimente private: 0349 883 938" },
-    { id: "nautic",   nume: "Clubul Nautic",             ico: "⚓", fond: "#123a9e", text: "#fff",    tarif: "" },
-    { id: "frizerie", nume: "Frizerie",                  ico: "💈", fond: "#ff6b57", text: "#fff",    tarif: "de la 40 lei · copii 30 lei" },
-    { id: "masaj",    nume: "Masaj",                     ico: "💆", fond: "#ffffff", text: "#0e1d40", tarif: "50 lei / 30 min" },
-    { id: "foisor",   nume: "Foișoare & căsuțe",         ico: "🏡", fond: "#ffffff", text: "#0e1d40", tarif: "" },
-    { id: "parcare",  nume: "Parcare",                   ico: "🅿️", fond: "#123a9e", text: "#fff",    tarif: "gratuită · 300+ locuri" }
+    { id: "fotbal",   nume: "Teren fotbal gazon",        ico: "⚽", fond: "#ffffff", text: "#0e1d40", tarif: "", poza: POZE + "thumb-fotbal.webp" },
+    { id: "sintetic", nume: "Fotbal pe sintetic",        ico: "⚽", fond: "#c7f04c", text: "#1e2a08", tarif: "110 lei/oră ziua · 130 lei/oră nocturn", poza: POZE + "thumb-sintetic.webp" },
+    { id: "balon",    nume: "Teren acoperit (balon)",    ico: "🎪", fond: "#8f7bff", text: "#fff",    tarif: "", poza: "" },
+    { id: "zgura",    nume: "Tenis zgură",               ico: "🎾", fond: "#ff6b57", text: "#fff",    tarif: "40 lei/oră ziua · 45 lei/oră nocturn", poza: POZE + "thumb-zgura.webp" },
+    { id: "hard",     nume: "Tenis hard",                ico: "🎾", fond: "#3aa0ff", text: "#fff",    tarif: "rezervări: 0349 883 938", poza: POZE + "thumb-hard.webp" },
+    { id: "padel",    nume: "Padel",                     ico: "🥎", fond: "#c7f04c", text: "#1e2a08", tarif: "40 lei/oră (10–16) · 60 lei/oră (16–24)", poza: POZE + "thumb-padel.webp" },
+    { id: "volei",    nume: "Beach volley",              ico: "🏐", fond: "#f6c81c", text: "#0e1d40", tarif: "25 lei/oră · 13 lei/30 min", poza: POZE + "thumb-volei.webp" },
+    { id: "futnet",   nume: "Futnet (tenis cu piciorul)",ico: "🦶", fond: "#2ec4b6", text: "#fff",    tarif: "80 lei/oră · minge inclusă", poza: POZE + "thumb-futnet.webp" },
+    { id: "minigolf", nume: "Minigolf",                  ico: "⛳", fond: "#ffffff", text: "#0e1d40", tarif: "11 lei/oră/crosă · 7 lei/30 min", poza: POZE + "thumb-minigolf.webp" },
+    { id: "piscina",  nume: "Piscină",                   ico: "🏊", fond: "#3aa0ff", text: "#fff",    tarif: "inclusă în accesul la plajă", poza: POZE + "thumb-piscina.webp" },
+    { id: "plaja",    nume: "Plajă & șezlonguri",        ico: "🏖️", fond: "#f6c81c", text: "#0e1d40", tarif: "20 lei adulți · 10 lei copii sub 14 · șezlong 10 lei/zi", poza: POZE + "thumb-plaja.webp" },
+    { id: "apa",      nume: "Pe apă — caiac & hidrobiciclete", ico: "🛶", fond: "#2ec4b6", text: "#fff", tarif: "caiac 30 lei/30 min · hidrobicicletă 20 lei/30 min", poza: POZE + "thumb-apa.webp" },
+    { id: "pontoane", nume: "Pontoane & evenimente",     ico: "🎉", fond: "#8f7bff", text: "#fff",    tarif: "evenimente private: 0349 883 938", poza: POZE + "thumb-pontoane.webp" },
+    { id: "nautic",   nume: "Clubul Nautic",             ico: "⚓", fond: "#123a9e", text: "#fff",    tarif: "", poza: "" },
+    { id: "frizerie", nume: "Frizerie",                  ico: "💈", fond: "#ff6b57", text: "#fff",    tarif: "de la 40 lei · copii 30 lei", poza: POZE + "thumb-frizerie.webp" },
+    { id: "masaj",    nume: "Masaj",                     ico: "💆", fond: "#ffffff", text: "#0e1d40", tarif: "50 lei / 30 min", poza: POZE + "thumb-masaj.webp" },
+    { id: "foisor",   nume: "Foișoare & căsuțe",         ico: "🏡", fond: "#ffffff", text: "#0e1d40", tarif: "", poza: "" },
+    { id: "parcare",  nume: "Parcare",                   ico: "🅿️", fond: "#123a9e", text: "#fff",    tarif: "gratuită · 300+ locuri", poza: "" }
   ];
 
   // așezarea oficială — pusă de Teo pe hartă (export din 29.08.2026)
@@ -96,7 +97,9 @@
       el.innerHTML =
         '<span class="hpin-umbra"></span>' +
         '<span class="hpin-corp">' +
-          '<span class="hpin-nume"><b>' + sv.nume + "</b>" +
+          '<span class="hpin-nume">' +
+            (sv.poza ? '<img src="' + sv.poza + '" alt="" loading="lazy">' : "") +
+            "<b>" + sv.nume + "</b>" +
             (sv.tarif ? "<i>" + sv.tarif + "</i>" : "") + "</span>" +
           '<span class="hpin-cap">' + sv.ico + '<span class="hpin-x">×</span></span>' +
           '<span class="hpin-tija"></span>' +
@@ -259,6 +262,31 @@
     pinTras.classList.remove("tras");
     pinTras = null;
     setTimeout(function () { aTras = false; }, 0);
+  });
+
+  /* „Vezi pe hartă” de pe carduri: centrăm harta pe pin și îl facem să pulseze */
+  document.addEventListener("harta:arata", function (ev) {
+    var ids = String(ev.detail || "").split(" ");
+    var idx = -1;
+    for (var i = 0; i < pini.length; i++) {
+      if (ids.indexOf(pini[i].s) !== -1) { idx = i; break; }
+    }
+    if (idx < 0) return;
+    var el = scena.querySelector('.hpin[data-idx="' + idx + '"]');
+    if (!el) return;
+    var cadru = scena.parentElement;
+    if (cadru && cadru.scrollWidth > cadru.clientWidth + 4) {
+      cadru.scrollTo({
+        left: Math.max(0, scena.clientWidth * pini[idx].x / 100 - cadru.clientWidth / 2),
+        behavior: "smooth"
+      });
+    }
+    Array.prototype.forEach.call(scena.querySelectorAll(".hpin.cu-nume"), function (e2) {
+      e2.classList.remove("cu-nume");
+    });
+    el.classList.add("cu-nume");
+    el.classList.add("pulsat");
+    setTimeout(function () { el.classList.remove("pulsat"); }, 2700);
   });
 
   deseneaza();

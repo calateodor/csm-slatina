@@ -206,6 +206,14 @@
   opacity: 0;
   transition: opacity 0.2s;
 }
+.hpin-nume img {
+  display: block;
+  width: 188px;
+  height: 100px;
+  object-fit: cover;
+  border-radius: 9px;
+  margin: 0 auto 7px;
+}
 .hpin-nume b { display: block; font-weight: 700; }
 .hpin-nume i {
   display: block;
@@ -217,6 +225,22 @@
   line-height: 1.35;
 }
 .hpin.cu-nume .hpin-nume { opacity: 1; }
+
+/* pulsul auriu — „Vezi pe hartă” de pe carduri */
+.hpin.pulsat { z-index: 8; }
+.hpin.pulsat .hpin-cap::after {
+  content: "";
+  position: absolute;
+  inset: -3px;
+  border-radius: 18px;
+  border: 3px solid var(--gold);
+  animation: hpin-inel 0.85s ease-out 3;
+  pointer-events: none;
+}
+@keyframes hpin-inel {
+  0%   { transform: scale(1);   opacity: 1; }
+  100% { transform: scale(1.7); opacity: 0; }
+}
 
 /* modul de ștergere */
 .harta-scena.mod-sterge .hpin-corp { cursor: pointer; }
@@ -321,6 +345,35 @@
   font: 500 0.88rem Manrope, sans-serif;
   color: rgba(220, 231, 255, 0.72);
 }
+
+/* „Vezi pe hartă” — link mic pe cardurile de rezervări */
+.v2-pe-harta {
+  display: inline-block;
+  margin: 10px 0 0 16px;
+  font: 600 0.76rem Manrope, sans-serif;
+  color: rgba(220, 231, 255, 0.7);
+  text-decoration: none;
+  border-bottom: 1px dashed rgba(220, 231, 255, 0.4);
+  padding-bottom: 2px;
+  transition: color 0.25s, border-color 0.25s;
+}
+.v2-pe-harta:hover { color: var(--gold); border-color: var(--gold); }
+
+/* „Cum ajung” — sub hartă, pe pagina nautică */
+.v2-cum-ajung {
+  display: block;
+  width: max-content;
+  margin: 16px auto 0;
+  padding: 11px 22px;
+  border-radius: 999px;
+  background: rgba(246, 200, 28, 0.14);
+  border: 1px solid rgba(246, 200, 28, 0.5);
+  color: var(--gold);
+  font: 700 0.85rem Poppins, sans-serif;
+  text-decoration: none;
+  transition: background 0.25s, transform 0.25s var(--ease-out);
+}
+.v2-cum-ajung:hover { background: rgba(246, 200, 28, 0.26); transform: translateY(-2px); }
 
 @media (max-width: 700px) {
   .harta-top { flex-wrap: wrap; }

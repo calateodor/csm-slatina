@@ -314,3 +314,23 @@
     });
   }
 })();
+
+/* ---------- Bannerul de sezon al plajei (elementul [data-sezon-plaja]) ----------
+   Sezonul: 1 iunie – 31 august. In sezon aratam programul zilei
+   (L–V 10–20, S–D 8–20); in rest, un randul care anunta revenirea. */
+(function () {
+  "use strict";
+  var el = document.querySelector("[data-sezon-plaja]");
+  if (!el) return;
+  var azi = new Date();
+  var luna = azi.getMonth() + 1;
+  var ziua = azi.getDay(); // 0 = duminica, 6 = sambata
+  if (luna >= 6 && luna <= 8) {
+    var weekend = ziua === 0 || ziua === 6;
+    el.textContent = "☀️ Sezonul de plajă e în toi — azi suntem deschiși " +
+      (weekend ? "08:00–20:00" : "10:00–20:00") + ".";
+  } else {
+    el.textContent = "Sezonul de plajă: 1 iunie – 31 august. Ne revedem la vară!";
+  }
+  el.hidden = false;
+})();
