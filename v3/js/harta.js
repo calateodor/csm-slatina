@@ -230,7 +230,9 @@
         elPin.classList.add("extins");
         return;
       }
-      elPin.classList.add("extins");
+      // pe desktop NU lasam pinul „blocat” deschis — hover-ul il arata oricum;
+      // altfel, la intoarcerea din derulare, doua carduri ar sta deschise deodata
+      if (faraHover) elPin.classList.add("extins");
       var pinAles = pini[Number(elPin.dataset.idx)];
       if (pinAles) {
         document.dispatchEvent(new CustomEvent("harta:activitate", { detail: pinAles.s }));
@@ -241,6 +243,16 @@
         el.classList.remove("extins");
       });
     }
+  });
+
+  /* hover-ul pe un pin inchide orice alt card ramas deschis (ex. dupa
+     „Vezi pe harta” sau dupa un click care a derulat pagina) */
+  scena.addEventListener("pointerover", function (ev) {
+    var peste = ev.target.closest(".hpin");
+    if (!peste) return;
+    Array.prototype.forEach.call(scena.querySelectorAll(".hpin.extins"), function (el) {
+      if (el !== peste) el.classList.remove("extins");
+    });
   });
 
   /* tras cu mouse-ul (mod normal) */

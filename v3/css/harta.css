@@ -189,8 +189,8 @@
 .hpin.tras .hpin-umbra { animation: none; }
 
 /* cardul care „înflorește” din pin la hover (sau la prima atingere) */
-.hpin:hover,
 .hpin.extins { z-index: 9; }
+.hpin:hover { z-index: 11; }   /* ce e sub cursor sta deasupra oricarui alt pin */
 .hpin-card {
   position: absolute;
   left: 50%;
