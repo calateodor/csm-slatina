@@ -216,7 +216,14 @@
       Array.prototype.forEach.call(scena.querySelectorAll(".hpin.cu-nume"), function (el) {
         el.classList.remove("cu-nume");
       });
-      if (!avea) elPin.classList.add("cu-nume");
+      if (!avea) {
+        elPin.classList.add("cu-nume");
+        // pagina-gazdă poate reacționa (club-nautic derulează la cardul activității)
+        var pinAles = pini[Number(elPin.dataset.idx)];
+        if (pinAles) {
+          document.dispatchEvent(new CustomEvent("harta:activitate", { detail: pinAles.s }));
+        }
+      }
     }
   });
 

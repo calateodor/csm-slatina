@@ -39,6 +39,25 @@
   });
   if (cards.length) cards[0].classList.add("is-open");
 
+  /* pinul de pe hartă duce la cardul activității: derulăm la capitolul
+     de rezervări și deschidem cardul potrivit (desktop) / îl aducem în
+     față (telefon). Pinurile fără card aici sunt lăsate în pace. */
+  document.addEventListener("harta:activitate", function (ev) {
+    var idx = -1;
+    cards.forEach(function (c, i) {
+      var ids = (c.getAttribute("data-activitate") || "").split(" ");
+      if (idx < 0 && ids.indexOf(ev.detail) !== -1) idx = i;
+    });
+    if (idx < 0) return;
+    var sectiune = document.getElementById("servicii");
+    if (sectiune) sectiune.scrollIntoView({ behavior: "smooth", block: "start" });
+    // lăsăm derularea să pornească, apoi deschidem cardul
+    setTimeout(function () {
+      if (eTelefon.matches) { if (mergiLa) mergiLa(idx); }
+      else deschide(cards[idx]);
+    }, 350);
+  });
+
   /* punctele: arată cardul din față și sar la el la atingere */
   if (banda && cutieDots && cards.length) {
     var dots = cards.map(function (card, i) {
