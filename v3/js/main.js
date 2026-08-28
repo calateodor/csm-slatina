@@ -212,7 +212,7 @@
 
   /* fundalurile eroilor simpli raman putin in urma la derulare — fotografia
      filtrata sau clipul piscinei. Zoom-ul din CSS le da marja de miscare. */
-  gsap.utils.toArray(".erou-foto .erou-fundal img, .pool-hero .bg").forEach(function (el) {
+  gsap.utils.toArray(".erou-foto .erou-fundal img, .pool-hero .bg, .lum-erou .lum-fundal img").forEach(function (el) {
     gsap.to(el, {
       yPercent: 7, ease: "none",
       scrollTrigger: {
