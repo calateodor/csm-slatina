@@ -55,9 +55,33 @@
       "Modificări nepublicate: " + Object.keys(murdare).join(", ");
   }
 
-  /* ================= poarta ================= */
+  /* ================= poarta: utilizator + parola =================
+     Parola nu e „verificata" nicaieri — e cheia care decripteaza token-ul
+     GitHub, salvat criptat (AES-GCM, cheie derivata PBKDF2) in
+     data/acces.json. Parola gresita = decriptarea esueaza = nu intri. */
   var poarta = document.getElementById("pn-poarta");
   var panou = document.getElementById("pn-panou");
+  var eroare = document.getElementById("pn-poarta-eroare");
+
+  function b64laOcteti(b64) {
+    var s2 = atob(b64), a2 = new Uint8Array(s2.length);
+    for (var i = 0; i < s2.length; i++) a2[i] = s2.charCodeAt(i);
+    return a2;
+  }
+  function octetiLaB64(a2) {
+    var s2 = "";
+    new Uint8Array(a2).forEach(function (x) { s2 += String.fromCharCode(x); });
+    return btoa(s2);
+  }
+  function cheiaDinParola(parola, sare, iteratii) {
+    var enc = new TextEncoder();
+    return crypto.subtle.importKey("raw", enc.encode(parola), "PBKDF2", false, ["deriveKey"])
+      .then(function (baza) {
+        return crypto.subtle.deriveKey(
+          { name: "PBKDF2", salt: sare, iterations: iteratii, hash: "SHA-256" },
+          baza, { name: "AES-GCM", length: 256 }, false, ["encrypt", "decrypt"]);
+      });
+  }
 
   function intra() {
     fetch("https://api.github.com/repos/" + REPO, { headers: anteturi() })
@@ -67,23 +91,85 @@
         incarcaTot();
       })
       .catch(function (e) {
-        document.getElementById("pn-poarta-eroare").textContent = e.message;
+        eroare.textContent = e.message;
         poarta.hidden = false;
       });
   }
-  document.getElementById("pn-intra").addEventListener("click", function () {
-    var t = document.getElementById("pn-token").value.trim();
-    if (!t) return;
-    localStorage.setItem("panou_token", t);
-    document.getElementById("pn-poarta-eroare").textContent = "";
-    intra();
-  });
+
+  // ce formular aratam: login daca exista acces.json, altfel prima configurare
+  function pregatestePoarta() {
+    fetch("data/acces.json?v=" + Date.now())
+      .then(function (r) { return r.ok ? r.json() : null; })
+      .catch(function () { return null; })
+      .then(function (acces) {
+        var login = document.getElementById("pn-login");
+        var setup = document.getElementById("pn-setup");
+        login.hidden = !acces;
+        setup.hidden = !!acces;
+        if (acces) {
+          var u = document.getElementById("pn-user");
+          if (acces.utilizator) u.value = acces.utilizator;
+          function incearca() {
+            eroare.textContent = "";
+            if (u.value.trim() !== acces.utilizator) {
+              eroare.textContent = "Utilizator sau parolă greșite."; return;
+            }
+            var parola = document.getElementById("pn-parola").value;
+            if (!parola) return;
+            cheiaDinParola(parola, b64laOcteti(acces.sare), acces.iteratii || 600000)
+              .then(function (cheie) {
+                return crypto.subtle.decrypt({ name: "AES-GCM", iv: b64laOcteti(acces.iv) },
+                                             cheie, b64laOcteti(acces.blob));
+              })
+              .then(function (descifrat) {
+                localStorage.setItem("panou_token", new TextDecoder().decode(descifrat));
+                intra();
+              })
+              .catch(function () { eroare.textContent = "Utilizator sau parolă greșite."; });
+          }
+          document.getElementById("pn-intra").addEventListener("click", incearca);
+          document.getElementById("pn-parola").addEventListener("keydown", function (e) {
+            if (e.key === "Enter") incearca();
+          });
+        } else {
+          document.getElementById("pn-configureaza").addEventListener("click", function () {
+            eroare.textContent = "";
+            var t = document.getElementById("pn-token").value.trim();
+            var u2 = document.getElementById("pn-setup-user").value.trim();
+            var parola = document.getElementById("pn-setup-parola").value;
+            if (!t || !u2 || parola.length < 6) {
+              eroare.textContent = "Completează token-ul, utilizatorul și o parolă de minim 6 caractere.";
+              return;
+            }
+            localStorage.setItem("panou_token", t);
+            var sare = crypto.getRandomValues(new Uint8Array(16));
+            var iv = crypto.getRandomValues(new Uint8Array(12));
+            var iteratii = 600000;
+            cheiaDinParola(parola, sare, iteratii)
+              .then(function (cheie) {
+                return crypto.subtle.encrypt({ name: "AES-GCM", iv: iv }, cheie,
+                                             new TextEncoder().encode(t));
+              })
+              .then(function (blob) {
+                var acces2 = {
+                  utilizator: u2, iteratii: iteratii,
+                  sare: octetiLaB64(sare), iv: octetiLaB64(iv), blob: octetiLaB64(blob)
+                };
+                return scrie("acces.json", acces2, "acces cu parolă configurat");
+              })
+              .then(intra)
+              .catch(function (e) { eroare.textContent = "Eroare: " + e.message; });
+          });
+        }
+      });
+  }
+
   document.getElementById("pn-iesire").addEventListener("click", function () {
     localStorage.removeItem("panou_token");
     localStorage.setItem("panou_editare", "0");
     location.reload();
   });
-  if (token()) { intra(); } else { poarta.hidden = false; }
+  if (token()) { intra(); } else { poarta.hidden = false; pregatestePoarta(); }
 
   /* ================= incarcare ================= */
   function incarcaTot() {

@@ -19,20 +19,38 @@
     <div class="pn-poarta-card">
       <img src="assets/img/logo.png" alt="Stema CSM Slatina">
       <h1>Panoul site-ului</h1>
-      <p>Autentificarea se face cu un token GitHub — cheia care îi dă browserului
-         tău dreptul să publice modificări direct pe site.</p>
-      <input type="password" id="pn-token" placeholder="github_pat_…" autocomplete="off">
-      <button class="pn-btn pn-btn-plin" id="pn-intra" type="button">Intră în panou</button>
+      <!-- login obisnuit: utilizator + parola (decripteaza token-ul salvat) -->
+      <div id="pn-login">
+        <p>Intră cu utilizatorul și parola panoului.</p>
+        <input type="text" id="pn-user" placeholder="utilizator" autocomplete="username">
+        <input type="password" id="pn-parola" placeholder="parola" autocomplete="current-password">
+        <button class="pn-btn pn-btn-plin" id="pn-intra" type="button">Intră în panou</button>
+      </div>
+
+      <!-- prima configurare: token + alegerea utilizatorului si parolei -->
+      <div id="pn-setup" hidden>
+        <p><b>Prima configurare</b> — o singură dată: lipește token-ul GitHub și
+           alege-ți utilizatorul și parola cu care vei intra de-acum înainte,
+           de pe orice browser.</p>
+        <input type="password" id="pn-token" placeholder="github_pat_…" autocomplete="off">
+        <input type="text" id="pn-setup-user" placeholder="utilizator (ex. admin)" autocomplete="off">
+        <input type="password" id="pn-setup-parola" placeholder="parola (cât mai lungă!)" autocomplete="new-password">
+        <button class="pn-btn pn-btn-plin" id="pn-configureaza" type="button">Configurează panoul</button>
+        <p style="font-size:0.78rem; color:#8a94a6; margin-top:10px">Token-ul se salvează
+           <b>criptat cu parola ta</b> — fără parolă, nimeni nu-l poate folosi.
+           O parolă scurtă gen „admin1234" poate fi spartă prin încercări repetate;
+           alege ceva mai lung, de pildă trei cuvinte.</p>
+        <details class="pn-ajutor">
+          <summary>Cum îmi fac token-ul?</summary>
+          <ol>
+            <li>Intră pe <a href="https://github.com/settings/personal-access-tokens/new" target="_blank" rel="noopener">github.com → Settings → Fine-grained tokens</a>, logat cu contul care deține site-ul.</li>
+            <li>Nume: „Panou CSM". Expiration: 1 an. <b>Repository access</b>: „Only select repositories" → <b>csm-slatina</b>.</li>
+            <li>La <b>Permissions → Repository → Contents</b> alege <b>Read and write</b>. Restul rămân neatinse.</li>
+            <li>Generate token, copiază-l (începe cu <code>github_pat_</code>) și lipește-l aici.</li>
+          </ol>
+        </details>
+      </div>
       <div class="pn-eroare" id="pn-poarta-eroare" role="alert"></div>
-      <details class="pn-ajutor">
-        <summary>Cum îmi fac token-ul? (o singură dată)</summary>
-        <ol>
-          <li>Intră pe <a href="https://github.com/settings/personal-access-tokens/new" target="_blank" rel="noopener">github.com → Settings → Fine-grained tokens</a>, logat cu contul care deține site-ul.</li>
-          <li>Nume: „Panou CSM". Expiration: 1 an. <b>Repository access</b>: „Only select repositories" → <b>csm-slatina</b>.</li>
-          <li>La <b>Permissions → Repository → Contents</b> alege <b>Read and write</b>. Restul rămân neatinse.</li>
-          <li>Generate token, copiază-l (începe cu <code>github_pat_</code>) și lipește-l aici. Rămâne salvat în browserul acesta.</li>
-        </ol>
-      </details>
     </div>
   </div>
 
