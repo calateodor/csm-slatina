@@ -23,7 +23,7 @@
     luminozitate: 0.1,  // 0.1 = abia ghicit, 1 = cer plin
     scara: 5,          // câte celule pe lățime; mai mic = stele mai rare și mai mari
     ritmSclipire: 0.5,  // viteza pulsului; 0 = stele fixe
-    paralax: 7,         // cat ramane cerul in urma la scroll (yPercent); 0 = fix
+    paralax: 30,         // cat ramane cerul in urma la scroll (yPercent); 0 = fix
     atractie: 0.29,     // cat de tare trage cursorul stelele; 0 = deloc
     razaAtractie: 0.38, // cat de departe se simte atractia
     arc: 0.02642,       // cat de repede urmareste punctul-tinta cursorul

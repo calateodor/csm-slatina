@@ -85,6 +85,16 @@ h1, h2, h3, h4 { font-family: var(--font-display); line-height: 1.12; color: var
 }
 .section-title .accent { color: var(--blue); }
 .section-head { margin-bottom: clamp(24px, 3.6vw, 40px); }
+/* Cand sub titlu urmeaza direct un panou (Sezonul in curs, Lotul), titlul
+   are nevoie de aer: .section-title n-are margine proprie, iar coada
+   literelor coboara sub linia de baza — panoul ajungea sa o atinga.
+   Aici titlurile nu stau in .section-head, ci direct in .container. */
+.section-title + #sezon-grid,
+.section-title + #lot-app { display: block; margin-top: clamp(22px, 3vw, 36px); }
+/* #sezon-grid e doar invelisul in care JS randeaza panoul; marginea de mai
+   sus aterizeaza pe un container fara inaltime proprie, asa ca o punem si
+   pe panoul dinauntru. */
+#sezon-grid > .sezon-panou { margin-top: clamp(22px, 3vw, 36px); }
 .section-head.center { text-align: center; }
 .section-head.center .section-title { margin-inline: auto; }
 .section-head.center .eyebrow::before { display: none; }

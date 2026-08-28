@@ -202,7 +202,8 @@
       if (c.debut) parti.push("din <b>" + c.debut + "</b>");
       rest += '<p class="g-cariera"><i>Carieră</i>' + parti.join(" · ") + "</p>";
     }
-    if (juc.pozaCredit) rest += '<p class="j-credit">' + esc(juc.pozaCredit) + "</p>";
+    // creditul pozei (pozaCredit) ramane in echipe.json, dar nu se mai
+    // afiseaza pe card — la cererea clubului
 
     h += '<button class="g-mai" type="button" aria-expanded="false">Detalii <b>+</b></button>';
     h += '<div class="g-rest"><div>' + rest + "</div></div>";
