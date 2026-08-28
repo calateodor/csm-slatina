@@ -23,6 +23,7 @@
       <nav class="main-nav" aria-label="Meniu principal">
         <ul>
           <li><a href="../index.html">Acasă</a></li>
+          <li><a href="../stiri.html">Știri</a></li>
           <li class="has-sub">
             <a href="../index.html#echipa">Sporturi de echipă <span class="car">▾</span></a>
             <ul class="sub">
@@ -48,7 +49,8 @@
           <li><a href="../padel.html">Padel</a></li>
           <li><a href="../plaja-olt.html">Plaja Olt</a></li>
           <li><a href="../club-nautic.html">Clubul Nautic</a></li>
-          <li><a href="../contact.html">Contact</a></li>
+          <li><a href="../stiri.html">Știri</a></li>
+            <li><a href="../contact.html">Contact</a></li>
         </ul>
       </nav>
       <div class="header-crests">
@@ -66,6 +68,7 @@
       <nav>
         <ul class="menu-primary">
           <li><a href="../index.html">Acasă</a></li>
+          <li><a href="../stiri.html">Știri</a></li>
           <li><a href="../index.html#echipa">Sporturi de echipă</a></li>
           <li><a href="../index.html#individuale">Sporturi individuale</a></li>
           <li><a href="../padel.html">Padel</a></li>
@@ -117,7 +120,7 @@
       <div class="container">
         <nav class="breadcrumb reveal"><a href="../index.html">Acasă</a> / <a href="../index.html#sectii">Secții</a> / Atletism</nav>
         <h1 class="reveal">Atletism</h1>
-        <p class="lead reveal">Sportul-rege al olimpiadelor: viteză, anduranță, sărituri și aruncări.</p>
+        <p class="lead reveal" data-edit="atletism.lead">Sportul-rege al olimpiadelor: viteză, anduranță, sărituri și aruncări.</p>
       </div>
     </section>
 
@@ -127,23 +130,23 @@
         <div class="detail-grid">
           <div class="detail-copy reveal-left">
             <span class="eyebrow">Despre secție</span>
-            <h2>Atletism la CSM Slatina</h2>
-            <p>Pe pista Stadionului 1 Mai, atleții CSM Slatina aleargă, sar și aruncă spre recorduri personale și medalii naționale. Secția acoperă probele de sprint, semifond, fond, sărituri și aruncări.</p>
-            <p>Atletismul este fundația tuturor sporturilor. Copiii care încep aici își dezvoltă viteza, rezistența și coordonarea — calități care îi vor ajuta în orice disciplină vor alege mai târziu.</p>
+            <h2 data-edit="atletism.despre.titlu">Atletism la CSM Slatina</h2>
+            <p data-edit="atletism.despre.p1">Pe pista Stadionului 1 Mai, atleții CSM Slatina aleargă, sar și aruncă spre recorduri personale și medalii naționale. Secția acoperă probele de sprint, semifond, fond, sărituri și aruncări.</p>
+            <p data-edit="atletism.despre.p2">Atletismul este fundația tuturor sporturilor. Copiii care încep aici își dezvoltă viteza, rezistența și coordonarea — calități care îi vor ajuta în orice disciplină vor alege mai târziu.</p>
             <a class="btn btn-blue" href="../contact.html">Vino la un antrenament <span class="arrow">→</span></a>
           </div>
           <div class="info-cards reveal-right">
             <div class="info-card">
               <h3>Unde ne antrenăm</h3>
-              <p>Stadionul 1 Mai — pista de atletism</p>
+              <p data-edit="atletism.card1">Stadionul 1 Mai — pista de atletism</p>
             </div>
             <div class="info-card">
               <h3>Program antrenamente</h3>
-              <p>Programul grupelor este stabilit la începutul fiecărui sezon. Contactează secția pentru orarul curent.</p>
+              <p data-edit="atletism.card2">Programul grupelor este stabilit la începutul fiecărui sezon. Contactează secția pentru orarul curent.</p>
             </div>
             <div class="info-card">
               <h3>Înscrieri</h3>
-              <p>Telefon: <a href="tel:+40349738657">0349 738 657</a><br>E-mail: <a href="mailto:csmslatina@yahoo.com">csmslatina@yahoo.com</a></p>
+              <p data-edit="atletism.card3">Telefon: <a href="tel:+40349738657">0349 738 657</a><br>E-mail: <a href="mailto:csmslatina@yahoo.com">csmslatina@yahoo.com</a></p>
             </div>
           </div>
         </div>
@@ -220,7 +223,7 @@
       </div>
       <div class="footer-bottom">
         <span>© <span id="year">2026</span> Clubul Sportiv Municipal Slatina. Toate drepturile rezervate.</span>
-        <span>Slatina, oraș al performanței!</span>
+        <span>Slatina, oraș al performanței! · <a class="admin-link" href="../panou.html">Administrare</a></span>
       </div>
     </div>
   </footer>
@@ -228,6 +231,7 @@
   <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>
   <script src="../js/main.js"></script>
+  <script src="../js/editare.js"></script>
   <script src="../js/galerie.js"></script>
   <script src="../js/stele.js"></script>
 </body>

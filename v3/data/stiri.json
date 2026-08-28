@@ -1,0 +1,96 @@
+{
+  "actualizat": "2026-08-28",
+  "categorii": {
+    "rezultate": "Rezultate",
+    "stiri-club": "Știri club",
+    "interviuri": "Interviuri",
+    "juniori": "Juniori",
+    "evenimente": "Evenimente"
+  },
+  "stiri": [
+    {
+      "slug": "victorie-clara-in-derbiul-oltului",
+      "categorie": "rezultate",
+      "data": "2026-05-18",
+      "titlu": "Victorie clară în derbiul Oltului",
+      "rezumat": "CSM Slatina s-a impus cu 3-1 într-un meci dominat de la un capăt la altul.",
+      "poza": null,
+      "publicat": true,
+      "corp": [
+        "Articol demonstrativ — înlocuiește-l din panoul de administrare cu prima știre reală a clubului.",
+        "CSM Slatina a controlat derbiul de la primul până la ultimul fluier, iar tabela a arătat la final 3-1. Golurile au venit pe fondul unei prese avansate care a sufocat construcția oaspeților.",
+        "Urmează deplasarea de sâmbătă, unde echipa poate confirma forma excelentă din ultimele etape."
+      ]
+    },
+    {
+      "slug": "handbalistii-juniori-in-finala-nationala",
+      "categorie": "juniori",
+      "data": "2026-05-15",
+      "titlu": "Handbaliștii juniori, în finala națională",
+      "rezumat": "Echipa de juniori s-a calificat după o cursă spectaculoasă.",
+      "poza": null,
+      "publicat": true,
+      "corp": [
+        "Articol demonstrativ — înlocuiește-l din panoul de administrare cu prima știre reală a clubului.",
+        "După un sezon aproape perfect, juniorii CSM Slatina s-au calificat în finala campionatului național. Calificarea a venit după o semifinală decisă în ultimele minute.",
+        "Finala se joacă luna viitoare — vom publica aici toate detaliile despre bilete și program."
+      ]
+    },
+    {
+      "slug": "interviu-antrenor-inot",
+      "categorie": "interviuri",
+      "data": "2026-05-12",
+      "titlu": "„Bazinul ne-a transformat clubul” — interviu cu antrenorul de înot",
+      "rezumat": "O discuție despre generația de aur pregătită la CSM Slatina.",
+      "poza": null,
+      "publicat": true,
+      "corp": [
+        "Articol demonstrativ — înlocuiește-l din panoul de administrare cu un interviu real.",
+        "Am stat de vorbă cu antrenorul secției de înot despre drumul de la primele lungimi de bazin la podiumurile campionatelor naționale, despre generația care crește acum în bazinul din Slatina și despre planurile sezonului viitor.",
+        "Interviul integral va fi publicat aici — aceasta este o machetă de structură."
+      ]
+    },
+    {
+      "slug": "doua-medalii-la-nationalele-de-atletism",
+      "categorie": "rezultate",
+      "data": "2026-05-10",
+      "titlu": "Două medalii la Campionatul Național de atletism",
+      "rezumat": "Sportivii noștri urcă pe podium la Cluj.",
+      "poza": null,
+      "publicat": true,
+      "corp": [
+        "Articol demonstrativ — înlocuiește-l din panoul de administrare cu rezultatele reale.",
+        "Atleții CSM Slatina s-au întors de la Cluj cu două medalii și mai multe recorduri personale. Rezultatele confirmă progresul constant al secției de atletism.",
+        "Felicitări sportivilor și antrenorilor!"
+      ]
+    },
+    {
+      "slug": "stagiu-international-de-karate-la-slatina",
+      "categorie": "evenimente",
+      "data": "2026-05-08",
+      "titlu": "Stagiu internațional de karate la Slatina",
+      "rezumat": "Antrenori din Japonia vin la sala CSM pentru un weekend intens.",
+      "poza": null,
+      "publicat": true,
+      "corp": [
+        "Articol demonstrativ — înlocuiește-l din panoul de administrare cu detaliile reale ale evenimentului.",
+        "Sala CSM Slatina găzduiește un stagiu internațional de karate, cu antrenori invitați din Japonia. Sunt așteptați sportivi din toată regiunea, pentru un weekend de tehnică și kumite.",
+        "Detaliile de înscriere și programul complet vor fi anunțate aici."
+      ]
+    },
+    {
+      "slug": "se-deschid-terenurile-de-padel",
+      "categorie": "stiri-club",
+      "data": "2026-05-05",
+      "titlu": "Se deschid terenurile de padel CSM",
+      "rezumat": "Două terenuri premium, sistem de rezervări online în curând.",
+      "poza": null,
+      "publicat": true,
+      "corp": [
+        "Articol demonstrativ — înlocuiește-l din panoul de administrare cu anunțul real.",
+        "Clubul Nautic și de Agrement se extinde cu două terenuri de padel de ultimă generație. Rezervările se vor putea face online, direct de pe site.",
+        "Până atunci, terenurile pot fi rezervate telefonic, la numărul clubului."
+      ]
+    }
+  ]
+}

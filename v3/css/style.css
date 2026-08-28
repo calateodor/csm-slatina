@@ -1335,3 +1335,7 @@ body.menu-open .menu-overlay { visibility: visible; opacity: 1; pointer-events: 
   .ticker-track, .band-track, .cred-float img, .about-media .crest { animation: none !important; }
   .reveal, .reveal-left, .reveal-right, .sport-card, .plaja-item { opacity: 1 !important; transform: none !important; }
 }
+
+/* linkul discret spre panoul de administrare, in subsol */
+.admin-link { color: inherit; opacity: 0.55; text-decoration: none; }
+.admin-link:hover { opacity: 1; text-decoration: underline; }

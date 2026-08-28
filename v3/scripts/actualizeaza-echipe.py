@@ -471,6 +471,21 @@ def main():
 
     radacina = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
     cale = os.path.join(radacina, "data", "echipe.json")
+
+    # un lot trecut pe manual din panoul de administrare NU se rescrie:
+    # pastram exact ce e in fisierul curent pentru sportul respectiv
+    cale_supra = os.path.join(radacina, "data", "suprascrieri.json")
+    if os.path.exists(cale_supra) and os.path.exists(cale):
+        with io.open(cale_supra, encoding="utf-8") as f:
+            lot_manual = json.load(f).get("lot", {})
+        if lot_manual:
+            with io.open(cale, encoding="utf-8") as f:
+                vechi = json.load(f)
+            for sport, activ in lot_manual.items():
+                if activ and sport in vechi and sport in date:
+                    date[sport]["lot"] = vechi[sport].get("lot", [])
+                    print("lot %s: pe manual, pastrat neschimbat" % sport)
+
     os.makedirs(os.path.dirname(cale), exist_ok=True)
     with io.open(cale, "w", encoding="utf-8") as f:
         json.dump(date, f, ensure_ascii=False, indent=1)

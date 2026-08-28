@@ -23,6 +23,7 @@
       <nav class="main-nav" aria-label="Meniu principal">
         <ul>
           <li><a href="index.html">Acasă</a></li>
+          <li><a href="stiri.html">Știri</a></li>
           <li class="has-sub">
             <a href="index.html#echipa">Sporturi de echipă <span class="car">▾</span></a>
             <ul class="sub">
@@ -48,7 +49,8 @@
           <li><a href="padel.html">Padel</a></li>
           <li><a href="plaja-olt.html">Plaja Olt</a></li>
           <li><a href="club-nautic.html">Clubul Nautic</a></li>
-          <li><a href="contact.html">Contact</a></li>
+          <li><a href="stiri.html">Știri</a></li>
+            <li><a href="contact.html">Contact</a></li>
         </ul>
       </nav>
       <div class="header-crests">
@@ -66,6 +68,7 @@
       <nav>
         <ul class="menu-primary">
           <li><a href="index.html">Acasă</a></li>
+          <li><a href="stiri.html">Știri</a></li>
           <li><a href="index.html#echipa">Sporturi de echipă</a></li>
           <li><a href="index.html#individuale">Sporturi individuale</a></li>
           <li><a href="padel.html">Padel</a></li>
@@ -103,8 +106,8 @@
       <span class="fantoma lum-fantoma-erou" aria-hidden="true">VARA</span>
       <div class="container lum-erou-copy">
         <span class="eyebrow reveal">CSM Slatina · vara pe malul Oltului</span>
-        <h1 class="reveal">Plaja Olt</h1>
-        <p class="lead reveal">Nisip, șezlonguri și piscină, la cinci minute de centru. Vii, îți întinzi prosopul și restul zilei se rezolvă singur.</p>
+        <h1 class="reveal" data-edit="plaja.titlu">Plaja Olt</h1>
+        <p class="lead reveal" data-edit="plaja.lead">Nisip, șezlonguri și piscină, la cinci minute de centru. Vii, îți întinzi prosopul și restul zilei se rezolvă singur.</p>
         <a class="btn btn-blue reveal" href="#tarife">Vezi tarifele <span class="arrow">↓</span></a>
       </div>
     </section>
@@ -119,7 +122,7 @@
         <div class="lum-panouri">
           <article class="lum-panou reveal">
             <h3>Acces plajă <small>L–V 10:00–20:00 · S–D 08:00–20:00</small></h3>
-            <ul class="lum-tarife-lista">
+            <ul class="lum-tarife-lista" data-edit="plaja.tarife.acces">
               <li><span>Adulți</span><i></i><strong>20 lei</strong></li>
               <li><span>Copii sub 14 ani <em>(însoțiți de un adult)</em></span><i></i><strong>10 lei</strong></li>
               <li><span>Copii sub 2 ani</span><i></i><strong>gratuit</strong></li>
@@ -132,7 +135,7 @@
                atributul hidden de pe article. -->
           <article class="lum-panou lum-panou-piscina reveal" hidden>
             <h3>Piscina <small>în incinta plajei</small></h3>
-            <ul class="lum-tarife-lista">
+            <ul class="lum-tarife-lista" data-edit="plaja.tarife.piscina">
               <li><span>Acces piscină — adulți</span><i></i><strong>— lei</strong></li>
               <li><span>Acces piscină — copii</span><i></i><strong>— lei</strong></li>
             </ul>
@@ -140,7 +143,7 @@
 
           <article class="lum-panou reveal">
             <h3>Pe apă <small>de la debarcader</small></h3>
-            <ul class="lum-tarife-lista">
+            <ul class="lum-tarife-lista" data-edit="plaja.tarife.apa">
               <li><span>Caiac</span><i></i><strong>30 lei / 30 min · 50 lei / oră</strong></li>
               <li><span>Hidrobicicletă</span><i></i><strong>20 lei / 30 min · 30 lei / oră</strong></li>
               <li><span>Barcă cu motor electric</span><i></i><strong>180 lei / oră</strong></li>
@@ -191,7 +194,7 @@
         <div class="lum-panouri lum-panouri-2">
           <article class="lum-panou reveal">
             <h3>Programul plajei</h3>
-            <ul class="lum-tarife-lista">
+            <ul class="lum-tarife-lista" data-edit="plaja.program">
               <li><span>Luni – Vineri</span><i></i><strong>10:00 – 20:00</strong></li>
               <li><span>Sâmbătă – Duminică</span><i></i><strong>08:00 – 20:00</strong></li>
             </ul>
@@ -200,7 +203,7 @@
 
           <article class="lum-panou reveal">
             <h3>Regulamentul, pe scurt</h3>
-            <ul class="lum-reguli">
+            <ul class="lum-reguli" data-edit="plaja.regulament">
               <li>Copiii sub 14 ani intră doar însoțiți de un adult.</li>
               <li>Înotul e permis doar în zonele marcate; ascultă de salvamar.</li>
               <li>Fără sticlă și obiecte tăioase pe nisip — folosește doze sau plastic.</li>
@@ -280,7 +283,7 @@
       </div>
       <div class="footer-bottom">
         <span>© <span id="year">2026</span> Clubul Sportiv Municipal Slatina. Toate drepturile rezervate.</span>
-        <span>Slatina, oraș al performanței!</span>
+        <span>Slatina, oraș al performanței! · <a class="admin-link" href="panou.html">Administrare</a></span>
       </div>
     </div>
   </footer>
@@ -288,6 +291,7 @@
   <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>
   <script src="js/main.js"></script>
+  <script src="js/editare.js"></script>
   <script src="js/stele.js"></script>
 </body>
 </html>

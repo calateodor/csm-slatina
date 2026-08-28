@@ -23,6 +23,7 @@
       <nav class="main-nav" aria-label="Meniu principal">
         <ul>
           <li><a href="../index.html">Acasă</a></li>
+          <li><a href="../stiri.html">Știri</a></li>
           <li class="has-sub">
             <a href="../index.html#echipa">Sporturi de echipă <span class="car">▾</span></a>
             <ul class="sub">
@@ -48,7 +49,8 @@
           <li><a href="../padel.html">Padel</a></li>
           <li><a href="../plaja-olt.html">Plaja Olt</a></li>
           <li><a href="../club-nautic.html">Clubul Nautic</a></li>
-          <li><a href="../contact.html">Contact</a></li>
+          <li><a href="../stiri.html">Știri</a></li>
+            <li><a href="../contact.html">Contact</a></li>
         </ul>
       </nav>
       <div class="header-crests">
@@ -66,6 +68,7 @@
       <nav>
         <ul class="menu-primary">
           <li><a href="../index.html">Acasă</a></li>
+          <li><a href="../stiri.html">Știri</a></li>
           <li><a href="../index.html#echipa">Sporturi de echipă</a></li>
           <li><a href="../index.html#individuale">Sporturi individuale</a></li>
           <li><a href="../padel.html">Padel</a></li>
@@ -117,7 +120,7 @@
       <div class="container">
         <nav class="breadcrumb reveal"><a href="../index.html">Acasă</a> / <a href="../index.html#sectii">Secții</a> / Box</nav>
         <h1 class="reveal">Box</h1>
-        <p class="lead reveal">Disciplină, curaj și inimă — nobila artă se antrenează la Slatina.</p>
+        <p class="lead reveal" data-edit="box.lead">Disciplină, curaj și inimă — nobila artă se antrenează la Slatina.</p>
       </div>
     </section>
 
@@ -127,23 +130,23 @@
         <div class="detail-grid">
           <div class="detail-copy reveal-left">
             <span class="eyebrow">Despre secție</span>
-            <h2>Box la CSM Slatina</h2>
-            <p>Sala de box a CSM Slatina a format campioni naționali și medaliați internaționali. Aici, sub îndrumarea antrenorilor cu experiență, pugiliștii învață că boxul înseamnă în primul rând disciplină și respect.</p>
-            <p>Grupele de inițiere primesc copii de la 8–10 ani, iar sportivii de performanță urcă în ring la campionatele naționale și în turnee internaționale, purtând culorile Slatinei.</p>
+            <h2 data-edit="box.despre.titlu">Box la CSM Slatina</h2>
+            <p data-edit="box.despre.p1">Sala de box a CSM Slatina a format campioni naționali și medaliați internaționali. Aici, sub îndrumarea antrenorilor cu experiență, pugiliștii învață că boxul înseamnă în primul rând disciplină și respect.</p>
+            <p data-edit="box.despre.p2">Grupele de inițiere primesc copii de la 8–10 ani, iar sportivii de performanță urcă în ring la campionatele naționale și în turnee internaționale, purtând culorile Slatinei.</p>
             <a class="btn btn-blue" href="../contact.html">Vino la un antrenament <span class="arrow">→</span></a>
           </div>
           <div class="info-cards reveal-right">
             <div class="info-card">
               <h3>Unde ne antrenăm</h3>
-              <p>Sala de box CSM Slatina</p>
+              <p data-edit="box.card1">Sala de box CSM Slatina</p>
             </div>
             <div class="info-card">
               <h3>Program antrenamente</h3>
-              <p>Programul grupelor este stabilit la începutul fiecărui sezon. Contactează secția pentru orarul curent.</p>
+              <p data-edit="box.card2">Programul grupelor este stabilit la începutul fiecărui sezon. Contactează secția pentru orarul curent.</p>
             </div>
             <div class="info-card">
               <h3>Înscrieri</h3>
-              <p>Telefon: <a href="tel:+40349738657">0349 738 657</a><br>E-mail: <a href="mailto:csmslatina@yahoo.com">csmslatina@yahoo.com</a></p>
+              <p data-edit="box.card3">Telefon: <a href="tel:+40349738657">0349 738 657</a><br>E-mail: <a href="mailto:csmslatina@yahoo.com">csmslatina@yahoo.com</a></p>
             </div>
           </div>
         </div>
@@ -216,7 +219,7 @@
       </div>
       <div class="footer-bottom">
         <span>© <span id="year">2026</span> Clubul Sportiv Municipal Slatina. Toate drepturile rezervate.</span>
-        <span>Slatina, oraș al performanței!</span>
+        <span>Slatina, oraș al performanței! · <a class="admin-link" href="../panou.html">Administrare</a></span>
       </div>
     </div>
   </footer>
@@ -224,6 +227,7 @@
   <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>
   <script src="../js/main.js"></script>
+  <script src="../js/editare.js"></script>
   <script src="../js/galerie.js"></script>
   <script src="../js/stele.js"></script>
 </body>

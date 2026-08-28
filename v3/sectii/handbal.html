@@ -25,6 +25,7 @@
       <nav class="main-nav" aria-label="Meniu principal">
         <ul>
           <li><a href="../index.html">Acasă</a></li>
+          <li><a href="../stiri.html">Știri</a></li>
           <li class="has-sub">
             <a href="../index.html#echipa">Sporturi de echipă <span class="car">▾</span></a>
             <ul class="sub">
@@ -50,7 +51,8 @@
           <li><a href="../padel.html">Padel</a></li>
           <li><a href="../plaja-olt.html">Plaja Olt</a></li>
           <li><a href="../club-nautic.html">Clubul Nautic</a></li>
-          <li><a href="../contact.html">Contact</a></li>
+          <li><a href="../stiri.html">Știri</a></li>
+            <li><a href="../contact.html">Contact</a></li>
         </ul>
       </nav>
       <div class="header-crests">
@@ -68,6 +70,7 @@
       <nav>
         <ul class="menu-primary">
           <li><a href="../index.html">Acasă</a></li>
+          <li><a href="../stiri.html">Știri</a></li>
           <li><a href="../index.html#echipa">Sporturi de echipă</a></li>
           <li><a href="../index.html#individuale">Sporturi individuale</a></li>
           <li><a href="../padel.html">Padel</a></li>
@@ -118,7 +121,7 @@
         <div class="erou-text">
           <nav class="breadcrumb reveal"><a href="../index.html">Acasă</a> / <a href="../index.html#sectii">Secții</a> / Handbal</nav>
           <h1 class="reveal">Handbal</h1>
-          <p class="lead reveal">Handbal feminin de primă ligă — fetele noastre duc Slatina în elita handbalului românesc.</p>
+          <p class="lead reveal" data-edit="handbal.lead">Handbal feminin de primă ligă — fetele noastre duc Slatina în elita handbalului românesc.</p>
         </div>
       </div>
       <div class="calendar-meciuri" id="calendar-meciuri" data-sport="handbal" aria-label="Calendarul meciurilor"></div>
@@ -130,23 +133,23 @@
         <div class="detail-grid">
           <div class="detail-copy reveal-left">
             <span class="eyebrow">Despre secție</span>
-            <h2>Handbal la CSM Slatina</h2>
-            <p>Secția de handbal feminin este una dintre cele mai puternice ale clubului. Echipa de senioare evoluează la cel mai înalt nivel al handbalului românesc, iar atmosfera din sala polivalentă la meciurile de acasă este electrizantă.</p>
-            <p>Creștem propriile talente: grupele de junioare pregătesc următoarea generație de handbaliste, cu accent pe tehnică, spirit de echipă și dorința de a purta într-o zi tricoul echipei mari.</p>
+            <h2 data-edit="handbal.despre.titlu">Handbal la CSM Slatina</h2>
+            <p data-edit="handbal.despre.p1">Secția de handbal feminin este una dintre cele mai puternice ale clubului. Echipa de senioare evoluează la cel mai înalt nivel al handbalului românesc, iar atmosfera din sala polivalentă la meciurile de acasă este electrizantă.</p>
+            <p data-edit="handbal.despre.p2">Creștem propriile talente: grupele de junioare pregătesc următoarea generație de handbaliste, cu accent pe tehnică, spirit de echipă și dorința de a purta într-o zi tricoul echipei mari.</p>
             <a class="btn btn-blue" href="../contact.html">Vino la un antrenament <span class="arrow">→</span></a>
           </div>
           <div class="info-cards reveal-right">
             <div class="info-card">
               <h3>Unde ne antrenăm</h3>
-              <p>Sala Polivalentă, Slatina</p>
+              <p data-edit="handbal.card1">Sala Polivalentă, Slatina</p>
             </div>
             <div class="info-card">
               <h3>Program antrenamente</h3>
-              <p>Programul grupelor este stabilit la începutul fiecărui sezon. Contactează secția pentru orarul curent.</p>
+              <p data-edit="handbal.card2">Programul grupelor este stabilit la începutul fiecărui sezon. Contactează secția pentru orarul curent.</p>
             </div>
             <div class="info-card">
               <h3>Înscrieri</h3>
-              <p>Telefon: <a href="tel:+40349738657">0349 738 657</a><br>E-mail: <a href="mailto:csmslatina@yahoo.com">csmslatina@yahoo.com</a></p>
+              <p data-edit="handbal.card3">Telefon: <a href="tel:+40349738657">0349 738 657</a><br>E-mail: <a href="mailto:csmslatina@yahoo.com">csmslatina@yahoo.com</a></p>
             </div>
           </div>
         </div>
@@ -239,7 +242,7 @@
       </div>
       <div class="footer-bottom">
         <span>© <span id="year">2026</span> Clubul Sportiv Municipal Slatina. Toate drepturile rezervate.</span>
-        <span>Slatina, oraș al performanței!</span>
+        <span>Slatina, oraș al performanței! · <a class="admin-link" href="../panou.html">Administrare</a></span>
       </div>
     </div>
   </footer>
@@ -247,6 +250,7 @@
   <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>
   <script src="../js/main.js"></script>
+  <script src="../js/editare.js"></script>
   <script src="../js/lot.js"></script>
   <script src="../js/galerie.js"></script>
   <script src="../js/calendar-erou.js"></script>

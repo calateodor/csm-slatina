@@ -94,6 +94,31 @@ def main():
 
     toate.sort(key=lambda m: m["timestamp"])
     radacina = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
+    # suprascrierile din panoul de administrare au ultimul cuvant:
+    # un meci marcat manual pastreaza valorile puse de administrator,
+    # unul marcat "sters" nu mai apare, iar meciurile adaugate de mana
+    # (id manual-*) raman in lista.
+    cale_supra = os.path.join(radacina, "data", "suprascrieri.json")
+    supra = {}
+    if os.path.exists(cale_supra):
+        with io.open(cale_supra, encoding="utf-8") as f:
+            supra = json.load(f).get("meciuri", {})
+    if supra:
+        rezultat = []
+        for m in toate:
+            regula = supra.get(m.get("flashscoreId"))
+            if regula == "sters":
+                continue
+            if isinstance(regula, dict):
+                m = dict(m); m.update(regula)
+            rezultat.append(m)
+        for cheie, regula in supra.items():
+            if cheie.startswith("manual-") and isinstance(regula, dict):
+                rezultat.append(regula)
+        rezultat.sort(key=lambda m: m["timestamp"])
+        toate = rezultat
+
     cale = os.path.join(radacina, "data", "meciuri.json")
     os.makedirs(os.path.dirname(cale), exist_ok=True)
     continut = {"actualizat": acum, "meciuri": toate}
