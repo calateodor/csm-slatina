@@ -152,3 +152,14 @@
   font-size: 0.85rem; font-weight: 600; color: #14345c; text-decoration: none;
 }
 .pn-linkuri a:hover { border-color: #14345c; }
+
+/* tarifele hartii */
+#pn-tarife-lista input {
+  border: 1px solid rgba(20, 52, 92, 0.18);
+  border-radius: 10px;
+  padding: 10px 13px;
+  font: inherit;
+  min-width: 200px;
+}
+#pn-tarife-lista input:focus { outline: 2px solid rgba(18, 58, 158, 0.3); }
+#pn-tarife-lista .pn-rand strong { font-family: var(--font-display); font-size: 0.92rem; }

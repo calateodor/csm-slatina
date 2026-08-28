@@ -45,6 +45,7 @@
   var echipe = null;       // echipe.json
   var meciuri = null;      // meciuri.json
   var suprascrieri = null; // suprascrieri.json
+  var tarife = null;       // tarife.json (preturile pinurilor de pe harta)
   var murdare = {};        // ce fisiere au modificari nepublicate
   var sportCurent = "handbal";
 
@@ -174,13 +175,15 @@
   /* ================= incarcare ================= */
   function incarcaTot() {
     Promise.all([citeste("stiri.json"), citeste("echipe.json"),
-                 citeste("meciuri.json"), citeste("suprascrieri.json")])
+                 citeste("meciuri.json"), citeste("suprascrieri.json"),
+                 citeste("tarife.json").catch(function () { return { date: null }; })])
       .then(function (r) {
         stiri = r[0].date || { categorii: {}, stiri: [] };
         echipe = r[1].date;
         meciuri = r[2].date || { meciuri: [] };
         suprascrieri = r[3].date || { meciuri: {}, lot: {} };
-        deseneazaStiri(); deseneazaLot(); deseneazaMeciuri();
+        tarife = r[4].date || {};
+        deseneazaStiri(); deseneazaLot(); deseneazaMeciuri(); deseneazaTarife();
       })
       .catch(function (e) { alert("Nu am putut încărca datele: " + e.message); });
   }
@@ -190,7 +193,7 @@
     t.addEventListener("click", function () {
       document.querySelectorAll(".pn-tab").forEach(function (x) { x.classList.remove("activ"); });
       t.classList.add("activ");
-      ["stiri", "lot", "meciuri", "editare"].forEach(function (nume) {
+      ["stiri", "lot", "meciuri", "tarife", "editare"].forEach(function (nume) {
         document.getElementById("tab-" + nume).hidden = nume !== t.dataset.tab;
       });
     });
@@ -429,6 +432,32 @@
   }
   document.getElementById("meci-adauga").addEventListener("click", function () { editeazaMeci(-1); });
 
+  /* ================= TARIFELE HARTII ================= */
+  function deseneazaTarife() {
+    var gazda = document.getElementById("pn-tarife-lista");
+    if (!gazda || !tarife) return;
+    gazda.innerHTML = "";
+    Object.keys(tarife).forEach(function (id) {
+      var rand = document.createElement("div");
+      rand.className = "pn-rand";
+      var eticheta = document.createElement("strong");
+      eticheta.textContent = tarife[id].nume || id;
+      eticheta.style.flex = "0 0 220px";
+      var camp = document.createElement("input");
+      camp.type = "text";
+      camp.value = tarife[id].tarif || "";
+      camp.placeholder = "fără tarif afișat";
+      camp.style.flex = "1";
+      camp.addEventListener("input", function () {
+        tarife[id].tarif = camp.value.trim();
+        marcheaza("tarife.json");
+      });
+      rand.appendChild(eticheta);
+      rand.appendChild(camp);
+      gazda.appendChild(rand);
+    });
+  }
+
   /* ================= EDITARE IN PAGINA ================= */
   function stareEditare() {
     var pornit = localStorage.getItem("panou_editare") === "1";
@@ -453,6 +482,7 @@
     if (murdare["echipe.json"]) pasi.push(["echipe.json", echipe, "lot " + sportCurent + " actualizat"]);
     if (murdare["meciuri.json"]) pasi.push(["meciuri.json", meciuri, "meciuri actualizate"]);
     if (murdare["suprascrieri.json"]) pasi.push(["suprascrieri.json", suprascrieri, "suprascrieri actualizate"]);
+    if (murdare["tarife.json"]) pasi.push(["tarife.json", tarife, "tarife actualizate"]);
     (function urmatorul() {
       if (!pasi.length) {
         murdare = {};

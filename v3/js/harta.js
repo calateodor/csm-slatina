@@ -290,4 +290,26 @@
   });
 
   deseneaza();
+
+  /* tarifele „vii”: data/tarife.json (editabil din panou) bate valorile
+     scrise in catalogul de mai sus; daca fisierul lipseste, ramanem pe ele */
+  var laDate = (document.currentScript && document.currentScript.src)
+    ? new URL("data/tarife.json", document.currentScript.src.replace(/js\/[^\/]*$/, ""))
+    : "data/tarife.json";
+  try {
+    fetch(laDate, { cache: "no-cache" })
+      .then(function (r) { return r.ok ? r.json() : null; })
+      .then(function (t) {
+        if (!t) return;
+        var schimbat = false;
+        SERVICII.forEach(function (sv) {
+          if (t[sv.id] && typeof t[sv.id].tarif === "string" && t[sv.id].tarif !== sv.tarif) {
+            sv.tarif = t[sv.id].tarif;
+            schimbat = true;
+          }
+        });
+        if (schimbat) deseneaza();
+      })
+      .catch(function () {});
+  } catch (e) {}
 })();

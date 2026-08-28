@@ -1,0 +1,20 @@
+{
+  "padel":    { "nume": "Padel",                        "tarif": "40 lei/oră (10–16) · 60 lei/oră (16–24)" },
+  "zgura":    { "nume": "Tenis zgură",                  "tarif": "40 lei/oră ziua · 45 lei/oră nocturn" },
+  "hard":     { "nume": "Tenis hard",                   "tarif": "rezervări: 0349 883 938" },
+  "minigolf": { "nume": "Minigolf",                     "tarif": "11 lei/oră/crosă · 7 lei/30 min" },
+  "volei":    { "nume": "Beach volley",                 "tarif": "25 lei/oră · 13 lei/30 min" },
+  "futnet":   { "nume": "Futnet (tenis cu piciorul)",   "tarif": "80 lei/oră · minge inclusă" },
+  "sintetic": { "nume": "Fotbal pe sintetic",           "tarif": "110 lei/oră ziua · 130 lei/oră nocturn" },
+  "fotbal":   { "nume": "Teren fotbal gazon",           "tarif": "" },
+  "frizerie": { "nume": "Frizerie",                     "tarif": "de la 40 lei · copii 30 lei" },
+  "masaj":    { "nume": "Masaj",                        "tarif": "50 lei / 30 min" },
+  "plaja":    { "nume": "Plajă & șezlonguri",           "tarif": "20 lei adulți · 10 lei copii sub 14 · șezlong 10 lei/zi" },
+  "piscina":  { "nume": "Piscină",                      "tarif": "inclusă în accesul la plajă" },
+  "apa":      { "nume": "Pe apă — caiac & hidrobiciclete", "tarif": "caiac 30 lei/30 min · hidrobicicletă 20 lei/30 min" },
+  "pontoane": { "nume": "Pontoane & evenimente",        "tarif": "evenimente private: 0349 883 938" },
+  "parcare":  { "nume": "Parcare",                      "tarif": "gratuită · 300+ locuri" },
+  "balon":    { "nume": "Teren acoperit (balon)",       "tarif": "" },
+  "nautic":   { "nume": "Clubul Nautic",                "tarif": "" },
+  "foisor":   { "nume": "Foișoare & căsuțe",            "tarif": "" }
+}
