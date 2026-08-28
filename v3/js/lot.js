@@ -256,6 +256,11 @@
         carduri.push({ juc: juc, el: c });
       });
     });
+    // coada scenei: loc gol dupa ultimul card; latimea o da asiguraCoada()
+    var coada = document.createElement("span");
+    coada.className = "lot-coada";
+    coada.setAttribute("aria-hidden", "true");
+    scena.appendChild(coada);
 
     var marcaj = radacina.querySelector("#lot-marcaj");
     var puncte = Array.prototype.slice.call(radacina.querySelectorAll(".post-punct"));
@@ -436,6 +441,21 @@
     }
     masoaraAncora();
     window.addEventListener("resize", masoaraAncora);
+
+    /* Coada scenei. Fara ea, scrollul isi atinge maximul cand marginea
+       dreapta a filei ajunge la ecran, asa ca ultimele carduri nu mai pot
+       ajunge in dreptul ancorei: carma si derularea se opreau cu vreo zece
+       carduri inainte de final. Masuram din layoutul real exact cat loc gol
+       ii lipseste ultimului card ca sa se poata aseza si el la ancora. */
+    function asiguraCoada() {
+      if (!carduri.length) return;
+      coada.style.width = "0px";
+      var ultim = carduri[carduri.length - 1].el;
+      var lipsa = ultim.offsetLeft - ANCORA + scena.clientWidth - scena.scrollWidth;
+      coada.style.width = Math.max(0, Math.ceil(lipsa)) + "px";
+    }
+    asiguraCoada();
+    window.addEventListener("resize", asiguraCoada);
     var blocatDeCamera = false, rafFocal = null;
     var idxDeschis = 0;
 

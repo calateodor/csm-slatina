@@ -172,6 +172,10 @@
 }
 .lot-scena::-webkit-scrollbar { display: none; }
 
+/* coada scenei: spatiul gol de dupa ultimul card, dimensionat din JS
+   (asiguraCoada), ca si ultimul card sa poata ajunge la ancora din stanga */
+.lot-coada { flex: 0 0 auto; }
+
 /* Sticla blurata (backdrop-filter) costa la fiecare recompunere a cardului.
    Pe cardurile inchise panoul de sticla oricum nu se vede (j-copy e stins),
    deci blurul lor e munca pe gratis — il tinem doar pe cardul deschis. */
