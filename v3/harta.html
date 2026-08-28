@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Harta bazei — CSM Slatina</title>
+  <meta name="description" content="Harta interactivă a Bazei Sportive și a Plajei Olt — toate activitățile, la locul lor.">
+  <link rel="icon" type="image/png" href="assets/img/logo.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700;800&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/harta.css">
+</head>
+<body class="harta-body">
+
+  <header class="harta-top">
+    <a class="harta-inapoi" href="index.html"><img src="assets/img/logo.png" alt="Stema CSM Slatina"><span><small>CSM Slatina</small>Harta bazei</span></a>
+    <div class="harta-unelte" role="toolbar" aria-label="Editare hartă">
+      <button id="ht-adauga" class="ht-buton" title="Adaugă un pin (alege activitatea, apoi apasă pe hartă)">+</button>
+      <button id="ht-sterge" class="ht-buton" title="Șterge pinuri (apasă pe pinul pe care vrei să-l ștergi)">−</button>
+      <button id="ht-export" class="ht-buton ht-text" title="Copiază așezarea pinurilor (JSON)">Export</button>
+      <button id="ht-reset" class="ht-buton ht-text" title="Revino la așezarea inițială">Reset</button>
+    </div>
+  </header>
+
+  <p id="ht-indiciu" class="harta-indiciu" hidden></p>
+
+  <div class="harta-cadru">
+    <div class="harta-scena" id="harta-scena">
+      <img class="harta-fundal" src="assets/img/harta/baza-aeriana.webp" alt="Vedere aeriană a Bazei Sportive și a Plajei Olt" draggable="false">
+      <!-- pinurile se desenează din js/harta.js -->
+    </div>
+  </div>
+
+  <div class="harta-alege" id="ht-panou" hidden>
+    <div class="harta-alege-cap">
+      <strong>Alege activitatea</strong>
+      <button id="ht-inchide" class="ht-buton" title="Închide">×</button>
+    </div>
+    <div class="harta-alege-grila" id="ht-lista"><!-- din js --></div>
+  </div>
+
+  <script src="js/harta.js"></script>
+</body>
+</html>
