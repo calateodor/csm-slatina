@@ -213,8 +213,11 @@
   /* fundalurile eroilor simpli raman putin in urma la derulare — fotografia
      filtrata sau clipul piscinei. Zoom-ul din CSS le da marja de miscare. */
   gsap.utils.toArray(".erou-foto .erou-fundal img, .pool-hero .bg, .lum-erou .lum-fundal img").forEach(function (el) {
+    // colajul plajei isi da fiecarei coloane alta viteza prin data-viteza;
+    // fara atribut ramane pasul comun de 7
+    var viteza = parseFloat(el.getAttribute("data-viteza"));
     gsap.to(el, {
-      yPercent: 7, ease: "none",
+      yPercent: isNaN(viteza) ? 7 : viteza, ease: "none",
       scrollTrigger: {
         trigger: el.closest("section"),
         start: "top top", end: "bottom top", scrub: 0.5

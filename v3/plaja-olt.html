@@ -89,8 +89,15 @@
 
     <!-- ============ Eroul de vară ============ -->
     <section class="lum-erou">
+      <!-- exceptia paginii: patru fotografii verticale, umar la umar, fiecare
+           cu viteza ei de parallax (data-viteza, in yPercent — main.js) -->
       <div class="lum-fundal" aria-hidden="true">
-        <img src="assets/img/plaja-lumina/erou.webp" alt="" fetchpriority="high">
+        <div class="lum-colaj">
+          <img src="assets/img/plaja-lumina/erou.webp" data-viteza="5" alt="" fetchpriority="high">
+          <img src="assets/img/plaja-lumina/program.webp" data-viteza="10" alt="">
+          <img src="assets/img/plaja-lumina/petreceri.webp" data-viteza="6" alt="">
+          <img src="assets/img/plaja-lumina/piscina.webp" data-viteza="12" alt="">
+        </div>
         <span class="lum-ceata"></span>
       </div>
       <span class="fantoma lum-fantoma-erou" aria-hidden="true">VARA</span>

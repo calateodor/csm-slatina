@@ -28,13 +28,28 @@
   overflow: hidden;
 }
 .lum-fundal { position: absolute; inset: 0; z-index: 0; pointer-events: none; }
-.lum-fundal img {
+/* colajul: patru fotografii verticale umar la umar, despartite de un fir
+   din hartia paginii; fiecare intra in cascada si paralaxeaza cu viteza ei */
+.lum-colaj {
   position: absolute; inset: 0;
+  display: grid; grid-template-columns: repeat(4, 1fr);
+  gap: 4px; background: var(--lum-hartie);
+}
+.lum-colaj img {
   width: 100%; height: 100%;
   object-fit: cover; object-position: 50% 62%;
-  /* zoom-ul dă loc parallax-ului din main.js */
-  transform: scale(1.12);
-  animation: lum-erou-intra 1200ms var(--ease-out) backwards;
+  /* zoom-ul da loc parallax-ului din main.js sa miste fiecare coloana
+     fara sa-i descopere muchiile */
+  transform: scale(1.16);
+  animation: lum-erou-intra 1100ms var(--ease-out) backwards;
+}
+.lum-colaj img:nth-child(2) { animation-delay: 110ms; object-position: 50% 40%; }
+.lum-colaj img:nth-child(3) { animation-delay: 220ms; }
+.lum-colaj img:nth-child(4) { animation-delay: 330ms; object-position: 50% 55%; }
+/* pe telefon nu incap patru coloane: ramane fotografia preferata, singura */
+@media (max-width: 880px) {
+  .lum-colaj { grid-template-columns: 1fr; gap: 0; }
+  .lum-colaj img:not(:first-child) { display: none; }
 }
 /* ceața: sus o idee de bleumarin pentru meniu, jos hârtia paginii
    urcă peste poză și primește titlul */
