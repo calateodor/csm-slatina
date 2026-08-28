@@ -1,6 +1,10 @@
 /* Panoul de administrare — aceeași familie vizuală ca site-ul:
    bleumarinul clubului, foi albe, auriul doar pe acțiuni. */
 
+/* atributul hidden trebuie sa bata orice display din regulile de mai jos,
+   altfel valul modalului sta nevazut peste pagina si blocheaza click-urile */
+.pn-body [hidden] { display: none !important; }
+
 .pn-body {
   background: #eef2f8;
   color: #14345c;
