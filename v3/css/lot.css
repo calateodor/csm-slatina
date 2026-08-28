@@ -264,10 +264,11 @@
   /* --imp = împingerea spre dreapta a fâșiilor de după cardul deschis; e o
      simplă translatare, deci nu atinge layout-ul și nu destabilizează scroll-ul */
   transform: translateX(calc(var(--imp, 0) * var(--imp-max)))
-             translateZ(calc(-80px - 340px * var(--ad, 0.5)))
-             rotateY(calc(15deg + var(--my, 0deg)))
+             translateZ(calc(-80px - 340px * var(--adancf, 1) * var(--ad, 0.5)))
+             rotateY(calc(15deg + var(--my, 0deg) + var(--cry, 0deg)))
              rotateX(var(--mx, 0deg))
-             translateY(var(--salt, 0px));
+             translateY(calc(var(--salt, 0px) + var(--cy, 0px)))
+             rotate(var(--crot, 0deg));
   transition: width 0.55s cubic-bezier(0.32, 0.72, 0.28, 1),
               margin-right 0.55s cubic-bezier(0.32, 0.72, 0.28, 1),
               height 0.55s cubic-bezier(0.32, 0.72, 0.28, 1),
@@ -644,7 +645,10 @@
   .jcard {
     border-radius: 16px;
     transform: translateX(calc(var(--imp, 0) * var(--imp-max)))
-               translateZ(calc(-50px - 210px * var(--ad, 0.5))) rotateY(11deg);
+               translateZ(calc(-50px - 210px * var(--adancf, 1) * var(--ad, 0.5)))
+               rotateY(calc(11deg + var(--cry, 0deg)))
+               translateY(var(--cy, 0px))
+               rotate(var(--crot, 0deg));
   }
   .jcard.deschis {
     border-radius: 18px;
@@ -686,4 +690,40 @@
   .g-cariera { font-size: 0.6rem; }
   .g-mai { font-size: 0.5rem; padding: 4px 10px; }
   .post-punct .p-nume { font-size: 10.5px; }
+}
+
+
+/* ---------- experiment: variante de curgere a evantaiului ----------
+   Comutatorul de sub carma schimba profilul curbei (drept / arc / val /
+   culoar); alegerea se tine minte in localStorage. Dupa ce se alege o
+   varianta definitiva, blocul asta si butoanele se pot scoate. */
+.lot-scena { transition: perspective-origin 0.7s cubic-bezier(0.45, 0, 0.2, 1); }
+
+.lot-variante {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 14px;
+  position: relative;
+  z-index: 95;
+}
+.lot-variante button {
+  font: inherit;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: rgba(220, 231, 255, 0.65);
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: 999px;
+  padding: 7px 14px;
+  cursor: pointer;
+  transition: color 0.2s, border-color 0.2s, background 0.2s;
+}
+.lot-variante button:hover { color: #fff; border-color: rgba(255, 255, 255, 0.4); }
+.lot-variante button.activ {
+  color: var(--navy-950);
+  background: var(--gold);
+  border-color: var(--gold);
 }

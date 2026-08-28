@@ -226,6 +226,7 @@
         '<div class="carma-sina"><span class="carma-progres"></span>' +
         '<button type="button" class="carma-cerc" aria-label="Trage stânga-dreapta pentru a parcurge lotul"></button></div>' +
       "</div>" +
+      '<div class="lot-variante" role="group" aria-label="Stilul evantaiului"></div>' +
       '<div class="lot-teren-wrap"><h4>Poziția pe teren</h4>' +
       '<div class="lot-teren">' + terenSvg() + "</div></div>";
     if (e.sursaLot) h += '<p class="lot-sursa">lot conform: ' + esc(e.sursaLot) + "</p>";
@@ -507,6 +508,7 @@
        in regim normal, iar tranzitia din CSS face trecerea moale. */
     var rafEstompare = null;
     function estompeaza() {
+      aplicaCurba();
       // 120px pe desktop; pe fasii inguste (telefon) scade proportional,
       // altfel doua treimi din scena ar sta mereu in penumbra
       var STINGERE = Math.min(120, scena.clientWidth * 0.16);
@@ -566,6 +568,94 @@
     }, { passive: true });
     window.addEventListener("resize", function () { estompeaza(); });
     estompeaza();
+
+    /* ---------- experiment v3-cards: linia orizontului ----------
+       Evantaiul e deja o scena 3D: cardurile se adancesc cu translateZ, iar
+       punctul de fuga al perspectivei (perspective-origin) stabileste unde
+       converg liniile. Din fabrica orizontul taie randul prin mijloc; aici il
+       ridicam spre partea de sus a cardurilor (schita lui Teo: baza cardurilor
+       urca pe masura ce se departeaza, varfurile coboara abia sesizabil — doua
+       arce, ca la un drum care fuge spre zare).
+         v1 Orizont — orizontul urcat la ~75% din inaltimea cardului;
+         v2 Adanc   — acelasi orizont + recesiune mai adanca (cardurile se
+                      micsoreaza mai hotarat spre coada);
+         v3 Colt    — punctul de fuga tras spre cardul deschis: randul fuge
+                      spre coltul din stanga-sus, cu o rasucire jucausa.
+       Alegerea sta in localStorage; dupa decizie, se scoate comutatorul. */
+    var VARIANTE_CURBA = [
+      ["v0", "Drept",   { ox: "50%", oy: "50%", adancf: 1,    rot: 0 }],
+      ["v1", "Orizont", { ox: "50%", oy: "22%", adancf: 1,    rot: 0 }],
+      ["v2", "Adânc",   { ox: "46%", oy: "18%", adancf: 1.55, rot: 0 }],
+      ["v3", "Colț",    { ox: "26%", oy: "16%", adancf: 1.35, rot: 2.6 }]
+    ];
+    var gazdaVariante = radacina.querySelector(".lot-variante");
+    var curba;
+    try {
+      curba = new URLSearchParams(location.search).get("carduri") || localStorage.getItem("lot_curba");
+    } catch (e) {}
+    if (VARIANTE_CURBA.every(function (v) { return v[0] !== curba; })) curba = "v0";
+
+    function profilCurba() {
+      for (var i = 0; i < VARIANTE_CURBA.length; i++) {
+        if (VARIANTE_CURBA[i][0] === curba) return VARIANTE_CURBA[i][2];
+      }
+      return VARIANTE_CURBA[0][2];
+    }
+    function aplicaOrizont() {
+      var pr = profilCurba();
+      scena.style.perspectiveOrigin = pr.ox + " " + pr.oy;
+      scena.style.setProperty("--adancf", String(pr.adancf));
+    }
+    function scrieCurba(c, rot) {
+      var v = rot.toFixed(2);
+      if (c.curbaScrisa === v) return;
+      c.curbaScrisa = v;
+      c.el.style.setProperty("--crot", v + "deg");
+    }
+    /* rasucirea din v3: cardurile se apleaca usor dupa directia fugii,
+       proportional cu departarea de card-ul deschis — restul variantelor
+       stau perfect drepte, perspectiva face singura arcele */
+    function aplicaCurba() {
+      // estompeaza() ruleaza si inainte ca blocul experimentului sa se fi
+      // initializat (var-urile sunt hoistate, dar goale) — atunci nu e nimic
+      // de aplicat inca
+      if (!VARIANTE_CURBA) return;
+      var pr = profilCurba();
+      if (!pr.rot) {
+        for (var i = 0; i < carduri.length; i++) scrieCurba(carduri[i], 0);
+        return;
+      }
+      var vw = scena.clientWidth;
+      var st = scena.scrollLeft;
+      for (var j = 0; j < carduri.length; j++) {
+        var c = carduri[j];
+        if (c.el.classList.contains("deschis")) { scrieCurba(c, 0); continue; }
+        var L = pozitii[j] + (c.imp === "1" ? impMax : 0);
+        var t = (L + latimi[j] / 2 - st) / vw - 0.5;
+        scrieCurba(c, Math.max(-pr.rot, Math.min(pr.rot, t * pr.rot * 2)));
+      }
+    }
+    if (gazdaVariante) {
+      VARIANTE_CURBA.forEach(function (v) {
+        var b = document.createElement("button");
+        b.type = "button";
+        b.textContent = v[1];
+        b.dataset.curba = v[0];
+        b.classList.toggle("activ", v[0] === curba);
+        b.addEventListener("click", function () {
+          curba = v[0];
+          try { localStorage.setItem("lot_curba", curba); } catch (e) {}
+          Array.prototype.forEach.call(gazdaVariante.children, function (x) {
+            x.classList.toggle("activ", x === b);
+          });
+          aplicaOrizont();
+          estompeaza();
+        });
+        gazdaVariante.appendChild(b);
+      });
+      aplicaOrizont();
+      estompeaza(); // aplica varianta salvata inca de la incarcare
+    }
 
     // Evantaiul se construieste dupa ce soseste echipe.json, deci mult dupa
     // ce alte scripturi (stele.js, fantomele din main.js) si-au masurat
