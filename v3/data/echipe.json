@@ -1,0 +1,1598 @@
+{
+ "actualizat": 1787679860,
+ "fotbal": {
+  "competitie": "Liga 2",
+  "flashscore": "https://www.flashscore.ro/echipa/csm-slatina/zRqy53ur/meciuri/",
+  "program": [
+   {
+    "timestamp": 1788186600,
+    "gazde": "FC Bacau",
+    "oaspeti": "CSM Slatina",
+    "competitie": "Liga 2 Casa Pariurilor",
+    "acasa": false
+   },
+   {
+    "timestamp": 1788532200,
+    "gazde": "CSM Slatina",
+    "oaspeti": "Chindia Târgoviște",
+    "competitie": "Liga 2 Casa Pariurilor",
+    "acasa": true
+   },
+   {
+    "timestamp": 1789200000,
+    "gazde": "CSC Dumbrăvița",
+    "oaspeti": "CSM Slatina",
+    "competitie": "Liga 2 Casa Pariurilor",
+    "acasa": false
+   },
+   {
+    "timestamp": 1789804800,
+    "gazde": "CSM Slatina",
+    "oaspeti": "CSC 1599 Șelimbăr",
+    "competitie": "Liga 2 Casa Pariurilor",
+    "acasa": true
+   },
+   {
+    "timestamp": 1791619200,
+    "gazde": "CSM Reșița",
+    "oaspeti": "CSM Slatina",
+    "competitie": "Liga 2 Casa Pariurilor",
+    "acasa": false
+   }
+  ],
+  "rezultate": [
+   {
+    "timestamp": 1787385600,
+    "gazde": "CSM Slatina",
+    "oaspeti": "Metalul Buzău",
+    "competitie": "Liga 2 Casa Pariurilor",
+    "acasa": true,
+    "scor": [
+     2,
+     0
+    ],
+    "forma": "V"
+   },
+   {
+    "timestamp": 1787149800,
+    "gazde": "CSM Slatina",
+    "oaspeti": "Sepsi Sf. Gheorghe",
+    "competitie": "Cupa României Betano",
+    "acasa": true,
+    "scor": [
+     0,
+     2
+    ],
+    "forma": "Î"
+   },
+   {
+    "timestamp": 1786780800,
+    "gazde": "Râmnicu Vâlcea",
+    "oaspeti": "CSM Slatina",
+    "competitie": "Liga 2 Casa Pariurilor",
+    "acasa": false,
+    "scor": [
+     0,
+     1
+    ],
+    "forma": "V"
+   },
+   {
+    "timestamp": 1786545000,
+    "gazde": "Curtisoara",
+    "oaspeti": "CSM Slatina",
+    "competitie": "Cupa României Betano",
+    "acasa": false,
+    "scor": [
+     0,
+     3
+    ],
+    "forma": "V"
+   },
+   {
+    "timestamp": 1786176000,
+    "gazde": "CSM Slatina",
+    "oaspeti": "CS Din. Bucuresti",
+    "competitie": "Liga 2 Casa Pariurilor",
+    "acasa": true,
+    "scor": [
+     5,
+     1
+    ],
+    "forma": "V"
+   },
+   {
+    "timestamp": 1785675600,
+    "gazde": "Steaua București",
+    "oaspeti": "CSM Slatina",
+    "competitie": "Liga 2 Casa Pariurilor",
+    "acasa": false,
+    "scor": [
+     1,
+     2
+    ],
+    "forma": "V"
+   }
+  ],
+  "forma": "VVVÎV",
+  "lot": [
+   {
+    "numar": 90,
+    "nume": "Racasan Mihai",
+    "post": "Portar",
+    "varsta": 19,
+    "nat": "România",
+    "url": "https://www.flashscore.ro/jucator/racasan-mihai/6gVCDiSb/",
+    "sezonStats": "2026/2027",
+    "stats": [
+     [
+      "Meciuri jucate",
+      "4"
+     ],
+     [
+      "Cartonașe galbene",
+      "0"
+     ],
+     [
+      "Cartonașe roșii",
+      "0"
+     ]
+    ],
+    "nascut": "01.07.2007",
+    "cariera": {
+     "sezoane": 3,
+     "debut": 2024,
+     "meciuri": "40",
+     "faraGol": "3"
+    },
+    "poza": "assets/img/lot/fotbal/racasan-mihai-incrucisate.jpg",
+    "pozaCredit": "Portret generat AI, după fotografiile CSM Slatina"
+   },
+   {
+    "numar": 33,
+    "nume": "Baraitaru Mario",
+    "post": "Fundaș",
+    "varsta": 19,
+    "nat": "România",
+    "url": "https://www.flashscore.ro/jucator/baraitaru-mario/WWnBDAkR/",
+    "sezonStats": "2026/2027",
+    "stats": [
+     [
+      "Meciuri jucate",
+      "4"
+     ],
+     [
+      "Goluri marcate",
+      "2"
+     ],
+     [
+      "Cartonașe galbene",
+      "1"
+     ],
+     [
+      "Cartonașe roșii",
+      "0"
+     ]
+    ],
+    "nascut": "08.12.2006",
+    "cariera": {
+     "sezoane": 3,
+     "debut": 2024,
+     "meciuri": "51",
+     "goluri": "4"
+    },
+    "poza": "assets/img/lot/fotbal/baraitaru-mario-default.jpg",
+    "pozaCredit": "Portret generat AI, după fotografiile CSM Slatina"
+   },
+   {
+    "numar": 80,
+    "nume": "Georgescu Alex",
+    "post": "Fundaș",
+    "varsta": 25,
+    "nat": "România",
+    "url": "https://www.flashscore.ro/jucator/georgescu-alex/OtLoMm9s/",
+    "sezonStats": "2026/2027",
+    "stats": [
+     [
+      "Meciuri jucate",
+      "2"
+     ],
+     [
+      "Goluri marcate",
+      "0"
+     ],
+     [
+      "Cartonașe galbene",
+      "1"
+     ],
+     [
+      "Cartonașe roșii",
+      "0"
+     ]
+    ],
+    "nascut": "10.07.2001",
+    "cariera": {
+     "sezoane": 5,
+     "debut": 2019,
+     "meciuri": "15",
+     "goluri": "1",
+     "pase": "0"
+    },
+    "poza": "assets/img/lot/fotbal/georgescu-alex-spate.jpg",
+    "pozaCredit": "Portret generat AI, după fotografiile CSM Slatina"
+   },
+   {
+    "numar": 16,
+    "nume": "Munoz Pol",
+    "post": "Fundaș",
+    "varsta": 22,
+    "nat": "Spania",
+    "url": "https://www.flashscore.ro/jucator/munoz-pol/88v0ZuwC/",
+    "sezonStats": "2026/2027",
+    "stats": [
+     [
+      "Meciuri jucate",
+      "3"
+     ],
+     [
+      "Goluri marcate",
+      "0"
+     ],
+     [
+      "Cartonașe galbene",
+      "0"
+     ],
+     [
+      "Cartonașe roșii",
+      "0"
+     ]
+    ],
+    "nascut": "09.02.2004",
+    "valoare": "€92k",
+    "cariera": {
+     "sezoane": 5,
+     "debut": 2022,
+     "meciuri": "73",
+     "goluri": "1",
+     "pase": "0"
+    },
+    "poza": "assets/img/lot/fotbal/munoz-pol-incrucisate.jpg",
+    "pozaCredit": "Portret generat AI, după fotografiile CSM Slatina"
+   },
+   {
+    "numar": 20,
+    "nume": "Riza Robert",
+    "post": "Fundaș",
+    "varsta": 27,
+    "nat": "România",
+    "url": "https://www.flashscore.ro/jucator/riza-robert/rNYB60xM/",
+    "sezonStats": "2026/2027",
+    "stats": [
+     [
+      "Meciuri jucate",
+      "4"
+     ],
+     [
+      "Goluri marcate",
+      "0"
+     ],
+     [
+      "Cartonașe galbene",
+      "0"
+     ],
+     [
+      "Cartonașe roșii",
+      "0"
+     ]
+    ],
+    "nascut": "09.06.1999",
+    "cariera": {
+     "sezoane": 7,
+     "debut": 2019,
+     "meciuri": "55",
+     "goluri": "3",
+     "pase": "0"
+    },
+    "poza": "assets/img/lot/fotbal/riza-robert-default.jpg",
+    "pozaCredit": "Portret generat AI, după fotografiile CSM Slatina"
+   },
+   {
+    "numar": 30,
+    "nume": "Serbanica Daniel",
+    "post": "Fundaș",
+    "varsta": 30,
+    "nat": "România",
+    "url": "https://www.flashscore.ro/jucator/serbanica-daniel/8QfXswj6/",
+    "sezonStats": "2026/2027",
+    "stats": [
+     [
+      "Meciuri jucate",
+      "4"
+     ],
+     [
+      "Goluri marcate",
+      "0"
+     ],
+     [
+      "Cartonașe galbene",
+      "0"
+     ],
+     [
+      "Cartonașe roșii",
+      "0"
+     ]
+    ],
+    "nascut": "25.06.1996",
+    "valoare": "€323k",
+    "cariera": {
+     "sezoane": 10,
+     "debut": 2017,
+     "meciuri": "188",
+     "goluri": "10",
+     "pase": "3"
+    },
+    "poza": "assets/img/lot/fotbal/serbanica-daniel-spate.jpg",
+    "pozaCredit": "Portret generat AI, după fotografiile CSM Slatina"
+   },
+   {
+    "numar": 26,
+    "nume": "Stancu Claudiu",
+    "post": "Fundaș",
+    "varsta": 16,
+    "nat": "România",
+    "url": "https://www.flashscore.ro/jucator/stancu-claudiu/b3KNq7HU/",
+    "sezonStats": "2026/2027",
+    "stats": [
+     [
+      "Meciuri jucate",
+      "2"
+     ],
+     [
+      "Goluri marcate",
+      "0"
+     ],
+     [
+      "Cartonașe galbene",
+      "0"
+     ],
+     [
+      "Cartonașe roșii",
+      "0"
+     ]
+    ],
+    "nascut": "04.11.2009",
+    "valoare": "€23k",
+    "cariera": {
+     "sezoane": 2,
+     "debut": 2025,
+     "meciuri": "4",
+     "goluri": "0",
+     "pase": "0"
+    },
+    "poza": "assets/img/lot/fotbal/stancu-claudiu-incrucisate.jpg",
+    "pozaCredit": "Portret generat AI, după fotografiile CSM Slatina"
+   },
+   {
+    "numar": 3,
+    "nume": "Ureche Alexandru",
+    "post": "Fundaș",
+    "varsta": 20,
+    "nat": "România",
+    "url": "https://www.flashscore.ro/jucator/ureche-alexandru/lvUHHU4e/",
+    "sezonStats": "2026/2027",
+    "stats": [
+     [
+      "Meciuri jucate",
+      "1"
+     ],
+     [
+      "Goluri marcate",
+      "0"
+     ],
+     [
+      "Cartonașe galbene",
+      "0"
+     ],
+     [
+      "Cartonașe roșii",
+      "0"
+     ]
+    ],
+    "nascut": "20.03.2006",
+    "cariera": {
+     "sezoane": 4,
+     "debut": 2023,
+     "meciuri": "16",
+     "goluri": "0"
+    },
+    "poza": "assets/img/lot/fotbal/ureche-alexandru-default.jpg",
+    "pozaCredit": "Portret generat AI, după fotografiile CSM Slatina"
+   },
+   {
+    "numar": 18,
+    "nume": "Gheoroae Stefan",
+    "post": "Mijlocaș",
+    "varsta": 22,
+    "nat": "România",
+    "url": "https://www.flashscore.ro/jucator/gheoroae-stefan/xfqRj076/",
+    "sezonStats": "2026/2027",
+    "stats": [
+     [
+      "Meciuri jucate",
+      "3"
+     ],
+     [
+      "Goluri marcate",
+      "0"
+     ],
+     [
+      "Cartonașe galbene",
+      "0"
+     ],
+     [
+      "Cartonașe roșii",
+      "0"
+     ]
+    ],
+    "nascut": "12.01.2004",
+    "cariera": {
+     "sezoane": 3,
+     "debut": 2024,
+     "meciuri": "32",
+     "goluri": "0"
+    },
+    "poza": "assets/img/lot/fotbal/gheoroae-stefan-default.jpg",
+    "pozaCredit": "Portret generat AI, după fotografiile CSM Slatina"
+   },
+   {
+    "numar": 17,
+    "nume": "Granja Ronald",
+    "post": "Mijlocaș",
+    "varsta": 24,
+    "nat": "Columbia",
+    "url": "https://www.flashscore.ro/jucator/granja-ronald/OrTqlV1H/",
+    "sezonStats": "2026/2027",
+    "stats": [
+     [
+      "Meciuri jucate",
+      "4"
+     ],
+     [
+      "Goluri marcate",
+      "1"
+     ],
+     [
+      "Cartonașe galbene",
+      "2"
+     ],
+     [
+      "Cartonașe roșii",
+      "0"
+     ]
+    ],
+    "nascut": "08.10.2001",
+    "cariera": {
+     "sezoane": 5,
+     "debut": 2022,
+     "meciuri": "39",
+     "goluri": "15"
+    },
+    "poza": "assets/img/lot/fotbal/granja-ronald-spate.jpg",
+    "pozaCredit": "Portret generat AI, după fotografiile CSM Slatina"
+   },
+   {
+    "numar": 6,
+    "nume": "Lapadatescu Robert",
+    "post": "Mijlocaș",
+    "varsta": 19,
+    "nat": "România",
+    "url": "https://www.flashscore.ro/jucator/lapadatescu-robert/ddR8spIk/",
+    "sezonStats": "2026/2027",
+    "stats": [
+     [
+      "Meciuri jucate",
+      "4"
+     ],
+     [
+      "Goluri marcate",
+      "0"
+     ],
+     [
+      "Cartonașe galbene",
+      "0"
+     ],
+     [
+      "Cartonașe roșii",
+      "0"
+     ]
+    ],
+    "nascut": "08.11.2006",
+    "cariera": {
+     "sezoane": 2,
+     "debut": 2025,
+     "meciuri": "26",
+     "goluri": "1"
+    },
+    "poza": "assets/img/lot/fotbal/lapadatescu-robert-incrucisate.jpg",
+    "pozaCredit": "Portret generat AI, după fotografiile CSM Slatina"
+   },
+   {
+    "numar": 10,
+    "nume": "Pacionel Emilian",
+    "post": "Mijlocaș",
+    "varsta": 25,
+    "nat": "România",
+    "url": "https://www.flashscore.ro/jucator/pacionel-emilian/QqlgAmae/",
+    "sezonStats": "2026/2027",
+    "stats": [
+     [
+      "Meciuri jucate",
+      "1"
+     ],
+     [
+      "Goluri marcate",
+      "0"
+     ],
+     [
+      "Cartonașe galbene",
+      "0"
+     ],
+     [
+      "Cartonașe roșii",
+      "0"
+     ]
+    ],
+    "nascut": "15.02.2001",
+    "cariera": {
+     "sezoane": 7,
+     "debut": 2020,
+     "meciuri": "90",
+     "goluri": "10"
+    },
+    "poza": "assets/img/lot/fotbal/pacionel-emilian-default.jpg",
+    "pozaCredit": "Portret generat AI, după fotografiile CSM Slatina"
+   },
+   {
+    "numar": 5,
+    "nume": "Rauta Alexandru",
+    "post": "Mijlocaș",
+    "varsta": 34,
+    "nat": "România",
+    "url": "https://www.flashscore.ro/jucator/rauta-alexandru/baTYQX0k/",
+    "sezonStats": "2026/2027",
+    "stats": [
+     [
+      "Meciuri jucate",
+      "4"
+     ],
+     [
+      "Goluri marcate",
+      "0"
+     ],
+     [
+      "Cartonașe galbene",
+      "1"
+     ],
+     [
+      "Cartonașe roșii",
+      "0"
+     ]
+    ],
+    "nascut": "17.06.1992",
+    "cariera": {
+     "sezoane": 14,
+     "debut": 2013,
+     "meciuri": "258",
+     "goluri": "7",
+     "pase": "5"
+    },
+    "poza": "assets/img/lot/fotbal/rauta-alexandru-spate.jpg",
+    "pozaCredit": "Portret generat AI, după fotografiile CSM Slatina"
+   },
+   {
+    "numar": 47,
+    "nume": "Solcan Alexandru Stefano",
+    "post": "Mijlocaș",
+    "varsta": 24,
+    "nat": "Spania",
+    "url": "https://www.flashscore.ro/jucator/solcan-alexandru-stefano/z5DPXSil/",
+    "sezonStats": "2026/2027",
+    "stats": [
+     [
+      "Meciuri jucate",
+      "2"
+     ],
+     [
+      "Goluri marcate",
+      "1"
+     ],
+     [
+      "Cartonașe galbene",
+      "0"
+     ],
+     [
+      "Cartonașe roșii",
+      "0"
+     ]
+    ],
+    "nascut": "01.01.2002",
+    "cariera": {
+     "sezoane": 3,
+     "debut": 2024,
+     "meciuri": "8",
+     "goluri": "7"
+    },
+    "poza": "assets/img/lot/fotbal/solcan-alexandru-stefano-incrucisate.jpg",
+    "pozaCredit": "Portret generat AI, după fotografiile CSM Slatina"
+   },
+   {
+    "numar": 31,
+    "nume": "Velea Rares",
+    "post": "Mijlocaș",
+    "varsta": 18,
+    "nat": "România",
+    "url": "https://www.flashscore.ro/jucator/velea-rares/ldeyurXi/",
+    "sezonStats": "2026/2027",
+    "stats": [
+     [
+      "Meciuri jucate",
+      "3"
+     ],
+     [
+      "Goluri marcate",
+      "0"
+     ],
+     [
+      "Cartonașe galbene",
+      "0"
+     ],
+     [
+      "Cartonașe roșii",
+      "0"
+     ]
+    ],
+    "nascut": "31.01.2008",
+    "cariera": {
+     "sezoane": 2,
+     "debut": 2025,
+     "meciuri": "6",
+     "goluri": "0"
+    },
+    "poza": "assets/img/lot/fotbal/silueta.jpg",
+    "pozaCredit": "Siluetă generată AI"
+   },
+   {
+    "numar": 97,
+    "nume": "Bordusanu Antonio",
+    "post": "Atacant",
+    "varsta": 22,
+    "nat": "România",
+    "url": "https://www.flashscore.ro/jucator/bordusanu-antonio/zTTrKTBp/",
+    "sezonStats": "2026/2027",
+    "stats": [
+     [
+      "Meciuri jucate",
+      "1"
+     ],
+     [
+      "Goluri marcate",
+      "0"
+     ],
+     [
+      "Cartonașe galbene",
+      "0"
+     ],
+     [
+      "Cartonașe roșii",
+      "0"
+     ]
+    ],
+    "nascut": "10.08.2004",
+    "valoare": "€94k",
+    "cariera": {
+     "sezoane": 7,
+     "debut": 2020,
+     "meciuri": "66",
+     "goluri": "2",
+     "pase": "3"
+    },
+    "poza": "assets/img/lot/fotbal/silueta.jpg",
+    "pozaCredit": "Siluetă generată AI"
+   },
+   {
+    "numar": 19,
+    "nume": "Magyari Szilard",
+    "post": "Atacant",
+    "varsta": 28,
+    "nat": "România",
+    "url": "https://www.flashscore.ro/jucator/magyari-szilard/xQ67ckp3/",
+    "sezonStats": "2026/2027",
+    "stats": [
+     [
+      "Meciuri jucate",
+      "4"
+     ],
+     [
+      "Goluri marcate",
+      "2"
+     ],
+     [
+      "Cartonașe galbene",
+      "2"
+     ],
+     [
+      "Cartonașe roșii",
+      "0"
+     ]
+    ],
+    "nascut": "20.05.1998",
+    "cariera": {
+     "sezoane": 8,
+     "debut": 2019,
+     "meciuri": "156",
+     "goluri": "26"
+    },
+    "poza": "assets/img/lot/fotbal/silueta.jpg",
+    "pozaCredit": "Siluetă generată AI"
+   },
+   {
+    "numar": 8,
+    "nume": "Matis Razvan",
+    "post": "Atacant",
+    "varsta": 25,
+    "nat": "România",
+    "url": "https://www.flashscore.ro/jucator/matis-razvan/Qsi9VrhC/",
+    "sezonStats": "2026/2027",
+    "stats": [
+     [
+      "Meciuri jucate",
+      "4"
+     ],
+     [
+      "Goluri marcate",
+      "0"
+     ],
+     [
+      "Cartonașe galbene",
+      "1"
+     ],
+     [
+      "Cartonașe roșii",
+      "0"
+     ]
+    ],
+    "nascut": "25.01.2001",
+    "cariera": {
+     "sezoane": 7,
+     "debut": 2019,
+     "meciuri": "117",
+     "goluri": "8",
+     "pase": "1"
+    },
+    "poza": "assets/img/lot/fotbal/silueta.jpg",
+    "pozaCredit": "Siluetă generată AI"
+   },
+   {
+    "numar": 7,
+    "nume": "Nastasie Ionut",
+    "post": "Atacant",
+    "varsta": 34,
+    "nat": "România",
+    "url": "https://www.flashscore.ro/jucator/nastasie-ionut/2sxwooe8/",
+    "sezonStats": "2026/2027",
+    "stats": [
+     [
+      "Meciuri jucate",
+      "4"
+     ],
+     [
+      "Goluri marcate",
+      "1"
+     ],
+     [
+      "Cartonașe galbene",
+      "2"
+     ],
+     [
+      "Cartonașe roșii",
+      "0"
+     ]
+    ],
+    "nascut": "07.01.1992",
+    "cariera": {
+     "sezoane": 14,
+     "debut": 2011,
+     "meciuri": "195",
+     "goluri": "33"
+    },
+    "inaltime": 179,
+    "greutate": 70,
+    "origine": "Craiova",
+    "poza": "assets/img/lot/fotbal/silueta.jpg",
+    "pozaCredit": "Siluetă generată AI"
+   },
+   {
+    "numar": 14,
+    "nume": "Sorescu Yanis",
+    "post": "Atacant",
+    "varsta": 18,
+    "nat": "România",
+    "url": "https://www.flashscore.ro/jucator/sorescu-yanis/4hs6rJ1l/",
+    "sezonStats": "2026/2027",
+    "stats": [
+     [
+      "Meciuri jucate",
+      "3"
+     ],
+     [
+      "Goluri marcate",
+      "2"
+     ],
+     [
+      "Cartonașe galbene",
+      "0"
+     ],
+     [
+      "Cartonașe roșii",
+      "0"
+     ]
+    ],
+    "nascut": "03.02.2008",
+    "cariera": {
+     "sezoane": 2,
+     "debut": 2024,
+     "meciuri": "4",
+     "goluri": "2"
+    },
+    "poza": "assets/img/lot/fotbal/silueta.jpg",
+    "pozaCredit": "Siluetă generată AI"
+   },
+   {
+    "numar": 9,
+    "nume": "Stan Alexandru",
+    "post": "Atacant",
+    "varsta": 20,
+    "nat": "România",
+    "url": "https://www.flashscore.ro/jucator/stan-alexandru/f3g3LF2G/",
+    "sezonStats": "2026/2027",
+    "stats": [
+     [
+      "Meciuri jucate",
+      "3"
+     ],
+     [
+      "Goluri marcate",
+      "1"
+     ],
+     [
+      "Cartonașe galbene",
+      "0"
+     ],
+     [
+      "Cartonașe roșii",
+      "0"
+     ]
+    ],
+    "nascut": "25.09.2005",
+    "valoare": "€88k",
+    "cariera": {
+     "sezoane": 5,
+     "debut": 2022,
+     "meciuri": "52",
+     "goluri": "5",
+     "pase": "1"
+    },
+    "poza": "assets/img/lot/fotbal/silueta.jpg",
+    "pozaCredit": "Siluetă generată AI"
+   },
+   {
+    "numar": 33,
+    "nume": "Glodean Alexandru",
+    "post": "Portar",
+    "varsta": 18,
+    "nat": "România",
+    "url": "https://www.flashscore.ro/jucator/glodean-alexandru/OM5kIlgk/",
+    "sezonStats": "2025",
+    "stats": [
+     [
+      "Meciuri jucate",
+      "3"
+     ],
+     [
+      "Cartonașe galbene",
+      "0"
+     ],
+     [
+      "Cartonașe roșii",
+      "0"
+     ]
+    ],
+    "nascut": "21.04.2008",
+    "cariera": {
+     "sezoane": 2,
+     "debut": 2024,
+     "meciuri": "4",
+     "faraGol": "0"
+    },
+    "poza": "assets/img/lot/fotbal/glodean-alexandru-default.jpg",
+    "pozaCredit": "Portret generat AI, după fotografiile CSM Slatina"
+   },
+   {
+    "numar": 1,
+    "nume": "Maxim Alexandru",
+    "post": "Portar",
+    "varsta": 19,
+    "nat": "România",
+    "url": "https://www.flashscore.ro/jucator/maxim-alexandru/xbivGIHd/",
+    "sezonStats": "2025/2026",
+    "stats": [
+     [
+      "Meciuri jucate",
+      "24"
+     ],
+     [
+      "Cartonașe galbene",
+      "3"
+     ],
+     [
+      "Cartonașe roșii",
+      "0"
+     ]
+    ],
+    "nascut": "23.01.2007",
+    "cariera": {
+     "sezoane": 2,
+     "debut": 2024,
+     "meciuri": "30",
+     "faraGol": "0"
+    },
+    "poza": "assets/img/lot/fotbal/maxim-alexandru-spate.jpg",
+    "pozaCredit": "Portret generat AI, după fotografiile CSM Slatina"
+   },
+   {
+    "numar": 1,
+    "nume": "Predut Catalin",
+    "post": "Portar",
+    "varsta": 25,
+    "nat": "România",
+    "url": "https://www.flashscore.ro/jucator/predut-catalin/8tR3dnwJ/",
+    "sezonStats": "2020/2021",
+    "stats": [
+     [
+      "Meciuri jucate",
+      "3"
+     ],
+     [
+      "Cartonașe galbene",
+      "0"
+     ],
+     [
+      "Cartonașe roșii",
+      "0"
+     ]
+    ],
+    "nascut": "25.01.2001",
+    "cariera": {
+     "sezoane": 1,
+     "debut": 2020,
+     "meciuri": "3",
+     "faraGol": "0"
+    },
+    "poza": "assets/img/lot/fotbal/predut-catalin-incrucisate.jpg",
+    "pozaCredit": "Portret generat AI, după fotografiile CSM Slatina"
+   },
+   {
+    "numar": 28,
+    "nume": "Andres Ionut",
+    "post": "Fundaș",
+    "varsta": 26,
+    "nat": "România",
+    "url": "https://www.flashscore.ro/jucator/andres-vlad/CCuaRWMt/",
+    "sezonStats": "2025/2026",
+    "stats": [
+     [
+      "Meciuri jucate",
+      "10"
+     ],
+     [
+      "Goluri marcate",
+      "1"
+     ],
+     [
+      "Cartonașe galbene",
+      "3"
+     ],
+     [
+      "Cartonașe roșii",
+      "0"
+     ]
+    ],
+    "nascut": "23.05.2000",
+    "valoare": "€77k",
+    "cariera": {
+     "sezoane": 5,
+     "debut": 2021,
+     "meciuri": "56",
+     "goluri": "2",
+     "pase": "0"
+    },
+    "poza": "assets/img/lot/fotbal/andres-ionut-spate.jpg",
+    "pozaCredit": "Portret generat AI, după fotografiile CSM Slatina"
+   },
+   {
+    "numar": 21,
+    "nume": "Tolu Eduard",
+    "post": "Fundaș",
+    "varsta": 15,
+    "nat": "România",
+    "url": "https://www.flashscore.ro/jucator/tolu-eduard/vwtzxL3b/",
+    "sezonStats": "2025/2026",
+    "stats": [
+     [
+      "Meciuri jucate",
+      "1"
+     ],
+     [
+      "Goluri marcate",
+      "0"
+     ],
+     [
+      "Cartonașe galbene",
+      "0"
+     ],
+     [
+      "Cartonașe roșii",
+      "0"
+     ]
+    ],
+    "nascut": "27.02.2011",
+    "cariera": {
+     "sezoane": 1,
+     "debut": 2025,
+     "meciuri": "1",
+     "goluri": "0"
+    },
+    "poza": "assets/img/lot/fotbal/tolu-eduard-incrucisate.jpg",
+    "pozaCredit": "Portret generat AI, după fotografiile CSM Slatina"
+   },
+   {
+    "numar": 14,
+    "nume": "Joia Antonio",
+    "post": "Mijlocaș",
+    "varsta": 16,
+    "nat": "România",
+    "url": "https://www.flashscore.ro/jucator/joia-antonio/tdLAOW2C/",
+    "sezonStats": "2025/2026",
+    "stats": [
+     [
+      "Meciuri jucate",
+      "1"
+     ],
+     [
+      "Goluri marcate",
+      "0"
+     ],
+     [
+      "Cartonașe galbene",
+      "0"
+     ],
+     [
+      "Cartonașe roșii",
+      "0"
+     ]
+    ],
+    "nascut": "01.01.2010",
+    "cariera": {
+     "sezoane": 1,
+     "debut": 2025,
+     "meciuri": "1",
+     "goluri": "0"
+    },
+    "poza": "assets/img/lot/fotbal/silueta.jpg",
+    "pozaCredit": "Siluetă generată AI"
+   },
+   {
+    "numar": 98,
+    "nume": "Mihaiu Andreas",
+    "post": "Mijlocaș",
+    "varsta": 28,
+    "nat": "România",
+    "url": "https://www.flashscore.ro/jucator/mihaiu-andreas-mircea/vcX5gLhH/",
+    "sezonStats": "2025/2026",
+    "stats": [
+     [
+      "Meciuri jucate",
+      "13"
+     ],
+     [
+      "Goluri marcate",
+      "0"
+     ],
+     [
+      "Cartonașe galbene",
+      "1"
+     ],
+     [
+      "Cartonașe roșii",
+      "0"
+     ]
+    ],
+    "nascut": "19.08.1998",
+    "valoare": "€110k",
+    "cariera": {
+     "sezoane": 8,
+     "debut": 2018,
+     "meciuri": "105",
+     "goluri": "9",
+     "pase": "1"
+    },
+    "poza": "assets/img/lot/fotbal/mihaiu-andreas-incrucisate.jpg",
+    "pozaCredit": "Portret generat AI, după fotografiile CSM Slatina"
+   },
+   {
+    "numar": 38,
+    "nume": "Muntean Denys",
+    "post": "Mijlocaș",
+    "varsta": 17,
+    "nat": "România",
+    "url": "https://www.flashscore.ro/jucator/muntean-denys/r993FKvH/",
+    "sezonStats": "2025/2026",
+    "stats": [
+     [
+      "Meciuri jucate",
+      "1"
+     ],
+     [
+      "Goluri marcate",
+      "0"
+     ],
+     [
+      "Pase decisive",
+      "0"
+     ],
+     [
+      "Cartonașe galbene",
+      "0"
+     ],
+     [
+      "Cartonașe roșii",
+      "0"
+     ]
+    ],
+    "nascut": "13.05.2009",
+    "cariera": {
+     "sezoane": 1,
+     "debut": 2025,
+     "meciuri": "1",
+     "goluri": "0",
+     "pase": "0"
+    },
+    "poza": "assets/img/lot/fotbal/silueta.jpg",
+    "pozaCredit": "Siluetă generată AI"
+   },
+   {
+    "numar": 77,
+    "nume": "Radu Constantin",
+    "post": "Mijlocaș",
+    "varsta": 29,
+    "nat": "România",
+    "url": "https://www.flashscore.ro/jucator/radu-constantin/KS2FNz8H/",
+    "sezonStats": "2025/2026",
+    "stats": [
+     [
+      "Meciuri jucate",
+      "20"
+     ],
+     [
+      "Goluri marcate",
+      "0"
+     ],
+     [
+      "Cartonașe galbene",
+      "2"
+     ],
+     [
+      "Cartonașe roșii",
+      "0"
+     ]
+    ],
+    "nascut": "09.04.1997",
+    "cariera": {
+     "sezoane": 5,
+     "debut": 2020,
+     "meciuri": "100",
+     "goluri": "3"
+    },
+    "poza": "assets/img/lot/fotbal/silueta.jpg",
+    "pozaCredit": "Siluetă generată AI"
+   },
+   {
+    "numar": 39,
+    "nume": "Serban Sebastian",
+    "post": "Mijlocaș",
+    "varsta": 20,
+    "nat": "România",
+    "url": "https://www.flashscore.ro/jucator/serban-sebastian/2FPfhsr4/",
+    "nascut": "13.07.2006",
+    "poza": "assets/img/lot/fotbal/silueta.jpg",
+    "pozaCredit": "Siluetă generată AI"
+   },
+   {
+    "numar": 2,
+    "nume": "Tabarcea Matei",
+    "post": "Mijlocaș",
+    "varsta": 17,
+    "nat": "România",
+    "url": "https://www.flashscore.ro/jucator/tabarcea-matei/2aZ3lPPr/",
+    "nascut": "29.01.2009",
+    "poza": "assets/img/lot/fotbal/silueta.jpg",
+    "pozaCredit": "Siluetă generată AI"
+   },
+   {
+    "numar": 19,
+    "nume": "Mbanga Jean",
+    "post": "Atacant",
+    "varsta": 23,
+    "nat": "Franţa",
+    "url": "https://www.flashscore.ro/jucator/mbanga-jean/lQCLV5wi/",
+    "sezonStats": "2025/2026",
+    "stats": [
+     [
+      "Meciuri jucate",
+      "12"
+     ],
+     [
+      "Goluri marcate",
+      "3"
+     ],
+     [
+      "Cartonașe galbene",
+      "0"
+     ],
+     [
+      "Cartonașe roșii",
+      "0"
+     ]
+    ],
+    "nascut": "01.10.2002",
+    "cariera": {
+     "sezoane": 4,
+     "debut": 2023,
+     "meciuri": "41",
+     "goluri": "19"
+    },
+    "poza": "assets/img/lot/fotbal/silueta.jpg",
+    "pozaCredit": "Siluetă generată AI"
+   },
+   {
+    "numar": 4,
+    "nume": "Stan Abel",
+    "post": "Atacant",
+    "varsta": 22,
+    "nat": "România",
+    "url": "https://www.flashscore.ro/jucator/stan-abel/lxgbdGKl/",
+    "sezonStats": "2025/2026",
+    "stats": [
+     [
+      "Meciuri jucate",
+      "24"
+     ],
+     [
+      "Goluri marcate",
+      "0"
+     ],
+     [
+      "Cartonașe galbene",
+      "7"
+     ],
+     [
+      "Cartonașe roșii",
+      "1"
+     ]
+    ],
+    "nascut": "24.12.2003",
+    "cariera": {
+     "sezoane": 5,
+     "debut": 2020,
+     "meciuri": "45",
+     "goluri": "0"
+    },
+    "poza": "assets/img/lot/fotbal/silueta.jpg",
+    "pozaCredit": "Siluetă generată AI"
+   },
+   {
+    "numar": 18,
+    "nume": "Tudorache Alexandru",
+    "post": "Atacant",
+    "varsta": 16,
+    "nat": "România",
+    "url": "https://www.flashscore.ro/jucator/tudorache-alexandru/pUR1QhYa/",
+    "nascut": "01.01.2010",
+    "poza": "assets/img/lot/fotbal/silueta.jpg",
+    "pozaCredit": "Siluetă generată AI"
+   }
+  ]
+ },
+ "handbal": {
+  "competitie": "Liga Națională (feminin)",
+  "flashscore": "https://www.flashscore.ro/echipa/csm-slatina/ptT2ffej/meciuri/",
+  "program": [
+   {
+    "timestamp": 1788102000,
+    "gazde": "SCM Craiova F",
+    "oaspeti": "CSM Slatina F",
+    "competitie": "Liga națională Feminin",
+    "acasa": false
+   },
+   {
+    "timestamp": 1788793200,
+    "gazde": "CSM Slatina F",
+    "oaspeti": "Rapid București F",
+    "competitie": "Liga națională Feminin",
+    "acasa": true
+   },
+   {
+    "timestamp": 1789311600,
+    "gazde": "Știința București F",
+    "oaspeti": "CSM Slatina F",
+    "competitie": "Liga națională Feminin",
+    "acasa": false
+   },
+   {
+    "timestamp": 1789657200,
+    "gazde": "CSM Slatina F",
+    "oaspeti": "Targu Jiu F",
+    "competitie": "Liga națională Feminin",
+    "acasa": true
+   },
+   {
+    "timestamp": 1791126000,
+    "gazde": "FCM Târgu Mureş F",
+    "oaspeti": "CSM Slatina F",
+    "competitie": "Liga națională Feminin",
+    "acasa": false
+   }
+  ],
+  "rezultate": [
+   {
+    "timestamp": 1787238000,
+    "gazde": "CSM Slatina F (Rou)",
+    "oaspeti": "Targu Jiu F (Rou)",
+    "competitie": "Meciuri amicale între cluburi - Feminin",
+    "acasa": true,
+    "scor": [
+     34,
+     29
+    ],
+    "forma": "V"
+   },
+   {
+    "timestamp": 1786626000,
+    "gazde": "Dunărea Brăila F (Rou)",
+    "oaspeti": "CSM Slatina F (Rou)",
+    "competitie": "Meciuri amicale între cluburi - Feminin",
+    "acasa": false,
+    "scor": [
+     30,
+     23
+    ],
+    "forma": "Î"
+   },
+   {
+    "timestamp": 1785855600,
+    "gazde": "DVSC F (Hun)",
+    "oaspeti": "CSM Slatina F (Rou)",
+    "competitie": "Meciuri amicale între cluburi - Feminin",
+    "acasa": false,
+    "scor": [
+     30,
+     25
+    ],
+    "forma": "Î"
+   },
+   {
+    "timestamp": 1785510000,
+    "gazde": "DVSC F (Hun)",
+    "oaspeti": "CSM Slatina F (Rou)",
+    "competitie": "Meciuri amicale între cluburi - Feminin",
+    "acasa": false,
+    "scor": [
+     34,
+     32
+    ],
+    "forma": "Î"
+   },
+   {
+    "timestamp": 1779546600,
+    "gazde": "Dunărea Brăila F",
+    "oaspeti": "CSM Slatina F",
+    "competitie": "Liga națională Feminin",
+    "acasa": false,
+    "scor": [
+     34,
+     28
+    ],
+    "forma": "Î"
+   },
+   {
+    "timestamp": 1778941800,
+    "gazde": "CSM Slatina F",
+    "oaspeti": "Râmnicu Vâlcea F",
+    "competitie": "Liga națională Feminin",
+    "acasa": true,
+    "scor": [
+     29,
+     32
+    ],
+    "forma": "Î"
+   }
+  ],
+  "forma": "ÎÎÎÎV",
+  "lot": [
+   {
+    "numar": 1,
+    "nume": "Bianca Cioponea",
+    "post": "Portar",
+    "nat": "România"
+   },
+   {
+    "numar": 16,
+    "nume": "Elena Nagy",
+    "post": "Portar",
+    "nat": "România"
+   },
+   {
+    "numar": 58,
+    "nume": "Merve Erbektaș",
+    "post": "Portar",
+    "nat": "Turcia",
+    "inaltime": 185,
+    "nascut": "15.04.1996",
+    "origine": "Sivas",
+    "poza": "assets/img/lot/handbal/merve-erbektas.jpg",
+    "pozaCredit": "Foto: Marcus Cyron, CC BY-SA 3.0 (Wikimedia)",
+    "varsta": 30
+   },
+   {
+    "numar": 72,
+    "nume": "Jovana Micevska",
+    "post": "Portar",
+    "nat": "Macedonia de Nord"
+   },
+   {
+    "numar": 7,
+    "nume": "Jovana Sazdovska",
+    "post": "Extremă stânga",
+    "nat": "Macedonia de Nord",
+    "inaltime": 177,
+    "nascut": "27.06.1993",
+    "origine": "Skopje",
+    "varsta": 33,
+    "poza": "assets/img/lot/handbal/jovana-sazdovska.jpg",
+    "pozaCredit": "Foto: Frank Haug, CC BY 3.0 (Wikimedia)"
+   },
+   {
+    "numar": 96,
+    "nume": "Hermina Olaru",
+    "post": "Extremă stânga",
+    "nat": "România"
+   },
+   {
+    "numar": 3,
+    "nume": "Adina Cace",
+    "post": "Extremă dreapta",
+    "nat": "România"
+   },
+   {
+    "numar": 94,
+    "nume": "Cristina Boian",
+    "post": "Extremă dreapta",
+    "nat": "România"
+   },
+   {
+    "numar": 97,
+    "nume": "Alina Mușat",
+    "post": "Extremă dreapta",
+    "nat": "România"
+   },
+   {
+    "numar": 9,
+    "nume": "Elena Fulgoi",
+    "post": "Pivot",
+    "nat": "România"
+   },
+   {
+    "numar": 18,
+    "nume": "Manuela Ninciu",
+    "post": "Pivot",
+    "nat": "România"
+   },
+   {
+    "numar": 23,
+    "nume": "Andreea Țîrle",
+    "post": "Pivot",
+    "nat": "România"
+   },
+   {
+    "numar": 77,
+    "nume": "Ivana Gakidova",
+    "post": "Pivot",
+    "nat": "Macedonia de Nord",
+    "nascut": "27.02.1995",
+    "origine": "Skopje",
+    "varsta": 31
+   },
+   {
+    "numar": 2,
+    "nume": "Narcisa Verde",
+    "post": "Coordonator",
+    "nat": "România"
+   },
+   {
+    "numar": 6,
+    "nume": "Gabriela Istrate",
+    "post": "Coordonator",
+    "nat": "România"
+   },
+   {
+    "numar": 13,
+    "nume": "Ana Radović",
+    "post": "Coordonator",
+    "nat": "Muntenegru"
+   },
+   {
+    "numar": 76,
+    "nume": "Döne Gül Bozdoğan",
+    "post": "Coordonator",
+    "nat": "Turcia",
+    "nascut": "03.02.1999",
+    "origine": "Kayseri",
+    "varsta": 27
+   },
+   {
+    "numar": 8,
+    "nume": "Andreea Bogdanovici",
+    "post": "Inter stânga",
+    "nat": "România",
+    "nascut": "09.07.1992",
+    "poza": "assets/img/lot/handbal/andreea-bogdanovici.jpg",
+    "pozaCredit": "Foto: Adrian Radu 74, CC BY 3.0 (Wikimedia)",
+    "varsta": 34
+   },
+   {
+    "numar": 10,
+    "nume": "Sonia Vasiliu",
+    "post": "Inter stânga",
+    "nat": "România"
+   },
+   {
+    "numar": 43,
+    "nume": "Nada Ćorović",
+    "post": "Inter stânga",
+    "nat": "Muntenegru"
+   },
+   {
+    "numar": 98,
+    "nume": "Mara Matea",
+    "post": "Inter stânga",
+    "nat": "România"
+   },
+   {
+    "numar": 11,
+    "nume": "Valentina Lecu",
+    "post": "Inter dreapta",
+    "nat": "România"
+   },
+   {
+    "numar": 27,
+    "nume": "Sanja Premović",
+    "post": "Inter dreapta",
+    "nat": "Muntenegru",
+    "nascut": "27.11.1992",
+    "origine": "Berane",
+    "varsta": 33
+   }
+  ],
+  "sursaLot": "Wikipedia — CSM Slatina (handbal feminin), lotul 2024/25"
+ }
+}

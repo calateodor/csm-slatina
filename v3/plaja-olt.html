@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Plaja Olt — Club Nautic și de Agrement | CSM Slatina</title>
+  <meta name="description" content="Clubul Nautic și de Agrement Plaja Olt din Slatina: padel, tenis, mini-golf, beach volley, fotbal, frizerie și masaj, plus plajă amenajată și plimbări pe Olt cu caiacul, hidrobicicleta sau barca electrică.">
+  <link rel="icon" type="image/png" href="assets/img/logo.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700;800&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/plaja-v2.css">
+</head>
+<body class="v2-body">
+
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="index.html">
+        <img src="assets/img/logo.png" alt="Stema CSM Slatina">
+        <span class="brand-name"><small>Clubul Sportiv Municipal</small>Slatina</span>
+      </a>
+      <nav class="main-nav" aria-label="Meniu principal">
+        <ul>
+          <li><a href="index.html">Acasă</a></li>
+          <li class="has-sub">
+            <a href="index.html#echipa">Sporturi de echipă <span class="car">▾</span></a>
+            <ul class="sub">
+              <li><a href="sectii/fotbal.html">Fotbal</a></li>
+              <li><a href="sectii/handbal.html">Handbal</a></li>
+            </ul>
+          </li>
+          <li class="has-sub">
+            <a href="index.html#individuale">Sporturi individuale <span class="car">▾</span></a>
+            <ul class="sub">
+            <li><a href="sectii/tenis-de-camp.html">Tenis de câmp</a></li>
+            <li><a href="sectii/tenis-de-masa.html">Tenis de masă</a></li>
+            <li><a href="sectii/inot.html">Înot</a></li>
+            <li><a href="sectii/atletism.html">Atletism</a></li>
+            <li><a href="sectii/box.html">Box</a></li>
+            <li><a href="sectii/karate.html">Karate</a></li>
+            <li><a href="sectii/judo.html">Judo</a></li>
+            <li><a href="sectii/lupte.html">Lupte</a></li>
+            <li><a href="sectii/kempo.html">Kempo</a></li>
+            </ul>
+          </li>
+          <li><a href="padel.html">Padel</a></li>
+          <li><a href="plaja-olt.html">Plaja Olt</a></li>
+          <li><a href="contact.html">Contact</a></li>
+        </ul>
+      </nav>
+      <div class="header-crests">
+        <img src="assets/img/cred-in-slatina.png" alt="Cred în Slatina">
+        <img src="assets/img/primaria-slatina.png" alt="Primăria Slatina">
+      </div>
+      <button class="nav-toggle" aria-label="Deschide meniul" aria-expanded="false">
+        <span class="bars"><span></span><span></span><span></span></span>
+      </button>
+    </div>
+  </header>
+
+  <div class="menu-overlay" role="dialog" aria-label="Meniu principal">
+    <div class="menu-inner">
+      <nav>
+        <ul class="menu-primary">
+          <li><a href="index.html">Acasă</a></li>
+          <li><a href="index.html#echipa">Sporturi de echipă</a></li>
+          <li><a href="index.html#individuale">Sporturi individuale</a></li>
+          <li><a href="padel.html">Padel</a></li>
+          <li><a href="plaja-olt.html">Plaja Olt</a></li>
+          <li><a href="index.html#despre">Despre club</a></li>
+          <li><a href="contact.html">Contact</a></li>
+        </ul>
+      </nav>
+      <div class="menu-side">
+        <div class="menu-contact">
+          Bd. Sf. Constantin Brâncoveanu nr. 3, Slatina, Olt<br>
+          <a href="tel:+40349738657">0349 738 657</a><br>
+          <a href="mailto:csmslatina@yahoo.com">csmslatina@yahoo.com</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- scena de fundaluri: câte un strat pe capitol, dezvăluit la linia-divizor (JS) -->
+  <div class="bg-stage" aria-hidden="true">
+    <div class="bg-layer bg-hero">
+      <picture class="v2-aer">
+        <source media="(max-width: 760px)" srcset="assets/img/plaja-v2/aerian-1280.webp">
+        <img src="assets/img/plaja-v2/aerian-2560.webp" alt="Vedere aeriană a Clubului Nautic și de Agrement Plaja Olt" fetchpriority="high">
+      </picture>
+      <div class="v2-hero-veil"></div>
+    </div>
+    <div class="bg-layer" data-bg="#harta"><span class="bg-inner"></span></div>
+    <div class="bg-layer" data-bg="#servicii"><span class="bg-inner"></span></div>
+    <div class="bg-layer" data-bg="#plaja-v2"><span class="bg-inner"></span></div>
+  </div>
+
+  <!-- liniile-divizor dintre capitole — decor, animate din JS -->
+  <div class="wipe" data-wipe="#harta" aria-hidden="true"><span class="streak"></span></div>
+  <div class="wipe" data-wipe="#servicii" aria-hidden="true"><span class="streak"></span></div>
+  <div class="wipe" data-wipe="#plaja-v2" aria-hidden="true"><span class="streak"></span></div>
+
+  <main class="v2">
+
+    <!-- ============ 1. Vedere din dronă ============ -->
+    <section class="v2-hero">
+      <div class="v2-hero-copy">
+        <span class="v2-eyebrow">CSM Slatina · pe malul Oltului</span>
+        <h1>Clubul Nautic<br>și de Agrement</h1>
+        <p>Terenuri, plajă și apă — tot ce înseamnă vara la Slatina, văzut de sus.</p>
+      </div>
+      <div class="v2-scroll-hint" aria-hidden="true"><span></span>derulează</div>
+    </section>
+
+    <!-- ============ 2. Harta interactivă (în lucru) ============ -->
+    <section class="v2-harta" id="harta">
+      <div class="v2-ghost" aria-hidden="true">HARTA</div>
+      <div class="container">
+        <span class="v2-eyebrow">Orientare</span>
+        <h2 class="v2-title">Harta interactivă</h2>
+        <div class="v2-harta-frame">
+          <img src="assets/img/plaja-v2/aerian-blur.webp" alt="" aria-hidden="true">
+          <span class="v2-pin" style="--px:22%; --py:34%"></span>
+          <span class="v2-pin" style="--px:47%; --py:26%"></span>
+          <span class="v2-pin" style="--px:64%; --py:42%"></span>
+          <span class="v2-pin" style="--px:80%; --py:30%"></span>
+          <span class="v2-pin" style="--px:55%; --py:72%"></span>
+          <div class="v2-harta-badge">
+            <strong>Hartă în lucru</strong>
+            <span>Fiecare teren va putea fi atins pentru program și rezervare — în curând, pe desktop și pe mobil.</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ 3. Rezervări online ============ -->
+    <!-- fundalul secțiunii se schimbă dintr-un singur loc: --servicii-bg în plaja-v2.css -->
+    <section class="v2-servicii" id="servicii">
+      <div class="v2-ghost" aria-hidden="true">REZERVĂ</div>
+      <div class="container">
+        <span class="v2-eyebrow">Rezervare online</span>
+        <h2 class="v2-title">Alege terenul, alege ora</h2>
+        <p class="v2-sub">Padelul se rezervă online, cu confirmare prin SMS. Pentru restul, un telefon e de ajuns — răspundem zilnic între 10:00 și 20:00.</p>
+      </div>
+      <div class="v2-cards" aria-label="Servicii cu rezervare">
+
+        <article class="v2-card">
+          <img src="assets/img/plaja-v2/sv-padel.webp" alt="Teren de padel" loading="lazy">
+          <div class="v2-card-veil" aria-hidden="true"></div>
+          <span class="v2-vert" aria-hidden="true">Padel</span>
+          <div class="v2-card-copy">
+            <span class="v2-tag">până la 24:00</span>
+            <h3>Padel</h3>
+            <p>40 lei/oră ziua · 60 lei/oră nocturn</p>
+            <a class="v2-cta gold" href="padel.html#rezervare">Rezervă online →</a>
+          </div>
+        </article>
+
+        <article class="v2-card">
+          <img src="assets/img/plaja-v2/sv-tenis.webp" alt="Teren de tenis pe zgură" loading="lazy">
+          <div class="v2-card-veil" aria-hidden="true"></div>
+          <span class="v2-vert" aria-hidden="true">Tenis de câmp</span>
+          <div class="v2-card-copy">
+            <span class="v2-tag">3 terenuri · zgură & hard</span>
+            <h3>Tenis de câmp</h3>
+            <p>40 lei/oră ziua · 45 lei/oră nocturn</p>
+            <a class="v2-cta" href="tel:+40349738657">Rezervă telefonic →</a>
+          </div>
+        </article>
+
+        <article class="v2-card">
+          <img src="assets/img/plaja-v2/sv-minigolf.webp" alt="Traseul de mini-golf" loading="lazy">
+          <div class="v2-card-veil" aria-hidden="true"></div>
+          <span class="v2-vert" aria-hidden="true">Mini-golf</span>
+          <div class="v2-card-copy">
+            <span class="v2-tag">de la 4 ani</span>
+            <h3>Mini-golf</h3>
+            <p>11 lei/oră/crosă · 7 lei/30 min</p>
+            <a class="v2-cta" href="tel:+40349738657">Rezervă telefonic →</a>
+          </div>
+        </article>
+
+        <article class="v2-card">
+          <img src="assets/img/plaja-v2/sv-volei.webp" alt="Terenul de beach volley" loading="lazy">
+          <div class="v2-card-veil" aria-hidden="true"></div>
+          <span class="v2-vert" aria-hidden="true">Beach volley</span>
+          <div class="v2-card-copy">
+            <span class="v2-tag">mai – septembrie</span>
+            <h3>Beach volley</h3>
+            <p>25 lei/oră · 13 lei/30 min</p>
+            <a class="v2-cta" href="tel:+40349738657">Rezervă telefonic →</a>
+          </div>
+        </article>
+
+        <article class="v2-card">
+          <img src="assets/img/plaja-v2/sv-masaj.webp" alt="Cameră de masaj" loading="lazy">
+          <div class="v2-card-veil" aria-hidden="true"></div>
+          <span class="v2-vert" aria-hidden="true">Masaj</span>
+          <div class="v2-card-copy">
+            <span class="v2-tag">programare obligatorie</span>
+            <h3>Masaj</h3>
+            <p>50 lei/30 min · pachete avantajoase</p>
+            <a class="v2-cta" href="tel:+40349738657">Programează →</a>
+          </div>
+        </article>
+
+        <article class="v2-card">
+          <img src="assets/img/plaja-v2/sv-sauna.webp" alt="Saună" loading="lazy">
+          <div class="v2-card-veil" aria-hidden="true"></div>
+          <span class="v2-vert" aria-hidden="true">Saună</span>
+          <div class="v2-card-copy">
+            <span class="v2-tag">relaxare</span>
+            <h3>Saună</h3>
+            <p>detalii și tarife la recepție</p>
+            <a class="v2-cta" href="tel:+40349738657">Programează →</a>
+          </div>
+        </article>
+
+      </div>
+      <div class="v2-dots" aria-hidden="true"></div>
+      <p class="v2-si-inca">și încă: fotbal pe sintetic · tenis de picior · frizerie — la fața locului</p>
+    </section>
+
+    <!-- ============ 4. Plaja Olt: tarife + petreceri ============ -->
+    <section class="v2-plaja" id="plaja-v2">
+      <div class="v2-ghost" aria-hidden="true">PLAJA</div>
+      <div class="container">
+        <span class="v2-eyebrow">Fără rezervare · plătești la club</span>
+        <h2 class="v2-title">Plaja Olt</h2>
+
+        <div class="v2-plaja-grid">
+          <div class="v2-tarif-col">
+            <h3>Acces plajă <small>L–V 10:00–20:00 · S–D 08:00–20:00</small></h3>
+            <ul class="v2-tarife">
+              <li><span>Adulți</span><i></i><strong>20 lei</strong></li>
+              <li><span>Copii sub 14 ani <em>(însoțiți de un adult)</em></span><i></i><strong>10 lei</strong></li>
+              <li><span>Copii sub 2 ani</span><i></i><strong>gratuit</strong></li>
+              <li><span>Șezlong</span><i></i><strong>10 lei / zi</strong></li>
+            </ul>
+            <h3 class="mt">Pe apă</h3>
+            <ul class="v2-tarife">
+              <li><span>Caiac</span><i></i><strong>30 lei / 30 min · 50 lei / oră</strong></li>
+              <li><span>Hidrobicicletă</span><i></i><strong>20 lei / 30 min · 30 lei / oră</strong></li>
+              <li><span>Barcă cu motor electric</span><i></i><strong>180 lei / oră</strong></li>
+            </ul>
+          </div>
+
+          <aside class="v2-party">
+            <span class="v2-party-k">Petreceri pe plajă</span>
+            <h3>Aici anunțăm serile de vară.</h3>
+            <p>Concerte, seri tematice și petreceri pe nisip — când se anunță una, o vezi prima dată aici și pe paginile noastre oficiale.</p>
+            <div class="v2-party-empty">
+              <strong>Nimic programat momentan</strong>
+              <span>Revino curând — vara abia se încălzește.</span>
+            </div>
+          </aside>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <img src="assets/img/logo.png" alt="Stema CSM Slatina">
+          <p>Clubul Sportiv Municipal Slatina — construim campioni și inspirăm generații din 2009.</p>
+        </div>
+        <div>
+          <h4>Club</h4>
+          <ul>
+            <li><a href="index.html#despre">Despre noi</a></li>
+            <li><a href="index.html#sectii">Secții sportive</a></li>
+            <li><a href="padel.html">Padel</a></li>
+            <li><a href="plaja-olt.html">Plaja Olt</a></li>
+            <li><a href="contact.html">Contact</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>Secții</h4>
+          <ul>
+            <li><a href="sectii/fotbal.html">Fotbal</a></li>
+            <li><a href="sectii/handbal.html">Handbal</a></li>
+            <li><a href="sectii/inot.html">Înot</a></li>
+            <li><a href="sectii/box.html">Box</a></li>
+            <li><a href="index.html#sectii">Toate secțiile →</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>Contact</h4>
+          <ul class="footer-contact">
+            <li><span class="ico">📍</span> Bd. Sf. Constantin Brâncoveanu nr. 3, Slatina, Olt</li>
+            <li><span class="ico">📞</span> <a href="tel:+40349738657">0349 738 657</a></li>
+            <li><span class="ico">✉️</span> <a href="mailto:csmslatina@yahoo.com">csmslatina@yahoo.com</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© <span id="year">2026</span> Clubul Sportiv Municipal Slatina. Toate drepturile rezervate.</span>
+        <span>Slatina, oraș al performanței!</span>
+      </div>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>
+  <script src="js/main.js"></script>
+  <script src="js/plaja-v2.js"></script>
+</body>
+</html>
