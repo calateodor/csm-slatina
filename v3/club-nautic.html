@@ -97,9 +97,9 @@
       </picture>
       <div class="v2-hero-veil"></div>
     </div>
-    <div class="bg-layer" data-bg="#harta"><span class="bg-inner"></span></div>
-    <div class="bg-layer" data-bg="#servicii"><span class="bg-inner"></span></div>
-    <div class="bg-layer" data-bg="#plaja-v2"><span class="bg-inner"></span></div>
+    <div class="bg-layer" data-bg="#harta"><span class="bg-inner" data-edit-fundal="nautic.fundal.harta" data-fundal-tip="var:--harta-bg" data-fundal-val="linear-gradient(rgba(7, 19, 48, 0.1), rgba(7, 19, 48, 0.82))"></span></div>
+    <div class="bg-layer" data-bg="#servicii"><span class="bg-inner" data-edit-fundal="nautic.fundal.servicii" data-fundal-tip="var:--servicii-bg" data-fundal-val="linear-gradient(rgba(9, 26, 68, 0.1), rgba(9, 26, 68, 0.82))"></span></div>
+    <div class="bg-layer" data-bg="#plaja-v2"><span class="bg-inner" data-edit-fundal="nautic.fundal.plaja" data-fundal-tip="var:--plaja-bg" data-fundal-val="linear-gradient(rgba(10, 28, 74, 0.2), rgba(10, 28, 74, 0.85))"></span></div>
   </div>
 
   <!-- liniile-divizor dintre capitole — decor, animate din JS -->
@@ -113,8 +113,8 @@
     <section class="v2-hero">
       <div class="v2-hero-copy">
         <span class="v2-eyebrow">CSM Slatina · pe malul Oltului</span>
-        <h1>Clubul Nautic<br>și de Agrement</h1>
-        <p>Terenuri, plajă și apă — tot ce înseamnă vara la Slatina, văzut de sus.</p>
+        <h1 data-edit="club-nautic.h1.clubul-nauticsi-de">Clubul Nautic<br>și de Agrement</h1>
+        <p data-edit="club-nautic.p.terenuri-plaja-si">Terenuri, plajă și apă — tot ce înseamnă vara la Slatina, văzut de sus.</p>
       </div>
       <div class="v2-scroll-hint" aria-hidden="true"><span></span>derulează</div>
     </section>
@@ -124,7 +124,7 @@
       <div class="v2-ghost" aria-hidden="true">HARTA</div>
       <div class="container">
         <span class="v2-eyebrow">Orientare</span>
-        <h2 class="v2-title">Harta interactivă</h2>
+        <h2 class="v2-title" data-edit="club-nautic.h2.harta-interactiva">Harta interactivă</h2>
         <div class="v2-harta-frame">
           <img src="assets/img/plaja-v2/aerian-blur.webp" alt="" aria-hidden="true">
           <span class="v2-pin" style="--px:22%; --py:34%"></span>
@@ -146,8 +146,8 @@
       <div class="v2-ghost" aria-hidden="true">REZERVĂ</div>
       <div class="container">
         <span class="v2-eyebrow">Rezervare online</span>
-        <h2 class="v2-title">Alege terenul, alege ora</h2>
-        <p class="v2-sub">Padelul se rezervă online, cu confirmare prin SMS. Pentru restul, un telefon e de ajuns — răspundem zilnic între 10:00 și 20:00.</p>
+        <h2 class="v2-title" data-edit="club-nautic.h2.alege-terenul-alege">Alege terenul, alege ora</h2>
+        <p class="v2-sub" data-edit="club-nautic.p.padelul-se-rezerva">Padelul se rezervă online, cu confirmare prin SMS. Pentru restul, un telefon e de ajuns — răspundem zilnic între 10:00 și 20:00.</p>
       </div>
       <div class="v2-cards" aria-label="Servicii cu rezervare">
 
@@ -157,8 +157,8 @@
           <span class="v2-vert" aria-hidden="true">Padel</span>
           <div class="v2-card-copy">
             <span class="v2-tag">până la 24:00</span>
-            <h3>Padel</h3>
-            <p>40 lei/oră ziua · 60 lei/oră nocturn</p>
+            <h3 data-edit="club-nautic.h3.padel">Padel</h3>
+            <p data-edit="club-nautic.p.40-lei-ora">40 lei/oră ziua · 60 lei/oră nocturn</p>
             <a class="v2-cta gold" href="padel.html#rezervare">Rezervă online →</a>
           </div>
         </article>
@@ -169,7 +169,7 @@
           <span class="v2-vert" aria-hidden="true">Tenis de câmp</span>
           <div class="v2-card-copy">
             <span class="v2-tag">3 terenuri · zgură & hard</span>
-            <h3>Tenis de câmp</h3>
+            <h3 data-edit="club-nautic.h3.tenis-de-camp">Tenis de câmp</h3>
             <p>40 lei/oră ziua · 45 lei/oră nocturn</p>
             <a class="v2-cta" href="tel:+40349738657">Rezervă telefonic →</a>
           </div>
@@ -181,8 +181,8 @@
           <span class="v2-vert" aria-hidden="true">Mini-golf</span>
           <div class="v2-card-copy">
             <span class="v2-tag">de la 4 ani</span>
-            <h3>Mini-golf</h3>
-            <p>11 lei/oră/crosă · 7 lei/30 min</p>
+            <h3 data-edit="club-nautic.h3.mini-golf">Mini-golf</h3>
+            <p data-edit="club-nautic.p.11-lei-ora">11 lei/oră/crosă · 7 lei/30 min</p>
             <a class="v2-cta" href="tel:+40349738657">Rezervă telefonic →</a>
           </div>
         </article>
@@ -193,8 +193,8 @@
           <span class="v2-vert" aria-hidden="true">Beach volley</span>
           <div class="v2-card-copy">
             <span class="v2-tag">mai – septembrie</span>
-            <h3>Beach volley</h3>
-            <p>25 lei/oră · 13 lei/30 min</p>
+            <h3 data-edit="club-nautic.h3.beach-volley">Beach volley</h3>
+            <p data-edit="club-nautic.p.25-lei-ora">25 lei/oră · 13 lei/30 min</p>
             <a class="v2-cta" href="tel:+40349738657">Rezervă telefonic →</a>
           </div>
         </article>
@@ -205,8 +205,8 @@
           <span class="v2-vert" aria-hidden="true">Masaj</span>
           <div class="v2-card-copy">
             <span class="v2-tag">programare obligatorie</span>
-            <h3>Masaj</h3>
-            <p>50 lei/30 min · pachete avantajoase</p>
+            <h3 data-edit="club-nautic.h3.masaj">Masaj</h3>
+            <p data-edit="club-nautic.p.50-lei-30">50 lei/30 min · pachete avantajoase</p>
             <a class="v2-cta" href="tel:+40349738657">Programează →</a>
           </div>
         </article>
@@ -217,15 +217,15 @@
           <span class="v2-vert" aria-hidden="true">Saună</span>
           <div class="v2-card-copy">
             <span class="v2-tag">relaxare</span>
-            <h3>Saună</h3>
-            <p>detalii și tarife la recepție</p>
+            <h3 data-edit="club-nautic.h3.sauna">Saună</h3>
+            <p data-edit="club-nautic.p.detalii-si-tarife">detalii și tarife la recepție</p>
             <a class="v2-cta" href="tel:+40349738657">Programează →</a>
           </div>
         </article>
 
       </div>
       <div class="v2-dots" aria-hidden="true"></div>
-      <p class="v2-si-inca">și încă: fotbal pe sintetic · tenis de picior · frizerie — la fața locului</p>
+      <p class="v2-si-inca" data-edit="club-nautic.p.si-inca-fotbal">și încă: fotbal pe sintetic · tenis de picior · frizerie — la fața locului</p>
     </section>
 
     <!-- ============ 4. Plaja Olt: tarife + petreceri ============ -->
@@ -233,22 +233,22 @@
       <div class="v2-ghost" aria-hidden="true">PLAJA</div>
       <div class="container">
         <span class="v2-eyebrow">Închirieri la fața locului · plătești la club</span>
-        <h2 class="v2-title">Pe apă</h2>
+        <h2 class="v2-title" data-edit="club-nautic.h2.pe-apa">Pe apă</h2>
 
         <div class="v2-plaja-grid">
           <div class="v2-tarif-col">
-            <h3>De la debarcader <small>în limita luminii de zi</small></h3>
+            <h3 data-edit="club-nautic.h3.de-la-debarcader">De la debarcader <small>în limita luminii de zi</small></h3>
             <ul class="v2-tarife" data-edit="nautic.tarife.apa">
-              <li><span>Caiac</span><i></i><strong>30 lei / 30 min · 50 lei / oră</strong></li>
-              <li><span>Hidrobicicletă</span><i></i><strong>20 lei / 30 min · 30 lei / oră</strong></li>
-              <li><span>Barcă cu motor electric</span><i></i><strong>180 lei / oră</strong></li>
+              <li data-edit="club-nautic.li.caiac30-lei-30"><span>Caiac</span><i></i><strong>30 lei / 30 min · 50 lei / oră</strong></li>
+              <li data-edit="club-nautic.li.hidrobicicleta20-lei-30"><span>Hidrobicicletă</span><i></i><strong>20 lei / 30 min · 30 lei / oră</strong></li>
+              <li data-edit="club-nautic.li.barca-cu-motor"><span>Barcă cu motor electric</span><i></i><strong>180 lei / oră</strong></li>
             </ul>
           </div>
 
           <aside class="v2-party">
             <span class="v2-party-k">În aceeași incintă</span>
-            <h3>Plaja Olt te așteaptă la soare.</h3>
-            <p>Șezlonguri pe nisip, piscină și petreceri de vară — plaja are acum pagina ei, în culorile ei.</p>
+            <h3 data-edit="club-nautic.h3.plaja-olt-te">Plaja Olt te așteaptă la soare.</h3>
+            <p data-edit="club-nautic.p.sezlonguri-pe-nisip">Șezlonguri pe nisip, piscină și petreceri de vară — plaja are acum pagina ei, în culorile ei.</p>
             <a class="btn btn-gold" href="plaja-olt.html">Vezi plaja <span class="arrow">→</span></a>
           </aside>
         </div>
@@ -262,7 +262,7 @@
       <div class="footer-grid">
         <div class="footer-brand">
           <img src="assets/img/logo.png" alt="Stema CSM Slatina">
-          <p>Clubul Sportiv Municipal Slatina — construim campioni și inspirăm generații din 2009.</p>
+          <p data-edit="global.subsol.p.clubul-sportiv-municipal">Clubul Sportiv Municipal Slatina — construim campioni și inspirăm generații din 2009.</p>
         </div>
         <div>
           <h4>Club</h4>
@@ -288,7 +288,7 @@
         <div>
           <h4>Contact</h4>
           <ul class="footer-contact">
-            <li><span class="ico">📍</span> Bd. Sf. Constantin Brâncoveanu nr. 3, Slatina, Olt</li>
+            <li data-edit="global.subsol.li.bd-sf-constantin"><span class="ico">📍</span> Bd. Sf. Constantin Brâncoveanu nr. 3, Slatina, Olt</li>
             <li><span class="ico">📞</span> <a href="tel:+40349738657">0349 738 657</a></li>
             <li><span class="ico">✉️</span> <a href="mailto:csmslatina@yahoo.com">csmslatina@yahoo.com</a></li>
           </ul>
