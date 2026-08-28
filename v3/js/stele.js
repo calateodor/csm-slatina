@@ -41,7 +41,7 @@
   }
 
   var linistit = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-  var tinte = document.querySelectorAll(".sectiune-plina, .cta-banner");
+  var tinte = document.querySelectorAll(".sectiune-plina, .cta-banner, .cu-stele");
   if (!tinte.length) return;
 
   /* Shaderul: pentru fiecare pixel adunăm lumina celor 9 celule vecine din

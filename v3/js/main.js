@@ -193,15 +193,22 @@
      ========================================================= */
   /* cuvintele-fantoma ale sectiunilor pline: aluneca incet orizontal cat
      timp sectiunea traverseaza ecranul — semnatura site-ului, mereu vie */
-  gsap.utils.toArray(".fantoma").forEach(function (f) {
-    gsap.fromTo(f, { xPercent: 4 }, {
-      xPercent: -10, ease: "none",
-      scrollTrigger: {
-        trigger: f.parentElement,
-        start: "top bottom", end: "bottom top", scrub: true
-      }
+  /* filigranul eroilor (sport-ghost) primeste aceeasi alunecare orizontala;
+     pe eroul-calendar ea se compune cu urcarea pe verticala pe care i-o da
+     calendar-erou.js — axele diferite nu se calca */
+  gsap.utils.toArray(".fantoma, .page-hero .sport-ghost")
+    .forEach(function (f) {
+      // sport-ghost e centrat din CSS cu translateY(-50%); trecut explicit in
+      // yPercent, altfel GSAP citeste procentul ca pixeli si filigranul sare
+      if (f.classList.contains("sport-ghost")) gsap.set(f, { yPercent: -50, y: 0 });
+      gsap.fromTo(f, { xPercent: 4 }, {
+        xPercent: -10, ease: "none",
+        scrollTrigger: {
+          trigger: f.closest("section") || f.parentElement,
+          start: "top bottom", end: "bottom top", scrub: true
+        }
+      });
     });
-  });
 
   gsap.utils.toArray(".reveal").forEach(function (el) {
     gsap.to(el, {

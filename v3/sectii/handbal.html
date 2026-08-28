@@ -11,6 +11,8 @@
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700;800&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../css/style.css">
   <link rel="stylesheet" href="../css/lot.css">
+  <link rel="stylesheet" href="../css/erou-fotbal.css">
+  <link rel="stylesheet" href="../css/erou-handbal.css">
 </head>
 <body>
 
@@ -102,18 +104,25 @@
   </div>
 
   <main>
-    <section class="page-hero">
+    <section class="page-hero erou-calendar erou-handbal cu-stele">
       <span class="sport-ghost" aria-hidden="true">HANDBAL</span>
-      
+      <!-- SLOT ECHIPĂ: aici intră wallpaper-ul cu jucătoarele, când clubul
+           alege fotografia — vezi pașii din css/erou-handbal.css:
+      <img class="erou-echipa" src="../assets/img/handbal-echipa-calendar.png" alt="Echipa de handbal feminin a CSM Slatina">
+      -->
       <div class="container">
-        <nav class="breadcrumb reveal"><a href="../index.html">Acasă</a> / <a href="../index.html#sectii">Secții</a> / Handbal</nav>
-        <h1 class="reveal">Handbal</h1>
-        <p class="lead reveal">Handbal feminin de primă ligă — fetele noastre duc Slatina în elita handbalului românesc.</p>
+        <div class="erou-text">
+          <nav class="breadcrumb reveal"><a href="../index.html">Acasă</a> / <a href="../index.html#sectii">Secții</a> / Handbal</nav>
+          <h1 class="reveal">Handbal</h1>
+          <p class="lead reveal">Handbal feminin de primă ligă — fetele noastre duc Slatina în elita handbalului românesc.</p>
+        </div>
       </div>
+      <div class="calendar-meciuri" id="calendar-meciuri" data-sport="handbal" aria-label="Calendarul meciurilor"></div>
     </section>
 
-    <section>
+    <section class="despre-block">
       <div class="container">
+        <div class="chenar-deschis">
         <div class="detail-grid">
           <div class="detail-copy reveal-left">
             <span class="eyebrow">Despre secție</span>
@@ -137,6 +146,7 @@
             </div>
           </div>
         </div>
+        </div>
       </div>
     </section>
 
@@ -151,8 +161,9 @@
     </section>
 
     <!-- ================= Lotul echipei ================= -->
-    <section class="lot-block" id="lot">
-      <div class="container">
+    <section class="lot-block sectiune-plina" id="lot">
+      <span class="fantoma" aria-hidden="true">LOTUL</span>
+      <div class="container-lat">
         <span class="eyebrow">Lotul echipei</span>
         <h2 class="section-title reveal">Oamenii din <span class="accent">teren</span></h2>
         <div id="lot-app" data-sport="handbal"></div>
@@ -233,5 +244,7 @@
   <script src="../js/main.js"></script>
   <script src="../js/lot.js"></script>
   <script src="../js/galerie.js"></script>
+  <script src="../js/calendar-erou.js"></script>
+  <script src="../js/stele.js"></script>
 </body>
 </html>
