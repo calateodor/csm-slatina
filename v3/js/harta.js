@@ -88,7 +88,10 @@
     pini.forEach(function (pin, idx) {
       var sv = serviciu(pin.s);
       var el = document.createElement("div");
-      el.className = "hpin";
+      el.className = "hpin" +
+        (pin.y < 38 ? " sus" : "") +          // cardul se deschide sub pin, nu peste marginea hartii
+        (pin.x < 12 ? " stanga" : "") +       // aproape de margini, cardul se lipeste de ele
+        (pin.x > 88 ? " dreapta" : "");
       el.style.left = pin.x + "%";
       el.style.top = pin.y + "%";
       el.style.setProperty("--hpin-fond", sv.fond);
@@ -97,10 +100,12 @@
       el.innerHTML =
         '<span class="hpin-umbra"></span>' +
         '<span class="hpin-corp">' +
-          '<span class="hpin-nume">' +
+          '<span class="hpin-card">' +
             (sv.poza ? '<img src="' + sv.poza + '" alt="" loading="lazy">' : "") +
             "<b>" + sv.nume + "</b>" +
-            (sv.tarif ? "<i>" + sv.tarif + "</i>" : "") + "</span>" +
+            (sv.tarif ? "<i>" + sv.tarif + "</i>" : "") +
+            (sv.poza ? '<em class="hpin-cta">Rezervă <span>→</span></em>' : "") +
+          "</span>" +
           '<span class="hpin-cap">' + sv.ico + '<span class="hpin-x">×</span></span>' +
           '<span class="hpin-tija"></span>' +
         "</span>";
@@ -213,20 +218,28 @@
       deseneaza();
       return;
     }
-    // mod normal: apăsarea pe pin arată/ascunde numele
+    // mod normal: pe desktop hover-ul expandeaza pinul, click-ul duce la card;
+    // pe ecrane tactile prima atingere expandeaza, a doua duce la card
     if (elPin && !aTras) {
-      var avea = elPin.classList.contains("cu-nume");
-      Array.prototype.forEach.call(scena.querySelectorAll(".hpin.cu-nume"), function (el) {
-        el.classList.remove("cu-nume");
+      var faraHover = window.matchMedia("(hover: none)").matches;
+      var eraExtins = elPin.classList.contains("extins");
+      Array.prototype.forEach.call(scena.querySelectorAll(".hpin.extins"), function (el) {
+        el.classList.remove("extins");
       });
-      if (!avea) {
-        elPin.classList.add("cu-nume");
-        // pagina-gazdă poate reacționa (club-nautic derulează la cardul activității)
-        var pinAles = pini[Number(elPin.dataset.idx)];
-        if (pinAles) {
-          document.dispatchEvent(new CustomEvent("harta:activitate", { detail: pinAles.s }));
-        }
+      if (faraHover && !eraExtins) {
+        elPin.classList.add("extins");
+        return;
       }
+      elPin.classList.add("extins");
+      var pinAles = pini[Number(elPin.dataset.idx)];
+      if (pinAles) {
+        document.dispatchEvent(new CustomEvent("harta:activitate", { detail: pinAles.s }));
+      }
+    }
+    if (!elPin) {
+      Array.prototype.forEach.call(scena.querySelectorAll(".hpin.extins"), function (el) {
+        el.classList.remove("extins");
+      });
     }
   });
 
@@ -281,10 +294,10 @@
         behavior: "smooth"
       });
     }
-    Array.prototype.forEach.call(scena.querySelectorAll(".hpin.cu-nume"), function (e2) {
-      e2.classList.remove("cu-nume");
+    Array.prototype.forEach.call(scena.querySelectorAll(".hpin.extins"), function (e2) {
+      e2.classList.remove("extins");
     });
-    el.classList.add("cu-nume");
+    el.classList.add("extins");
     el.classList.add("pulsat");
     setTimeout(function () { el.classList.remove("pulsat"); }, 2700);
   });
