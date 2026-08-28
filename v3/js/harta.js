@@ -51,6 +51,10 @@
   var scena = document.getElementById("harta-scena");
   if (!scena) return;
 
+  // pe pagina cu unelte (harta.html) se poate edita; incorporata
+  // in alte pagini (club-nautic), harta e doar de privit
+  var editabil = !!document.getElementById("ht-adauga");
+
   var pini = incarca();
   var modAdauga = null;   // serviciul ales pentru plasare
   var modSterge = false;
@@ -60,13 +64,16 @@
     return SERVICII[0];
   }
   function incarca() {
-    try {
-      var brut = localStorage.getItem(CHEIE);
-      if (brut) {
-        var lista = JSON.parse(brut);
-        if (Array.isArray(lista)) return lista;
-      }
-    } catch (e) {}
+    // doar editorul isi tine varianta proprie; vizitatorii vad asezarea oficiala
+    if (editabil) {
+      try {
+        var brut = localStorage.getItem(CHEIE);
+        if (brut) {
+          var lista = JSON.parse(brut);
+          if (Array.isArray(lista)) return lista;
+        }
+      } catch (e) {}
+    }
     return PORNIRE.map(function (p) { return { s: p.s, x: p.x, y: p.y }; });
   }
   function salveaza() {
@@ -102,6 +109,8 @@
   var panou = document.getElementById("ht-panou");
   var lista = document.getElementById("ht-lista");
   var indiciu = document.getElementById("ht-indiciu");
+
+  if (editabil) {
 
   SERVICII.forEach(function (sv) {
     var b = document.createElement("button");
@@ -169,6 +178,8 @@
     if (ev.key === "Escape") { opresteAdaugarea(); opresteStergerea(); }
   });
 
+  } // sfarsitul uneltelor de editare
+
   /* ---------- interacțiunea cu scena ---------- */
   function procente(ev) {
     var r = scena.getBoundingClientRect();
@@ -212,7 +223,7 @@
   var ultimPin = null;   // pinul pe care a inceput apasarea, oricare ar fi modul
   scena.addEventListener("pointerdown", function (ev) {
     ultimPin = ev.target.closest(".hpin");
-    if (modAdauga || modSterge) return;
+    if (!editabil || modAdauga || modSterge) return;   // tras doar in editor
     if (!ultimPin) return;
     pinTras = ultimPin;
     aTras = false;

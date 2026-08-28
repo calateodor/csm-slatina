@@ -287,6 +287,21 @@
   background: var(--hpin-fond, #eef2fb);
 }
 
+/* ---------- harta incorporata in alte pagini (club-nautic) ---------- */
+.harta-embed {
+  margin-top: 34px;
+  padding-top: 14px;                 /* loc pentru saltul pinurilor de sus */
+  overflow-x: auto;                  /* pe mobil se deruleaza, pinurile raman apasabile */
+  -webkit-overflow-scrolling: touch;
+}
+.harta-embed .harta-scena { min-width: 860px; }
+.v2-harta-nota {
+  margin: 14px 0 0;
+  text-align: center;
+  font: 500 0.88rem Manrope, sans-serif;
+  color: rgba(220, 231, 255, 0.72);
+}
+
 @media (max-width: 700px) {
   .harta-top { flex-wrap: wrap; }
   .harta-alege { top: auto; bottom: 12px; right: 16px; }

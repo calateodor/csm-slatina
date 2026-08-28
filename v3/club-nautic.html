@@ -11,6 +11,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700;800&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/style.css">
   <link rel="stylesheet" href="css/plaja-v2.css">
+  <link rel="stylesheet" href="css/harta.css">
 </head>
 <body class="v2-body">
 
@@ -125,18 +126,12 @@
       <div class="container">
         <span class="v2-eyebrow">Orientare</span>
         <h2 class="v2-title" data-edit="club-nautic.h2.harta-interactiva">Harta interactivă</h2>
-        <div class="v2-harta-frame">
-          <img src="assets/img/plaja-v2/aerian-blur.webp" alt="" aria-hidden="true">
-          <span class="v2-pin" style="--px:22%; --py:34%"></span>
-          <span class="v2-pin" style="--px:47%; --py:26%"></span>
-          <span class="v2-pin" style="--px:64%; --py:42%"></span>
-          <span class="v2-pin" style="--px:80%; --py:30%"></span>
-          <span class="v2-pin" style="--px:55%; --py:72%"></span>
-          <div class="v2-harta-badge">
-            <strong>Hartă în lucru</strong>
-            <span>Fiecare teren va putea fi atins pentru program și rezervare — în curând, pe desktop și pe mobil.</span>
+        <div class="harta-embed">
+          <div class="harta-scena" id="harta-scena">
+            <img class="harta-fundal" src="assets/img/harta/baza-aeriana.webp" alt="Vedere aeriană a Bazei Sportive și a Plajei Olt" loading="lazy" draggable="false">
           </div>
         </div>
+        <p class="v2-harta-nota" data-edit="club-nautic.p.harta-nota">Apasă pe un pin ca să vezi ce te așteaptă acolo.</p>
       </div>
     </section>
 
@@ -344,5 +339,6 @@
   <script src="js/main.js"></script>
   <script src="js/editare.js"></script>
   <script src="js/plaja-v2.js"></script>
+  <script src="js/harta.js"></script>
 </body>
 </html>
