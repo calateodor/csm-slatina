@@ -16,7 +16,8 @@
 .pool-hero .bg {
   position: absolute; inset: 0;
   background: url("../assets/img/sectii/inot/03.webp") center / cover no-repeat;
-  transform: scale(1.06);
+  /* zoom-ul acopera cursa de parallax din main.js (yPercent 7) */
+  transform: scale(1.12);
 }
 .pool-hero .bg video {
   position: absolute; inset: 0;

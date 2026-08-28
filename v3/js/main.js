@@ -210,6 +210,18 @@
       });
     });
 
+  /* fundalurile eroilor simpli raman putin in urma la derulare — fotografia
+     filtrata sau clipul piscinei. Zoom-ul din CSS le da marja de miscare. */
+  gsap.utils.toArray(".erou-foto .erou-fundal img, .pool-hero .bg").forEach(function (el) {
+    gsap.to(el, {
+      yPercent: 7, ease: "none",
+      scrollTrigger: {
+        trigger: el.closest("section"),
+        start: "top top", end: "bottom top", scrub: 0.5
+      }
+    });
+  });
+
   gsap.utils.toArray(".reveal").forEach(function (el) {
     gsap.to(el, {
       opacity: 1, y: 0, duration: 0.9, ease: "power3.out",

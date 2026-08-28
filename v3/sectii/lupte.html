@@ -10,6 +10,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700;800&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="../css/erou-foto.css">
 </head>
 <body>
 
@@ -101,7 +102,12 @@
   </div>
 
   <main>
-    <section class="page-hero">
+    <section class="page-hero erou-foto">
+      <div class="erou-fundal" aria-hidden="true">
+        <img src="../assets/img/sectii/lupte/erou.webp" alt="">
+        <span class="tenta"></span>
+        <span class="val"></span>
+      </div>
       <span class="sport-ghost" aria-hidden="true">LUPTE</span>
       
       <div class="container">
@@ -111,8 +117,9 @@
       </div>
     </section>
 
-    <section>
+    <section class="despre-block">
       <div class="container">
+        <div class="chenar-deschis">
         <div class="detail-grid">
           <div class="detail-copy reveal-left">
             <span class="eyebrow">Despre secție</span>
@@ -136,6 +143,7 @@
             </div>
           </div>
         </div>
+        </div>
       </div>
     </section>
 
@@ -147,6 +155,19 @@
         </div>
         <div class="sport-gallery solo">
           <figure class="reveal"><img src="../assets/img/sectii/lupte/01.webp" alt="Luptătorii CSM Slatina pe podium" loading="lazy"></figure>
+        </div>
+      </div>
+    </section>
+
+    <section class="gallery-block">
+      <div class="container">
+        <div class="section-head">
+          <span class="eyebrow">Galerie</span>
+          <h2 class="section-title reveal">Secția în imagini</h2>
+        </div>
+        <div class="sport-gallery">
+          <figure class="reveal"><img src="../assets/img/sectii/lupte/01.webp" alt="Luptătorii clubului, cu medaliile la gât" loading="lazy"></figure>
+          <figure class="reveal"><img src="../assets/img/sectii/lupte/02.webp" alt="Tânărul luptător, medaliat la finalul turneului" loading="lazy"></figure>
         </div>
       </div>
     </section>
@@ -208,5 +229,6 @@
   <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>
   <script src="../js/main.js"></script>
   <script src="../js/galerie.js"></script>
+  <script src="../js/stele.js"></script>
 </body>
 </html>
