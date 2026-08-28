@@ -128,10 +128,13 @@ section { padding: clamp(44px, 6vw, 72px) 0; }
   pointer-events: none; user-select: none;
 }
 
-/* panza cu stele (js/stele.js): sta sub continut, peste fundalul sectiunii */
+/* panza cu stele (js/stele.js): sta sub continut, peste fundalul sectiunii.
+   E cu 10% mai inalta decat sectiunea la ambele capete: parallax-ul o misca
+   pe verticala si fara surplus ar descoperi fasii goale la muchii. */
 .stele {
-  position: absolute; inset: 0; z-index: 0;
-  width: 100%; height: 100%;
+  position: absolute; left: 0; right: 0; top: -10%; bottom: -10%;
+  z-index: 0;
+  width: 100%; height: auto;
   pointer-events: none;
 }
 .cta-banner { position: relative; overflow: hidden; }

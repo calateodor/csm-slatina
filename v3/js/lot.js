@@ -546,6 +546,12 @@
     window.addEventListener("resize", function () { estompeaza(); });
     estompeaza();
 
+    // Evantaiul se construieste dupa ce soseste echipe.json, deci mult dupa
+    // ce alte scripturi (stele.js, fantomele din main.js) si-au masurat
+    // cursele de scroll. Fara recalculare, reperele lor raman inghetate la
+    // inaltimea veche a paginii si parallax-ul sta pe loc.
+    if (window.ScrollTrigger) ScrollTrigger.refresh();
+
     function alege(juc, cardEl, anima) {
       var idxNou = 0;
       carduri.forEach(function (c, i) { if (c.el === cardEl) idxNou = i; });

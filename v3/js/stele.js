@@ -23,6 +23,7 @@
     luminozitate: 0.1,  // 0.1 = abia ghicit, 1 = cer plin
     scara: 5,          // câte celule pe lățime; mai mic = stele mai rare și mai mari
     ritmSclipire: 0.5,  // viteza pulsului; 0 = stele fixe
+    paralax: 7,         // cat ramane cerul in urma la scroll (yPercent); 0 = fix
     atractie: 0.29,     // cat de tare trage cursorul stelele; 0 = deloc
     razaAtractie: 0.38, // cat de departe se simte atractia
     arc: 0.02642,       // cat de repede urmareste punctul-tinta cursorul
@@ -164,7 +165,9 @@
     };
 
     function masoara() {
-      var r = sectiune.getBoundingClientRect();
+      // cutia panzei, nu a sectiunii: panza e mai inalta (are surplus pentru
+      // parallax), iar translatia nu schimba dimensiunile masurate
+      var r = panza.getBoundingClientRect();
       var dpr = Math.min(window.devicePixelRatio || 1, 1.5);
       panza.width = Math.max(1, Math.round(r.width * dpr));
       panza.height = Math.max(1, Math.round(r.height * dpr));
@@ -207,6 +210,25 @@
     // fără mișcare: un singur cadru, cerul rămâne dar stă
     scene.forEach(function (sc) { deseneaza(sc, 40); });
     return;
+  }
+
+  /* parallax la scroll: cerul ramane in urma continutului cat timp sectiunea
+     traverseaza ecranul — pare mai in spate decat cardurile, care se misca
+     1:1 cu derularea. Amplitudinea e in PARAMETRI.paralax; surplusul de 10%
+     al panzei acopera cursa, deci nu se vad margini goale. */
+  if (PARAMETRI.paralax && window.gsap && window.ScrollTrigger) {
+    scene.forEach(function (sc) {
+      gsap.fromTo(sc.panza,
+        { yPercent: -PARAMETRI.paralax },
+        {
+          yPercent: PARAMETRI.paralax, ease: "none",
+          scrollTrigger: {
+            trigger: sc.el,
+            start: "top bottom", end: "bottom top",
+            scrub: 0.5
+          }
+        });
+    });
   }
 
   // tinta: pozitia cursorului in spatiul fiecarei sectiuni (poate iesi din 0..1
