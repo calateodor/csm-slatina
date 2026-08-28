@@ -183,3 +183,109 @@
     --px-calendar: 0; --px-text: 0; --px-urmatoare: 0;
   }
 }
+
+/* =========================================================
+   INTRAREA HERO-ULUI — cascada de la încărcarea paginii
+   =========================================================
+
+   Ordinea e cea a adâncimii, aceeași pe care o folosește și parallax-ul de
+   la scroll: ce e departe se așază primul, discret și lent; ce e aproape
+   ajunge ultimul, vine de mai departe și se oprește sec. Așa intrarea
+   pregătește exact mișcarea pe care o vezi imediat după, în loc s-o contrazică.
+
+   Animăm proprietățile independente translate / scale, NU transform. Transform
+   e al GSAP-ului (parallax-ul îi scrie matricea la fiecare cadru); cele două
+   familii de proprietăți se compun în loc să se calce reciproc.
+
+   fill-mode: backwards ține starea de start pe durata întârzierii, iar după ce
+   animația se termină elementul revine la valorile lui normale — deci GSAP
+   preia liber opacity la calendar, fără să rămână blocat de noi.
+
+   Sunt animații CSS, nu GSAP: rulează în afara firului principal, iar intrarea
+   se petrece exact când pagina e cea mai ocupată (decodează tribuna de 460 KB
+   și PNG-ul cu jucătorii). O animație pe requestAnimationFrame ar pierde cadre
+   fix atunci.
+
+   ---- CRONOLOGIA -----------------------------------------
+     0 ms    tribuna        1100 ms   scale 1.04 -> 1, apare
+    90 ms    banda albă      900 ms   urcă 70px (diagonala mătură în sus)
+   150 ms    FOTBAL + minge  900 ms   alunecă lateral spre locul lor
+   la randare calendarul     700 ms   urcă 20px; celulele se aprind în val
+   320 ms    jucătorii       950 ms   urcă 64px, scale 1.03 -> 1
+   180-360   titlul          (data-delay pe .reveal, din main.js)
+
+   Calendarul nu poate porni la 0: el se desenează după ce sosește echipe.json.
+   Intrarea lui e legată de clasa .cal-intra, pusă de JS la prima desenare,
+   deci pleacă fix când există. Cade oricum înaintea jucătorilor, ceea ce
+   respectă ordinea adâncimii.
+   ========================================================= */
+
+@keyframes erou-fundal-intra  { from { scale: 1.04; opacity: 0; } }
+@keyframes erou-text-intra    { from { translate: 0 26px; opacity: 0; } }
+@keyframes erou-banda-intra   { from { translate: 0 70px; } }
+@keyframes erou-fantoma-intra { from { translate: -34px 0; opacity: 0; } }
+@keyframes erou-iconita-intra { from { translate: 26px 0; opacity: 0; } }
+@keyframes erou-jucatori-intra{ from { translate: 0 64px; scale: 1.03; opacity: 0; } }
+@keyframes erou-calendar-intra{ from { translate: 0 20px; opacity: 0; } }
+@keyframes erou-celula-intra  { from { opacity: 0; } }
+
+.erou-calendar .erou-fundal img {
+  animation: erou-fundal-intra 1100ms var(--ease-out) backwards;
+}
+.erou-calendar .erou-taietura {
+  animation: erou-banda-intra 900ms 90ms var(--ease-out) backwards;
+}
+.erou-calendar .sport-ghost {
+  animation: erou-fantoma-intra 900ms 150ms var(--ease-out) backwards;
+}
+.erou-calendar .hero-art {
+  animation: erou-iconita-intra 900ms 150ms var(--ease-out) backwards;
+}
+.erou-calendar .erou-echipa {
+  animation: erou-jucatori-intra 950ms 320ms var(--ease-out) backwards;
+}
+
+/* Titlul, firimiturile si descrierea intra tot in cascada, NU prin reveal-ul
+   de scroll din main.js: ele sunt pe ecran din prima clipa, iar declansarea
+   pe scroll depinde de cand isi face ScrollTrigger prima evaluare — pe pagina
+   asta, cu doua imagini mari, se intampla abia la cateva secunde dupa load.
+   Anulam starea de start a clasei .reveal si animam aici; cand tween-ul din
+   main.js ajunge totusi sa ruleze, nu face decat sa rescrie starea finala. */
+.erou-calendar .erou-text .reveal {
+  opacity: 1; transform: none;
+  animation: erou-text-intra 800ms var(--ease-out) backwards;
+}
+.erou-calendar .erou-text .breadcrumb { animation-delay: 180ms; }
+.erou-calendar .erou-text h1          { animation-delay: 260ms; }
+.erou-calendar .erou-text .lead       { animation-delay: 360ms; }
+
+/* calendarul: cutia urcă, apoi grila se aprinde celulă cu celulă. Stagger-ul
+   vine din --i, pus de JS pe fiecare celulă; 14 ms între ele înseamnă că o
+   lună întreagă se aprinde în ~0,6 s, cât să se citească drept val, nu drept
+   întârziere. Animăm doar opacity, ca liniile grilei să nu tremure. */
+.calendar-meciuri.cal-intra {
+  animation: erou-calendar-intra 700ms var(--ease-out) backwards;
+}
+.calendar-meciuri.cal-intra .cal-zi {
+  animation: erou-celula-intra 380ms calc(140ms + var(--i, 0) * 14ms) var(--ease-out) backwards;
+}
+.calendar-meciuri.cal-intra .cal-cap,
+.calendar-meciuri.cal-intra .cal-zile {
+  animation: erou-celula-intra 380ms 60ms var(--ease-out) backwards;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  /* mai puțină mișcare, nu zero: păstrăm apariția, scoatem deplasările */
+  .erou-calendar .erou-taietura { animation: none; }
+  .erou-calendar .erou-fundal img,
+  .erou-calendar .erou-text .reveal,
+  .erou-calendar .sport-ghost,
+  .erou-calendar .hero-art,
+  .erou-calendar .erou-echipa,
+  .calendar-meciuri.cal-intra,
+  .calendar-meciuri.cal-intra .cal-zi,
+  .calendar-meciuri.cal-intra .cal-cap,
+  .calendar-meciuri.cal-intra .cal-zile {
+    animation: erou-celula-intra 300ms var(--ease-out) backwards;
+  }
+}

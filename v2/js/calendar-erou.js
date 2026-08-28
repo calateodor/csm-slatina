@@ -106,7 +106,11 @@
     // calendarul și textul urcă și se sting pe măsură ce ies pe sus: cursa e
     // legată de elementul însuși, nu de secțiune, altfel s-ar decolora cât
     // sunt încă întregi pe ecran
-    gsap.to(radacina, {
+    // fromTo, nu to: la incarcarea paginii ruleaza si intrarea in cascada
+    // (CSS), care tine o clipa opacitatea la 0. Un simplu .to() ar citi acel
+    // 0 drept valoare de pornire si ar bloca calendarul invizibil dupa
+    // terminarea intrarii. Startul explicit pe 1 il face imun la ordinea lor.
+    gsap.fromTo(radacina, { opacity: 1 }, {
       yPercent: maneta("--px-calendar", -30), opacity: 0, ease: "none",
       scrollTrigger: { trigger: radacina, start: "top top", end: "bottom top", scrub: 0.5 }
     });
@@ -214,12 +218,15 @@
         // grila începe de luni
         var decalaj = (new Date(an, luna, 1).getDay() + 6) % 7;
         var zile = new Date(an, luna + 1, 0).getDate();
+        // --i e rangul celulei in grila; CSS-ul il foloseste ca intarziere,
+        // ca lumina sa treaca peste calendar ca un val, nu deodata
+        var i = 0;
         h += '<div class="cal-grila">';
-        for (var g = 0; g < decalaj; g++) h += '<span class="cal-zi gol"></span>';
+        for (var g = 0; g < decalaj; g++) h += '<span class="cal-zi gol" style="--i:' + (i++) + '"></span>';
         for (var zi = 1; zi <= zile; zi++) {
           var mz = inLuna[zi];
-          if (!mz) { h += '<span class="cal-zi">' + zi + "</span>"; continue; }
-          h += '<button type="button" class="cal-zi meci" aria-label="' +
+          if (!mz) { h += '<span class="cal-zi" style="--i:' + (i++) + '">' + zi + "</span>"; continue; }
+          h += '<button type="button" style="--i:' + (i++) + '" class="cal-zi meci" aria-label="' +
             mz.adversar + ", " + zi + " " + LUNI_SCURT[luna] + '">' +
             BALON + (mz.acasa ? STADION : AVION) +
             '<span class="cal-info"><b>' + mz.adversar + "</b><span>" +
@@ -230,7 +237,7 @@
         // completăm ultimul rând, ca linia grilei să nu se rupă la jumătate
         var rest = (decalaj + zile) % 7;
         if (rest) {
-          for (var k = rest; k < 7; k++) h += '<span class="cal-zi gol"></span>';
+          for (var k = rest; k < 7; k++) h += '<span class="cal-zi gol" style="--i:' + (i++) + '"></span>';
         }
         h += "</div>";
         radacina.innerHTML = h;
@@ -260,6 +267,14 @@
       });
 
       deseneaza();
+      // Intrarea in cascada porneste abia acum, cand calendarul chiar exista
+      // (pana aici s-a asteptat echipe.json). Clasa se scoate dupa ce se
+      // termina valul, altfel schimbarea lunii ar reaprinde grila de fiecare
+      // data — un efect frumos o data, obositor la a treia apasare.
+      if (!window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+        radacina.classList.add("cal-intra");
+        setTimeout(function () { radacina.classList.remove("cal-intra"); }, 1600);
+      }
       paralax();
     })
     .catch(function () { radacina.style.display = "none"; });

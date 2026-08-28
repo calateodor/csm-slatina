@@ -20,6 +20,11 @@
   --line: #dbe4f6;
   --radius: 18px;
   --header-h: 84px;
+  /* curbele de mișcare ale site-ului. Cele native din CSS (ease-out) sunt
+     prea moi; astea pornesc decis și frânează lung, ceea ce face ca aceeași
+     durată să pară mai promptă. Nu folosim niciodată ease-in pe interfață. */
+  --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+  --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
   --font-display: "Poppins", "Segoe UI", sans-serif;
   --font-body: "Manrope", "Segoe UI", sans-serif;
 }
