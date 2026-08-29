@@ -165,10 +165,19 @@
         scrub: 0.6
       }
     });
+    /* fromTo cu valori de pornire scrise explicit, nu .to: un .to scrubuit
+       își capturează pornirea leneș, la prima derulare — iar dacă omul
+       derulează în timp ce intrarea de mai jos ține sloganul pe opacity 0,
+       scrub-ul memorează „start = 0" și sloganul rămâne invizibil pentru
+       totdeauna când urci înapoi în vârful paginii (bug văzut pe iPhone).
+       immediateRender:false ca să nu calce peste animația de intrare. */
     heroTl
-      .to(".layer-bg", { yPercent: 14, scale: 1.06, ease: "none" }, 0)
-      .to(".layer-athletes", { yPercent: -6, ease: "none" }, 0)
-      .to(".layer-slogan", { yPercent: -46, opacity: 0.15, ease: "none" }, 0);
+      .fromTo(".layer-bg", { yPercent: 0, scale: 1 },
+        { yPercent: 14, scale: 1.06, ease: "none", immediateRender: false }, 0)
+      .fromTo(".layer-athletes", { yPercent: 0 },
+        { yPercent: -6, ease: "none", immediateRender: false }, 0)
+      .fromTo(".layer-slogan", { yPercent: 0, opacity: 1 },
+        { yPercent: -46, opacity: 0.15, ease: "none", immediateRender: false }, 0);
 
     // intrare la încărcare
     gsap.from(".layer-athletes", { y: 90, opacity: 0, duration: 1.2, ease: "power3.out", delay: 0.15 });
