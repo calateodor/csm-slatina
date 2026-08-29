@@ -275,7 +275,13 @@
         radacina.classList.add("cal-intra");
         setTimeout(function () { radacina.classList.remove("cal-intra"); }, 1600);
       }
-      paralax();
+      // calendarul umplut schimba inaltimea hero-ului: re-masuram cursele
+      if (typeof ScrollTrigger !== "undefined") ScrollTrigger.refresh();
     })
     .catch(function () { radacina.style.display = "none"; });
+
+  // Parallax-ul porneste IMEDIAT, nu dupa descarcarea lui echipe.json:
+  // altfel, o derulare in prima jumatate de secunda gasea straturile fara
+  // animatii, iar cand soseau datele totul sarea brusc la pozitia derulata.
+  paralax();
 })();
