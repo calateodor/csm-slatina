@@ -36,32 +36,29 @@ ECHIPE = {
     },
 }
 
-# Lotul de handbal — date factuale după Wikipedia, „CSM Slatina (handbal feminin)",
-# lotul 2024/25 (sursa originală: pagina oficială a clubului). De actualizat manual.
+# Lotul de handbal — lotul oficial 2026/2027, cu datele și fotografiile din
+# ședința foto a clubului. De actualizat manual la schimbări.
 LOT_HANDBAL = [
-    {"numar": 1,  "nume": "Bianca Cioponea",    "post": "Portar",          "nat": "România"},
-    {"numar": 16, "nume": "Elena Nagy",         "post": "Portar",          "nat": "România"},
-    {"numar": 58, "nume": "Merve Erbektaș",     "post": "Portar",          "nat": "Turcia"},
-    {"numar": 72, "nume": "Jovana Micevska",    "post": "Portar",          "nat": "Macedonia de Nord"},
-    {"numar": 7,  "nume": "Jovana Sazdovska",   "post": "Extremă stânga",  "nat": "Macedonia de Nord"},
-    {"numar": 96, "nume": "Hermina Olaru",      "post": "Extremă stânga",  "nat": "România"},
-    {"numar": 3,  "nume": "Adina Cace",         "post": "Extremă dreapta", "nat": "România"},
-    {"numar": 94, "nume": "Cristina Boian",     "post": "Extremă dreapta", "nat": "România"},
-    {"numar": 97, "nume": "Alina Mușat",        "post": "Extremă dreapta", "nat": "România"},
-    {"numar": 9,  "nume": "Elena Fulgoi",       "post": "Pivot",           "nat": "România"},
-    {"numar": 18, "nume": "Manuela Ninciu",     "post": "Pivot",           "nat": "România"},
-    {"numar": 23, "nume": "Andreea Țîrle",      "post": "Pivot",           "nat": "România"},
-    {"numar": 77, "nume": "Ivana Gakidova",     "post": "Pivot",           "nat": "Macedonia de Nord"},
-    {"numar": 2,  "nume": "Narcisa Verde",      "post": "Coordonator",     "nat": "România"},
-    {"numar": 6,  "nume": "Gabriela Istrate",   "post": "Coordonator",     "nat": "România"},
-    {"numar": 13, "nume": "Ana Radović",        "post": "Coordonator",     "nat": "Muntenegru"},
-    {"numar": 76, "nume": "Döne Gül Bozdoğan",  "post": "Coordonator",     "nat": "Turcia"},
-    {"numar": 8,  "nume": "Andreea Bogdanovici","post": "Inter stânga",    "nat": "România"},
-    {"numar": 10, "nume": "Sonia Vasiliu",      "post": "Inter stânga",    "nat": "România"},
-    {"numar": 43, "nume": "Nada Ćorović",       "post": "Inter stânga",    "nat": "Muntenegru"},
-    {"numar": 98, "nume": "Mara Matea",         "post": "Inter stânga",    "nat": "România"},
-    {"numar": 11, "nume": "Valentina Lecu",     "post": "Inter dreapta",   "nat": "România"},
-    {"numar": 27, "nume": "Sanja Premović",     "post": "Inter dreapta",   "nat": "Muntenegru"},
+    {"numar": 16, "nume": "Elena Nagy", "post": "Portar", "nat": "România", "varsta": 28, "inaltime": 176, "origine": "-", "nascut": "-", "poza": "assets/img/lot/handbal/16-nagy.jpg", "pozaCredit": "Ședința foto oficială CSM Slatina, sezonul 2026–2027"},
+    {"numar": 87, "nume": "Sakura Hauge", "post": "Portar", "nat": "Norvegia", "varsta": 39, "inaltime": 174, "origine": "Bergen", "nascut": "-", "poza": "assets/img/lot/handbal/87-hauge.jpg", "pozaCredit": "Ședința foto oficială CSM Slatina, sezonul 2026–2027"},
+    {"numar": 91, "nume": "Mara Zaharia", "post": "Portar", "nat": "România", "varsta": 23, "origine": "-", "nascut": "-", "poza": "assets/img/lot/handbal/91-zaharia.jpg", "pozaCredit": "Ședința foto oficială CSM Slatina, sezonul 2026–2027"},
+    {"numar": 2, "nume": "Nicoleta Dinca", "post": "Extremă stânga", "nat": "România", "varsta": 38, "inaltime": 171, "origine": "Slatina", "nascut": "-", "poza": "assets/img/lot/handbal/02-dinca.jpg", "pozaCredit": "Ședința foto oficială CSM Slatina, sezonul 2026–2027"},
+    {"numar": 96, "nume": "Hermina Olaru", "post": "Extremă stânga", "nat": "România", "origine": "-", "nascut": "-", "poza": "assets/img/lot/handbal/96-olaru.jpg", "pozaCredit": "Ședința foto oficială CSM Slatina, sezonul 2026–2027"},
+    {"numar": 3, "nume": "Adina Florescu", "post": "Extremă dreapta", "nat": "România", "varsta": 26, "inaltime": 170, "origine": "Slatina", "nascut": "-", "poza": "assets/img/lot/handbal/03-florescu.jpg", "pozaCredit": "Ședința foto oficială CSM Slatina, sezonul 2026–2027"},
+    {"numar": 11, "nume": "Valentina Lecu", "post": "Extremă dreapta", "nat": "România", "varsta": 21, "inaltime": 170, "origine": "-", "nascut": "-", "poza": "assets/img/lot/handbal/11-lecu.jpg", "pozaCredit": "Ședința foto oficială CSM Slatina, sezonul 2026–2027"},
+    {"numar": 71, "nume": "Adrianna Górna", "post": "Extremă dreapta", "nat": "Polonia", "varsta": 30, "inaltime": 171, "origine": "Kwidzyn", "nascut": "-", "poza": "assets/img/lot/handbal/71-gorna.jpg", "pozaCredit": "Ședința foto oficială CSM Slatina, sezonul 2026–2027"},
+    {"numar": 9, "nume": "Elena Popescu", "post": "Pivot", "nat": "România", "origine": "-", "nascut": "-", "poza": "assets/img/lot/handbal/09-popescu.jpg", "pozaCredit": "Ședința foto oficială CSM Slatina, sezonul 2026–2027"},
+    {"numar": 23, "nume": "Andreea Țîrle", "post": "Pivot", "nat": "România", "varsta": 24, "inaltime": 177, "origine": "Petroșani", "nascut": "-", "poza": "assets/img/lot/handbal/23-tirle.jpg", "pozaCredit": "Ședința foto oficială CSM Slatina, sezonul 2026–2027"},
+    {"numar": 97, "nume": "Nikolina Vukčević", "post": "Pivot", "nat": "Muntenegru", "varsta": 26, "inaltime": 180, "origine": "Podgorica", "nascut": "-", "poza": "assets/img/lot/handbal/97-vukcevic.jpg", "pozaCredit": "Ședința foto oficială CSM Slatina, sezonul 2026–2027"},
+    {"numar": 14, "nume": "Tamara Pál", "post": "Coordonator", "nat": "Ungaria", "varsta": 25, "inaltime": 174, "origine": "-", "nascut": "-", "poza": "assets/img/lot/handbal/14-pal.jpg", "pozaCredit": "Ședința foto oficială CSM Slatina, sezonul 2026–2027"},
+    {"numar": 22, "nume": "Luciana Popescu", "post": "Coordonator", "nat": "România", "varsta": 38, "inaltime": 176, "origine": "Slatina", "nascut": "-", "poza": "assets/img/lot/handbal/22-popescu.jpg", "pozaCredit": "Ședința foto oficială CSM Slatina, sezonul 2026–2027"},
+    {"numar": 33, "nume": "Amelia Lundbäck", "post": "Coordonator", "nat": "Suedia", "varsta": 27, "inaltime": 176, "origine": "Stensjön", "nascut": "-", "poza": "assets/img/lot/handbal/33-lundback.jpg", "pozaCredit": "Ședința foto oficială CSM Slatina, sezonul 2026–2027"},
+    {"numar": 4, "nume": "Greta Kácsor", "post": "Inter stânga", "nat": "Ungaria", "varsta": 26, "inaltime": 173, "origine": "Budapesta", "nascut": "-", "poza": "assets/img/lot/handbal/04-kacsor.jpg", "pozaCredit": "Ședința foto oficială CSM Slatina, sezonul 2026–2027"},
+    {"numar": 10, "nume": "Sonia Vasiliu", "post": "Inter stânga", "nat": "România", "varsta": 30, "origine": "-", "nascut": "-", "poza": "assets/img/lot/handbal/10-vasiliu.jpg", "pozaCredit": "Ședința foto oficială CSM Slatina, sezonul 2026–2027"},
+    {"numar": 21, "nume": "Magda Cazanga", "post": "Inter stânga", "nat": "Angola", "varsta": 35, "inaltime": 177, "origine": "-", "nascut": "28.05.1991", "poza": "assets/img/lot/handbal/21-cazanga.jpg", "pozaCredit": "Ședința foto oficială CSM Slatina, sezonul 2026–2027"},
+    {"numar": 98, "nume": "Mara Matea", "post": "Inter stânga", "nat": "România", "varsta": 19, "inaltime": 181, "origine": "-", "nascut": "01.01.2007", "poza": "assets/img/lot/handbal/98-matea.jpg", "pozaCredit": "Ședința foto oficială CSM Slatina, sezonul 2026–2027"},
+    {"numar": 13, "nume": "Kaho Nakayama", "post": "Inter dreapta", "nat": "Japonia", "varsta": 27, "inaltime": 172, "origine": "Okayama", "nascut": "23.10.1998", "poza": "assets/img/lot/handbal/13-nakayama.jpg", "pozaCredit": "Ședința foto oficială CSM Slatina, sezonul 2026–2027"},
+    {"numar": 28, "nume": "Nikoletta Papp", "post": "Inter dreapta", "nat": "Ungaria", "varsta": 30, "inaltime": 180, "origine": "Budapesta", "nascut": "-", "poza": "assets/img/lot/handbal/28-papp.jpg", "pozaCredit": "Ședința foto oficială CSM Slatina, sezonul 2026–2027"},
 ]
 
 SEP_REC, SEP_CAMP, SEP_KV = "~", "¬", "÷"
@@ -312,14 +309,7 @@ def api_wiki(wiki, params):
 # articolele despre club (identitate certă — nu căutăm după nume, ca să nu
 # riscăm confuzii de persoane). De aici luăm poza, înălțimea și data nașterii.
 WIKI_JUCATORI = {
-    "handbal": {
-        "Merve Erbektaș": "Merve Erbektaş",
-        "Jovana Sazdovska": "Jovana Sazdovska",
-        "Ivana Gakidova": "Ivana Gakidova",
-        "Döne Gül Bozdoğan": "Döne Gül Bozdoğan",
-        "Andreea Bogdanovici": "Andreea Bogdanovici",
-        "Sanja Premović": "Sanja Premović",
-    },
+    "handbal": {},
     "fotbal": {
         "Nastasie Ionut": "Ionuț Năstăsie",
     },
@@ -445,7 +435,7 @@ def main():
         date[cheie] = echipa
 
     date["handbal"]["lot"] = LOT_HANDBAL
-    date["handbal"]["sursaLot"] = "Wikipedia — CSM Slatina (handbal feminin), lotul 2024/25"
+    date["handbal"]["sursaLot"] = "Lotul oficial CSM Slatina, sezonul 2026/2027 (ședința foto a clubului)"
     for cheie in ("fotbal", "handbal"):
         for juc in date.get(cheie, {}).get("lot", []):
             titlu = WIKI_JUCATORI.get(cheie, {}).get(juc["nume"])

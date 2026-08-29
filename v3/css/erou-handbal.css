@@ -1,23 +1,9 @@
 /* =========================================================
    Eroul-calendar de handbal — același sistem ca la fotbal
-   (erou-fotbal.css), dar cu slotul de echipă încă gol: până
-   alege clubul fotografia, secțiunea rămâne albastrul de club
-   cu praf de stele și calendarul lunii.
-
-   Când vine poza aleasă de club:
-   1) fișierul intră în ../assets/img/ (ex. handbal-echipa-calendar.png,
-      PNG cu jucătoarele decupate, ancorate jos);
-   2) în handbal.html, sub comentariul „SLOT ECHIPĂ", se montează
-      <img class="erou-echipa" src="../assets/img/...">;
-   3) regulile de mai jos se șterg — sistemul de la fotbal preia
-      automat: înălțimea jucătorilor (--jucatori-inalt), foaia care
-      alunecă peste erou și parallax-ul pe straturi.
+   (erou-fotbal.css). Echipa e montată: wallpaper-ul cu
+   jucătoarele decupate (handbal-echipa-calendar.webp) stă
+   ancorat jos, sub calendar, exact ca la fotbal — de aici
+   nu mai e nevoie de nicio regulă specială: --jucatori-inalt,
+   foaia care urcă peste erou și parallax-ul vin din
+   erou-fotbal.css.
    ========================================================= */
-.erou-handbal {
-  /* fără jucători ancorați jos, eroul nu rezervă bandă pentru ei */
-  --jucatori-inalt: 0px;
-  /* ...și nici foaia următoare nu are ce să acopere */
-  --px-urmatoare: 0;
-  padding-bottom: clamp(40px, 6vh, 70px);
-}
-.erou-handbal + section { margin-top: 0; }
