@@ -36,6 +36,67 @@
     onScrollCred();
   }
 
+  /* insigna se poate trage cu degetul sau cu mouse-ul oriunde pe ecran;
+     poziția se ține minte în browser, în procente din fereastră, ca să
+     rămână cam în același loc și când se rotește telefonul */
+  if (credFloat) {
+    var CHEIE_CRED = "csm_cred_pozitie";
+
+    function margineCred() { return 8; }
+    function fixeaza(px, py) {
+      // px/py = colțul stânga-sus, în pixeli; ținut în ecran
+      var m = margineCred();
+      var maxX = window.innerWidth - credFloat.offsetWidth - m;
+      var maxY = window.innerHeight - credFloat.offsetHeight - m;
+      px = Math.min(Math.max(px, m), Math.max(maxX, m));
+      py = Math.min(Math.max(py, m), Math.max(maxY, m));
+      credFloat.style.left = px + "px";
+      credFloat.style.top = py + "px";
+      credFloat.style.right = "auto";
+      credFloat.style.bottom = "auto";
+      return { x: px, y: py };
+    }
+    function salveazaCred(p) {
+      try {
+        localStorage.setItem(CHEIE_CRED, JSON.stringify({
+          x: p.x / window.innerWidth,
+          y: p.y / window.innerHeight
+        }));
+      } catch (e) {}
+    }
+    function restaureazaCred() {
+      var brut;
+      try { brut = JSON.parse(localStorage.getItem(CHEIE_CRED)); } catch (e) {}
+      if (!brut || typeof brut.x !== "number" || typeof brut.y !== "number") return;
+      fixeaza(brut.x * window.innerWidth, brut.y * window.innerHeight);
+    }
+    restaureazaCred();
+    window.addEventListener("resize", restaureazaCred);
+
+    var tragere = null; // {pointerId, dx, dy}
+    credFloat.addEventListener("pointerdown", function (e) {
+      if (tragere) return; // un singur deget o dată — al doilea e ignorat
+      var r = credFloat.getBoundingClientRect();
+      tragere = { pointerId: e.pointerId, dx: e.clientX - r.left, dy: e.clientY - r.top };
+      credFloat.setPointerCapture(e.pointerId);
+      credFloat.classList.add("trasa");
+      e.preventDefault();
+    });
+    credFloat.addEventListener("pointermove", function (e) {
+      if (!tragere || e.pointerId !== tragere.pointerId) return;
+      fixeaza(e.clientX - tragere.dx, e.clientY - tragere.dy);
+    });
+    function gataTragerea(e) {
+      if (!tragere || e.pointerId !== tragere.pointerId) return;
+      tragere = null;
+      credFloat.classList.remove("trasa");
+      var r = credFloat.getBoundingClientRect();
+      salveazaCred(fixeaza(r.left, r.top));
+    }
+    credFloat.addEventListener("pointerup", gataTragerea);
+    credFloat.addEventListener("pointercancel", gataTragerea);
+  }
+
   /* ---------- Meniu overlay ---------- */
   var toggle = document.querySelector(".nav-toggle");
   var overlay = document.querySelector(".menu-overlay");

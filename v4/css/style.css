@@ -482,7 +482,15 @@ body.menu-open .menu-overlay { visibility: visible; opacity: 1; pointer-events: 
   opacity: 0; transform: translateY(22px) scale(0.92);
   pointer-events: none;
   transition: opacity 0.5s ease, transform 0.5s ease;
+  /* se trage cu degetul: fara touch-action browserul ar derula pagina */
+  touch-action: none;
+  cursor: grab;
+  user-select: none;
+  -webkit-user-select: none;
 }
+.cred-float.trasa { cursor: grabbing; }
+.cred-float.trasa img { animation-play-state: paused; }
+.cred-float img { -webkit-user-drag: none; }
 .cred-float img {
   width: 100%; height: auto;
   filter: drop-shadow(0 3px 6px rgba(4, 10, 30, 0.55)) drop-shadow(0 12px 28px rgba(4, 10, 30, 0.35));
