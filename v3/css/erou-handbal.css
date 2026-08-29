@@ -1,9 +1,27 @@
 /* =========================================================
    Eroul-calendar de handbal — același sistem ca la fotbal
-   (erou-fotbal.css). Echipa e montată: wallpaper-ul cu
-   jucătoarele decupate (handbal-echipa-calendar.webp) stă
-   ancorat jos, sub calendar, exact ca la fotbal — de aici
-   nu mai e nevoie de nicio regulă specială: --jucatori-inalt,
-   foaia care urcă peste erou și parallax-ul vin din
-   erou-fotbal.css.
+   (erou-fotbal.css): echipa decupată stă pe banda cu tăietura
+   diagonală, sub calendar. Diferența față de fotbal e formatul
+   fotografiei: acolo PNG-ul e lat (12 jucători pe un rând,
+   1237×900), aici e un grup compact pe verticală (898×1000) —
+   de aici înălțimea mai mică a benzii și altă centrare.
    ========================================================= */
+.erou-handbal {
+  /* banda rezervată jucătoarelor: mai scundă decât la fotbal, ca hero-ul
+     să nu se lungească degeaba în jurul unui grup îngust */
+  --jucatori-inalt: clamp(380px, 60vh, 640px);
+}
+
+/* centrarea din margin-left, ca la fotbal (transformul rămâne al GSAP):
+   0.449 = jumătate din raportul nativ al PNG-ului de handbal (898/1000) */
+.erou-handbal .erou-echipa {
+  margin-left: calc(var(--jucatori-inalt) * -0.449);
+}
+
+@media (max-width: 880px) {
+  /* în flux, sub calendar — dar grupul e îngust: nu-l lățim pe tot ecranul */
+  .erou-handbal .erou-echipa {
+    width: min(88%, 520px);
+    margin: 20px auto 0;
+  }
+}
