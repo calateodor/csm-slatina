@@ -77,7 +77,10 @@
       var n = parseFloat(stil.getPropertyValue(nume));
       return isNaN(n) ? implicit : n;
     }
-    var pe = { trigger: erou, start: "top top", end: "bottom top", scrub: 0.5 };
+    // invalidateOnRefresh: la fiecare re-masurare (poze incarcate, calendar
+    // umplut) tween-urile isi refac valorile de start — orice stare gresita
+    // prinsa la prima derulare se corecteaza singura
+    var pe = { trigger: erou, start: "top top", end: "bottom top", scrub: 0.5, invalidateOnRefresh: true };
 
     // planul cel mai adânc: tribuna
     var fundal = erou.querySelector(".erou-fundal img");

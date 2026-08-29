@@ -230,7 +230,11 @@
 @keyframes erou-banda-intra   { from { translate: 0 70px; } }
 @keyframes erou-fantoma-intra { from { translate: -34px 0; opacity: 0; } }
 @keyframes erou-iconita-intra { from { translate: 26px 0; opacity: 0; } }
-@keyframes erou-jucatori-intra{ from { translate: 0 64px; scale: 1.03; opacity: 0; } }
+/* doar opacitate, fara translate/scale: parallax-ul GSAP detine transformul
+   echipei si isi citeste starea de start la prima derulare — daca aia se
+   intampla in timpul unei animatii care misca elementul, decalajul ramane
+   „copt" in tween si poza sare cand se termina intrarea */
+@keyframes erou-jucatori-intra{ from { opacity: 0; } }
 @keyframes erou-calendar-intra{ from { translate: 0 20px; opacity: 0; } }
 @keyframes erou-celula-intra  { from { opacity: 0; } }
 
