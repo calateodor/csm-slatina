@@ -33,12 +33,18 @@
 
       kicker.textContent = urmator.sport + " · " + urmator.competitie;
 
-      // varianta scurtă, pentru cardul strâns de pe telefon: „dum, 30 aug · 18:00”
+      // varianta pentru cardul strâns de pe telefon: se înțelege singură —
+      // „Handbal cu SCM Craiova, duminică 30 aug, 18:00”
       var mic = document.getElementById("meci-mic");
       if (mic) {
-        mic.textContent = data.toLocaleDateString("ro-RO", {
-          weekday: "short", day: "numeric", month: "short"
-        }).replace(/\.$/, "") + " · " + ora;
+        var noi = /csm\s*slatina/i;
+        var adversar = curata(noi.test(urmator.gazde) ? urmator.oaspeti : urmator.gazde);
+        var acasa = noi.test(urmator.gazde);
+        var ziScurt = data.toLocaleDateString("ro-RO", {
+          weekday: "long", day: "numeric", month: "short"
+        }).replace(/\./g, "");
+        mic.textContent = urmator.sport + (acasa ? " acasă cu " : " în deplasare la ") +
+          adversar + ", " + ziScurt + ", " + ora;
       }
 
       text.innerHTML = "";

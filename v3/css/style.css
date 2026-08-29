@@ -1305,21 +1305,43 @@ body.menu-open .menu-overlay { visibility: visible; opacity: 1; pointer-events: 
 }
 
 @media (max-width: 640px) {
-  /* pe telefon cardurile devin scurtături de aplicație: iconiță + titlu,
-     centrate — kicker-ele lungi nu mai încap la ~110px lățime */
-  .hero-actions { width: 94vw; gap: 8px; }
-  .ha-card { align-items: center; text-align: center; padding: 10px 6px 9px; gap: 4px; }
+  /* pe telefon cardurile se aseaza unul sub altul, ca o lista de scurtaturi:
+     asa au latimea intreaga a ecranului si incape o explicatie citibila,
+     nu doua cuvinte inghesuite pe trei coloane */
+  .hero-actions {
+    width: 94vw;
+    grid-template-columns: 1fr;
+    gap: 7px;
+  }
+  .ha-card {
+    display: grid;
+    grid-template-columns: 34px 1fr auto;
+    align-items: center;
+    text-align: left;
+    gap: 0 11px;
+    padding: 9px 12px;
+    border-radius: 14px;
+  }
   .ha-kicker { display: none; }
-  .ha-icon { margin-bottom: 0; }
-  .ha-title { font-size: 0.8rem; line-height: 1.15; }
-  /* detaliul scurt: ce e cardul, in trei cuvinte */
+  .ha-icon {
+    grid-row: 1 / span 2; width: 34px; height: 34px; margin: 0;
+  }
+  .ha-title { font-size: 0.86rem; line-height: 1.15; align-self: end; }
+  /* explicatia: pe scurt, dar pe intelesul oricui */
   .ha-mic {
     display: block;
-    font-size: 0.58rem; line-height: 1.25;
-    color: rgba(255, 255, 255, 0.62);
-    letter-spacing: 0.01em;
+    grid-column: 2;
+    align-self: start;
+    font-size: 0.68rem; line-height: 1.3;
+    color: rgba(255, 255, 255, 0.72);
   }
-  #meci-mic { color: rgba(246, 200, 28, 0.85); font-weight: 600; }
+  #meci-mic { color: rgba(246, 200, 28, 0.9); font-weight: 600; }
+  /* sageata revine: pe lista se vede clar ca fiecare rand e un link */
+  .ha-arrow {
+    display: block; position: static;
+    grid-column: 3; grid-row: 1 / span 2;
+    opacity: 0.75; transform: none; font-size: 1.05rem;
+  }
   .sections-grid { grid-template-columns: 1fr; gap: 16px; }
   .sport-card .card-body { padding: 16px 20px 20px; }
   /* hero scurt și compact: sloganul sub header, sportivii imediat sub el */
