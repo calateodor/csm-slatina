@@ -1,0 +1,95 @@
+{
+  "actualizat": 1787606650,
+  "meciuri": [
+    {
+      "sport": "Handbal",
+      "competitie": "Liga națională Feminin",
+      "timestamp": 1788102000,
+      "gazde": "SCM Craiova F",
+      "oaspeti": "CSM Slatina F",
+      "flashscoreId": "Yax6GfDs",
+      "sursa": "https://www.flashscore.ro/echipa/csm-slatina/ptT2ffej/meciuri/"
+    },
+    {
+      "sport": "Fotbal",
+      "competitie": "Liga 2 Casa Pariurilor",
+      "timestamp": 1788186600,
+      "gazde": "FC Bacau",
+      "oaspeti": "CSM Slatina",
+      "flashscoreId": "lOMDDO5I",
+      "sursa": "https://www.flashscore.ro/echipa/csm-slatina/zRqy53ur/meciuri/"
+    },
+    {
+      "sport": "Fotbal",
+      "competitie": "Liga 2 Casa Pariurilor",
+      "timestamp": 1788595200,
+      "gazde": "CSM Slatina",
+      "oaspeti": "Chindia Târgoviște",
+      "flashscoreId": "OKTynIBp",
+      "sursa": "https://www.flashscore.ro/echipa/csm-slatina/zRqy53ur/meciuri/"
+    },
+    {
+      "sport": "Handbal",
+      "competitie": "Liga națională Feminin",
+      "timestamp": 1788793200,
+      "gazde": "CSM Slatina F",
+      "oaspeti": "Rapid București F",
+      "flashscoreId": "O4y1PkdC",
+      "sursa": "https://www.flashscore.ro/echipa/csm-slatina/ptT2ffej/meciuri/"
+    },
+    {
+      "sport": "Fotbal",
+      "competitie": "Liga 2 Casa Pariurilor",
+      "timestamp": 1789200000,
+      "gazde": "CSC Dumbrăvița",
+      "oaspeti": "CSM Slatina",
+      "flashscoreId": "Gnxw6w3G",
+      "sursa": "https://www.flashscore.ro/echipa/csm-slatina/zRqy53ur/meciuri/"
+    },
+    {
+      "sport": "Handbal",
+      "competitie": "Liga națională Feminin",
+      "timestamp": 1789311600,
+      "gazde": "Știința București F",
+      "oaspeti": "CSM Slatina F",
+      "flashscoreId": "vHoEJKPj",
+      "sursa": "https://www.flashscore.ro/echipa/csm-slatina/ptT2ffej/meciuri/"
+    },
+    {
+      "sport": "Handbal",
+      "competitie": "Liga națională Feminin",
+      "timestamp": 1789657200,
+      "gazde": "CSM Slatina F",
+      "oaspeti": "Targu Jiu F",
+      "flashscoreId": "UmPgWc9d",
+      "sursa": "https://www.flashscore.ro/echipa/csm-slatina/ptT2ffej/meciuri/"
+    },
+    {
+      "sport": "Fotbal",
+      "competitie": "Liga 2 Casa Pariurilor",
+      "timestamp": 1789804800,
+      "gazde": "CSM Slatina",
+      "oaspeti": "CSC 1599 Șelimbăr",
+      "flashscoreId": "4SjYPhBn",
+      "sursa": "https://www.flashscore.ro/echipa/csm-slatina/zRqy53ur/meciuri/"
+    },
+    {
+      "sport": "Handbal",
+      "competitie": "Liga națională Feminin",
+      "timestamp": 1791126000,
+      "gazde": "FCM Târgu Mureş F",
+      "oaspeti": "CSM Slatina F",
+      "flashscoreId": "rV16cz8e",
+      "sursa": "https://www.flashscore.ro/echipa/csm-slatina/ptT2ffej/meciuri/"
+    },
+    {
+      "sport": "Fotbal",
+      "competitie": "Liga 2 Casa Pariurilor",
+      "timestamp": 1791619200,
+      "gazde": "CSM Reșița",
+      "oaspeti": "CSM Slatina",
+      "flashscoreId": "MNNMNNoG",
+      "sursa": "https://www.flashscore.ro/echipa/csm-slatina/zRqy53ur/meciuri/"
+    }
+  ]
+}

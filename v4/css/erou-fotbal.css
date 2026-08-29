@@ -1,0 +1,300 @@
+/* =========================================================
+   EROUL PAGINII DE FOTBAL — PANOUL DE REGLAJE
+   =========================================================
+
+   Aici sunt toate manetele hero-ului cu calendar: cât de dens e filtrul
+   albastru peste fotografia din tribună, cât de mult se suprapun capetele
+   jucătorilor peste calendar și cât rămâne în urmă fiecare strat la scroll.
+   Se încarcă DUPĂ style.css, deci ce e scris aici are ultimul cuvânt.
+
+   ---- FILTRUL ALBASTRU -----------------------------------
+   Ca să se vadă mai mult din fotografie, scade pe rând:
+     --bg-val-sus / --bg-val-jos   opacitatea vălului bleumarin (cel mai eficient)
+     --bg-tenta                    cât de tare e împinsă poza spre albastru
+     --bg-luminozitate             urcă spre 1 ca să fie mai luminoasă
+     --bg-saturatie                urcă spre 1 ca să revină culorile reale
+   Ca să se vadă mai puțin, urcă aceleași valori în sens invers.
+
+   ---- SUPRAPUNEREA ---------------------------------------
+     --erou-suprapunere   cât intră capetele peste ultimul rând al grilei.
+                          0px = se opresc exact sub el; valori mari = urcă
+                          peste cifre.
+
+   ---- PARALLAX -------------------------------------------
+   Numerele sunt citite din JS (calendar-erou.js). Cu cât un strat rămâne
+   mai mult în urmă, cu atât pare mai departe.
+     --px-fundal      tribuna, planul cel mai adânc
+     --px-banda       banda deschisă de sub diagonală
+     --px-jucatori    jucătorii, planul cel mai apropiat
+     --px-calendar    calendarul (negativ = urcă)
+     --px-text        titlul (negativ = urcă)
+     --px-urmatoare   secțiunea de dedesubt, cât alunecă peste erou
+   Pune 0 oriunde vrei să oprești mișcarea acelui strat.
+   ========================================================= */
+
+/* Manetele stau pe :root, nu pe .erou-calendar, fiindcă de una dintre ele
+   (--px-urmatoare) are nevoie și secțiunea albă de dedesubt — care e frate
+   cu eroul, nu descendent, deci nu ar moșteni-o. */
+:root {
+  /* --- filtru --- */
+  --bg-tenta: 0.82;              /* 0 = poza naturală, 1 = complet virată în albastru */
+  --bg-val-sus: 0.58;            /* vălul bleumarin, sus */
+  --bg-val-jos: 0.86;            /* vălul bleumarin, jos */
+  --bg-saturatie: 0.6;
+  --bg-contrast: 1.06;
+  --bg-luminozitate: 0.66;
+  --bg-neclaritate: 2px;
+  --bg-zoom: 1.1;
+
+  /* --- compoziție --- */
+  --erou-suprapunere: 26px;
+
+  /* --- parallax --- */
+  --px-fundal: 24;
+  --px-banda: 14;
+  --px-jucatori: 7;
+  --px-calendar: -30;
+  --px-text: -60;
+  /* Cât urcă foaia albă peste erou, în procente din înălțimea ecranului.
+     E singurul strat care acoperă, deci mișcarea lui se vede ca o muchie
+     care urcă mai iute decât scroll-ul. 0 = stă cuminte la locul ei. */
+  --px-urmatoare: 14;
+}
+
+/* ---------- dimensiunile: cât loc are voie să ocupe eroul ----------
+   Regula de bază: calendarul se dimensionează după cât spațiu chiar a rămas
+   pe verticală, nu doar după lățimea ecranului. Altfel, pe un ecran lat dar
+   scund (laptop 1440x800, monitor 1920x1080) ieșea un calendar imens, iar
+   secțiunea ajungea la aproape două ecrane.
+
+   Grila are înălțimea de ~0,49 din lățime, deci din spațiul vertical liber
+   deducem lățimea maximă înmulțind cu 2. Din cele trei valori — cât ne-am
+   dori, cât încape pe înălțime și cât e minimul citibil — o alegem pe cea
+   mai mică, dar niciodată sub minim. */
+.erou-calendar {
+  /* Jucătorii: jumătate din înălțimea ferestrei. E maneta principală a
+     compoziției — crescând-o, scade automat spațiul rămas calendarului,
+     fiindcă --cal-incape de mai jos o scade din bugetul vertical. */
+  --jucatori-inalt: clamp(450px, 77vh, 900px);
+
+  --cal-dorita: min(92vw, 980px);
+  /* 118vh, nu 100: lăsăm eroul să treacă puțin peste un ecran, cât să se
+     ghicească tălpile jucătorilor sub prima vedere și să invite la derulare.
+     Coboară spre 100 dacă vrei să încapă strict într-un ecran, cu prețul unui
+     calendar mai mic. */
+  /* 170px = blocul cu titlul (acum pe un rand, ~120) plus marginea grilei */
+  --cal-incape: calc((118vh - var(--header-h) - 170px - var(--jucatori-inalt)) * 2);
+  --cal-minima: min(92vw, 744px);
+  --cal-lat: max(var(--cal-minima), min(var(--cal-dorita), var(--cal-incape)));
+
+  /* fotografia ține locul albastrului plat; culoarea rămâne ca plasă de
+     siguranță cât timp imaginea încă se încarcă */
+  background: #2a5298;
+  padding-top: calc(var(--header-h) + clamp(18px, 2.6vh, 40px));
+  padding-bottom: calc(var(--jucatori-inalt) - var(--erou-suprapunere));
+}
+
+/* Titlul și descrierea stau pe același rând, nu unul sub altul: blocul
+   scade de la ~205px la ~120px, iar înălțimea eliberată se duce în poză. */
+.erou-calendar .erou-text {
+  max-width: none;
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  grid-template-areas:
+    "firimituri firimituri"
+    "titlu      descriere";
+  column-gap: clamp(22px, 3vw, 52px);
+  align-items: baseline;
+}
+.erou-calendar .erou-text .breadcrumb { grid-area: firimituri; }
+.erou-calendar .erou-text h1 { grid-area: titlu; }
+.erou-calendar .erou-text .lead {
+  grid-area: descriere;
+  margin-top: 0; max-width: 44ch;
+}
+
+/* ---------- fundalul: fotografia din tribună, filtrată ---------- */
+.erou-fundal {
+  position: absolute; inset: 0; z-index: 0;
+  overflow: hidden; pointer-events: none;
+}
+.erou-fundal img {
+  position: absolute; inset: 0;
+  width: 100%; height: 100%;
+  object-fit: cover; object-position: 50% 42%;
+  /* zoom-ul dă loc parallax-ului să miște poza fără să descopere marginile */
+  transform: scale(var(--bg-zoom));
+  transform-origin: 50% 50%;
+  filter: saturate(var(--bg-saturatie))
+          contrast(var(--bg-contrast))
+          brightness(var(--bg-luminozitate))
+          blur(var(--bg-neclaritate));
+}
+/* tenta: împinge tot ce e dedesubt spre albastrul clubului, păstrând
+   luminozitatea, deci tribuna rămâne citibilă ca formă */
+.erou-fundal .tenta {
+  position: absolute; inset: 0;
+  background: #2a5298;
+  mix-blend-mode: color;
+  opacity: var(--bg-tenta);
+}
+/* vălul: densitatea propriu-zisă, mai apăsat spre bază, ca la Plaja Olt */
+.erou-fundal .val {
+  position: absolute; inset: 0;
+  background: linear-gradient(
+    rgba(19, 44, 104, var(--bg-val-sus)),
+    rgba(14, 33, 82, var(--bg-val-jos)));
+}
+
+/* jucătorii trec peste calendar, ca să li se vadă creștetele peste grilă */
+.erou-echipa { z-index: 4; }
+
+/* Secțiunea următoare urcă peste erou pe măsură ce derulezi. Marginea
+   negativă o face să se suprapună peste ultima fâșie a eroului; JS o
+   pornește coborâtă exact cu atât (deci lipită, fără gol) și o lasă să
+   urce pe cursa de scroll. Fundalul explicit e ce o face să acopere. */
+.erou-calendar + section {
+  position: relative; z-index: 5;
+  background: var(--white);
+  margin-top: calc(var(--px-urmatoare) * -1vh);
+  /* pana porneste GSAP (calendar-erou.js), foaia sta coborata din CSS exact
+     cat marginea negativa — altfel pagina se deschide cu sectiunea urcata
+     peste erou si „sare" in jos la prima derulare, cand scrub-ul preia y-ul.
+     GSAP suprascrie transformul inline imediat ce se initializeaza. */
+  transform: translateY(calc(var(--px-urmatoare) * 1vh));
+}
+
+@media (max-width: 880px) {
+  :root {
+    /* pe telefon jucătorii sunt în flux, sub calendar: nu mai există
+       suprapunere de compensat */
+    --erou-suprapunere: 0px;
+    --bg-neclaritate: 1px;
+    /* pe telefon jucătorii stau în flux, cu tălpile chiar pe muchia de jos:
+       orice suprapunere a foii albe le-ar tăia picioarele */
+    --px-urmatoare: 0;
+  }
+  .erou-calendar { padding-bottom: 0; }
+  /* pe telefon nu e loc pentru doua coloane: descrierea revine sub titlu */
+  .erou-calendar .erou-text {
+    display: block;
+  }
+  .erou-calendar .erou-text .lead { margin-top: 14px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --px-fundal: 0; --px-banda: 0; --px-jucatori: 0;
+    --px-calendar: 0; --px-text: 0; --px-urmatoare: 0;
+  }
+}
+
+/* =========================================================
+   INTRAREA HERO-ULUI — cascada de la încărcarea paginii
+   =========================================================
+
+   Ordinea e cea a adâncimii, aceeași pe care o folosește și parallax-ul de
+   la scroll: ce e departe se așază primul, discret și lent; ce e aproape
+   ajunge ultimul, vine de mai departe și se oprește sec. Așa intrarea
+   pregătește exact mișcarea pe care o vezi imediat după, în loc s-o contrazică.
+
+   Animăm proprietățile independente translate / scale, NU transform. Transform
+   e al GSAP-ului (parallax-ul îi scrie matricea la fiecare cadru); cele două
+   familii de proprietăți se compun în loc să se calce reciproc.
+
+   fill-mode: backwards ține starea de start pe durata întârzierii, iar după ce
+   animația se termină elementul revine la valorile lui normale — deci GSAP
+   preia liber opacity la calendar, fără să rămână blocat de noi.
+
+   Sunt animații CSS, nu GSAP: rulează în afara firului principal, iar intrarea
+   se petrece exact când pagina e cea mai ocupată (decodează tribuna de 460 KB
+   și PNG-ul cu jucătorii). O animație pe requestAnimationFrame ar pierde cadre
+   fix atunci.
+
+   ---- CRONOLOGIA -----------------------------------------
+     0 ms    tribuna        1100 ms   scale 1.04 -> 1, apare
+    90 ms    banda albă      900 ms   urcă 70px (diagonala mătură în sus)
+   150 ms    FOTBAL + minge  900 ms   alunecă lateral spre locul lor
+   la randare calendarul     700 ms   urcă 20px; celulele se aprind în val
+   320 ms    jucătorii       950 ms   urcă 64px, scale 1.03 -> 1
+   180-360   titlul          (data-delay pe .reveal, din main.js)
+
+   Calendarul nu poate porni la 0: el se desenează după ce sosește echipe.json.
+   Intrarea lui e legată de clasa .cal-intra, pusă de JS la prima desenare,
+   deci pleacă fix când există. Cade oricum înaintea jucătorilor, ceea ce
+   respectă ordinea adâncimii.
+   ========================================================= */
+
+@keyframes erou-fundal-intra  { from { scale: 1.04; opacity: 0; } }
+@keyframes erou-text-intra    { from { translate: 0 26px; opacity: 0; } }
+@keyframes erou-banda-intra   { from { translate: 0 70px; } }
+@keyframes erou-fantoma-intra { from { translate: -34px 0; opacity: 0; } }
+@keyframes erou-iconita-intra { from { translate: 26px 0; opacity: 0; } }
+/* doar opacitate, fara translate/scale: parallax-ul GSAP detine transformul
+   echipei si isi citeste starea de start la prima derulare — daca aia se
+   intampla in timpul unei animatii care misca elementul, decalajul ramane
+   „copt" in tween si poza sare cand se termina intrarea */
+@keyframes erou-jucatori-intra{ from { opacity: 0; } }
+@keyframes erou-calendar-intra{ from { translate: 0 20px; opacity: 0; } }
+@keyframes erou-celula-intra  { from { opacity: 0; } }
+
+.erou-calendar .erou-fundal img {
+  animation: erou-fundal-intra 1100ms var(--ease-out) backwards;
+}
+.erou-calendar .erou-taietura {
+  animation: erou-banda-intra 900ms 90ms var(--ease-out) backwards;
+}
+.erou-calendar .sport-ghost {
+  animation: erou-fantoma-intra 900ms 150ms var(--ease-out) backwards;
+}
+.erou-calendar .hero-art {
+  animation: erou-iconita-intra 900ms 150ms var(--ease-out) backwards;
+}
+.erou-calendar .erou-echipa {
+  animation: erou-jucatori-intra 950ms 320ms var(--ease-out) backwards;
+}
+
+/* Titlul, firimiturile si descrierea intra tot in cascada, NU prin reveal-ul
+   de scroll din main.js: ele sunt pe ecran din prima clipa, iar declansarea
+   pe scroll depinde de cand isi face ScrollTrigger prima evaluare — pe pagina
+   asta, cu doua imagini mari, se intampla abia la cateva secunde dupa load.
+   Anulam starea de start a clasei .reveal si animam aici; cand tween-ul din
+   main.js ajunge totusi sa ruleze, nu face decat sa rescrie starea finala. */
+.erou-calendar .erou-text .reveal {
+  opacity: 1; transform: none;
+  animation: erou-text-intra 800ms var(--ease-out) backwards;
+}
+.erou-calendar .erou-text .breadcrumb { animation-delay: 180ms; }
+.erou-calendar .erou-text h1          { animation-delay: 260ms; }
+.erou-calendar .erou-text .lead       { animation-delay: 360ms; }
+
+/* calendarul: cutia urcă, apoi grila se aprinde celulă cu celulă. Stagger-ul
+   vine din --i, pus de JS pe fiecare celulă; 14 ms între ele înseamnă că o
+   lună întreagă se aprinde în ~0,6 s, cât să se citească drept val, nu drept
+   întârziere. Animăm doar opacity, ca liniile grilei să nu tremure. */
+.calendar-meciuri.cal-intra {
+  animation: erou-calendar-intra 700ms var(--ease-out) backwards;
+}
+.calendar-meciuri.cal-intra .cal-zi {
+  animation: erou-celula-intra 380ms calc(140ms + var(--i, 0) * 14ms) var(--ease-out) backwards;
+}
+.calendar-meciuri.cal-intra .cal-cap,
+.calendar-meciuri.cal-intra .cal-zile {
+  animation: erou-celula-intra 380ms 60ms var(--ease-out) backwards;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  /* mai puțină mișcare, nu zero: păstrăm apariția, scoatem deplasările */
+  .erou-calendar .erou-taietura { animation: none; }
+  .erou-calendar .erou-fundal img,
+  .erou-calendar .erou-text .reveal,
+  .erou-calendar .sport-ghost,
+  .erou-calendar .hero-art,
+  .erou-calendar .erou-echipa,
+  .calendar-meciuri.cal-intra,
+  .calendar-meciuri.cal-intra .cal-zi,
+  .calendar-meciuri.cal-intra .cal-cap,
+  .calendar-meciuri.cal-intra .cal-zile {
+    animation: erou-celula-intra 300ms var(--ease-out) backwards;
+  }
+}

@@ -1,0 +1,149 @@
+/* ==========================================================================
+   Pagina secției de Înot — layout foto imersiv (diferit de restul secțiilor)
+   ========================================================================== */
+
+/* ---------- Hero full-screen cu fotografie ---------- */
+.pool-hero {
+  position: relative;
+  height: 100svh; min-height: 620px;
+  padding: 0;
+  display: grid; place-items: center;
+  text-align: center;
+  color: #fff;
+  overflow: hidden;
+  background: var(--navy-950);
+}
+.pool-hero .bg {
+  position: absolute; inset: 0;
+  background: url("../assets/img/sectii/inot/03.webp") center / cover no-repeat;
+  /* zoom-ul acopera cursa de parallax din main.js (yPercent 7) */
+  transform: scale(1.12);
+}
+.pool-hero .bg video {
+  position: absolute; inset: 0;
+  width: 100%; height: 100%;
+  object-fit: cover;
+}
+@media (prefers-reduced-motion: reduce) {
+  .pool-hero .bg video { display: none; }
+}
+.pool-hero::after {
+  content: ""; position: absolute; inset: 0;
+  background: linear-gradient(to bottom, rgba(7,19,48,0.55) 0%, rgba(7,19,48,0.25) 45%, rgba(7,19,48,0.78) 100%);
+}
+.pool-hero .container { position: relative; z-index: 2; }
+.pool-hero .eyebrow { color: var(--sky); justify-content: center; }
+.pool-hero .eyebrow::before { display: none; }
+.pool-hero h1 {
+  color: #fff;
+  font-size: clamp(3rem, 9vw, 6.4rem);
+  font-weight: 800; letter-spacing: -0.03em; line-height: 1.02;
+  margin-bottom: 22px;
+  text-shadow: 0 20px 60px rgba(3, 8, 25, 0.55);
+}
+.pool-hero .lead {
+  max-width: 52ch; margin: 0 auto 34px;
+  color: rgba(255,255,255,0.85); font-size: 1.1rem;
+}
+.pool-hero .arrow-down {
+  position: absolute; left: 50%; bottom: 30px; transform: translateX(-50%);
+  z-index: 2; color: #fff; font-size: 1.5rem; opacity: 0.8;
+  animation: pool-dip 2.2s ease-in-out infinite;
+}
+@keyframes pool-dip { 0%, 100% { transform: translate(-50%, 0); } 50% { transform: translate(-50%, 8px); } }
+
+/* ---------- Bandă de repere ---------- */
+.pool-stats { background: var(--navy-800); padding: 0; }
+.pool-stats .row {
+  display: grid; grid-template-columns: repeat(3, 1fr);
+  border-inline: 1px solid rgba(255,255,255,0.08);
+}
+.pool-stats .cell {
+  padding: 34px 26px; text-align: center;
+  border-right: 1px solid rgba(255,255,255,0.08);
+}
+.pool-stats .cell:first-child { border-left: 1px solid rgba(255,255,255,0.08); }
+.pool-stats .cell strong {
+  display: block;
+  font-family: var(--font-display); font-weight: 800;
+  font-size: clamp(1.6rem, 3vw, 2.3rem); color: var(--gold);
+}
+.pool-stats .cell span { color: rgba(255,255,255,0.7); font-size: 0.9rem; }
+
+/* ---------- Carduri cu fotografie ---------- */
+.pool-services { background: #fff; text-align: center; }
+.pool-services .section-title { max-width: 24ch; }
+.pool-cards {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px;
+  text-align: left;
+}
+.pool-card {
+  position: relative; border-radius: var(--radius); overflow: hidden;
+  aspect-ratio: 3 / 4;
+  display: flex; align-items: flex-end;
+  color: #fff;
+}
+.pool-card img {
+  position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover;
+  transition: transform 0.6s ease;
+}
+.pool-card:hover img { transform: scale(1.06); }
+.pool-card .veil {
+  position: absolute; inset: 0;
+  background: linear-gradient(to top, rgba(7,19,48,0.88) 0%, rgba(7,19,48,0.15) 55%, transparent 100%);
+  transition: background 0.4s ease;
+}
+.pool-card .body { position: relative; z-index: 2; padding: 26px; }
+.pool-card h3 { color: #fff; font-size: 1.3rem; margin-bottom: 8px; }
+.pool-card p { color: rgba(255,255,255,0.82); font-size: 0.93rem; }
+
+/* ---------- Secțiune split imagine + text ---------- */
+.pool-split { background: var(--paper); }
+.pool-split .grid {
+  display: grid; grid-template-columns: 1.1fr 1fr;
+  gap: clamp(40px, 6vw, 80px); align-items: center;
+}
+.pool-split .photo {
+  border-radius: var(--radius); overflow: hidden;
+  box-shadow: 24px 24px 0 rgba(36, 87, 214, 0.12);
+}
+.pool-split .photo img { width: 100%; height: 100%; object-fit: cover; }
+.pool-split h2 { font-size: clamp(1.8rem, 3.4vw, 2.6rem); margin-bottom: 18px; }
+.pool-split p { color: var(--ink-soft); margin-bottom: 16px; }
+.pool-styles { margin: 24px 0 30px; display: grid; gap: 12px; }
+.pool-styles li {
+  display: flex; align-items: center; gap: 14px;
+  font-family: var(--font-display); font-weight: 600;
+}
+.pool-styles li::before {
+  content: ""; width: 10px; height: 10px; border-radius: 50%;
+  background: var(--gold); flex-shrink: 0;
+}
+.pool-styles small { font-family: var(--font-body); font-weight: 400; color: var(--ink-soft); }
+
+/* ---------- Orar ---------- */
+.pool-schedule { background: var(--navy-950); color: #fff; }
+.pool-schedule .section-title { color: #fff; }
+.pool-schedule .eyebrow { color: var(--sky); }
+.schedule-table { max-width: 760px; margin-inline: auto; }
+.schedule-row {
+  display: grid; grid-template-columns: 1fr auto;
+  gap: 18px; align-items: center;
+  padding: 20px 6px;
+  border-bottom: 1px solid rgba(255,255,255,0.12);
+}
+.schedule-row .day {
+  font-family: var(--font-display); font-weight: 600; font-size: 1.02rem;
+}
+.schedule-row .day small { display: block; font-weight: 400; color: rgba(255,255,255,0.55); font-size: 0.85rem; }
+.schedule-row .time { color: var(--gold); font-family: var(--font-display); font-weight: 700; white-space: nowrap; }
+.schedule-note { text-align: center; margin-top: 26px; color: rgba(255,255,255,0.55); font-size: 0.9rem; }
+
+/* ---------- Responsive ---------- */
+@media (max-width: 960px) {
+  .pool-cards { grid-template-columns: 1fr; }
+  .pool-card { aspect-ratio: 16 / 10; }
+  .pool-split .grid { grid-template-columns: 1fr; }
+  .pool-stats .row { grid-template-columns: 1fr; }
+  .pool-stats .cell { border-right: none; border-bottom: 1px solid rgba(255,255,255,0.08); }
+}

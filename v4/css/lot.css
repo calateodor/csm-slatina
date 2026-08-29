@@ -1,0 +1,729 @@
+/* ==========================================================================
+   Sezonul în curs + Lotul echipei (paginile fotbal / handbal) — varianta v2
+   Lotul e un evantai 3D de carduri (stil „explore places" + limbajul vizual
+   al cardurilor de la Plaja Olt): cardul activ mare, color, în față; restul
+   mai mici, desaturate, parțial în spatele lui. Drag cu inerție.
+   Conținutul e construit de js/lot.js din data/echipe.json.
+   ========================================================================== */
+
+/* ---------- Sezonul: rezultate + program ---------- */
+.sezon-panou {
+  background: linear-gradient(160deg, var(--navy-900) 0%, var(--navy-950) 100%);
+  border-radius: var(--raza-panou, 24px);
+  padding: clamp(22px, 3vw, 36px);
+  color: #fff;
+  box-shadow: 0 24px 60px -30px rgba(9, 17, 35, 0.55);
+}
+.sezon-cap {
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 16px; flex-wrap: wrap;
+  margin-bottom: clamp(16px, 2vw, 24px);
+}
+.sezon-cap .competitie {
+  font-family: var(--font-display); font-weight: 700;
+  font-size: 0.72rem; letter-spacing: 0.22em; text-transform: uppercase;
+  color: var(--sky);
+}
+.forma { display: inline-flex; align-items: center; gap: 7px; }
+.forma i {
+  width: 22px; height: 22px; border-radius: 50%;
+  display: grid; place-items: center;
+  font-style: normal; font-family: var(--font-display);
+  font-weight: 800; font-size: 0.62rem; color: #fff;
+}
+.forma i.V { background: #22a35f; }
+.forma i.E { background: #6b7a9c; }
+.forma i.Î, .forma i.I { background: #cc4437; }
+
+.sezon-coloane {
+  display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: clamp(20px, 3vw, 44px);
+}
+.sezon-coloane h3 {
+  font-size: 0.78rem; font-weight: 700;
+  letter-spacing: 0.2em; text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 10px;
+}
+.meci-rand {
+  display: flex; align-items: center; gap: 12px;
+  padding: 10px 0;
+  font-size: 0.9rem;
+}
+.meci-rand + .meci-rand { border-top: 1px dashed rgba(255,255,255,0.12); }
+.meci-rand .data {
+  flex-shrink: 0; width: 58px;
+  font-family: var(--font-display); font-weight: 600; font-size: 0.72rem;
+  color: rgba(255,255,255,0.55); text-transform: uppercase; line-height: 1.25;
+}
+.meci-rand .echipe { flex: 1; min-width: 0; color: rgba(255,255,255,0.85); line-height: 1.35; }
+.meci-rand .echipe b { color: #fff; font-weight: 700; }
+.meci-rand .scor {
+  flex-shrink: 0;
+  font-family: var(--font-display); font-weight: 800; font-size: 0.95rem;
+  color: #fff; white-space: nowrap;
+}
+.meci-rand .insigna {
+  flex-shrink: 0;
+  width: 24px; height: 24px; border-radius: 8px;
+  display: grid; place-items: center;
+  font-family: var(--font-display); font-weight: 800; font-size: 0.66rem; color: #fff;
+}
+.meci-rand .insigna.V { background: #22a35f; }
+.meci-rand .insigna.E { background: #6b7a9c; }
+.meci-rand .insigna.Î, .meci-rand .insigna.I { background: #cc4437; }
+.meci-rand .loc {
+  flex-shrink: 0;
+  font-family: var(--font-display); font-weight: 700; font-size: 0.6rem;
+  letter-spacing: 0.12em; text-transform: uppercase;
+  padding: 4px 9px; border-radius: 999px;
+  background: rgba(255,255,255,0.09); color: rgba(255,255,255,0.7);
+}
+.meci-rand .loc.acasa { background: rgba(246, 200, 28, 0.16); color: var(--gold); }
+.sezon-sursa {
+  margin-top: 16px; text-align: right;
+  font-size: 0.75rem; color: rgba(255,255,255,0.45);
+}
+.sezon-sursa a { color: var(--sky); font-weight: 600; }
+
+/* ---------- Lotul: evantaiul 3D de carduri + teren ---------- */
+
+/* Variabilele per-card sunt declarate ne-moștenite: altfel schimbarea lor pe un
+   card ar invalida stilul întregului lui conținut, iar la derulare (unde se
+   rescriu pe toate cardurile) asta însemna sute de elemente recalculate pe
+   cadru — principala sursă de sacadare pe telefon. */
+@property --ad { syntax: "<number>"; inherits: false; initial-value: 0.5; }
+@property --imp { syntax: "<number>"; inherits: false; initial-value: 0; }
+@property --z { syntax: "<number>"; inherits: false; initial-value: 1; }
+@property --salt { syntax: "<length>"; inherits: false; initial-value: 0px; }
+@property --mx { syntax: "<angle>"; inherits: false; initial-value: 0deg; }
+@property --my { syntax: "<angle>"; inherits: false; initial-value: 0deg; }
+@property --pax { syntax: "<length>"; inherits: false; initial-value: 0px; }
+@property --pay { syntax: "<length>"; inherits: false; initial-value: 0px; }
+@property --lux { syntax: "<number>"; inherits: false; initial-value: 0; }
+@property --luy { syntax: "<number>"; inherits: false; initial-value: 0; }
+
+.lot-panou {
+  background: linear-gradient(160deg, var(--navy-900) 0%, var(--navy-950) 100%);
+  border-radius: var(--raza-panou, 24px);
+  padding: clamp(22px, 3vw, 36px);
+  color: #fff;
+  box-shadow: 0 24px 60px -30px rgba(9, 17, 35, 0.55);
+  overflow: hidden;
+}
+/* In sectiunea plina, sectiunea insasi e panoul: fundalul vine din
+   .sectiune-plina pe toata latimea ecranului, deci cutia interioara
+   dispare — raman doar continutul si paddingul vertical. */
+.sectiune-plina .lot-panou {
+  background: transparent;
+  border-radius: 0;
+  box-shadow: none;
+  padding-inline: 0;
+  /* panoul avea overflow: hidden ca sa-si taie continutul la colturile
+     rotunjite — dar aici nu mai e nicio cutie, iar fasia evadata pe toata
+     latimea ecranului era retezata inapoi la latimea containerului: o muchie
+     verticala in plin fundal, care ghilotina si stralucirea cardului deschis.
+     Taierea o face de-acum doar fereastra scenei, adica marginea ecranului. */
+  overflow: visible;
+}
+/* In sectiunea plina, fasia cardurilor evadeaza din container pe toata
+   latimea ecranului: muchia de taiere devine chiar marginea ecranului —
+   singurul loc unde un card taiat arata natural — iar estomparea din lot.js
+   se petrece acolo. Paddingul readuce cardul de start in aliniament cu
+   titlul (marginea containerului largit + cei 16px ai scenei). */
+@media (min-width: 881px) {
+  .sectiune-plina .lot-scena {
+    width: 100vw;
+    margin-left: calc(50% - 50vw);
+    padding-left: calc(50vw - min(700px, 47vw) + 16px);
+    padding-right: calc(50vw - min(700px, 47vw) + 44px + var(--imp-max));
+  }
+}
+
+/* scena: de la stânga la dreapta, cu perspectivă; drag cu inerție.
+   position: relative ca offsetLeft-ul cardurilor să fie relativ la scenă —
+   calculele de ancorare se fac în spațiul de layout, imun la transformările 3D */
+.lot-scena {
+  position: relative;
+  --lat-deschis: min(340px, 76vw);
+  --lat-pliat: 150px;
+  --suprapunere: -62px;
+  /* Cât mai acoperă cardul deschis din fâșia următoare. Valoarea e negativă
+     pentru că perspectiva mărește cardul deschis (translateZ 0) față de
+     amprenta lui de layout, deci împingerea trebuie să depășească diferența
+     de lățime pură. Reglată vizual, ca numele vecinului să rămână lizibil. */
+  --supra-pastrat: 34px;
+  /* împingerea aplicată fâșiilor de după cardul deschis */
+  --imp-max: calc(var(--lat-deschis) - var(--lat-pliat) - var(--supra-pastrat));
+  /* cardurile inchise stau lipite sus; cel deschis, mai mare prin
+     perspectiva, atarna singur mai jos — banda de jos ramane libera
+     pentru carma, nu mai e aer mort in scena */
+  display: flex; align-items: flex-start;
+  /* scena mai scunda cu ~80px, dar cardul urca la 94%: aceeasi marime in
+     pixeli ca inainte (82% din scena inalta), fara banda goala dedesubt */
+  height: clamp(450px, 55vh, 540px);
+  overflow-x: auto;
+  padding: 20px calc(44px + var(--imp-max)) 16px 16px;
+  perspective: 1500px;
+  perspective-origin: 50% 45%;
+  cursor: grab;
+  /* scrollbar-ul nativ a fost inlocuit de carma (cercul de tras de sub evantai) */
+  scrollbar-width: none;
+}
+.lot-scena::-webkit-scrollbar { display: none; }
+
+/* coada scenei: spatiul gol de dupa ultimul card, dimensionat din JS
+   (asiguraCoada), ca si ultimul card sa poata ajunge la ancora din stanga */
+.lot-coada { flex: 0 0 auto; }
+
+/* Sticla blurata (backdrop-filter) costa la fiecare recompunere a cardului.
+   Pe cardurile inchise panoul de sticla oricum nu se vede (j-copy e stins),
+   deci blurul lor e munca pe gratis — il tinem doar pe cardul deschis. */
+.jcard:not(.deschis) .j-sticla {
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+  background: rgba(29, 43, 71, 0.9);
+}
+
+/* ---------- carma: cercul de navigare ---------- */
+.lot-carma {
+  display: flex; justify-content: center;
+  margin-top: 0;
+  /* strat peste orice card: transformarile 3D isi intind aria de click
+     dincolo de cutia de layout, iar in timpul animatiilor de selectie un
+     card putea ajunge deasupra cercului. Aici bara castiga intotdeauna. */
+  position: relative; z-index: 95;
+}
+.carma-sina {
+  position: relative;
+  width: min(340px, 70%);
+  height: 2px;
+  border-radius: 2px;
+  background: rgba(255, 255, 255, 0.14);
+  /* cercul depaseste sina pe verticala; sus mai mult, ca sa nu atinga
+     cardul deschis care atarna peste banda */
+  margin-top: 30px; margin-bottom: 14px;
+}
+.carma-progres {
+  position: absolute; left: 0; top: 0; bottom: 0;
+  width: 100%;
+  border-radius: 2px;
+  background: var(--gold);
+  /* umplerea se face prin scaleX din JS: compusa pe GPU, nu prin width */
+  transform: scaleX(0);
+  transform-origin: left center;
+}
+.carma-cerc {
+  position: absolute; left: 0; top: 50%;
+  margin-top: -28px;
+  width: 56px; height: 56px;
+  border-radius: 50%;
+  /* un punct de aur in mijloc, in loc de sageti: manerul se citeste singur */
+  display: grid; place-items: center;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  color: #fff;
+  cursor: grab;
+  touch-action: none;         /* tragerea orizontala nu deruleaza pagina */
+  user-select: none;
+  transition: border-color 0.25s ease, background 0.25s ease;
+}
+.carma-cerc::after {
+  content: "";
+  width: 8px; height: 8px; border-radius: 50%;
+  background: var(--gold);
+  opacity: 0.9;
+}
+.carma-cerc:hover { border-color: var(--gold); background: rgba(255, 255, 255, 0.14); }
+.lot-carma.in-tragere .carma-cerc { cursor: grabbing; border-color: var(--gold); }
+@media (max-width: 880px) {
+  .carma-cerc { width: 44px; height: 44px; margin-top: -22px; }
+  .carma-sina { margin-block: 22px; width: min(240px, 74%); }
+}
+.lot-scena.trage { cursor: grabbing; }
+.lot-scena.trage .jcard { pointer-events: none; }
+
+.jcard {
+  position: relative;
+  z-index: var(--z, 1);
+  flex: 0 0 auto;
+  width: var(--lat-pliat);
+  height: 94%;
+  border-radius: 22px;               /* limbajul cardurilor de la Plaja Olt */
+  overflow: hidden;
+  isolation: isolate;
+  cursor: pointer;
+  background:
+    radial-gradient(120% 70% at 50% 0%, rgba(36, 87, 214, 0.4) 0%, rgba(36, 87, 214, 0) 65%),
+    linear-gradient(165deg, var(--navy-900) 0%, var(--navy-950) 100%);
+  border: 1px solid rgba(255,255,255,0.14);
+  /* umbre apăsate, ca să se simtă suprapunerea cardurilor */
+  box-shadow: 0 30px 46px -18px rgba(3, 8, 25, 0.85);
+  /* --ad (0..1, setat din JS) = adâncimea față de cardul activ; cu perspectiva
+     scenei, cardurile mai adânci se văd tot mai mici, cu diferențe amortizate */
+  /* --imp = împingerea spre dreapta a fâșiilor de după cardul deschis; e o
+     simplă translatare, deci nu atinge layout-ul și nu destabilizează scroll-ul */
+  transform: translateX(calc(var(--imp, 0) * var(--imp-max)))
+             translateZ(calc(-80px - 340px * var(--adancf, 1) * var(--ad, 0.5)))
+             rotateY(calc(15deg + var(--my, 0deg) + var(--cry, 0deg)))
+             rotateX(var(--mx, 0deg))
+             translateY(calc(var(--salt, 0px) + var(--cy, 0px)))
+             rotate(var(--crot, 0deg));
+  transition: width 0.55s cubic-bezier(0.32, 0.72, 0.28, 1),
+              margin-right 0.55s cubic-bezier(0.32, 0.72, 0.28, 1),
+              height 0.55s cubic-bezier(0.32, 0.72, 0.28, 1),
+              transform 0.4s cubic-bezier(0.32, 0.72, 0.28, 1),
+              box-shadow 0.45s ease,
+              border-color 0.35s ease;
+  /* estomparea la margini o scrie js/lot.js direct in style.opacity, cadru cu
+     cadru, cu propria lerp-uire — fara tranzitie CSS aici, ca sa nu se bata */
+}
+/* evantaiul: fiecare card intră sub cel dinaintea lui */
+.jcard + .jcard { margin-left: var(--suprapunere); }
+.jcard:hover {
+  --salt: -12px;
+  z-index: calc(var(--z, 1) + 20);
+  border-color: rgba(246, 200, 28, 0.45);
+  box-shadow: 0 40px 60px -20px rgba(3, 8, 25, 0.95);
+}
+.jcard.deschis {
+  width: var(--lat-deschis);
+  /* amprenta în layout rămâne cea a unei fâșii pliate: surplusul de lățime se
+     întinde peste cardurile din spate (ca în referință), deci deschiderea nu
+     mișcă nimic în jur — selecția poate rula live în timpul derulării */
+  margin-right: calc(var(--lat-pliat) - var(--lat-deschis));
+  height: 100%;
+  z-index: 120;
+  cursor: default;
+  border-color: rgba(246, 200, 28, 0.55);
+  box-shadow: 0 48px 84px -26px rgba(3, 8, 25, 0.95),
+              0 0 34px -8px rgba(246, 200, 28, 0.3);
+  transform: translateZ(0)
+             rotateY(calc(8deg + var(--my, 0deg)))
+             rotateX(var(--mx, 0deg))
+             translateY(var(--salt, 0px));
+}
+
+/* fotografia: color doar pe cardul activ; pliate = desaturate și întunecate */
+/* Rezerva pentru parallax se face din scale, nu din latime: regula globala
+   `img { max-width: 100% }` din style.css taia orice latime peste 100%, asa ca
+   fotografia ramanea exact cat cardul si aluneca in afara marginii. Marirea e
+   ancorata sus (transform-origin) ca sa nu coboare capul jucatorului, iar
+   deplasarea pe verticala e tinuta mereu negativa printr-un -6px constant,
+   ca marginea de sus sa fie acoperita si cand mouse-ul e in josul cardului. */
+.jcard img {
+  position: absolute; top: 0; left: -8px; z-index: 0;
+  width: calc(100% + 16px); height: 100%; max-width: none;
+  object-fit: cover; object-position: center top;
+  filter: grayscale(0.7) brightness(0.75) saturate(0.85);
+  transform-origin: 50% 0%;
+  transform: translate3d(var(--pax, 0px), calc(-12px + var(--pay, 0px)), 0)
+             scale(1.12);
+  transition: transform 0.25s ease-out, filter 0.45s ease;
+}
+.jcard:hover img { filter: grayscale(0.3) brightness(0.88) saturate(0.95); }
+
+/* Dunga de lucire: o reflexie diagonală de sticlă care traversează tot cardul
+   (și fotografia, și fișa cu date) urmărind mouse-ul pe orizontală, cu o
+   ușoară alunecare pe verticală. Variabilele --lux/--luy sunt fracțiuni
+   -0.5..0.5 setate de lot.js chiar pe acest element (ne-moștenite, ca restul),
+   iar deplasarea reală iese din transform, deci nu forțează layout.
+
+   Elementul e de trei ori mai lat decât cardul (și 150% pe înălțime), cu banda
+   desenată în treimea din mijloc: la deplasarea maximă (50% * 3 lățimi = 0,75
+   din card) marginea lui rămâne cu un sfert de card în afara zonei vizibile,
+   deci banda nu se mai termină niciodată cu o tăietură dreaptă în card, cum se
+   întâmpla când elementul era exact cât cardul. Cardul taie surplusul prin
+   overflow: hidden.
+
+   Există doar unde există hover adevărat; pe touch elementul rămâne ascuns,
+   ca un tap să nu lase o dungă înțepenită peste card. */
+.j-lucire { display: none; }
+@media (hover: hover) and (pointer: fine) {
+  .j-lucire {
+    display: block; position: absolute;
+    top: -25%; left: -100%; width: 300%; height: 150%;
+    z-index: 5; pointer-events: none;
+    background: linear-gradient(115deg,
+      transparent 45%,
+      rgba(255, 255, 255, 0.05) 47.5%,
+      rgba(255, 255, 255, 0.11) 50%,
+      rgba(255, 255, 255, 0.05) 52.5%,
+      transparent 55%);
+    transform: translate3d(calc(var(--lux, 0) * 50%), calc(var(--luy, 0) * 26%), 0);
+    opacity: 0;
+    transition: opacity 0.4s ease, transform 0.18s ease-out;
+  }
+  .jcard:hover .j-lucire { opacity: 1; }
+}
+/* „focal" = cardul din dreptul ancorei în timpul derulării: se aprinde doar
+   prin culoare/umbre (fără schimbare de lățime), ca dezvăluirea să fie fluidă */
+.jcard.focal { border-color: rgba(246, 200, 28, 0.45); }
+.jcard.focal img, .jcard.deschis img { filter: none; }
+.jcard.focal .j-veil {
+  background: linear-gradient(to top, rgba(7, 19, 48, 0.6) 0%, rgba(7, 19, 48, 0.16) 58%, rgba(7, 19, 48, 0.28) 100%);
+}
+
+.j-veil {
+  position: absolute; inset: 0; z-index: 1;
+  background: linear-gradient(to top, rgba(7, 19, 48, 0.78) 0%, rgba(7, 19, 48, 0.34) 55%, rgba(7, 19, 48, 0.4) 100%);
+  transition: background 0.4s ease;
+}
+.jcard.deschis .j-veil {
+  background: linear-gradient(to top, rgba(7, 19, 48, 0.5) 0%, rgba(7, 19, 48, 0.12) 58%, rgba(7, 19, 48, 0.26) 100%);
+}
+/* cardurile fără fotografie: veil mai ușor, să respire fundalul albastru,
+   plus numărul ca filigran discret, să nu pară goale */
+.jcard:not(.are-poza) .j-veil {
+  background: linear-gradient(to top, rgba(7, 19, 48, 0.5) 0%, rgba(7, 19, 48, 0.12) 60%, rgba(7, 19, 48, 0.18) 100%);
+}
+.jcard:not(.are-poza):not(.deschis) .j-fantoma { opacity: 0.3; }
+
+/* numărul din colț, ca „01" din referință */
+.j-nr {
+  position: absolute; top: 13px; right: 15px; z-index: 3;
+  font-family: var(--font-display); font-weight: 800;
+  font-size: 0.82rem; line-height: 1;
+  color: rgba(255, 255, 255, 0.85);
+  text-shadow: 0 2px 10px rgba(3, 8, 25, 0.9);
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+}
+.jcard.deschis .j-nr { opacity: 0; }
+
+/* numele pe verticală pe cardurile pliate, ca fâșiile de la Plaja Olt */
+.j-vert {
+  /* cardul dinaintea fiecărei fâșii stă în fața ei și îi acoperă marginea din
+     stânga, deci banda vizibilă e cea din dreapta — acolo centrăm numele */
+  position: absolute;
+  left: calc((var(--lat-pliat) - var(--suprapunere)) / 2);
+  bottom: 22px; z-index: 3;
+  /* rotația stă în transform, după translate — altfel proprietatea `rotate`
+     s-ar aplica prima și ar inversa direcția centrării */
+  transform: translateX(-50%) rotate(180deg);
+  writing-mode: vertical-rl;
+  max-height: calc(100% - 70px);
+  overflow: hidden;
+  white-space: nowrap;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+}
+.j-vert i {
+  display: block;
+  font-style: normal;
+  font-family: var(--font-display); font-weight: 600;
+  font-size: 0.62rem; letter-spacing: 0.16em; text-transform: uppercase;
+  color: var(--gold);
+  text-shadow: 0 2px 10px rgba(3, 8, 25, 0.9);
+}
+.j-vert b {
+  display: block;
+  font-family: var(--font-display); font-weight: 700;
+  font-size: 0.92rem; letter-spacing: 0.1em; text-transform: uppercase;
+  color: #fff;
+  text-shadow: 0 2px 12px rgba(3, 8, 25, 0.85);
+}
+.jcard.deschis .j-vert { opacity: 0; }
+
+/* numărul-fantomă de pe cardul deschis */
+.j-fantoma {
+  position: absolute; top: 4px; right: 14px; z-index: 2;
+  font-family: var(--font-display); font-weight: 800;
+  font-size: clamp(4.5rem, 8vw, 6.5rem); line-height: 1.1;
+  color: transparent;
+  -webkit-text-stroke: 2px rgba(246, 200, 28, 0.35);
+  pointer-events: none; user-select: none;
+  opacity: 0; transition: opacity 0.4s ease 0.15s;
+}
+.jcard.deschis .j-fantoma { opacity: 1; }
+
+/* fișa de sticlă: compactă, doar pe partea de jos a cardului */
+.j-copy {
+  position: absolute; left: 12px; bottom: 14px; z-index: 3;
+  width: calc(var(--lat-deschis) - 24px);
+  max-height: 52%;
+  opacity: 0; transform: translateY(18px);
+  pointer-events: none;
+  /* clama de inaltime intra in aceeasi tranzitie ca grila din interior
+     (0.45s): altfel, la restrangere, cutia ancorata jos sarea instant la
+     inaltimea mica si abia apoi continutul se anima — aratau ca doua miscari */
+  transition: opacity 0.35s ease, transform 0.35s ease, max-height 0.45s ease;
+}
+.jcard.deschis .j-copy {
+  opacity: 1; transform: translateY(0);
+  pointer-events: auto;
+  /* intarzierea e doar pentru aparitie (opacitate/pozitie); max-height
+     porneste imediat, sincron cu grila detaliilor */
+  transition: opacity 0.35s ease 0.18s, transform 0.35s ease 0.18s, max-height 0.45s ease;
+}
+.jcard.extins .j-copy { max-height: calc(100% - 26px); overflow-y: auto; scrollbar-width: none; }
+.j-sticla {
+  background: rgba(9, 19, 42, 0.55);
+  -webkit-backdrop-filter: blur(14px) saturate(1.3);
+  backdrop-filter: blur(14px) saturate(1.3);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 14px;
+  padding: 13px 15px 12px;
+  box-shadow: 0 18px 40px -20px rgba(3, 8, 25, 0.9);
+}
+.g-cap { display: flex; align-items: flex-start; justify-content: space-between; gap: 10px; }
+.g-prenume {
+  font-family: var(--font-display); font-weight: 600;
+  font-size: 0.66rem; letter-spacing: 0.16em; text-transform: uppercase;
+  color: var(--gold);
+}
+.g-nume {
+  font-family: var(--font-display); font-weight: 800;
+  font-size: 1.3rem; line-height: 1;
+  text-transform: uppercase; color: #fff;
+  margin: 2px 0 0;
+}
+/* eticheta postului — aceeași pastilă aurie ca la Plaja Olt (v2-tag) */
+.j-post {
+  flex-shrink: 0;
+  font-family: var(--font-display); font-weight: 700;
+  font-size: 0.56rem; letter-spacing: 0.12em; text-transform: uppercase;
+  color: var(--navy-900); background: var(--gold);
+  padding: 5px 10px; border-radius: 999px;
+}
+
+/* măsurile mari: Înălțime / Greutate / Vârstă / Experiență */
+.g-masuri {
+  display: flex;
+  margin-top: 10px; padding-top: 10px;
+  border-top: 1px solid rgba(255,255,255,0.14);
+}
+.masura { flex: 1; text-align: center; min-width: 0; }
+.masura + .masura { border-left: 1px solid rgba(255,255,255,0.14); }
+.masura b {
+  display: block;
+  font-family: var(--font-display); font-weight: 800;
+  font-size: 1.15rem; line-height: 1;
+  color: #fff;
+}
+.masura b small { font-size: 0.55em; font-weight: 700; color: var(--gold); margin-left: 2px; }
+.masura i {
+  display: block; font-style: normal;
+  font-family: var(--font-display); font-weight: 600;
+  font-size: 0.46rem; letter-spacing: 0.14em; text-transform: uppercase;
+  color: rgba(255,255,255,0.55);
+  margin-top: 4px;
+}
+
+/* statisticile sezonului curent */
+.g-stats {
+  display: flex; align-items: center; gap: 10px;
+  margin-top: 10px; padding-top: 10px;
+  border-top: 1px solid rgba(255,255,255,0.14);
+}
+.g-eticheta {
+  flex-shrink: 0;
+  font-family: var(--font-display); font-weight: 600;
+  font-size: 0.48rem; letter-spacing: 0.14em; text-transform: uppercase;
+  color: rgba(255,255,255,0.5); line-height: 1.5;
+}
+.g-eticheta b { color: var(--sky); font-size: 0.7rem; }
+.jstat { flex: 1; text-align: center; min-width: 0; }
+.jstat i {
+  display: block; font-style: normal;
+  font-family: var(--font-display); font-weight: 600;
+  font-size: 0.46rem; letter-spacing: 0.08em; text-transform: uppercase;
+  color: rgba(255,255,255,0.5);
+  white-space: nowrap;
+}
+.jstat b {
+  font-family: var(--font-display); font-weight: 800;
+  font-size: 1rem; line-height: 1.2; color: #fff;
+}
+
+/* butonul „detalii" + partea desfășurabilă */
+.g-mai {
+  margin-top: 10px;
+  background: transparent;
+  border: 1px solid rgba(246, 200, 28, 0.5);
+  color: var(--gold);
+  font-family: var(--font-display); font-weight: 700;
+  font-size: 0.56rem; letter-spacing: 0.14em; text-transform: uppercase;
+  padding: 5px 12px; border-radius: 999px;
+  cursor: pointer;
+  transition: background 0.25s ease, color 0.25s ease;
+}
+.g-mai:hover { background: rgba(246, 200, 28, 0.14); }
+.g-mai b { font-weight: 800; }
+.g-rest {
+  display: grid; grid-template-rows: 0fr;
+  transition: grid-template-rows 0.45s ease;
+}
+.g-rest > div { overflow: hidden; min-height: 0; }
+.jcard.extins .g-rest { grid-template-rows: 1fr; }
+
+.g-fise {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 7px 12px;
+  padding: 10px 0 0;
+  margin-top: 10px;
+  border-top: 1px solid rgba(255,255,255,0.14);
+}
+.fisa { display: flex; flex-direction: column; gap: 1px; min-width: 0; }
+.fisa i {
+  font-style: normal;
+  font-family: var(--font-display); font-weight: 600;
+  font-size: 0.5rem; letter-spacing: 0.14em; text-transform: uppercase;
+  color: rgba(255,255,255,0.5);
+}
+.fisa b { font-size: 0.78rem; color: #fff; font-weight: 700; }
+
+.g-cariera {
+  margin-top: 10px; padding-top: 8px;
+  border-top: 1px solid rgba(255,255,255,0.14);
+  font-size: 0.66rem; line-height: 1.5;
+  color: rgba(255,255,255,0.65);
+}
+.g-cariera i {
+  display: block; font-style: normal;
+  font-family: var(--font-display); font-weight: 600;
+  font-size: 0.5rem; letter-spacing: 0.16em; text-transform: uppercase;
+  color: rgba(255,255,255,0.45);
+  margin-bottom: 2px;
+}
+.g-cariera b { color: #fff; font-weight: 800; }
+/* nefolosit momentan: creditul pozei nu se mai randeaza (vezi lot.js) */
+.j-credit { margin-top: 6px; font-size: 0.56rem; color: rgba(255,255,255,0.4); }
+
+/* ---------- terenul: toate posturile, cel activ aprins ---------- */
+.lot-teren-wrap { margin-top: clamp(4px, 0.8vw, 10px); }
+.lot-teren-wrap h4 {
+  text-align: center;
+  font-size: 0.72rem; font-weight: 700;
+  letter-spacing: 0.2em; text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 12px;
+}
+.lot-teren { position: relative; max-width: 620px; margin: 0 auto; }
+.lot-teren svg { width: 100%; height: auto; display: block; }
+.lot-teren .linii { stroke: rgba(255,255,255,0.28); stroke-width: 1.6; fill: none; }
+.lot-teren .gazon { fill: rgba(36, 87, 214, 0.14); stroke: rgba(255,255,255,0.35); stroke-width: 2; }
+
+.post-punct .p-disc {
+  fill: rgba(255,255,255,0.14);
+  stroke: rgba(255,255,255,0.35); stroke-width: 1.4;
+  transition: fill 0.4s ease, stroke 0.4s ease;
+}
+.post-punct .p-nume {
+  fill: rgba(255,255,255,0.45);
+  font-family: var(--font-display); font-weight: 600;
+  font-size: 8.5px; letter-spacing: 0.08em; text-transform: uppercase;
+  text-anchor: middle;
+  transition: fill 0.4s ease;
+}
+.post-punct.activ .p-disc { fill: var(--gold); stroke: var(--gold); }
+.post-punct.activ .p-nume { fill: var(--gold); font-weight: 800; }
+.lot-halo { fill: none; stroke: var(--gold); opacity: 0.5; }
+
+.lot-sursa { margin-top: 12px; font-size: 0.72rem; color: rgba(255,255,255,0.4); }
+
+/* ---------- responsive ---------- */
+@media (max-width: 900px) {
+  .sezon-coloane { grid-template-columns: 1fr; }
+  .lot-scena { height: clamp(420px, 56vh, 500px); }
+}
+@media (max-width: 640px) {
+  .sezon-panou, .lot-panou { border-radius: 18px; }
+  .meci-rand { font-size: 0.82rem; gap: 9px; }
+  .meci-rand .data { width: 50px; font-size: 0.66rem; }
+  .lot-scena {
+    --lat-deschis: min(204px, 55vw);
+    --lat-pliat: 84px;
+    --suprapunere: -34px;
+    /* pe telefon perspectiva e mai agresivă: cardul deschis (translateZ 0) apare
+       mai lat decât amprenta lui de layout, deci împingem cu un plus */
+    --supra-pastrat: -4px;
+    height: 440px;
+    padding: 12px calc(20px + var(--imp-max)) 12px 10px;
+    perspective: 1100px;
+  }
+  .jcard {
+    border-radius: 16px;
+    transform: translateX(calc(var(--imp, 0) * var(--imp-max)))
+               translateZ(calc(-50px - 210px * var(--adancf, 1) * var(--ad, 0.5)))
+               rotateY(calc(11deg + var(--cry, 0deg)))
+               translateY(var(--cy, 0px))
+               rotate(var(--crot, 0deg));
+  }
+  .jcard.deschis {
+    border-radius: 18px;
+    transform: translateX(calc(var(--imp, 0) * var(--imp-max))) translateZ(0) rotateY(6deg);
+  }
+  .j-nr { top: 9px; right: 10px; font-size: 0.7rem; }
+  .j-vert { bottom: 16px; max-height: calc(100% - 56px); }
+  .j-vert i { font-size: 0.46rem; letter-spacing: 0.08em; }
+  .j-vert b { font-size: 0.66rem; letter-spacing: 0.04em; }
+  .j-copy { left: 8px; bottom: 10px; width: calc(var(--lat-deschis) - 16px); max-height: 56%; }
+  .jcard.extins .j-copy { max-height: calc(100% - 18px); }
+  .j-sticla {
+    padding: 10px 11px 10px; border-radius: 12px;
+    /* blurul de fundal se recalculeaza la fiecare cadru in care cardul se
+       misca — pe mobil il inlocuim cu culoarea la care ajunge sticla de pe
+       desktop (bleumarin semitransparent peste fotografia estompata) */
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+    background: rgba(29, 43, 71, 0.9);
+  }
+  /* umbre mai ieftine de desenat decat cele de pe desktop */
+  .jcard { box-shadow: 0 16px 24px -12px rgba(3, 8, 25, 0.8); }
+  .jcard.deschis {
+    box-shadow: 0 22px 34px -16px rgba(3, 8, 25, 0.9),
+                0 0 18px -8px rgba(246, 200, 28, 0.3);
+  }
+  .g-nume { font-size: 1.05rem; }
+  /* posturile lungi (Extremă stânga...) coboară sub nume când nu încap */
+  .g-cap { flex-wrap: wrap; }
+  .j-post { font-size: 0.48rem; padding: 4px 8px; }
+  .masura b { font-size: 0.95rem; }
+  .masura i { font-size: 0.4rem; letter-spacing: 0.08em; }
+  .g-fise { grid-template-columns: 1fr 1fr; gap: 6px 10px; }
+  .fisa b { font-size: 0.7rem; }
+  .jstat b { font-size: 0.88rem; }
+  .jstat i { font-size: 0.36rem; letter-spacing: 0; }
+  .g-stats { gap: 6px; }
+  .g-eticheta { font-size: 0.42rem; }
+  .g-cariera { font-size: 0.6rem; }
+  .g-mai { font-size: 0.5rem; padding: 4px 10px; }
+  .post-punct .p-nume { font-size: 10.5px; }
+}
+
+
+/* ---------- experiment: variante de curgere a evantaiului ----------
+   Comutatorul de sub carma schimba profilul curbei (drept / arc / val /
+   culoar); alegerea se tine minte in localStorage. Dupa ce se alege o
+   varianta definitiva, blocul asta si butoanele se pot scoate. */
+.lot-scena { transition: perspective-origin 0.7s cubic-bezier(0.45, 0, 0.2, 1); }
+
+.lot-variante {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 14px;
+  position: relative;
+  z-index: 95;
+}
+.lot-variante button {
+  font: inherit;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: rgba(220, 231, 255, 0.65);
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: 999px;
+  padding: 7px 14px;
+  cursor: pointer;
+  transition: color 0.2s, border-color 0.2s, background 0.2s;
+}
+.lot-variante button:hover { color: #fff; border-color: rgba(255, 255, 255, 0.4); }
+.lot-variante button.activ {
+  color: var(--navy-950);
+  background: var(--gold);
+  border-color: var(--gold);
+}

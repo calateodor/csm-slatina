@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pagina nu există — CSM Slatina</title>
+  <meta name="robots" content="noindex">
+  <link rel="icon" type="image/png" href="/csm-slatina/v4/assets/img/logo.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700;800&family=Manrope:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --navy: #0c1c3a;
+      --navy-2: #14345c;
+      --gold: #f6c81c;
+      --sky: #7fb4ff;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      min-height: 100svh;
+      display: grid;
+      place-items: center;
+      padding: 32px 20px;
+      background:
+        radial-gradient(1200px 600px at 50% -10%, #1b3f74 0%, transparent 60%),
+        var(--navy);
+      color: #fff;
+      font: 400 16px/1.6 Manrope, system-ui, sans-serif;
+      text-align: center;
+    }
+    .cadru { max-width: 620px; }
+    img.stema { width: 76px; height: auto; margin-bottom: 22px; }
+    .cod {
+      font: 800 clamp(64px, 16vw, 132px)/0.9 Poppins, sans-serif;
+      letter-spacing: -0.03em;
+      color: var(--gold);
+      margin: 0;
+    }
+    h1 {
+      font: 700 clamp(22px, 4vw, 30px)/1.2 Poppins, sans-serif;
+      margin: 14px 0 10px;
+    }
+    p { color: rgba(255, 255, 255, 0.78); margin: 0 auto 26px; max-width: 46ch; }
+    .legaturi { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; }
+    .legaturi a {
+      display: inline-flex;
+      align-items: center;
+      min-height: 44px;
+      padding: 11px 20px;
+      border-radius: 999px;
+      text-decoration: none;
+      font: 600 14px/1 Manrope, sans-serif;
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      color: #fff;
+      transition: background 0.2s cubic-bezier(0.23, 1, 0.32, 1),
+                  transform 0.16s cubic-bezier(0.23, 1, 0.32, 1);
+    }
+    .legaturi a.principal { background: var(--gold); color: var(--navy-2); border-color: transparent; }
+    .legaturi a:active { transform: scale(0.97); }
+    @media (hover: hover) and (pointer: fine) {
+      .legaturi a:hover { background: rgba(255, 255, 255, 0.2); }
+      .legaturi a.principal:hover { background: #ffd63f; }
+    }
+    a:focus-visible { outline: 3px solid var(--sky); outline-offset: 3px; }
+    @media (prefers-reduced-motion: reduce) {
+      .legaturi a { transition: none; }
+    }
+  </style>
+</head>
+<body>
+  <main class="cadru">
+    <img class="stema" src="/csm-slatina/v4/assets/img/logo.png" alt="Stema CSM Slatina">
+    <p class="cod">404</p>
+    <h1>Pagina asta nu există</h1>
+    <p>Poate a fost mutată odată cu noua versiune a site-ului. Ia-o de la capăt de aici:</p>
+    <div class="legaturi">
+      <a class="principal" href="/csm-slatina/v4/">Prima pagină</a>
+      <a href="/csm-slatina/v4/#sectii">Secțiile clubului</a>
+      <a href="/csm-slatina/v4/club-nautic.html">Clubul Nautic</a>
+      <a href="/csm-slatina/v4/stiri.html">Știri</a>
+      <a href="/csm-slatina/v4/contact.html">Contact</a>
+    </div>
+  </main>
+
+  <!-- Pagina asta e servită pentru orice adresă greșită, de la orice adâncime,
+       deci legăturile sunt absolute. Prefixul „/csm-slatina" e cel de pe
+       GitHub Pages; dacă site-ul stă în rădăcina domeniului (sau pe serverul
+       de test), îl scoatem aici, ca legăturile să nu ducă în gol. -->
+  <script>
+    (function () {
+      if (location.pathname.indexOf("/csm-slatina/") === 0) return;
+      var scoate = function (v) { return v.replace("/csm-slatina/", "/"); };
+      document.querySelectorAll("a[href^='/csm-slatina/']").forEach(function (a) {
+        a.setAttribute("href", scoate(a.getAttribute("href")));
+      });
+      document.querySelectorAll("img[src^='/csm-slatina/']").forEach(function (i) {
+        i.setAttribute("src", scoate(i.getAttribute("src")));
+      });
+    })();
+  </script>
+</body>
+</html>

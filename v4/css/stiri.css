@@ -1,0 +1,159 @@
+/* =========================================================
+   ȘTIRI & CALENDAR — hubul editorial al clubului
+   Registrul de club: erou plin cu stele, foi albe pe fond
+   deschis, auriul doar funcțional (filtre active, accente).
+   ========================================================= */
+
+/* ---------- eroul scurt ---------- */
+.stiri-erou {
+  position: relative; overflow: hidden;
+  background: linear-gradient(155deg, var(--navy-950) 0%, var(--navy-800) 55%, var(--royal) 120%);
+  color: #fff;
+  padding: calc(var(--header-h) + clamp(40px, 6vw, 70px)) 0 clamp(36px, 5vw, 60px);
+}
+.stiri-erou .container { position: relative; z-index: 2; }
+.stiri-erou h1 {
+  font-family: var(--font-display); font-weight: 800;
+  font-size: clamp(2.4rem, 6vw, 4.2rem); letter-spacing: -0.02em;
+  color: #fff;
+}
+.stiri-erou .sport-ghost { z-index: 1; }
+
+/* comutatorul Știri / Calendar */
+.stiri-tab-uri {
+  display: inline-flex; gap: 4px; margin-top: 22px;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 999px; padding: 4px;
+  position: relative; z-index: 2;
+}
+.stiri-tab {
+  border: 0; cursor: pointer; background: transparent;
+  font-family: var(--font-body); font-weight: 700; font-size: 0.82rem;
+  letter-spacing: 0.1em; text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.75);
+  padding: 10px 22px; border-radius: 999px;
+  transition: background 0.3s var(--ease-out), color 0.3s var(--ease-out);
+}
+.stiri-tab.activ { background: #fff; color: var(--navy-900, #14345c); }
+
+/* ---------- corpul paginii ---------- */
+.stiri-corp { padding: clamp(36px, 5vw, 60px) 0 clamp(52px, 7vw, 90px); }
+
+/* filtrele-cipuri */
+.stiri-filtre { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: clamp(22px, 3vw, 34px); }
+.stiri-cip {
+  border: 1px solid rgba(20, 52, 92, 0.18); cursor: pointer;
+  background: #fff; color: var(--navy-800, #1c3f6e);
+  font-family: var(--font-body); font-weight: 600; font-size: 0.88rem;
+  padding: 8px 18px; border-radius: 999px;
+  transition: background-color 0.2s var(--ease-out), border-color 0.2s var(--ease-out),
+              color 0.2s var(--ease-out), transform 0.18s var(--ease-out);
+}
+.stiri-cip:hover { border-color: rgba(20, 52, 92, 0.4); }
+.stiri-cip.activ {
+  background: var(--navy-900, #14345c); color: #fff;
+  border-color: var(--navy-900, #14345c);
+}
+
+/* ---------- grila de știri ---------- */
+.stiri-grila {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(340px, 100%), 1fr));
+  gap: clamp(16px, 2.4vw, 26px);
+}
+.stire-card {
+  display: flex; flex-direction: column;
+  background: #fff;
+  border: 1px solid rgba(20, 52, 92, 0.08);
+  border-radius: var(--raza-panou, 24px);
+  overflow: hidden;
+  box-shadow: 0 16px 40px rgba(16, 34, 64, 0.07);
+  text-decoration: none; color: inherit;
+  transition: transform 0.35s var(--ease-out), box-shadow 0.35s var(--ease-out);
+}
+.stire-card:hover { transform: translateY(-5px); box-shadow: 0 24px 52px rgba(16, 34, 64, 0.12); }
+.stire-media {
+  position: relative; aspect-ratio: 16 / 9;
+  background: linear-gradient(140deg, #dce9f8, #eef4fb 60%, #e3edf9);
+  overflow: hidden;
+}
+.stire-media img { width: 100%; height: 100%; object-fit: cover; }
+/* fără fotografie: stema veghează discret */
+.stire-media .stema {
+  position: absolute; inset: 0; margin: auto;
+  width: 84px; height: 84px; object-fit: contain;
+  opacity: 0.16; filter: grayscale(0.3);
+}
+.stire-badge {
+  position: absolute; top: 14px; left: 14px;
+  background: var(--navy-900, #14345c); color: #fff;
+  font-size: 0.68rem; font-weight: 700; letter-spacing: 0.12em;
+  text-transform: uppercase;
+  padding: 6px 12px; border-radius: 999px;
+}
+.stire-continut { display: flex; flex-direction: column; gap: 8px; padding: 20px 22px 22px; }
+.stire-data { font-size: 0.82rem; color: rgba(20, 52, 92, 0.55); }
+.stire-continut h3 {
+  font-family: var(--font-display); font-weight: 700;
+  font-size: 1.18rem; line-height: 1.3; color: var(--navy-900, #14345c);
+}
+.stire-continut p { font-size: 0.93rem; color: rgba(20, 52, 92, 0.72); }
+.stire-link {
+  margin-top: auto; padding-top: 10px;
+  font-size: 0.88rem; font-weight: 700; color: var(--royal, #2457d6);
+}
+.stire-card:hover .stire-link { text-decoration: underline; }
+.stiri-gol {
+  padding: 40px 0; color: rgba(20, 52, 92, 0.6); font-size: 0.95rem;
+}
+
+/* ---------- calendarul ---------- */
+.cal-lista { display: grid; gap: 14px; }
+.cal-meci {
+  display: grid; grid-template-columns: auto 1fr auto; gap: 16px; align-items: center;
+  background: #fff;
+  border: 1px solid rgba(20, 52, 92, 0.08);
+  border-radius: var(--raza-card, 14px);
+  padding: 18px 22px;
+  box-shadow: 0 10px 28px rgba(16, 34, 64, 0.06);
+}
+.cal-sport {
+  font-size: 0.66rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase;
+  background: rgba(36, 87, 214, 0.1); color: var(--royal, #2457d6);
+  padding: 6px 10px; border-radius: 8px; white-space: nowrap;
+}
+.cal-detalii strong { display: block; font-family: var(--font-display); font-size: 1.02rem; color: var(--navy-900, #14345c); }
+.cal-detalii span { display: block; font-size: 0.82rem; color: rgba(20, 52, 92, 0.6); margin-top: 3px; }
+.cal-unde {
+  font-size: 0.72rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase;
+  padding: 6px 12px; border-radius: 999px; white-space: nowrap;
+}
+.cal-unde.acasa { background: rgba(31, 168, 90, 0.12); color: #157a41; }
+.cal-unde.deplasare { background: rgba(20, 52, 92, 0.08); color: rgba(20, 52, 92, 0.65); }
+
+.cal-subtitlu {
+  font-family: var(--font-display); font-weight: 700; font-size: 1.3rem;
+  color: var(--navy-900, #14345c);
+  margin: clamp(30px, 4vw, 44px) 0 16px;
+}
+.cal-rez { display: grid; gap: 8px; }
+.cal-rez-rand {
+  display: flex; flex-wrap: wrap; gap: 6px 14px; align-items: baseline;
+  background: #fff;
+  border: 1px solid rgba(20, 52, 92, 0.07);
+  border-radius: 12px; padding: 12px 18px;
+}
+.cal-rez-meta { font-size: 0.78rem; color: rgba(20, 52, 92, 0.55); flex-basis: 100%; }
+.cal-rez-rand b { font-family: var(--font-display); font-size: 0.98rem; color: var(--navy-900, #14345c); font-weight: 700; }
+.cal-rez-rand .scor { font-weight: 800; color: var(--royal, #2457d6); }
+.cal-rez-rand .forma-v { color: #157a41; }
+.cal-rez-rand .forma-i { color: #c02626; }
+
+@media (max-width: 640px) {
+  .cal-meci { grid-template-columns: 1fr; gap: 8px; }
+  .cal-unde { justify-self: start; }
+}
+
+/* v4: stare de apăsare pe filtrele de știri */
+.stiri-cip:active { transform: scale(0.97); }

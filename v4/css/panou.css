@@ -1,0 +1,166 @@
+/* Panoul de administrare — aceeași familie vizuală ca site-ul:
+   bleumarinul clubului, foi albe, auriul doar pe acțiuni. */
+
+/* atributul hidden trebuie sa bata orice display din regulile de mai jos,
+   altfel valul modalului sta nevazut peste pagina si blocheaza click-urile */
+.pn-body [hidden] { display: none !important; }
+
+.pn-body {
+  background: #eef2f8;
+  color: #14345c;
+  font-family: var(--font-body, Manrope, sans-serif);
+  min-height: 100vh;
+}
+
+/* ---------- poarta ---------- */
+.pn-poarta {
+  min-height: 100vh; display: grid; place-items: center;
+  background: linear-gradient(155deg, #0c1c3a, #1c3f6e 70%, #2457d6 140%);
+  padding: 20px;
+}
+.pn-poarta-card {
+  width: min(460px, 94vw);
+  background: #fff; border-radius: 22px;
+  padding: 34px 34px 28px; text-align: center;
+  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.35);
+}
+.pn-poarta-card img { width: 64px; margin-bottom: 12px; }
+.pn-poarta-card h1 { font-family: var(--font-display); font-size: 1.5rem; margin-bottom: 8px; }
+.pn-poarta-card p { font-size: 0.9rem; color: #47617f; margin-bottom: 18px; }
+.pn-poarta-card input {
+  width: 100%; padding: 13px 16px; font-size: 0.95rem;
+  border: 1px solid rgba(20, 52, 92, 0.2); border-radius: 12px;
+  font-family: monospace; margin-bottom: 12px;
+}
+.pn-ajutor { text-align: left; margin-top: 18px; font-size: 0.85rem; color: #47617f; }
+.pn-ajutor summary { cursor: pointer; font-weight: 700; color: #14345c; }
+.pn-ajutor ol { margin: 10px 0 0 18px; display: grid; gap: 6px; }
+.pn-ajutor code { background: #eef2f8; padding: 1px 5px; border-radius: 5px; }
+.pn-eroare { color: #c02626; font-size: 0.85rem; min-height: 1.2em; margin-top: 8px; }
+
+/* ---------- butoane ---------- */
+.pn-btn {
+  border: 1px solid rgba(20, 52, 92, 0.25); cursor: pointer;
+  background: #fff; color: #14345c;
+  font: 700 0.85rem/1 var(--font-body, Manrope, sans-serif);
+  padding: 11px 18px; border-radius: 999px;
+  transition: background-color 0.2s ease, border-color 0.2s ease,
+              color 0.2s ease, transform 0.18s ease;
+}
+.pn-btn:hover { border-color: #14345c; }
+.pn-btn-plin { background: #14345c; color: #fff; border-color: #14345c; }
+.pn-btn-plin:hover { background: #1c3f6e; }
+.pn-btn-aur { background: #f6c81c; color: #14345c; border-color: #f6c81c; }
+.pn-btn-mic { padding: 7px 12px; font-size: 0.75rem; }
+.pn-btn-rosu { color: #c02626; border-color: rgba(192, 38, 38, 0.4); }
+
+/* ---------- panoul ---------- */
+.pn-antet {
+  position: sticky; top: 0; z-index: 20;
+  display: flex; align-items: center; gap: 18px; flex-wrap: wrap;
+  background: #0f2347; color: #fff;
+  padding: 12px clamp(16px, 3vw, 32px);
+}
+.pn-brand { display: flex; align-items: center; gap: 10px; }
+.pn-brand img { width: 38px; }
+.pn-brand strong { display: block; font-family: var(--font-display); font-size: 0.95rem; }
+.pn-brand span { font-size: 0.72rem; color: rgba(255, 255, 255, 0.6); }
+.pn-tab-uri { display: flex; gap: 6px; flex: 1; flex-wrap: wrap; }
+.pn-tab {
+  border: 0; cursor: pointer; background: transparent; color: rgba(255, 255, 255, 0.7);
+  font: 700 0.82rem/1 var(--font-body, Manrope, sans-serif);
+  padding: 10px 16px; border-radius: 999px;
+}
+.pn-tab.activ { background: #f6c81c; color: #14345c; }
+.pn-antet .pn-btn { background: transparent; color: #fff; border-color: rgba(255, 255, 255, 0.3); }
+
+.pn-continut { padding: clamp(18px, 3vw, 36px); max-width: 1100px; margin: 0 auto; }
+.pn-cap { display: flex; align-items: center; justify-content: space-between; gap: 14px; flex-wrap: wrap; margin-bottom: 8px; }
+.pn-cap h2 { font-family: var(--font-display); font-size: 1.4rem; }
+.pn-nota { font-size: 0.85rem; color: #47617f; margin-bottom: 16px; display: block; }
+.pn-nota b { color: #14345c; }
+
+.pn-comutator { display: inline-flex; gap: 4px; background: #fff; border: 1px solid rgba(20,52,92,0.15); border-radius: 999px; padding: 4px; }
+.pn-comutator button {
+  border: 0; cursor: pointer; background: transparent; color: #47617f;
+  font: 700 0.8rem/1 var(--font-body, Manrope, sans-serif);
+  padding: 8px 16px; border-radius: 999px;
+}
+.pn-comutator button.activ { background: #14345c; color: #fff; }
+
+/* ---------- listele ---------- */
+.pn-lista { display: grid; gap: 10px; margin-bottom: 16px; }
+.pn-rand {
+  display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
+  background: #fff; border: 1px solid rgba(20, 52, 92, 0.08);
+  border-radius: 14px; padding: 14px 18px;
+}
+.pn-rand .pn-info { flex: 1; min-width: 200px; }
+.pn-rand .pn-info strong { display: block; font-family: var(--font-display); font-size: 0.98rem; }
+.pn-rand .pn-info span { font-size: 0.78rem; color: #47617f; }
+.pn-etic {
+  font-size: 0.66rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase;
+  padding: 5px 10px; border-radius: 999px;
+}
+.pn-etic.publicat { background: rgba(31, 168, 90, 0.12); color: #157a41; }
+.pn-etic.ciorna { background: rgba(20, 52, 92, 0.08); color: #47617f; }
+.pn-etic.manual { background: rgba(246, 200, 28, 0.25); color: #7a6203; }
+.pn-etic.auto { background: rgba(36, 87, 214, 0.1); color: #2457d6; }
+
+/* ---------- editorul (folosit de stiri/lot/meciuri) ---------- */
+.pn-editor {
+  position: fixed; inset: 0; z-index: 50;
+  display: grid; place-items: center;
+  background: rgba(10, 20, 40, 0.6);
+  padding: 20px; overflow: auto;
+}
+.pn-editor .pn-cutie {
+  width: min(700px, 94vw); max-height: 90vh; overflow: auto;
+  background: #fff; border-radius: 18px; padding: 26px;
+}
+.pn-editor h3 { font-family: var(--font-display); margin-bottom: 16px; }
+.pn-editor label {
+  display: block; margin-bottom: 12px;
+  font: 700 0.72rem/1.2 var(--font-body, Manrope, sans-serif);
+  letter-spacing: 0.1em; text-transform: uppercase; color: #47617f;
+}
+.pn-editor input, .pn-editor select, .pn-editor textarea {
+  display: block; width: 100%; margin-top: 6px;
+  font: 0.95rem/1.5 var(--font-body, Manrope, sans-serif); color: #14345c;
+  border: 1px solid rgba(20, 52, 92, 0.2); border-radius: 10px; padding: 10px 14px;
+}
+.pn-editor .pn-rand-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.pn-editor .pn-butoane { display: flex; gap: 10px; justify-content: flex-end; margin-top: 16px; }
+.pn-check { display: flex !important; align-items: center; gap: 8px; text-transform: none !important; letter-spacing: 0 !important; font-size: 0.85rem !important; }
+.pn-check input { width: auto; margin: 0; }
+
+/* ---------- bara de publicare ---------- */
+.pn-publica {
+  position: fixed; left: 50%; bottom: 18px; transform: translateX(-50%); z-index: 40;
+  display: flex; align-items: center; gap: 14px;
+  background: #0f2347; color: #fff;
+  border: 1px solid rgba(246, 200, 28, 0.5);
+  border-radius: 999px; padding: 10px 12px 10px 22px;
+  box-shadow: 0 12px 34px rgba(0, 0, 0, 0.35);
+  font-size: 0.85rem; font-weight: 600;
+}
+.pn-publica .pn-btn-plin { background: #f6c81c; color: #14345c; border-color: #f6c81c; }
+
+.pn-linkuri { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 16px; }
+.pn-linkuri a {
+  background: #fff; border: 1px solid rgba(20, 52, 92, 0.15);
+  border-radius: 999px; padding: 8px 16px;
+  font-size: 0.85rem; font-weight: 600; color: #14345c; text-decoration: none;
+}
+.pn-linkuri a:hover { border-color: #14345c; }
+
+/* tarifele hartii */
+#pn-tarife-lista input {
+  border: 1px solid rgba(20, 52, 92, 0.18);
+  border-radius: 10px;
+  padding: 10px 13px;
+  font: inherit;
+  min-width: 200px;
+}
+#pn-tarife-lista input:focus { outline: 2px solid rgba(18, 58, 158, 0.3); }
+#pn-tarife-lista .pn-rand strong { font-family: var(--font-display); font-size: 0.92rem; }

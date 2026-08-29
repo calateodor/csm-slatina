@@ -1,0 +1,64 @@
+/* Contact — structura hub: carduri de date + formular (macheta) */
+.ct-carduri {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(250px, 100%), 1fr));
+  gap: clamp(14px, 2vw, 22px);
+  margin-bottom: clamp(24px, 3.5vw, 40px);
+}
+.ct-card {
+  background: #fff;
+  border: 1px solid rgba(20, 52, 92, 0.08);
+  border-radius: var(--raza-panou, 24px);
+  padding: 22px 24px;
+  box-shadow: 0 14px 34px rgba(16, 34, 64, 0.06);
+}
+.ct-ico {
+  display: inline-grid; place-items: center;
+  width: 42px; height: 42px; border-radius: 12px;
+  background: var(--navy-900, #14345c);
+  font-size: 1.1rem; margin-bottom: 12px;
+}
+.ct-k {
+  display: block;
+  font-size: 0.72rem; font-weight: 700; letter-spacing: 0.14em;
+  text-transform: uppercase; color: rgba(20, 52, 92, 0.55);
+  margin-bottom: 6px;
+}
+.ct-card p { font-weight: 600; color: var(--navy-900, #14345c); font-size: 0.97rem; }
+.ct-card a { color: inherit; }
+
+.ct-formular { padding: clamp(26px, 4vw, 46px); }
+.ct-formular h2 {
+  font-family: var(--font-display); font-weight: 800;
+  font-size: clamp(1.5rem, 3vw, 2rem); color: var(--navy-900, #14345c);
+  margin: 6px 0 22px;
+}
+.ct-formular label {
+  display: block; margin-bottom: 16px;
+  font-size: 0.78rem; font-weight: 700; letter-spacing: 0.12em;
+  text-transform: uppercase; color: rgba(20, 52, 92, 0.6);
+}
+.ct-formular input, .ct-formular select, .ct-formular textarea {
+  display: block; width: 100%; margin-top: 8px;
+  font-family: var(--font-body); font-size: 1rem; color: var(--navy-900, #14345c);
+  background: #fff;
+  border: 1px solid rgba(20, 52, 92, 0.18);
+  border-radius: 12px; padding: 13px 16px;
+  transition: border-color 0.25s var(--ease-out), box-shadow 0.25s var(--ease-out);
+}
+.ct-formular input:focus, .ct-formular select:focus, .ct-formular textarea:focus {
+  outline: none; border-color: var(--royal, #2457d6);
+  box-shadow: 0 0 0 3px rgba(36, 87, 214, 0.12);
+}
+.ct-rand { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.ct-formular button { margin-top: 6px; }
+.ct-confirmare {
+  margin-top: 16px; padding: 14px 18px;
+  background: rgba(31, 168, 90, 0.1);
+  border: 1px solid rgba(31, 168, 90, 0.3);
+  border-radius: 12px;
+  color: #14663a; font-size: 0.93rem;
+}
+@media (max-width: 640px) {
+  .ct-rand { grid-template-columns: 1fr; gap: 0; }
+}

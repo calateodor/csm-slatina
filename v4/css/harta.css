@@ -1,0 +1,419 @@
+/* ============================================================
+   Harta interactivă a bazei — pinuri plutitoare cu iconițe,
+   editabile (+ / − / tras cu mouse-ul). Pagina e o unealtă
+   de sine stătătoare, pe tokenurile v3.
+   ============================================================ */
+
+.harta-body {
+  background: var(--navy-950);
+  min-height: 100vh;
+  margin: 0;
+}
+
+/* ---------- bara de sus ---------- */
+.harta-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 14px clamp(16px, 3vw, 32px);
+}
+.harta-inapoi {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  text-decoration: none;
+}
+.harta-inapoi img { height: 44px; }
+.harta-inapoi span {
+  font-family: Poppins, sans-serif;
+  font-weight: 700;
+  font-size: 1.1rem;
+  color: #fff;
+  line-height: 1.15;
+}
+.harta-inapoi small {
+  display: block;
+  font-family: Manrope, sans-serif;
+  font-weight: 500;
+  font-size: 0.72rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(220, 231, 255, 0.65);
+}
+.harta-unelte { display: flex; gap: 8px; }
+.ht-buton {
+  min-width: 42px;
+  height: 42px;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  background: rgba(255, 255, 255, 0.08);
+  color: #fff;
+  font: 700 1.3rem Poppins, sans-serif;
+  cursor: pointer;
+  transition: background 0.2s, border-color 0.2s, transform 0.2s var(--ease-out);
+}
+.ht-buton:hover { background: rgba(255, 255, 255, 0.16); transform: translateY(-1px); }
+.ht-buton.activ { background: var(--gold); border-color: var(--gold); color: var(--ink); }
+.ht-buton.ht-text { font-size: 0.82rem; padding: 0 14px; font-weight: 600; }
+
+.harta-indiciu {
+  /* plutitor, ca sa nu impinga harta in jos cand apare */
+  position: fixed;
+  left: 50%;
+  top: 74px;
+  transform: translateX(-50%);
+  z-index: 60;
+  max-width: calc(100vw - 32px);
+  margin: 0;
+  padding: 10px 16px;
+  border-radius: 999px;
+  background: rgba(7, 19, 48, 0.92);
+  border: 1px solid rgba(246, 200, 28, 0.5);
+  color: var(--gold);
+  font: 600 0.86rem Manrope, sans-serif;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.45);
+}
+
+/* ---------- scena hărții ---------- */
+.harta-cadru {
+  /* sus ramane loc pentru capul pinurilor care ies peste marginea hartii */
+  padding: 72px clamp(16px, 3vw, 32px) 32px;
+  overflow-x: auto;              /* pe mobil, harta se derulează, pinurile rămân apăsabile */
+  overflow-y: visible;
+}
+.harta-scena {
+  position: relative;
+  min-width: 900px;
+  max-width: 1720px;
+  margin: 0 auto;
+  /* fara overflow:hidden — capul pinurilor de la marginea de sus
+     iese peste rama hartii, ca in referinta */
+  user-select: none;
+}
+.harta-scena.tinta { cursor: crosshair; }
+.harta-fundal {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: var(--raza-panou);
+  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.45);
+  pointer-events: none;
+}
+
+/* ---------- pinul plutitor ---------- */
+.hpin {
+  position: absolute;               /* left/top în procente, din js */
+  transform: translate(-50%, -100%);
+  width: 0;
+  height: 0;
+  z-index: 5;
+}
+.hpin-corp {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  animation: hpin-pluteste 3.2s ease-in-out infinite;
+  cursor: grab;
+}
+.hpin:nth-child(2n) .hpin-corp { animation-delay: -1.1s; }
+.hpin:nth-child(3n) .hpin-corp { animation-delay: -2.2s; }
+.hpin-cap {
+  position: relative;
+  width: 46px;
+  height: 46px;
+  border-radius: 15px;
+  display: grid;
+  place-items: center;
+  font-size: 1.35rem;
+  /* sticla colorata: fundal translucid + blur pe ce e sub pin */
+  background: color-mix(in srgb, var(--hpin-fond, #fff) 42%, transparent);
+  backdrop-filter: blur(7px) saturate(1.5);
+  -webkit-backdrop-filter: blur(7px) saturate(1.5);
+  border: 1px solid rgba(255, 255, 255, 0.55);
+  color: var(--hpin-text, var(--ink));
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.32),
+              inset 0 1px 0 rgba(255, 255, 255, 0.55),
+              inset 0 -8px 14px -8px color-mix(in srgb, var(--hpin-fond, #fff) 60%, transparent);
+  transition: transform 0.2s var(--ease-out);
+}
+.hpin-cap::before {
+  /* lumina diagonala de pe sticla */
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.55), rgba(255, 255, 255, 0.12) 38%, rgba(255, 255, 255, 0) 55%);
+  pointer-events: none;
+}
+.hpin-tija {
+  width: 2.5px;
+  height: 30px;
+  background: linear-gradient(to bottom,
+    color-mix(in srgb, var(--hpin-fond, #fff) 75%, #fff),
+    color-mix(in srgb, var(--hpin-fond, #fff) 35%, transparent));
+  border-radius: 2px;
+  margin-top: -1px;
+}
+.hpin-umbra {
+  position: absolute;
+  left: 0;
+  bottom: -3px;
+  transform: translateX(-50%);
+  width: 18px;
+  height: 6px;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.4);
+  filter: blur(2px);
+  animation: hpin-umbra 3.2s ease-in-out infinite;
+}
+.hpin:nth-child(2n) .hpin-umbra { animation-delay: -1.1s; }
+.hpin:nth-child(3n) .hpin-umbra { animation-delay: -2.2s; }
+@keyframes hpin-pluteste {
+  0%, 100% { transform: translateX(-50%) translateY(0); }
+  50%      { transform: translateX(-50%) translateY(-6px); }
+}
+@keyframes hpin-umbra {
+  0%, 100% { transform: translateX(-50%) scale(1); opacity: 1; }
+  50%      { transform: translateX(-50%) scale(0.72); opacity: 0.55; }
+}
+.hpin-corp:hover { animation-play-state: paused; }   /* tinta stabila sub cursor */
+.hpin.extins .hpin-corp,
+.hpin.extins .hpin-umbra { animation-play-state: paused; }
+.hpin-corp:hover .hpin-cap { transform: scale(1.12); }
+.hpin.tras .hpin-corp { animation: none; cursor: grabbing; }
+.hpin.tras .hpin-umbra { animation: none; }
+
+/* cardul care „înflorește” din pin la hover (sau la prima atingere) */
+.hpin.extins { z-index: 9; }
+.hpin:hover { z-index: 11; }   /* ce e sub cursor sta deasupra oricarui alt pin */
+.hpin-card {
+  position: absolute;
+  left: 50%;
+  bottom: calc(100% + 6px);
+  width: 196px;
+  padding: 8px 8px 9px;
+  border-radius: 16px;
+  text-align: center;
+  font: 600 0.8rem Manrope, sans-serif;
+  color: #fff;
+  /* sticla colorata, intarita cu navy ca sa se citeasca textul */
+  background: color-mix(in srgb, var(--hpin-fond, #fff) 45%, rgba(7, 19, 48, 0.62));
+  backdrop-filter: blur(14px) saturate(1.4);
+  -webkit-backdrop-filter: blur(14px) saturate(1.4);
+  border: 1px solid rgba(255, 255, 255, 0.45);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.4);
+  transform: translateX(-50%) scale(0.12);
+  transform-origin: bottom center;
+  opacity: 0;
+  pointer-events: none;
+  transition: transform 0.35s var(--ease-out), opacity 0.25s;
+}
+.hpin-card img {
+  display: block;
+  width: 100%;
+  height: 98px;
+  object-fit: cover;
+  border-radius: 11px;
+  margin-bottom: 8px;
+}
+.hpin-card b { display: block; font-weight: 700; text-shadow: 0 1px 6px rgba(0, 0, 0, 0.4); }
+.hpin-card i {
+  display: block;
+  margin-top: 3px;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 0.72rem;
+  color: #ffe27a;
+  line-height: 1.35;
+  text-shadow: 0 1px 6px rgba(0, 0, 0, 0.45);
+}
+.hpin-cta {
+  display: inline-block;
+  margin-top: 9px;
+  padding: 7px 16px;
+  border-radius: 999px;
+  background: rgba(7, 19, 48, 0.85);
+  color: #fff;
+  font: 700 0.72rem Poppins, sans-serif;
+  font-style: normal;
+}
+.hpin-cta span { color: var(--gold); }
+.hpin-corp:hover .hpin-card,
+.hpin.extins .hpin-card {
+  transform: translateX(-50%) scale(1);
+  opacity: 1;
+  pointer-events: auto;
+}
+/* pinurile din partea de sus își deschid cardul DEDESUBT, ca să nu iasă din hartă */
+.hpin.sus .hpin-card { bottom: auto; top: calc(100% + 4px); transform-origin: top center; }
+/* aproape de margini, cardul se lipește de margine în loc să iasă din scenă */
+.hpin.stanga .hpin-card { left: -18px; transform: translateX(0) scale(0.12); transform-origin: bottom left; }
+.hpin.stanga .hpin-corp:hover .hpin-card,
+.hpin.stanga.extins .hpin-card { transform: translateX(0) scale(1); }
+.hpin.stanga.sus .hpin-card { transform-origin: top left; }
+.hpin.dreapta .hpin-card { left: auto; right: -18px; transform: translateX(0) scale(0.12); transform-origin: bottom right; }
+.hpin.dreapta .hpin-corp:hover .hpin-card,
+.hpin.dreapta.extins .hpin-card { transform: translateX(0) scale(1); }
+.hpin.dreapta.sus .hpin-card { transform-origin: top right; }
+/* in modul de stergere cardul nu ne trebuie */
+.harta-scena.mod-sterge .hpin-card { display: none; }
+
+/* pulsul auriu — „Vezi pe hartă” de pe carduri */
+.hpin.pulsat { z-index: 8; }
+.hpin.pulsat .hpin-cap::after {
+  content: "";
+  position: absolute;
+  inset: -3px;
+  border-radius: 18px;
+  border: 3px solid var(--gold);
+  animation: hpin-inel 0.85s ease-out 3;
+  pointer-events: none;
+}
+@keyframes hpin-inel {
+  0%   { transform: scale(1);   opacity: 1; }
+  100% { transform: scale(1.7); opacity: 0; }
+}
+
+/* modul de ștergere */
+.harta-scena.mod-sterge .hpin-corp { cursor: pointer; }
+.harta-scena.mod-sterge .hpin-cap {
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.38), 0 0 0 3px #ff5a4e;
+  animation: hpin-tremura 0.35s ease-in-out infinite;
+}
+@keyframes hpin-tremura {
+  0%, 100% { rotate: -2.5deg; }
+  50%      { rotate: 2.5deg; }
+}
+.hpin-x {
+  position: absolute;
+  top: -7px;
+  right: -7px;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: #ff5a4e;
+  color: #fff;
+  font: 700 0.72rem/20px Poppins, sans-serif;
+  text-align: center;
+  display: none;
+}
+.harta-scena.mod-sterge .hpin-x { display: block; }
+
+/* ---------- panoul de alegere ---------- */
+.harta-alege {
+  position: fixed;
+  right: clamp(16px, 3vw, 32px);
+  top: 76px;
+  width: min(360px, calc(100vw - 32px));
+  max-height: min(560px, calc(100vh - 100px));
+  overflow-y: auto;
+  background: #fff;
+  border-radius: var(--raza-panou);
+  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.5);
+  z-index: 50;
+}
+.harta-alege-cap {
+  position: sticky;
+  top: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 18px;
+  background: #fff;
+  border-bottom: 1px solid var(--line);
+}
+.harta-alege-cap strong { font-family: Poppins, sans-serif; color: var(--ink); }
+.harta-alege-cap .ht-buton { border-color: var(--line); background: #fff; color: var(--ink-soft); }
+.harta-alege-grila {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  padding: 14px;
+}
+.ht-serviciu {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  border: 1px solid var(--line);
+  border-radius: var(--raza-card);
+  background: #fff;
+  padding: 10px 12px;
+  font: 600 0.8rem Manrope, sans-serif;
+  color: var(--ink);
+  text-align: left;
+  cursor: pointer;
+  transition: border-color 0.2s, transform 0.2s var(--ease-out), box-shadow 0.2s;
+}
+.ht-serviciu:hover { transform: translateY(-2px); box-shadow: 0 10px 24px rgba(13, 37, 102, 0.12); border-color: var(--royal); }
+.ht-serviciu .buline {
+  flex: 0 0 34px;
+  height: 34px;
+  border-radius: 10px;
+  display: grid;
+  place-items: center;
+  font-size: 1.05rem;
+  background: var(--hpin-fond, #eef2fb);
+}
+.ht-serviciu small {
+  display: block;
+  margin-top: 2px;
+  font-weight: 500;
+  font-size: 0.68rem;
+  color: var(--ink-soft);
+  line-height: 1.3;
+}
+
+/* ---------- harta incorporata in alte pagini (club-nautic) ---------- */
+.harta-embed {
+  margin-top: 34px;
+  padding-top: 14px;                 /* loc pentru saltul pinurilor de sus */
+  overflow-x: auto;                  /* pe mobil se deruleaza, pinurile raman apasabile */
+  -webkit-overflow-scrolling: touch;
+}
+.harta-embed .harta-scena { min-width: 860px; }
+.v2-harta-nota {
+  margin: 14px 0 0;
+  text-align: center;
+  font: 500 0.88rem Manrope, sans-serif;
+  color: rgba(220, 231, 255, 0.72);
+}
+
+/* „Vezi pe hartă” — link mic pe cardurile de rezervări */
+.v2-pe-harta {
+  display: inline-block;
+  margin: 10px 0 0 16px;
+  font: 600 0.76rem Manrope, sans-serif;
+  color: rgba(220, 231, 255, 0.7);
+  text-decoration: none;
+  border-bottom: 1px dashed rgba(220, 231, 255, 0.4);
+  padding-bottom: 2px;
+  transition: color 0.25s, border-color 0.25s;
+}
+.v2-pe-harta:hover { color: var(--gold); border-color: var(--gold); }
+
+/* „Cum ajung” — sub hartă, pe pagina nautică */
+.v2-cum-ajung {
+  display: block;
+  width: max-content;
+  margin: 16px auto 0;
+  padding: 11px 22px;
+  border-radius: 999px;
+  background: rgba(246, 200, 28, 0.14);
+  border: 1px solid rgba(246, 200, 28, 0.5);
+  color: var(--gold);
+  font: 700 0.85rem Poppins, sans-serif;
+  text-decoration: none;
+  transition: background 0.25s, transform 0.25s var(--ease-out);
+}
+.v2-cum-ajung:hover { background: rgba(246, 200, 28, 0.26); transform: translateY(-2px); }
+
+@media (max-width: 700px) {
+  .harta-top { flex-wrap: wrap; }
+  .harta-alege { top: auto; bottom: 12px; right: 16px; }
+  .hpin-cap { width: 42px; height: 42px; font-size: 1.2rem; }
+}

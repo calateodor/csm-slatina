@@ -1,0 +1,25 @@
+# CSM Slatina — site static pe GitHub Pages.
+# Versiunea publicată este /v4/. Versiunile vechi rămân în repository ca
+# arhivă, dar nu trebuie indexate: ar concura cu paginile curente pe
+# aceleași cuvinte și ar împărți poziția în Google.
+
+User-agent: *
+Allow: /v4/
+
+# arhive și pagini vechi
+Disallow: /v2/
+Disallow: /v3/
+Disallow: /css/
+Disallow: /js/
+Disallow: /data/
+Disallow: /sectii/
+Disallow: /contact.html
+Disallow: /padel.html
+Disallow: /plaja-olt.html
+
+# unelte interne, nu conținut public
+Disallow: /v4/panou.html
+Disallow: /v4/admin.html
+Disallow: /v4/harta.html
+
+Sitemap: https://calateodor.github.io/csm-slatina/sitemap.xml

@@ -1,0 +1,264 @@
+/* =========================================================
+   PLAJA OLT — registrul luminos, de vară
+   Singura pagină de agrement în registru deschis (STIL.md):
+   cer, apă, nisip; alb + bleu + auriu generos. Fantomele sunt
+   bleumarin pe fondul deschis, iar teaserul spre Clubul Nautic
+   e singurul moment întunecat al paginii — oglinda inversă a
+   teaserului de plajă de pe pagina nautică.
+   ========================================================= */
+
+.lum-body {
+  --lum-hartie: #fdfcf8;
+  --lum-nisip: #f6efe2;
+  --lum-cer: #e9f3fd;
+  --lum-text: #17335c;
+  --lum-text-moale: #47617f;
+  /* auriul pe fond deschis coboară spre #dfae00 (STIL.md) */
+  --lum-auriu: #dfae00;
+  background: var(--lum-hartie);
+  color: var(--lum-text);
+}
+
+/* ---------- Eroul de vară ---------- */
+.lum-erou {
+  position: relative;
+  min-height: 92svh;
+  display: grid; align-items: end;
+  padding: calc(var(--header-h) + 40px) 0 clamp(44px, 7vh, 84px);
+  overflow: hidden;
+}
+.lum-fundal { position: absolute; inset: 0; z-index: 0; pointer-events: none; }
+/* colajul: patru fotografii verticale umar la umar, despartite de un fir
+   din hartia paginii; fiecare intra in cascada si paralaxeaza cu viteza ei */
+.lum-colaj {
+  position: absolute; inset: 0;
+  display: grid; grid-template-columns: repeat(4, 1fr);
+  gap: 4px; background: var(--lum-hartie);
+}
+.lum-colaj img {
+  width: 100%; height: 100%;
+  object-fit: cover; object-position: 50% 62%;
+  /* zoom-ul da loc parallax-ului din main.js sa miste fiecare coloana
+     fara sa-i descopere muchiile */
+  transform: scale(1.16);
+  animation: lum-erou-intra 1100ms var(--ease-out) backwards;
+}
+.lum-colaj img:nth-child(2) { animation-delay: 110ms; object-position: 50% 40%; }
+.lum-colaj img:nth-child(3) { animation-delay: 220ms; }
+.lum-colaj img:nth-child(4) { animation-delay: 330ms; object-position: 50% 55%; }
+/* pe telefon nu incap patru coloane: ramane fotografia preferata, singura */
+@media (max-width: 880px) {
+  .lum-colaj { grid-template-columns: 1fr; gap: 0; }
+  .lum-colaj img:not(:first-child) { display: none; }
+}
+/* ceața: sus o idee de bleumarin pentru meniu, jos hârtia paginii
+   urcă peste poză și primește titlul */
+.lum-ceata {
+  position: absolute; inset: 0;
+  background:
+    linear-gradient(rgba(10, 30, 60, 0.34), rgba(10, 30, 60, 0) 26%),
+    linear-gradient(rgba(253, 252, 248, 0) 46%,
+                    rgba(253, 252, 248, 0.92) 84%,
+                    var(--lum-hartie) 100%);
+}
+@keyframes lum-erou-intra { from { scale: 1.045; opacity: 0; } }
+
+.lum-fantoma-erou {
+  color: rgba(255, 255, 255, 0.14);
+  top: 16%; right: -1%;
+}
+.lum-erou-copy { position: relative; z-index: 2; max-width: min(1140px, 92vw); }
+/* peste fotografia insorita, auriul coboara si primeste un abur alb,
+   altfel se pierde in nisip */
+.lum-erou-copy .eyebrow {
+  color: #c99700;
+  text-shadow: 0 1px 10px rgba(255, 255, 255, 0.85);
+}
+.lum-erou-copy h1 {
+  font-family: var(--font-display);
+  font-size: clamp(3rem, 8vw, 5.4rem);
+  font-weight: 800; letter-spacing: -0.02em;
+  color: var(--lum-text);
+}
+.lum-erou-copy .lead {
+  margin-top: 14px; max-width: 54ch;
+  color: var(--lum-text-moale); font-size: 1.1rem;
+}
+.lum-erou-copy .btn { margin-top: 26px; }
+
+/* ---------- scheletul capitolelor deschise ---------- */
+.lum-tarife, .lum-petreceri, .lum-program {
+  position: relative; overflow: hidden;
+  padding: clamp(52px, 7.5vw, 92px) 0;
+}
+.lum-tarife .fantoma, .lum-petreceri .fantoma, .lum-program .fantoma {
+  color: rgba(23, 51, 92, 0.05);
+}
+.lum-tarife .container, .lum-petreceri .container, .lum-program .container {
+  position: relative; z-index: 2;
+}
+.lum-tarife { background: linear-gradient(var(--lum-cer), var(--lum-hartie) 78%); }
+.lum-petreceri { background: var(--lum-nisip); }
+
+.lum-tarife .section-title, .lum-petreceri .section-title, .lum-program .section-title {
+  color: var(--lum-text);
+}
+.accent-lum { color: var(--lum-auriu); }
+.lum-tarife .eyebrow, .lum-petreceri .eyebrow, .lum-program .eyebrow {
+  color: var(--lum-auriu);
+}
+
+/* ---------- panourile albe cu firul auriu ---------- */
+.lum-panouri {
+  margin-top: clamp(26px, 4vw, 44px);
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(320px, 100%), 1fr));
+  gap: clamp(16px, 2.4vw, 26px);
+  align-items: start;
+}
+.lum-panouri-2 { grid-template-columns: repeat(auto-fit, minmax(min(340px, 100%), 1fr)); }
+.lum-panou {
+  position: relative;
+  background: #fff;
+  border: 1px solid rgba(23, 51, 92, 0.08);
+  border-radius: var(--raza-panou, 24px);
+  padding: 26px 28px 24px;
+  box-shadow: 0 18px 44px rgba(23, 51, 92, 0.07);
+  overflow: hidden;
+}
+/* auriul generos al agrementului: firul de lumină de pe muchia de sus */
+.lum-panou::before {
+  content: ""; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+  background: linear-gradient(90deg, #f6c81c, #dfae00 55%, rgba(223, 174, 0, 0.15));
+}
+.lum-panou h3 {
+  font-family: var(--font-display); font-weight: 700;
+  font-size: 1.12rem; color: var(--lum-text);
+  display: flex; flex-wrap: wrap; align-items: baseline; gap: 8px;
+  margin-bottom: 14px;
+}
+.lum-panou h3 small {
+  font-family: var(--font-body); font-weight: 600;
+  font-size: 0.78rem; color: var(--lum-text-moale);
+}
+
+/* tarifele cu puncte de umplutură — standardul site-ului, în varianta
+   pe fond deschis */
+.lum-tarife-lista { list-style: none; margin: 0; padding: 0; }
+.lum-tarife-lista li {
+  display: flex; align-items: baseline; gap: 10px;
+  padding: 9px 0; font-size: 0.98rem; color: var(--lum-text);
+}
+.lum-tarife-lista li + li { border-top: 1px solid rgba(23, 51, 92, 0.05); }
+.lum-tarife-lista em { font-style: normal; font-size: 0.82rem; color: var(--lum-text-moale); }
+.lum-tarife-lista i {
+  flex: 1; min-width: 24px;
+  border-bottom: 2px dotted rgba(23, 51, 92, 0.22);
+  transform: translateY(-4px);
+}
+.lum-tarife-lista strong {
+  font-weight: 700; color: var(--lum-auriu);
+  text-align: right; text-wrap: balance;
+}
+.lum-nota { margin-top: 14px; font-size: 0.85rem; color: var(--lum-text-moale); }
+
+/* regulamentul: puncte aurii, rânduri aerisite */
+.lum-reguli { list-style: none; margin: 0; padding: 0; }
+.lum-reguli li {
+  position: relative; padding: 8px 0 8px 22px;
+  font-size: 0.95rem; color: var(--lum-text);
+}
+.lum-reguli li::before {
+  content: ""; position: absolute; left: 2px; top: 15px;
+  width: 7px; height: 7px; border-radius: 50%;
+  background: var(--lum-auriu);
+}
+
+/* ---------- petrecerile ---------- */
+.lum-petreceri-grid {
+  margin-top: clamp(26px, 4vw, 44px);
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(320px, 100%), 1fr));
+  gap: clamp(16px, 2.4vw, 26px);
+  align-items: stretch;
+}
+.lum-anunt {
+  display: flex; flex-direction: column; justify-content: center; gap: 8px;
+  border: 2px dashed rgba(23, 51, 92, 0.22);
+  border-radius: var(--raza-panou, 24px);
+  padding: 30px 32px;
+  background: rgba(255, 255, 255, 0.55);
+}
+.lum-anunt strong { font-family: var(--font-display); font-size: 1.15rem; color: var(--lum-text); }
+.lum-anunt span { color: var(--lum-text-moale); font-size: 0.95rem; max-width: 44ch; }
+
+.lum-editii-k {
+  display: block; margin-bottom: 10px;
+  font-size: 0.78rem; font-weight: 700; letter-spacing: 0.14em;
+  text-transform: uppercase; color: var(--lum-auriu);
+}
+.lum-editie {
+  display: grid; grid-template-columns: 132px 1fr;
+  background: #fff;
+  border: 1px solid rgba(23, 51, 92, 0.08);
+  border-radius: 18px; overflow: hidden;
+  box-shadow: 0 14px 34px rgba(23, 51, 92, 0.08);
+  text-decoration: none; color: inherit;
+  transition: transform 0.35s var(--ease-out), box-shadow 0.35s var(--ease-out);
+}
+.lum-editie:hover { transform: translateY(-4px); box-shadow: 0 22px 44px rgba(23, 51, 92, 0.12); }
+.lum-editie img { width: 100%; height: 100%; min-height: 120px; object-fit: cover; }
+.lum-editie-copy { padding: 18px 20px; display: flex; flex-direction: column; gap: 4px; }
+.lum-editie-copy strong { font-family: var(--font-display); font-size: 1.05rem; color: var(--lum-text); }
+.lum-editie-copy > span { font-size: 0.85rem; color: var(--lum-text-moale); }
+.lum-editie-copy em {
+  font-style: normal; margin-top: 8px;
+  font-size: 0.85rem; font-weight: 700; color: var(--lum-auriu);
+}
+
+/* ---------- program: fotografia cu văl de lumină ---------- */
+.lum-program-fundal { position: absolute; inset: 0; z-index: 0; pointer-events: none; }
+.lum-program-fundal img {
+  position: absolute; inset: 0; width: 100%; height: 100%;
+  object-fit: cover; object-position: 50% 45%;
+}
+.lum-ceata-plina {
+  position: absolute; inset: 0;
+  background: linear-gradient(rgba(253, 252, 248, 0.94),
+                              rgba(253, 252, 248, 0.82) 55%,
+                              rgba(253, 252, 248, 0.94));
+}
+
+/* ---------- teaserul întunecat: Clubul Nautic ---------- */
+.lum-nautic-lead { margin-top: 10px; color: rgba(255, 255, 255, 0.8); max-width: 52ch; }
+.lum-nautic-carduri {
+  margin: clamp(24px, 3.5vw, 38px) 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(280px, 100%), 1fr));
+  gap: clamp(14px, 2vw, 22px);
+}
+.lum-ncard {
+  display: flex; flex-direction: column; gap: 8px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(246, 200, 28, 0.32);
+  border-radius: var(--raza-card, 14px);
+  padding: 22px 24px;
+  text-decoration: none;
+  transition: border-color 0.35s var(--ease-out), transform 0.35s var(--ease-out),
+              background 0.35s var(--ease-out);
+}
+.lum-ncard:hover {
+  border-color: var(--gold, #f6c81c);
+  background: rgba(255, 255, 255, 0.09);
+  transform: translateY(-4px);
+}
+.lum-ncard strong { font-family: var(--font-display); font-size: 1.06rem; color: #fff; }
+.lum-ncard span { font-size: 0.9rem; color: rgba(255, 255, 255, 0.72); }
+
+/* ---------- mobil ---------- */
+@media (max-width: 640px) {
+  .lum-erou { min-height: 86svh; }
+  .lum-fantoma-erou { top: 12%; }
+  .lum-editie { grid-template-columns: 104px 1fr; }
+  .lum-panou { padding: 22px 20px 20px; }
+}

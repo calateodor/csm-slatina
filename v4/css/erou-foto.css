@@ -1,0 +1,59 @@
+/* =========================================================
+   Eroul cu fotografie al secțiilor simple — rețeta din STIL.md:
+   fotografie reală trecută prin filtrul albastru al clubului
+   (desaturare + întunecare + blur ușor, tentă #2a5298 peste tot,
+   văl bleumarin mai apăsat spre bază). Aceleași manete ca la
+   eroul-calendar de fotbal, dar cu prefix propriu, ca paginile
+   simple să se regleze separat.
+   ========================================================= */
+.page-hero.erou-foto {
+  --ef-tenta: 0.82;
+  --ef-val-sus: 0.58;
+  --ef-val-jos: 0.86;
+  --ef-saturatie: 0.6;
+  --ef-contrast: 1.06;
+  --ef-luminozitate: 0.66;
+  --ef-neclaritate: 2px;
+  /* zoom-ul dă loc parallax-ului (main.js) să miște poza fără să-i
+     descopere marginile */
+  --ef-zoom: 1.14;
+}
+.erou-foto .erou-fundal {
+  position: absolute; inset: 0; z-index: 0;
+  overflow: hidden; pointer-events: none;
+}
+.erou-foto .erou-fundal img {
+  position: absolute; inset: 0;
+  width: 100%; height: 100%;
+  object-fit: cover; object-position: 50% 40%;
+  transform: scale(var(--ef-zoom));
+  transform-origin: 50% 50%;
+  filter: saturate(var(--ef-saturatie))
+          contrast(var(--ef-contrast))
+          brightness(var(--ef-luminozitate))
+          blur(var(--ef-neclaritate));
+  animation: erou-foto-intra 1100ms var(--ease-out) backwards;
+}
+.erou-foto .erou-fundal .tenta {
+  position: absolute; inset: 0;
+  background: #2a5298;
+  mix-blend-mode: color;
+  opacity: var(--ef-tenta);
+}
+.erou-foto .erou-fundal .val {
+  position: absolute; inset: 0;
+  background: linear-gradient(
+    rgba(19, 44, 104, var(--ef-val-sus)),
+    rgba(14, 33, 82, var(--ef-val-jos)));
+}
+/* filigranul și iconița sportului trec peste fotografie */
+.erou-foto .sport-ghost, .erou-foto .hero-art { z-index: 1; }
+
+@keyframes erou-foto-intra { from { scale: 1.045; opacity: 0; } }
+
+@media (max-width: 880px) {
+  .page-hero.erou-foto { --ef-neclaritate: 1px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .erou-foto .erou-fundal img { animation: none; }
+}

@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Panou de administrare — CSM Slatina</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="icon" type="image/png" href="assets/img/logo.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700;800&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/panou.css">
+</head>
+<body class="pn-body">
+  <a class="sari-la-continut" href="#continut">Sari la conținut</a>
+
+  <!-- ================= Poarta de acces ================= -->
+  <div class="pn-poarta" id="pn-poarta">
+    <div class="pn-poarta-card">
+      <img src="assets/img/logo.webp" alt="Stema CSM Slatina" width="256" height="331">
+      <h1>Panoul site-ului</h1>
+      <!-- login obisnuit: utilizator + parola (decripteaza token-ul salvat) -->
+      <div id="pn-login">
+        <p>Intră cu utilizatorul și parola panoului.</p>
+        <input type="text" id="pn-user" placeholder="utilizator" autocomplete="username">
+        <input type="password" id="pn-parola" placeholder="parola" autocomplete="current-password">
+        <button class="pn-btn pn-btn-plin" id="pn-intra" type="button">Intră în panou</button>
+      </div>
+
+      <!-- prima configurare: token + alegerea utilizatorului si parolei -->
+      <div id="pn-setup" hidden>
+        <p><b>Prima configurare</b> — o singură dată: lipește token-ul GitHub și
+           alege-ți utilizatorul și parola cu care vei intra de-acum înainte,
+           de pe orice browser.</p>
+        <input type="password" id="pn-token" placeholder="github_pat_…" autocomplete="off">
+        <input type="text" id="pn-setup-user" placeholder="utilizator (ex. admin)" autocomplete="off">
+        <input type="password" id="pn-setup-parola" placeholder="parola (cât mai lungă!)" autocomplete="new-password">
+        <button class="pn-btn pn-btn-plin" id="pn-configureaza" type="button">Configurează panoul</button>
+        <p style="font-size:0.78rem; color:#8a94a6; margin-top:10px">Token-ul se salvează
+           <b>criptat cu parola ta</b> — fără parolă, nimeni nu-l poate folosi.
+           O parolă scurtă gen „admin1234" poate fi spartă prin încercări repetate;
+           alege ceva mai lung, de pildă trei cuvinte.</p>
+        <details class="pn-ajutor">
+          <summary>Cum îmi fac token-ul?</summary>
+          <ol>
+            <li>Intră pe <a href="https://github.com/settings/personal-access-tokens/new" target="_blank" rel="noopener">github.com → Settings → Fine-grained tokens</a>, logat cu contul care deține site-ul.</li>
+            <li>Nume: „Panou CSM". Expiration: 1 an. <b>Repository access</b>: „Only select repositories" → <b>csm-slatina</b>.</li>
+            <li>La <b>Permissions → Repository → Contents</b> alege <b>Read and write</b>. Restul rămân neatinse.</li>
+            <li>Generate token, copiază-l (începe cu <code>github_pat_</code>) și lipește-l aici.</li>
+          </ol>
+        </details>
+      </div>
+      <div class="pn-eroare" id="pn-poarta-eroare" role="alert"></div>
+    </div>
+  </div>
+
+  <!-- ================= Panoul ================= -->
+  <div class="pn-panou" id="pn-panou" hidden>
+    <header class="pn-antet">
+      <div class="pn-brand">
+        <img src="assets/img/logo.webp" alt="" width="256" height="331">
+        <div><strong>Panou CSM Slatina</strong><span id="pn-stare">conectat</span></div>
+      </div>
+      <nav class="pn-tab-uri">
+        <button class="pn-tab activ" data-tab="stiri" type="button">Știri</button>
+        <button class="pn-tab" data-tab="lot" type="button">Loturi</button>
+        <button class="pn-tab" data-tab="meciuri" type="button">Meciuri</button>
+        <button class="pn-tab" data-tab="tarife" type="button">Tarife</button>
+        <button class="pn-tab" data-tab="editare" type="button">Editare în pagină</button>
+      </nav>
+      <button class="pn-btn" id="pn-iesire" type="button">Ieșire</button>
+    </header>
+
+    <main id="continut" class="pn-continut">
+
+      <section class="pn-sectiune" id="tab-stiri">
+        <div class="pn-cap">
+          <h2>Știri &amp; bloguri</h2>
+          <button class="pn-btn pn-btn-plin" id="stire-noua" type="button">+ Adaugă știre</button>
+        </div>
+        <p class="pn-nota">Articolele apar pe <a href="stiri.html" target="_blank">pagina de știri</a>.
+           „Nepublicat" înseamnă ciornă: rămâne salvată, dar nu se vede pe site.</p>
+        <div class="pn-lista" id="stiri-lista"></div>
+      </section>
+
+      <section class="pn-sectiune" id="tab-lot" hidden>
+        <div class="pn-cap">
+          <h2>Loturile echipelor</h2>
+          <div class="pn-comutator" id="lot-sport">
+            <button class="activ" data-sport="handbal" type="button">Handbal</button>
+            <button data-sport="fotbal" type="button">Fotbal</button>
+          </div>
+        </div>
+        <p class="pn-nota" id="lot-nota"></p>
+        <div class="pn-lista" id="lot-lista"></div>
+        <button class="pn-btn" id="lot-adauga" type="button">+ Adaugă jucător</button>
+      </section>
+
+      <section class="pn-sectiune" id="tab-meciuri" hidden>
+        <div class="pn-cap">
+          <h2>Meciuri (program)</h2>
+          <button class="pn-btn" id="meci-adauga" type="button">+ Adaugă meci</button>
+        </div>
+        <p class="pn-nota">Datele vin automat de pe Flashscore. Ce editezi aici devine
+          <b>manual</b> — scriptul de actualizare nu-l mai atinge până nu apeși
+          „înapoi pe automat".</p>
+        <div class="pn-lista" id="meciuri-lista"></div>
+      </section>
+
+      <section class="pn-sectiune" id="tab-tarife" hidden>
+        <h2>Tarifele activităților</h2>
+        <p class="pn-nota">Prețurile de aici apar pe <b>pinurile hărții interactive</b>
+           (pagina Clubul Nautic). Scrie tariful liber — exact cum vrei să se vadă în
+           etichetă; lasă gol dacă activitatea n-are preț de afișat. Cardurile și listele
+           de tarife din pagini se editează separat, din „Editare în pagină".</p>
+        <div class="pn-lista" id="pn-tarife-lista"></div>
+      </section>
+
+      <section class="pn-sectiune" id="tab-editare" hidden>
+        <h2>Editare direct în pagină</h2>
+        <p class="pn-nota">Pornești modul de editare, deschizi orice pagină a site-ului,
+           și primești: creion ✏️ pe toate textele (titluri, paragrafe, liste, tarife),
+           🖼️ pe fiecare fotografie (încarci de pe calculator sau lipești un link),
+           🎬 pe fundalurile speciale (clipul piscinei, scenele de la nautic), iar pe
+           paginile de fotbal și handbal — creion pe cardul deschis din evantai și
+           butonul „👥 Lotul" pentru adăugat/scos jucători. Ce salvezi se publică pe site.</p>
+        <button class="pn-btn pn-btn-plin" id="editare-porneste" type="button">Pornește modul editare</button>
+        <span class="pn-nota" id="editare-stare"></span>
+        <div class="pn-linkuri">
+          <a href="index.html" target="_blank">Acasă</a>
+          <a href="plaja-olt.html" target="_blank">Plaja Olt</a>
+          <a href="club-nautic.html" target="_blank">Clubul Nautic</a>
+          <a href="contact.html" target="_blank">Contact</a>
+          <a href="sectii/fotbal.html" target="_blank">Fotbal</a>
+          <a href="sectii/handbal.html" target="_blank">Handbal</a>
+          <a href="sectii/kempo.html" target="_blank">Kempo</a>
+        </div>
+      </section>
+
+    </main>
+
+    <div class="pn-publica" id="pn-publica" hidden>
+      <span id="pn-publica-text">Modificări nepublicate</span>
+      <button class="pn-btn pn-btn-plin" id="pn-publica-buton" type="button">Publică pe site</button>
+    </div>
+  </div>
+
+  <div class="pn-editor" id="pn-editor" hidden></div>
+
+  <script src="js/panou.js"></script>
+</body>
+</html>
