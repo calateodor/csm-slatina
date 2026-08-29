@@ -32,6 +32,15 @@
       var ora = data.toLocaleTimeString("ro-RO", { hour: "2-digit", minute: "2-digit" });
 
       kicker.textContent = urmator.sport + " · " + urmator.competitie;
+
+      // varianta scurtă, pentru cardul strâns de pe telefon: „dum, 30 aug · 18:00”
+      var mic = document.getElementById("meci-mic");
+      if (mic) {
+        mic.textContent = data.toLocaleDateString("ro-RO", {
+          weekday: "short", day: "numeric", month: "short"
+        }).replace(/\.$/, "") + " · " + ora;
+      }
+
       text.innerHTML = "";
       text.appendChild(document.createTextNode(curata(urmator.gazde) + " – " + curata(urmator.oaspeti)));
       text.appendChild(document.createElement("br"));

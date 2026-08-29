@@ -455,6 +455,8 @@ body.menu-open .menu-overlay { visibility: visible; opacity: 1; pointer-events: 
   color: #fff;
 }
 .ha-text { font-size: 0.8rem; line-height: 1.45; color: rgba(255,255,255,0.78); }
+/* rezumatul de o linie — apare doar cand cardul se strange, pe telefon */
+.ha-mic { display: none; }
 .ha-arrow {
   position: absolute; right: 18px; bottom: 12px;
   font-family: var(--font-display); font-weight: 700; font-size: 1rem;
@@ -1306,10 +1308,18 @@ body.menu-open .menu-overlay { visibility: visible; opacity: 1; pointer-events: 
   /* pe telefon cardurile devin scurtături de aplicație: iconiță + titlu,
      centrate — kicker-ele lungi nu mai încap la ~110px lățime */
   .hero-actions { width: 94vw; gap: 8px; }
-  .ha-card { align-items: center; text-align: center; padding: 11px 6px 10px; gap: 6px; }
+  .ha-card { align-items: center; text-align: center; padding: 10px 6px 9px; gap: 4px; }
   .ha-kicker { display: none; }
   .ha-icon { margin-bottom: 0; }
-  .ha-title { font-size: 0.8rem; line-height: 1.2; }
+  .ha-title { font-size: 0.8rem; line-height: 1.15; }
+  /* detaliul scurt: ce e cardul, in trei cuvinte */
+  .ha-mic {
+    display: block;
+    font-size: 0.58rem; line-height: 1.25;
+    color: rgba(255, 255, 255, 0.62);
+    letter-spacing: 0.01em;
+  }
+  #meci-mic { color: rgba(246, 200, 28, 0.85); font-weight: 600; }
   .sections-grid { grid-template-columns: 1fr; gap: 16px; }
   .sport-card .card-body { padding: 16px 20px 20px; }
   /* hero scurt și compact: sloganul sub header, sportivii imediat sub el */
