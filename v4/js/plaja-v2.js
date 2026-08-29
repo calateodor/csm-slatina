@@ -69,6 +69,34 @@
     }, 350);
   });
 
+  /* Sosire de pe altă pagină: butoanele de pe prima pagină trimit aici cu
+     #activitate=<id>. Dacă activitatea are card extins, îl deschidem ca și
+     cum s-ar fi apăsat pinul ei; dacă nu are, ducem omul la hartă și îi
+     pulsăm pinul, ca să vadă măcar unde e pe teren. */
+  function activitateDinHash() {
+    var m = /[#&]activitate=([a-z-]+)/.exec(location.hash);
+    if (!m) return;
+    var id = m[1];
+    var areCard = cards.some(function (c) {
+      return (c.getAttribute("data-activitate") || "").split(" ").indexOf(id) !== -1;
+    });
+    if (areCard) {
+      document.dispatchEvent(new CustomEvent("harta:activitate", { detail: id }));
+    } else {
+      var h = document.getElementById("harta");
+      if (h) h.scrollIntoView({ behavior: "smooth", block: "start" });
+      document.dispatchEvent(new CustomEvent("harta:arata", { detail: id }));
+    }
+  }
+  // hash-ul nu e o ancoră reală, browserul nu are unde sări singur:
+  // la sosire așteptăm ca pagina să fie gata, iar „hashchange" acoperă
+  // cazul în care omul e deja aici și apasă alt buton de pe prima pagină
+  if (/[#&]activitate=/.test(location.hash)) {
+    if (document.readyState === "complete") setTimeout(activitateDinHash, 250);
+    else window.addEventListener("load", function () { setTimeout(activitateDinHash, 250); });
+  }
+  window.addEventListener("hashchange", activitateDinHash);
+
   /* punctele: arată cardul din față și sar la el la atingere */
   if (banda && cutieDots && cards.length) {
     var dots = cards.map(function (card, i) {
