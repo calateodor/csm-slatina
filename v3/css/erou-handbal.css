@@ -1,26 +1,30 @@
 /* =========================================================
    Eroul-calendar de handbal — același sistem ca la fotbal
    (erou-fotbal.css): echipa decupată stă pe banda cu tăietura
-   diagonală, sub calendar. Diferența față de fotbal e formatul
-   fotografiei: acolo PNG-ul e lat (12 jucători pe un rând,
-   1237×900), aici e un grup compact pe verticală (898×1000) —
-   de aici înălțimea mai mică a benzii și altă centrare.
+   diagonală, sub calendar, și urcă peste el.
    ========================================================= */
 .erou-handbal {
-  /* banda rezervată jucătoarelor: mai scundă decât la fotbal, ca hero-ul
-     să nu se lungească degeaba în jurul unui grup îngust */
+  /* banda de jos rezervată echipei (de la ea pornesc diagonala și centrul) */
   --jucatori-inalt: clamp(380px, 60vh, 640px);
+
+  /* ============ SCARA ECHIPEI — modifică DOAR cifra asta ============
+     Imaginea e ancorată JOS (tălpile pe marginea eroului) și crește în
+     sus, peste calendar. 1 = cât banda; 1.5 = cu 50% mai mare; 1.8 = și
+     mai sus peste calendar. */
+  --echipa-scara: 1.5;
 }
 
 /* centrarea din margin-left, ca la fotbal (transformul rămâne al GSAP):
    0.449 = jumătate din raportul nativ al PNG-ului de handbal (898/1000) */
 .erou-handbal .erou-echipa {
-  margin-left: calc(var(--jucatori-inalt) * -0.449);
+  height: calc(var(--jucatori-inalt) * var(--echipa-scara));
+  margin-left: calc(var(--jucatori-inalt) * var(--echipa-scara) * -0.449);
 }
 
 @media (max-width: 880px) {
-  /* în flux, sub calendar — dar grupul e îngust: nu-l lățim pe tot ecranul */
+  /* în flux, sub calendar — grupul e îngust, nu-l lățim pe tot ecranul */
   .erou-handbal .erou-echipa {
+    height: auto;
     width: min(88%, 520px);
     margin: 20px auto 0;
   }
