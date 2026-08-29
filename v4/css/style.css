@@ -55,7 +55,11 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
-img { max-width: 100%; display: block; }
+/* height:auto e obligatoriu de când <img> are width și height scrise în HTML:
+   atributele alea sunt indicii de stil, iar dacă CSS-ul stabilește doar
+   lățimea, înălțimea din atribut rămâne în picioare și imaginea iese
+   întinsă. Regulile care chiar vor o înălțime fixă o dau mai specific. */
+img { max-width: 100%; display: block; height: auto; }
 a { color: inherit; text-decoration: none; }
 ul { list-style: none; }
 button { font: inherit; background: none; border: none; cursor: pointer; color: inherit; }
@@ -1473,4 +1477,10 @@ body.menu-open .menu-overlay { visibility: visible; opacity: 1; pointer-events: 
   .nav-toggle:active, .abtn:active, .pn-btn:active, .court-btn:active {
     transform: none;
   }
+}
+
+/* pe telefon stema decorativă din blocul „Despre club" ieșea din ecran și
+   i se tăia marginea din dreapta — o tragem înăuntru și o facem puțin mai mică */
+@media (max-width: 640px) {
+  .about-media .crest { right: -8px; bottom: -22px; width: 108px; }
 }
