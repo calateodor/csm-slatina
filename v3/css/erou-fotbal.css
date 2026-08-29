@@ -157,6 +157,11 @@
   position: relative; z-index: 5;
   background: var(--white);
   margin-top: calc(var(--px-urmatoare) * -1vh);
+  /* pana porneste GSAP (calendar-erou.js), foaia sta coborata din CSS exact
+     cat marginea negativa — altfel pagina se deschide cu sectiunea urcata
+     peste erou si „sare" in jos la prima derulare, cand scrub-ul preia y-ul.
+     GSAP suprascrie transformul inline imediat ce se initializeaza. */
+  transform: translateY(calc(var(--px-urmatoare) * 1vh));
 }
 
 @media (max-width: 880px) {
