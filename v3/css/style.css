@@ -1283,17 +1283,18 @@ body.menu-open .menu-overlay { visibility: visible; opacity: 1; pointer-events: 
    ========================================================================== */
 @media (max-width: 960px) {
   .sections-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  /* acțiunile rapide devin bandă cu swipe orizontal, tot jos în hero */
+  /* acțiunile rapide se strâng: toate trei încap pe un rând, fără swipe —
+     rămân doar iconița, kicker-ul scurt și titlul */
   .hero-actions {
-    grid-template-columns: none;
-    grid-auto-flow: column; grid-auto-columns: min(320px, 82vw);
-    overflow-x: auto; width: 100vw; margin-inline: 0;
-    padding: 6px 4vw 10px;
-    scroll-snap-type: x mandatory;
-    scrollbar-width: none;
+    width: min(660px, 94vw);
+    gap: 10px;
   }
-  .hero-actions::-webkit-scrollbar { display: none; }
-  .ha-card { scroll-snap-align: start; }
+  .ha-card { padding: 12px 12px 12px 14px; gap: 4px; border-radius: 15px; }
+  .ha-text, .ha-arrow { display: none; }
+  .ha-icon { position: static; width: 32px; height: 32px; border-radius: 10px; margin-bottom: 2px; }
+  .ha-icon svg { width: 17px; height: 17px; }
+  .ha-kicker { font-size: 0.56rem; letter-spacing: 0.12em; }
+  .ha-title { font-size: 0.95rem; }
   .menu-inner { padding: calc(var(--header-h) + 16px) 0 46px; }
   .about-grid, .detail-grid { grid-template-columns: 1fr; }
   .about-media { order: -1; }
@@ -1302,6 +1303,13 @@ body.menu-open .menu-overlay { visibility: visible; opacity: 1; pointer-events: 
 }
 
 @media (max-width: 640px) {
+  /* pe telefon cardurile devin scurtături de aplicație: iconiță + titlu,
+     centrate — kicker-ele lungi nu mai încap la ~110px lățime */
+  .hero-actions { width: 94vw; gap: 8px; }
+  .ha-card { align-items: center; text-align: center; padding: 11px 6px 10px; gap: 6px; }
+  .ha-kicker { display: none; }
+  .ha-icon { margin-bottom: 0; }
+  .ha-title { font-size: 0.8rem; line-height: 1.2; }
   .sections-grid { grid-template-columns: 1fr; gap: 16px; }
   .sport-card .card-body { padding: 16px 20px 20px; }
   /* hero scurt și compact: sloganul sub header, sportivii imediat sub el */
