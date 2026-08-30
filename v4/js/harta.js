@@ -82,6 +82,14 @@
     try { localStorage.setItem(CHEIE, JSON.stringify(pini)); } catch (e) {}
   }
 
+  /* prima parte a tarifului (până la „·”) e prețul principal: pe card se
+     scrie mare și bold, restul rămâne dedesubt, mai mic */
+  function tarifMarcat(t) {
+    var i = t.indexOf("·");
+    if (i < 0) return "<strong>" + t + "</strong>";
+    return "<strong>" + t.slice(0, i).trim() + "</strong>" + t.slice(i + 1).trim();
+  }
+
   /* ---------- desen ---------- */
   function deseneaza() {
     strangeCard();   // cardul liber ar rămâne orfan dacă pinul lui e redesenat
@@ -104,7 +112,7 @@
           '<span class="hpin-card">' +
             (sv.poza ? '<img src="' + sv.poza + '" alt="" loading="lazy">' : "") +
             "<b>" + sv.nume + "</b>" +
-            (sv.tarif ? "<i>" + sv.tarif + "</i>" : "") +
+            (sv.tarif ? "<i>" + tarifMarcat(sv.tarif) + "</i>" : "") +
             (sv.poza ? '<em class="hpin-cta">Rezervă <span>→</span></em>' : "") +
           "</span>" +
           '<span class="hpin-cap">' + sv.ico + '<span class="hpin-x">×</span></span>' +

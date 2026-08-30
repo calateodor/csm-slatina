@@ -432,3 +432,76 @@
   .v2-aer img { transform: none; }
   .v2-scroll-hint span, .v2-pin { animation: none; }
 }
+
+/* ==========================================================================
+   v4 — informația mare pe carduri (cerută de Teo, după referința Lovable):
+   numărul de jucători cu iconiță, tariful cu cifra dominantă și butonul
+   de rezervare plin, cu țintă de atingere de 46px.
+   ========================================================================== */
+.v2-jucatori {
+  display: inline-flex; align-items: center; gap: 8px;
+  font-weight: 600; font-size: 0.95rem !important;
+  color: #fff !important;
+}
+.v2-jucatori svg {
+  width: 17px; height: 17px; flex: none;
+  fill: none; stroke: var(--gold); stroke-width: 1.8;
+  stroke-linecap: round; stroke-linejoin: round;
+}
+
+.v2-tarif {
+  display: flex; flex-wrap: wrap; align-items: baseline; gap: 7px;
+  margin-top: 2px; line-height: 1.15;
+}
+.v2-tarif strong {
+  font-family: var(--font-display); font-weight: 800;
+  font-size: 1.7rem; letter-spacing: -0.01em;
+  color: var(--gold);
+  text-shadow: 0 2px 12px rgba(7, 19, 48, 0.55);
+}
+.v2-tarif span { font-weight: 600; font-size: 0.88rem; color: rgba(255, 255, 255, 0.9); }
+.v2-tarif small {
+  flex-basis: 100%;
+  font-size: 0.8rem; color: rgba(255, 255, 255, 0.78);
+}
+
+.v2-buton {
+  display: inline-flex; align-items: center; justify-content: center; gap: 9px;
+  min-height: 46px; padding: 0 24px;
+  border-radius: 999px;
+  background: var(--gold); color: var(--navy-900);
+  font-family: var(--font-display); font-weight: 700; font-size: 0.88rem;
+  margin-top: 10px;
+  box-shadow: 0 10px 26px rgba(7, 19, 48, 0.35);
+  transition: background-color 0.2s var(--ease-out), transform 0.18s var(--ease-out);
+}
+.v2-buton svg {
+  width: 17px; height: 17px; flex: none;
+  fill: none; stroke: currentColor; stroke-width: 1.8;
+  stroke-linecap: round; stroke-linejoin: round;
+}
+.v2-buton:active { transform: scale(0.97); }
+@media (hover: hover) and (pointer: fine) {
+  .v2-buton:hover { background: #ffd83d; }
+}
+/* varianta secundară — padelul are și rezervare online */
+.v2-buton.online {
+  background: rgba(255, 255, 255, 0.14);
+  color: #fff;
+  border: 1.5px solid rgba(255, 255, 255, 0.45);
+  margin-top: 8px;
+  box-shadow: none;
+  backdrop-filter: blur(4px);
+}
+@media (hover: hover) and (pointer: fine) {
+  .v2-buton.online:hover { background: rgba(255, 255, 255, 0.22); }
+}
+
+/* pe telefon cifra rămâne dominantă, butonul se întinde pe tot cardul */
+@media (max-width: 640px) {
+  .v2-jucatori { font-size: 0.82rem !important; }
+  .v2-tarif strong { font-size: 1.4rem; }
+  .v2-tarif span { font-size: 0.78rem; }
+  .v2-tarif small { font-size: 0.72rem; }
+  .v2-buton { width: 100%; min-height: 44px; padding: 0 14px; font-size: 0.8rem; }
+}
