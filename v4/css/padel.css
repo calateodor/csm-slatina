@@ -173,6 +173,10 @@
 .hero-avatars .note { margin-left: 26px; color: rgba(226,226,226,0.75); font-size: 0.88rem; max-width: 20ch; }
 .hero-card.olive .row { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
 @media (prefers-reduced-motion: reduce) { .k-hero .video-bg iframe { display: none; } }
+/* pe telefon playerul YouTube lasa fasii negre deasupra si sub video pana
+   porneste (si nici nu porneste deloc in modul de economisire a bateriei);
+   ramane doar posterul static — videoclipul traieste pe desktop */
+@media (max-width: 880px) { .k-hero .video-bg iframe { display: none; } }
 
 /* ==========================================================================
    2. PROGRAM — titluri centrate + grilă 2×2 de carduri foto mari (623×558)

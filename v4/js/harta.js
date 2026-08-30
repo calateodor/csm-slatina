@@ -84,6 +84,7 @@
 
   /* ---------- desen ---------- */
   function deseneaza() {
+    strangeCard();   // cardul liber ar rămâne orfan dacă pinul lui e redesenat
     Array.prototype.forEach.call(scena.querySelectorAll(".hpin"), function (el) { el.remove(); });
     pini.forEach(function (pin, idx) {
       var sv = serviciu(pin.s);
@@ -191,6 +192,95 @@
 
   } // sfarsitul uneltelor de editare
 
+  /* ---------- cardul „liber" (ecrane tactile) ----------
+     Pe telefon harta stă într-un derulator orizontal, iar derulatorul taie
+     cardurile pinurilor de lângă margini. La deschidere, cardul pinului e
+     mutat într-o ancoră cu position:fixed pe <body> — de acolo nu-l mai
+     poate tăia nicio margine — și e adus înapoi în pin la închidere. */
+  var ancora = null, cardLiber = null, pinLiber = null;
+
+  function faraHoverAcum() { return window.matchMedia("(hover: none)").matches; }
+
+  function elibereazaCard(elPin) {
+    if (!faraHoverAcum()) return;
+    strangeCard();
+    var corp = elPin.querySelector(".hpin-corp");
+    var card = corp && corp.querySelector(".hpin-card");
+    if (!card) return;
+    if (!ancora) {
+      ancora = document.createElement("span");
+      ancora.className = "hcard-ancora";
+      document.body.appendChild(ancora);
+    }
+    // culorile pinului trăiesc pe .hpin: cardul le ia cu el în ancoră
+    card.style.setProperty("--hpin-fond", elPin.style.getPropertyValue("--hpin-fond"));
+    card.style.setProperty("--hpin-text", elPin.style.getPropertyValue("--hpin-text"));
+    ancora.classList.remove("aratata", "jos");
+    ancora.appendChild(card);
+    cardLiber = card;
+    pinLiber = elPin;
+    aseazaAncora();
+    requestAnimationFrame(function () {
+      if (!cardLiber) return;
+      ancora.classList.add("aratata");
+      // abia acum cardul are dimensiuni reale — reașezăm cu ele
+      requestAnimationFrame(aseazaAncora);
+    });
+  }
+
+  function aseazaAncora() {
+    if (!cardLiber || !pinLiber) return;
+    var cap = pinLiber.querySelector(".hpin-cap");
+    if (!cap) { strangeCard(); return; }
+    var rc = cap.getBoundingClientRect();
+    // pinul a ieșit din ecran odată cu derularea: cardul se închide singur
+    if (rc.bottom < 0 || rc.top > window.innerHeight || rc.right < 0 || rc.left > window.innerWidth) {
+      if (pinLiber) pinLiber.classList.remove("extins");
+      strangeCard();
+      return;
+    }
+    var rcard = cardLiber.getBoundingClientRect();
+    var lat = rcard.width || 212;
+    var inalt = rcard.height || 180;
+    // centrat pe pin, dar niciodată afară din ecran
+    var x = rc.left + rc.width / 2;
+    x = Math.min(Math.max(x, lat / 2 + 8), window.innerWidth - lat / 2 - 8);
+    // deasupra pinului; dacă nu are loc până sus, se deschide dedesubt
+    var jos = rc.top - inalt - 16 < 8;
+    ancora.classList.toggle("jos", jos);
+    ancora.style.left = x + "px";
+    ancora.style.top = (jos ? rc.bottom : rc.top) + "px";
+  }
+
+  function strangeCard() {
+    if (cardLiber && pinLiber) {
+      var corp = pinLiber.querySelector(".hpin-corp");
+      if (corp) corp.insertBefore(cardLiber, corp.querySelector(".hpin-cap"));
+    }
+    if (ancora) ancora.classList.remove("aratata", "jos");
+    cardLiber = null;
+    pinLiber = null;
+  }
+
+  function inchidePin(el) {
+    el.classList.remove("extins");
+    if (el === pinLiber) strangeCard();
+  }
+
+  // cardul urmărește pinul cât timp se derulează pagina sau harta
+  // (capture: derulatorul hărții nu-și ridică evenimentul de scroll)
+  window.addEventListener("scroll", function () {
+    if (cardLiber) aseazaAncora();
+  }, { capture: true, passive: true });
+  window.addEventListener("resize", function () { if (cardLiber) aseazaAncora(); });
+
+  // atingerea cardului liber = a doua atingere pe pin: mergem la activitate
+  document.addEventListener("click", function (ev) {
+    if (!cardLiber || !ancora || !ancora.contains(ev.target)) return;
+    var ales = pini[Number(pinLiber.dataset.idx)];
+    if (ales) document.dispatchEvent(new CustomEvent("harta:activitate", { detail: ales.s }));
+  });
+
   /* ---------- interacțiunea cu scena ---------- */
   function procente(ev) {
     var r = scena.getBoundingClientRect();
@@ -221,27 +311,27 @@
     // mod normal: pe desktop hover-ul expandeaza pinul, click-ul duce la card;
     // pe ecrane tactile prima atingere expandeaza, a doua duce la card
     if (elPin && !aTras) {
-      var faraHover = window.matchMedia("(hover: none)").matches;
+      var faraHover = faraHoverAcum();
       var eraExtins = elPin.classList.contains("extins");
-      Array.prototype.forEach.call(scena.querySelectorAll(".hpin.extins"), function (el) {
-        el.classList.remove("extins");
-      });
+      Array.prototype.forEach.call(scena.querySelectorAll(".hpin.extins"), inchidePin);
       if (faraHover && !eraExtins) {
         elPin.classList.add("extins");
+        elibereazaCard(elPin);
         return;
       }
       // pe desktop NU lasam pinul „blocat” deschis — hover-ul il arata oricum;
       // altfel, la intoarcerea din derulare, doua carduri ar sta deschise deodata
-      if (faraHover) elPin.classList.add("extins");
+      if (faraHover) {
+        elPin.classList.add("extins");
+        elibereazaCard(elPin);
+      }
       var pinAles = pini[Number(elPin.dataset.idx)];
       if (pinAles) {
         document.dispatchEvent(new CustomEvent("harta:activitate", { detail: pinAles.s }));
       }
     }
     if (!elPin) {
-      Array.prototype.forEach.call(scena.querySelectorAll(".hpin.extins"), function (el) {
-        el.classList.remove("extins");
-      });
+      Array.prototype.forEach.call(scena.querySelectorAll(".hpin.extins"), inchidePin);
     }
   });
 
@@ -251,7 +341,7 @@
     var peste = ev.target.closest(".hpin");
     if (!peste) return;
     Array.prototype.forEach.call(scena.querySelectorAll(".hpin.extins"), function (el) {
-      if (el !== peste) el.classList.remove("extins");
+      if (el !== peste) inchidePin(el);
     });
   });
 

@@ -50,6 +50,21 @@
 @media (max-width: 880px) {
   .lum-colaj { grid-template-columns: 1fr; gap: 0; }
   .lum-colaj img:not(:first-child) { display: none; }
+  /* fotografia se ancorează mai jos, ca nisipul (nu apa) să ajungă în
+     spatele textului, iar hârtia paginii urcă mai sus și mai plină —
+     altfel bleumarinul introducerii cădea fix pe apa piscinei */
+  .lum-colaj img:first-child { object-position: 50% 96%; }
+  /* aceeasi asigurare ca la eyebrow: un abur alb sub litere, pentru
+     portiunea unde introducerea mai atinge apa piscinei */
+  .lum-erou-copy h1,
+  .lum-erou-copy .lead { text-shadow: 0 1px 14px rgba(255, 255, 255, 0.85), 0 0 30px rgba(255, 255, 255, 0.5); }
+  .lum-ceata {
+    background:
+      linear-gradient(rgba(10, 30, 60, 0.34), rgba(10, 30, 60, 0) 22%),
+      linear-gradient(rgba(253, 252, 248, 0) 30%,
+                      rgba(253, 252, 248, 0.9) 56%,
+                      var(--lum-hartie) 96%);
+  }
 }
 /* ceața: sus o idee de bleumarin pentru meniu, jos hârtia paginii
    urcă peste poză și primește titlul */

@@ -417,3 +417,35 @@
   .harta-alege { top: auto; bottom: 12px; right: 16px; }
   .hpin-cap { width: 42px; height: 42px; font-size: 1.2rem; }
 }
+
+/* ---------- cardul „liber" de pe ecrane tactile ----------
+   Pe telefon harta stă într-un derulator orizontal care taie cardurile de
+   lângă margini. harta.js mută cardul pinului deschis în ancora asta fixă
+   de pe <body>: de aici nu-l mai poate tăia nicio margine, iar poziția
+   (deasupra sau sub pin, împinsă în ecran) o calculează scriptul. */
+.hcard-ancora {
+  position: fixed;
+  width: 0;
+  height: 0;
+  z-index: 400;
+}
+.hcard-ancora .hpin-card {
+  left: 0;
+  right: auto;
+  top: auto;
+  bottom: 8px;
+  transform: translateX(-50%) scale(0.12);
+  transform-origin: bottom center;
+  opacity: 0;
+  pointer-events: none;
+}
+.hcard-ancora.jos .hpin-card {
+  bottom: auto;
+  top: 8px;
+  transform-origin: top center;
+}
+.hcard-ancora.aratata .hpin-card {
+  transform: translateX(-50%) scale(1);
+  opacity: 1;
+  pointer-events: auto;
+}
