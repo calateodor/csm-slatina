@@ -1,0 +1,364 @@
+/* =========================================================
+   PADEL — pagina în limbajul vizual al site-ului, pe verde.
+   Structura, fonturile (Poppins/Manrope) și ritmul plin/chenar
+   vin din style.css; aici trăiesc doar verdele și componentele
+   proprii paginii: eroul foto, cardul WhatsApp, motorul de
+   rezervări (aceleași clase ca înainte, recolorate) și regulile.
+   ========================================================= */
+:root {
+  --pitch-950: #171a05;
+  --pitch-900: #22270b;
+  --pitch-800: #2b300e;
+  --pitch-line: rgba(180, 234, 31, 0.18);
+  --lime: #b4ea1f;
+  --lime-deep: #98ca0f;
+  /* lime pe alb nu se citește: pentru text pe fond deschis */
+  --lime-text: #4c6a00;
+  --sand: #edefe5;
+}
+
+/* secțiunile pline ale paginii sunt verde-închis, nu bleumarin */
+.padel-verde .sectiune-plina {
+  background: linear-gradient(160deg, var(--pitch-950) 0%, var(--pitch-900) 70%);
+  color: var(--sand);
+}
+.padel-verde .sectiune-plina .section-title { color: #fff; }
+.padel-verde .sectiune-plina .eyebrow { color: var(--lime); }
+.padel-verde .sectiune-plina .eyebrow::before { background: var(--lime); }
+.padel-verde .sectiune-chenar .eyebrow { color: var(--lime-text); }
+.padel-verde .sectiune-chenar .eyebrow::before { background: var(--lime); }
+.padel-verde .fantoma { color: rgba(180, 234, 31, 0.07); }
+.padel-verde .sectiune-chenar .fantoma { color: rgba(23, 26, 5, 0.05); }
+
+/* ---------- butoanele paginii ---------- */
+.pv-buton {
+  display: inline-flex; align-items: center; justify-content: center; gap: 9px;
+  min-height: 48px; padding: 0 26px;
+  border-radius: 999px;
+  background: var(--lime); color: var(--pitch-950);
+  font-family: var(--font-display); font-weight: 700; font-size: 0.92rem;
+  box-shadow: 0 12px 30px rgba(23, 26, 5, 0.35);
+  transition: background-color 0.2s var(--ease-out), transform 0.18s var(--ease-out);
+}
+.pv-buton:active { transform: scale(0.97); }
+.pv-buton svg {
+  width: 18px; height: 18px; flex: none;
+  fill: none; stroke: currentColor; stroke-width: 1.7;
+  stroke-linecap: round; stroke-linejoin: round;
+}
+.pv-buton.contur {
+  background: rgba(255, 255, 255, 0.1); color: #fff;
+  border: 1.5px solid rgba(255, 255, 255, 0.45);
+  box-shadow: none;
+  backdrop-filter: blur(4px);
+}
+.pv-buton.wa { background: #25d366; color: #073b1c; }
+@media (hover: hover) and (pointer: fine) {
+  .pv-buton:hover { background: #c4f52f; }
+  .pv-buton.contur:hover { background: rgba(255, 255, 255, 0.2); }
+  .pv-buton.wa:hover { background: #3ae57c; }
+}
+
+/* ---------- 1. eroul ---------- */
+.pv-erou {
+  position: relative;
+  min-height: 88svh;
+  display: grid; align-items: end;
+  padding: calc(var(--header-h) + 40px) 0 clamp(44px, 7vh, 80px);
+  overflow: hidden;
+  background: var(--pitch-950);
+  color: #fff;
+}
+.pv-erou-fundal { position: absolute; inset: 0; }
+.pv-erou-fundal img { width: 100%; height: 100%; object-fit: cover; }
+.pv-erou-fundal::after {
+  content: ""; position: absolute; inset: 0;
+  background: linear-gradient(to top,
+    rgba(23, 26, 5, 0.92) 0%, rgba(23, 26, 5, 0.55) 40%, rgba(23, 26, 5, 0.25) 100%);
+}
+.pv-erou-copy { position: relative; z-index: 2; }
+.pv-erou-copy .eyebrow { color: var(--lime); }
+.pv-erou-copy .eyebrow::before { background: var(--lime); }
+.pv-erou-copy h1 {
+  color: #fff;
+  font-size: clamp(2.6rem, 6.5vw, 4.6rem);
+  font-weight: 800; letter-spacing: -0.02em; line-height: 1.05;
+  max-width: 14ch;
+}
+.pv-erou-copy .lead {
+  margin-top: 14px; max-width: 52ch;
+  color: rgba(255, 255, 255, 0.85); font-size: 1.08rem;
+}
+.pv-erou-butoane { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 26px; }
+.pv-erou-chips { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 20px; }
+.pv-erou-chips span {
+  padding: 7px 14px; border-radius: 999px;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  font-weight: 600; font-size: 0.8rem; color: rgba(255, 255, 255, 0.9);
+}
+
+/* ---------- 2. WhatsApp ---------- */
+.pv-wa {
+  display: grid; grid-template-columns: 1.2fr 0.8fr;
+  gap: clamp(28px, 5vw, 70px); align-items: center;
+}
+.pv-wa-text p { max-width: 52ch; color: var(--ink-soft); margin-bottom: 22px; }
+.pv-wa-text strong { color: var(--ink); }
+.pv-wa-nota { margin-top: 12px; font-size: 0.85rem; color: var(--ink-soft); }
+.pv-wa-qr {
+  justify-self: center;
+  background: #fff;
+  border: 1px solid rgba(23, 26, 5, 0.1);
+  border-radius: 22px;
+  padding: 18px 18px 14px;
+  box-shadow: 0 24px 60px rgba(23, 26, 5, 0.12);
+  text-align: center;
+}
+.pv-wa-qr img { width: min(260px, 60vw); height: auto; border-radius: 10px; }
+.pv-wa-qr figcaption {
+  margin-top: 10px;
+  font-family: var(--font-display); font-weight: 700; font-size: 0.78rem;
+  letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink);
+}
+
+/* ---------- 3. rezervarea ---------- */
+.pv-rezervare-grila {
+  display: grid; grid-template-columns: 1.35fr 0.65fr;
+  gap: clamp(20px, 3vw, 36px);
+  align-items: start;
+  margin-top: clamp(20px, 3vw, 34px);
+}
+.pv-rezervare-grila > div { min-width: 0; }
+.pv-avantaje {
+  background: var(--pitch-800);
+  border: 1px solid var(--pitch-line);
+  border-radius: 18px;
+  padding: 26px 24px;
+}
+.pv-avantaje h3 { color: var(--lime); font-size: 1.15rem; margin-bottom: 16px; }
+.pv-avantaje li {
+  padding-left: 26px; position: relative;
+  margin-bottom: 14px; font-size: 0.92rem; color: var(--sand);
+}
+.pv-avantaje li::before {
+  content: "✓"; position: absolute; left: 0; top: 0;
+  color: var(--lime); font-weight: 800;
+}
+.pv-avantaje li strong { display: block; color: #fff; }
+.pv-avantaje-tel { margin-top: 20px; font-size: 0.9rem; color: rgba(237, 239, 229, 0.7); }
+.pv-avantaje-tel a {
+  display: inline-flex; align-items: center; gap: 8px;
+  margin-top: 6px;
+  font-family: var(--font-display); font-weight: 700; font-size: 1.05rem;
+  color: var(--lime);
+}
+.pv-avantaje-tel svg {
+  width: 16px; height: 16px;
+  fill: none; stroke: currentColor; stroke-width: 1.8;
+  stroke-linecap: round; stroke-linejoin: round;
+}
+
+/* motorul de rezervări — aceleași clase, recolorate în limbajul paginii */
+.booking-shell {
+  background: var(--pitch-800);
+  border: 1px solid var(--pitch-line);
+  border-radius: 18px;
+  padding: clamp(22px, 3vw, 34px);
+}
+.booking-steps { display: flex; gap: 8px; margin-bottom: 26px; }
+.booking-steps .st {
+  flex: 1; text-align: center; font-size: 0.72rem; font-weight: 700;
+  text-transform: uppercase; letter-spacing: 0.06em;
+  color: rgba(237, 239, 229, 0.4);
+  padding-bottom: 10px; border-bottom: 2px solid var(--pitch-line);
+}
+.booking-steps .st.on { color: var(--lime); border-color: var(--lime); }
+.booking-steps .st.done { color: rgba(180, 234, 31, 0.55); border-color: rgba(180, 234, 31, 0.4); }
+.bk-label {
+  display: block;
+  font-weight: 700; font-size: 0.82rem;
+  text-transform: uppercase; letter-spacing: 0.08em; color: #fff;
+  margin: 20px 0 10px;
+}
+.bk-label:first-child { margin-top: 0; }
+.date-strip { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 6px; scrollbar-width: thin; }
+.date-chip {
+  flex: 0 0 auto; min-width: 70px;
+  border: 1px solid var(--pitch-line); border-radius: 12px;
+  padding: 9px 8px; text-align: center;
+  color: var(--sand); background: transparent;
+  transition: border-color 0.2s ease, background 0.2s ease;
+}
+.date-chip small { display: block; font-size: 0.62rem; text-transform: uppercase; letter-spacing: 0.1em; color: rgba(237, 239, 229, 0.55); }
+.date-chip strong { font-family: var(--font-display); font-size: 1.25rem; font-weight: 700; }
+.date-chip.sel { background: var(--lime); border-color: var(--lime); }
+.date-chip.sel small, .date-chip.sel strong { color: var(--pitch-950); }
+.court-toggle { display: flex; gap: 10px; }
+.court-btn {
+  flex: 1; padding: 12px;
+  border: 1px solid var(--pitch-line); border-radius: 999px;
+  font-weight: 700; font-size: 0.92rem;
+  color: var(--sand);
+  transition: border-color 0.2s ease, background 0.2s ease, color 0.2s ease;
+}
+.court-btn.sel { background: var(--lime); border-color: var(--lime); color: var(--pitch-950); }
+.slot-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(84px, 1fr)); gap: 8px; }
+.slot {
+  padding: 11px 6px; text-align: center;
+  border: 1px solid var(--pitch-line); border-radius: 12px;
+  font-family: var(--font-display); font-weight: 700; font-size: 0.98rem;
+  color: var(--sand);
+  transition: border-color 0.2s ease, background 0.2s ease, color 0.2s ease;
+}
+.slot.sel { background: var(--lime); border-color: var(--lime); color: var(--pitch-950); }
+.slot:disabled { opacity: 0.25; cursor: not-allowed; text-decoration: line-through; }
+@media (hover: hover) and (pointer: fine) {
+  .date-chip:hover, .court-btn:hover { border-color: rgba(180, 234, 31, 0.5); }
+  .slot:hover:not(:disabled) { border-color: rgba(180, 234, 31, 0.6); }
+}
+.bk-form { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+.bk-field { display: grid; gap: 6px; }
+.bk-field.full { grid-column: 1 / -1; }
+.bk-field label { font-size: 0.74rem; text-transform: uppercase; letter-spacing: 0.1em; color: rgba(237, 239, 229, 0.6); }
+.bk-field input {
+  background: var(--pitch-900); color: #fff;
+  border: 1px solid var(--pitch-line); border-radius: 12px;
+  padding: 12px 16px; font: inherit; font-size: 1rem;
+}
+.bk-field input:focus { outline: 2px solid var(--lime); outline-offset: 1px; border-color: transparent; }
+.bk-summary {
+  display: flex; flex-wrap: wrap; gap: 10px 22px;
+  background: var(--pitch-900); border: 1px solid var(--pitch-line);
+  border-radius: 12px; padding: 15px 20px; margin-bottom: 8px;
+  font-size: 0.9rem; color: var(--sand);
+}
+.bk-summary strong { color: var(--lime); font-family: var(--font-display); font-size: 1.02rem; }
+.bk-actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 24px; align-items: center; }
+.bk-error { color: #ff8f7a; font-size: 0.9rem; margin-top: 12px; min-height: 1.2em; }
+.bk-hint { color: rgba(237, 239, 229, 0.5); font-size: 0.84rem; margin-top: 10px; }
+.code-inputs { display: flex; gap: 10px; }
+.code-inputs input {
+  width: 50px; height: 58px; text-align: center;
+  font-family: var(--font-display); font-size: 1.6rem; font-weight: 700;
+  background: var(--pitch-900); color: var(--lime);
+  border: 1px solid var(--pitch-line); border-radius: 12px;
+}
+.code-inputs input:focus { outline: 2px solid var(--lime); border-color: transparent; }
+.bk-done { text-align: center; padding: 18px 0; }
+.bk-done .check {
+  width: 72px; height: 72px; margin: 0 auto 18px;
+  border-radius: 50%; display: grid; place-items: center;
+  background: var(--lime); color: var(--pitch-950); font-size: 2rem; font-weight: 800;
+}
+.bk-done h3 { font-size: 1.7rem; margin-bottom: 8px; color: #fff; }
+.bk-done .ref {
+  font-family: var(--font-display); font-weight: 800;
+  font-size: 2.2rem; color: var(--lime); letter-spacing: 0.04em;
+  margin: 10px 0;
+}
+.bk-done p { color: rgba(237, 239, 229, 0.7); max-width: 46ch; margin-inline: auto; }
+.demo-note { padding: 14px 0 0; font-size: 0.78rem; color: rgba(237, 239, 229, 0.5); text-align: center; }
+.sms-toast {
+  position: fixed; left: 20px; bottom: 20px; z-index: 400;
+  max-width: 330px;
+  background: #101418; color: #e9edf2;
+  border: 1px solid rgba(255, 255, 255, 0.14); border-radius: 16px;
+  padding: 14px 18px;
+  box-shadow: 0 18px 50px rgba(0, 0, 0, 0.55);
+  transform: translateY(140%); opacity: 0;
+  transition: transform 0.45s ease, opacity 0.45s ease;
+  font-size: 0.9rem; line-height: 1.5;
+}
+.sms-toast.show { transform: translateY(0); opacity: 1; }
+.sms-toast .from { font-weight: 700; font-size: 0.76rem; text-transform: uppercase; letter-spacing: 0.1em; color: #9fb3c8; margin-bottom: 4px; }
+.sms-toast .code { font-family: var(--font-display); font-weight: 800; font-size: 1.5rem; color: var(--lime); letter-spacing: 0.15em; }
+/* butoanele motorului (clasele vechi, ca js-ul să nu se schimbe) */
+.btn-lime { background: var(--lime); color: var(--pitch-950); border-radius: 999px; font-weight: 700; }
+.btn-lime:hover { background: #c4f52f; transform: translateY(-2px); }
+.btn-outline-lime { border: 2px solid var(--lime); color: var(--lime); border-radius: 999px; font-weight: 700; }
+.btn-outline-lime:hover { background: rgba(180, 234, 31, 0.12); }
+.abtn { color: rgba(237, 239, 229, 0.6); font-size: 0.88rem; text-decoration: underline; }
+.abtn:hover { color: var(--lime); }
+
+/* ---------- 4. regulile ---------- */
+.pv-reguli-lista {
+  list-style: none;
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 18px clamp(24px, 4vw, 56px);
+  margin-top: clamp(20px, 3vw, 32px);
+}
+.pv-regula { display: flex; gap: 16px; align-items: flex-start; }
+.pv-nr {
+  flex: none;
+  width: 40px; height: 40px; border-radius: 12px;
+  display: grid; place-items: center;
+  background: var(--lime); color: var(--pitch-950);
+  font-family: var(--font-display); font-weight: 800; font-size: 1.05rem;
+}
+.pv-regula strong {
+  display: block;
+  font-family: var(--font-display); font-weight: 700; color: var(--ink);
+  margin-bottom: 3px;
+}
+.pv-regula p { font-size: 0.92rem; color: var(--ink-soft); }
+
+.pv-subtitlu {
+  font-family: var(--font-display); font-weight: 700;
+  font-size: clamp(1.2rem, 2.4vw, 1.6rem); color: var(--ink);
+  margin: clamp(40px, 6vw, 64px) 0 22px;
+}
+.pv-scheme {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+  gap: clamp(14px, 2vw, 22px);
+}
+.pv-schema {
+  background: #f4f8fb;
+  border: 1px solid rgba(23, 26, 5, 0.07);
+  border-radius: 18px;
+  padding: 18px 16px;
+  text-align: center;
+}
+.pv-schema img { width: min(160px, 70%); height: auto; margin: 0 auto 12px; }
+.pv-schema figcaption { font-size: 0.84rem; line-height: 1.45; color: var(--ink-soft); }
+
+/* ---------- 5. tarife ---------- */
+.pv-tarife-grila {
+  display: grid; grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: clamp(14px, 2vw, 24px);
+  margin-top: clamp(20px, 3vw, 32px);
+}
+.pv-tarif {
+  background: var(--pitch-800);
+  border: 1px solid var(--pitch-line);
+  border-radius: 18px;
+  padding: 26px 24px;
+}
+.pv-tarif strong {
+  font-family: var(--font-display); font-weight: 800;
+  font-size: clamp(2rem, 4vw, 2.8rem); color: var(--lime);
+  letter-spacing: -0.01em;
+}
+.pv-tarif span { margin-left: 6px; font-weight: 600; color: rgba(237, 239, 229, 0.8); }
+.pv-tarif p { margin-top: 6px; font-size: 0.92rem; color: rgba(237, 239, 229, 0.7); }
+.pv-tarife-tel { margin-top: 26px; color: rgba(237, 239, 229, 0.8); }
+.pv-tarife-tel a { color: var(--lime); font-weight: 700; }
+
+/* ---------- telefon ---------- */
+@media (max-width: 880px) {
+  .pv-wa { grid-template-columns: 1fr; }
+  .pv-wa-qr { justify-self: start; }
+  .pv-rezervare-grila { grid-template-columns: 1fr; }
+  .pv-reguli-lista { grid-template-columns: 1fr; }
+  .pv-tarife-grila { grid-template-columns: 1fr; }
+}
+@media (max-width: 640px) {
+  .pv-erou { min-height: 76svh; }
+  .pv-erou-butoane .pv-buton { flex: 1 1 100%; }
+  .code-inputs input { width: 44px; height: 54px; font-size: 1.4rem; }
+  .pv-scheme { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .pv-schema { padding: 12px 10px; }
+  .pv-schema img { width: min(120px, 74%); }
+  .pv-schema figcaption { font-size: 0.74rem; }
+}
