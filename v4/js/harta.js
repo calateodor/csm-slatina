@@ -221,10 +221,7 @@
     pinLiber = elPin;
     aseazaAncora();
     requestAnimationFrame(function () {
-      if (!cardLiber) return;
-      ancora.classList.add("aratata");
-      // abia acum cardul are dimensiuni reale — reașezăm cu ele
-      requestAnimationFrame(aseazaAncora);
+      if (cardLiber) ancora.classList.add("aratata");
     });
   }
 
@@ -239,9 +236,13 @@
       strangeCard();
       return;
     }
-    var rcard = cardLiber.getBoundingClientRect();
-    var lat = rcard.width || 212;
-    var inalt = rcard.height || 180;
+    /* offsetWidth/Height, NU getBoundingClientRect: cardul intră animat, de
+       la scale(0.12), iar rect-ul ar da dimensiunea micșorată (24×26 în loc
+       de 196×217). Din măsurătoarea aia greșită ieșea o poziție greșită, pe
+       care o corectam un cadru mai târziu — cardul sărea și părea că se
+       deschide a doua oară. offset* dă dimensiunea reală, netransformată. */
+    var lat = cardLiber.offsetWidth || 212;
+    var inalt = cardLiber.offsetHeight || 180;
     // centrat pe pin, dar niciodată afară din ecran
     var x = rc.left + rc.width / 2;
     x = Math.min(Math.max(x, lat / 2 + 8), window.innerWidth - lat / 2 - 8);
@@ -267,17 +268,32 @@
     if (el === pinLiber) strangeCard();
   }
 
-  // cardul urmărește pinul cât timp se derulează pagina sau harta
-  // (capture: derulatorul hărții nu-și ridică evenimentul de scroll)
-  window.addEventListener("scroll", function () {
-    if (cardLiber) aseazaAncora();
+  /* Derularea închide cardul. Excepție: derulatorul orizontal al hărții —
+     acolo omul mută harta, nu pleacă de la ea, deci cardul rămâne lipit
+     de pin. (capture: derulatorul nu-și ridică evenimentul de scroll.) */
+  window.addEventListener("scroll", function (ev) {
+    if (!cardLiber) return;
+    // orice derulare închide cardul, MAI PUȚIN cea a hărții însăși
+    var peHarta = ev.target && ev.target.closest &&
+      ev.target.closest(".harta-embed, .harta-cadru");
+    if (!peHarta) {
+      if (pinLiber) pinLiber.classList.remove("extins");
+      strangeCard();
+    } else {
+      aseazaAncora();
+    }
   }, { capture: true, passive: true });
   window.addEventListener("resize", function () { if (cardLiber) aseazaAncora(); });
 
-  // atingerea cardului liber = a doua atingere pe pin: mergem la activitate
+  /* Pe card navighează DOAR butonul „Rezervă” — restul cardului se poate
+     citi în liniște, fără ca pagina să sară în jos din greșeală. */
   document.addEventListener("click", function (ev) {
     if (!cardLiber || !ancora || !ancora.contains(ev.target)) return;
+    if (!ev.target.closest(".hpin-cta")) return;
     var ales = pini[Number(pinLiber.dataset.idx)];
+    // închidem întâi: plecăm de la hartă, cardul n-are ce căuta peste panou
+    if (pinLiber) pinLiber.classList.remove("extins");
+    strangeCard();
     if (ales) document.dispatchEvent(new CustomEvent("harta:activitate", { detail: ales.s }));
   });
 
@@ -308,22 +324,23 @@
       deseneaza();
       return;
     }
-    // mod normal: pe desktop hover-ul expandeaza pinul, click-ul duce la card;
-    // pe ecrane tactile prima atingere expandeaza, a doua duce la card
+    // mod normal: pe desktop hover-ul arata cardul, iar click-ul pe pin duce
+    // la panoul activitatii; pe ecrane tactile pinul e comutator (o atingere
+    // deschide cardul, inca una il inchide), iar spre panou duce butonul
+    // „Rezerva” de pe card
     if (elPin && !aTras) {
       var faraHover = faraHoverAcum();
       var eraExtins = elPin.classList.contains("extins");
       Array.prototype.forEach.call(scena.querySelectorAll(".hpin.extins"), inchidePin);
-      if (faraHover && !eraExtins) {
-        elPin.classList.add("extins");
-        elibereazaCard(elPin);
-        return;
-      }
-      // pe desktop NU lasam pinul „blocat” deschis — hover-ul il arata oricum;
-      // altfel, la intoarcerea din derulare, doua carduri ar sta deschise deodata
       if (faraHover) {
-        elPin.classList.add("extins");
-        elibereazaCard(elPin);
+        // pe ecrane tactile pinul se comportă ca un comutator: o atingere
+        // deschide cardul, încă una îl închide. Spre panou duce doar
+        // butonul „Rezervă” de pe card.
+        if (!eraExtins) {
+          elPin.classList.add("extins");
+          elibereazaCard(elPin);
+        }
+        return;
       }
       var pinAles = pini[Number(elPin.dataset.idx)];
       if (pinAles) {
