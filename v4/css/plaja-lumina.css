@@ -58,6 +58,8 @@
      portiunea unde introducerea mai atinge apa piscinei */
   .lum-erou-copy h1,
   .lum-erou-copy .lead { text-shadow: 0 1px 14px rgba(255, 255, 255, 0.85), 0 0 30px rgba(255, 255, 255, 0.5); }
+  /* pe telefon coborarea e mai apasata: introducerea ajunge pe nisip */
+  .lum-erou-copy .lead { margin-top: clamp(90px, 24svh, 230px); }
   .lum-ceata {
     background:
       linear-gradient(rgba(10, 30, 60, 0.34), rgba(10, 30, 60, 0) 22%),
@@ -96,8 +98,11 @@
   color: var(--lum-text);
 }
 .lum-erou-copy .lead {
-  margin-top: 14px; max-width: 54ch;
-  color: var(--lum-text-moale); font-size: 1.1rem;
+  /* fara butonul de tarife, titlul ramane sus iar introducerea coboara
+     in zona luminoasa de nisip - de aici distanta dintre ele; albastrul
+     plin (nu cel moale) ca sa se citeasca fara efort pe lumina */
+  margin-top: clamp(28px, 7vh, 90px); max-width: 54ch;
+  color: var(--lum-text); font-size: 1.1rem;
 }
 .lum-erou-copy .btn { margin-top: 26px; }
 
