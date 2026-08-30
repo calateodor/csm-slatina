@@ -69,8 +69,19 @@
   background: var(--pitch-950);
   color: #fff;
 }
-.pv-erou-fundal { position: absolute; inset: 0; }
+.pv-erou-fundal { position: absolute; inset: 0; overflow: hidden; }
 .pv-erou-fundal img { width: 100%; height: 100%; object-fit: cover; }
+/* videoclipul acoperă eroul întreg, fotografia rămâne dedesubt ca poster */
+.pv-erou-fundal iframe {
+  position: absolute; top: 50%; left: 50%;
+  width: max(100vw, 178svh); height: max(100svh, 56.25vw);
+  transform: translate(-50%, -50%);
+  border: 0; pointer-events: none;
+}
+/* pe telefon playerul lasă fâșii negre până pornește (și nu pornește deloc
+   cu bateria pe economisire) — rămâne doar fotografia */
+@media (max-width: 880px) { .pv-erou-fundal iframe { display: none; } }
+@media (prefers-reduced-motion: reduce) { .pv-erou-fundal iframe { display: none; } }
 .pv-erou-fundal::after {
   content: ""; position: absolute; inset: 0;
   background: linear-gradient(to top,
