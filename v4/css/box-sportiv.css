@@ -1,0 +1,106 @@
+/* =========================================================
+   Box — cardul sportivului secției (Arun Tudoroiu).
+   Cifrele de palmares domină; restul e sobru, în albastrul
+   clubului, cu un accent roz preluat din benzile lui de mână.
+   ========================================================= */
+.bs-sectiune { position: relative; }
+
+.bs-card {
+  background: #fff;
+  border: 1px solid rgba(20, 52, 92, 0.08);
+  border-radius: var(--raza-panou, 24px);
+  box-shadow: 0 20px 50px rgba(16, 34, 64, 0.08);
+  overflow: hidden;
+  margin-top: clamp(20px, 3vw, 32px);
+}
+
+/* capul cardului: bleumarin, cu o dungă roz în stânga */
+.bs-cap {
+  position: relative;
+  padding: clamp(22px, 3vw, 30px) clamp(22px, 3vw, 34px);
+  background: linear-gradient(135deg, var(--navy-900, #14345c), var(--navy-800, #1c3f6e));
+  color: #fff;
+}
+.bs-cap::before {
+  content: "";
+  position: absolute; left: 0; top: 0; bottom: 0;
+  width: 5px;
+  background: #ff3f8e;          /* roz, ca benzile de mână din videoclip */
+}
+.bs-eticheta {
+  display: inline-block;
+  font-family: var(--font-display); font-weight: 700; font-size: 0.66rem;
+  letter-spacing: 0.18em; text-transform: uppercase;
+  color: #ff8ab8;
+  margin-bottom: 6px;
+}
+.bs-cap h3 {
+  font-family: var(--font-display); font-weight: 800;
+  font-size: clamp(1.6rem, 3.4vw, 2.4rem);
+  color: #fff; line-height: 1.1;
+}
+.bs-sub { margin-top: 6px; font-size: 0.9rem; color: rgba(255, 255, 255, 0.75); }
+
+/* cifrele mari */
+.bs-cifre {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  border-bottom: 1px solid rgba(20, 52, 92, 0.08);
+}
+.bs-cifra {
+  padding: clamp(16px, 2.4vw, 24px) 14px;
+  text-align: center;
+  border-right: 1px solid rgba(20, 52, 92, 0.07);
+}
+.bs-cifra:last-child { border-right: 0; }
+.bs-cifra strong {
+  display: block;
+  font-family: var(--font-display); font-weight: 800;
+  font-size: clamp(1.5rem, 3.4vw, 2.2rem);
+  color: var(--navy-900, #14345c);
+  letter-spacing: -0.01em;
+}
+.bs-cifra span {
+  display: block; margin-top: 4px;
+  font-size: 0.72rem; line-height: 1.35;
+  color: var(--ink-soft);
+}
+
+/* palmaresul pe ani */
+.bs-palmares {
+  list-style: none;
+  padding: clamp(18px, 2.6vw, 26px) clamp(22px, 3vw, 34px);
+  display: grid; gap: 12px;
+}
+.bs-palmares li { display: flex; gap: 16px; align-items: baseline; }
+.bs-palmares b {
+  flex: none;
+  min-width: 3.4em;
+  font-family: var(--font-display); font-weight: 800;
+  color: #ff3f8e;
+}
+.bs-palmares span { color: var(--ink); font-size: 0.95rem; line-height: 1.45; }
+.bs-palmares i {
+  font-style: normal; font-weight: 600; font-size: 0.82rem;
+  color: var(--ink-soft);
+  white-space: nowrap;
+}
+
+/* subsolul: antrenori, clasamentul clubului, sursa */
+.bs-subsol {
+  padding: 0 clamp(22px, 3vw, 34px) clamp(20px, 2.6vw, 26px);
+  display: grid; gap: 6px;
+  font-size: 0.88rem; color: var(--ink-soft);
+}
+.bs-subsol b { color: var(--ink); }
+.bs-club, .bs-sursa { font-size: 0.82rem; }
+.bs-subsol a { color: var(--royal, #2457d6); font-weight: 600; }
+.bs-subsol a:hover { text-decoration: underline; }
+
+@media (max-width: 720px) {
+  .bs-cifre { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .bs-cifra:nth-child(2) { border-right: 0; }
+  .bs-cifra:nth-child(-n+2) { border-bottom: 1px solid rgba(20, 52, 92, 0.07); }
+  .bs-palmares li { flex-direction: column; gap: 2px; }
+  .bs-palmares b { min-width: 0; }
+}

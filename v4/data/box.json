@@ -1,0 +1,63 @@
+{
+  "_comentariu": "Palmaresul secției de box. Cifrele din BoxRec se actualizează manual (recordul unui boxer se schimbă cu câteva meciuri pe an, iar BoxRec nu poate fi citit automat). Clasamentul cluburilor vine singur de la FR Box — scripts/actualizeaza-box.py.",
+  "sportiv": {
+    "nume": "Arun Tudoroiu",
+    "nascut": 2006,
+    "categorie": "Super Welter",
+    "boxrec": "https://boxrec.com/en/box-am/1213744",
+    "record": {
+      "victorii": 34,
+      "infrangeri": 11,
+      "egaluri": 0,
+      "ko": 12
+    },
+    "meciuri": 46,
+    "runde": 115,
+    "procentKo": "35,29%",
+    "debut": "19 mai 2021",
+    "loculRomania": 1,
+    "dinTotalRomania": 74,
+    "loculMondial": 106,
+    "dinTotalMondial": 4181,
+    "antrenori": [
+      "Constantin Gălbenușe",
+      "Luminița Turcin"
+    ],
+    "palmares": [
+      {
+        "an": 2025,
+        "text": "Locul 5 la Campionatul European U23, Budapesta",
+        "categorie": "65 kg"
+      },
+      {
+        "an": 2025,
+        "text": "Campion al României U23 — aur la Cupa României, Sighetu Marmației",
+        "categorie": ""
+      },
+      {
+        "an": 2024,
+        "text": "Campionatele Europene de tineret, Poreč (Croația)",
+        "categorie": "67 kg"
+      },
+      {
+        "an": 2023,
+        "text": "Vicecampion european de tineret, Erevan — primul boxer din Olt cu acest titlu",
+        "categorie": "63,5 kg"
+      },
+      {
+        "an": 2022,
+        "text": "Campion național · locul I la Cupa României",
+        "categorie": ""
+      }
+    ],
+    "tinta": "Jocurile Olimpice 2028"
+  },
+  "clasamentCluburi": {
+    "an": 2025,
+    "loc": 17,
+    "sportivi": 19,
+    "puncte": "59.50",
+    "sursa": "https://frbox.ro/clasament-cluburi-2025/",
+    "_comentariu": "completat automat de scripts/actualizeaza-box.py din clasamentul FR Box"
+  }
+}
