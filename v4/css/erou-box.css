@@ -93,7 +93,43 @@
 .eb-comutator button:active { transform: scale(0.96); }
 .eb-comutator button.activ { background: var(--gold); color: var(--navy-900, #14345c); }
 /* pe telefon variantele arată la fel — comutatorul doar pe desktop */
+/* ---------- telefon: clipul în formatul lui, nu decupat ----------
+   Clipul e 1280×720, adică fix 16:9. Într-un erou înalt de ~585px pe un ecran
+   de 375px, `object-fit: cover` îl scala la 1040px lățime și tăia circa 64%
+   din cadru — se vedea o fâșie întunecată din mijloc, fără Arun.
+   Aici îi dăm exact raportul lui: o bandă 16:9 lipită sub antet, pe toată
+   lățimea. Fiindcă recipientul are chiar raportul clipului, `cover` nu mai
+   taie nimic. Textul rămâne suprapus peste erou, dar coboară sub bandă —
+   de-aia înălțimea vine din padding (antet + bandă + text), nu dintr-un
+   min-height ghicit. */
 @media (max-width: 880px) {
   .eb-comutator { display: none; }
-  .erou-box { min-height: clamp(480px, 72svh, 760px); }
+  .erou-box {
+    min-height: 0;
+    padding-top: calc(var(--header-h, 84px) + 56.25vw + 22px);  /* 56.25vw = 9/16 */
+    padding-bottom: clamp(26px, 5vh, 46px);
+  }
+  .eb-poster,
+  .eb-video {
+    inset: auto;
+    top: var(--header-h, 84px);
+    left: 0; right: 0;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 16 / 9;
+  }
+  /* Vălul se mută exact peste bandă: dedesubt nu mai are ce întuneca, iar
+     marginea de jos a clipului se stinge în fundalul secțiunii, ca banda să
+     nu se termine cu o tăietură dreaptă peste text. */
+  .eb-val {
+    inset: auto;
+    top: var(--header-h, 84px);
+    left: 0; right: 0;
+    aspect-ratio: 16 / 9;
+    background: linear-gradient(to bottom,
+      rgba(7, 19, 48, 0.3) 0%,
+      rgba(7, 19, 48, 0) 38%,
+      rgba(12, 18, 32, 0.86) 90%,
+      #0c1220 100%);
+  }
 }
