@@ -78,10 +78,11 @@
 .erou-sah.page-hero { overflow: hidden; }
 .cal-sah {
   position: absolute;
-  /* pornește tăiat de marginea de sus a fotografiei și coboară de acolo */
-  top: -18%;
+  /* la încărcare stă ASCUNS cu totul deasupra fotografiei (translate -102%,
+     decupat de overflow-ul eroului) — intră în cadru abia la primul scroll */
+  top: 0;
   left: 50%;
-  transform: translateX(-50%);
+  transform: translate(-50%, -102%);
   z-index: 1;
   width: clamp(180px, 26vw, 330px);
   filter: drop-shadow(0 10px 24px rgba(7, 19, 48, 0.55));

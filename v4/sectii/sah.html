@@ -280,14 +280,16 @@
          până cu tălpile pe baza ei — cele două căsuțe acoperă exact drumul —
          apoi face pasul la DREAPTA. Pasul lateral e limitat și de marginea
          ecranului, ca piesa să rămână mereu întreagă pe pagină. */
+      /* drumul complet: de deasupra fotografiei până cu tălpile pe baza ei */
       var coborare = function () {
-        return Math.max(erou.offsetHeight * 1.15 - cal.offsetHeight, erou.offsetHeight * 0.5);
+        return erou.offsetHeight + cal.offsetHeight * 0.02;
       };
       var pasDreapta = function () {
         var maxPeEcran = window.innerWidth / 2 - cal.offsetWidth / 2 - 16;
-        return Math.min(coborare() / 2, Math.max(maxPeEcran, 40));
+        return Math.min(erou.offsetHeight * 0.35, Math.max(maxPeEcran, 40));
       };
-      gsap.set(cal, { xPercent: -50 });   // centrul paginii (left: 50% în CSS)
+      // pornirea ascunsă din CSS (translate -50%/-102%), preluată de GSAP
+      gsap.set(cal, { xPercent: -50, yPercent: -102 });
       gsap.timeline({
         scrollTrigger: {
           trigger: erou,
@@ -297,9 +299,10 @@
           invalidateOnRefresh: true
         }
       })
-        /* două în jos… */
-        .to(cal, { y: function () { return coborare(); }, ease: "power1.inOut", duration: 2 })
-        /* …una la dreapta, cu o mică aplecare, ca și cum ar ateriza */
+        /* coboară — power2.out: cea mai mare viteză e chiar la început,
+           deci piesa intră în cadru din primii ~40px de scroll */
+        .to(cal, { y: function () { return coborare(); }, ease: "power2.out", duration: 2 })
+        /* …apoi pasul la dreapta, cu o mică aplecare la aterizare */
         .to(cal, { x: function () { return pasDreapta(); }, rotation: 9, ease: "power2.out", duration: 1 });
     })();
   </script>
