@@ -28,6 +28,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700;800&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../css/style.css">
   <link rel="stylesheet" href="../css/erou-foto.css">
+  <link rel="stylesheet" href="../css/erou-box.css">
 </head>
 <body>
   <a class="sari-la-continut" href="#continut">Sari la conținut</a>
@@ -128,18 +129,28 @@
   </div>
 
   <main id="continut">
-    <section class="page-hero erou-foto">
-      <div class="erou-fundal" aria-hidden="true">
-        <img src="../assets/img/sectii/box/erou.webp" alt="" width="1600" height="1066">
-        <span class="tenta"></span>
-        <span class="val"></span>
+    <!-- Eroul cu videoclipul lui Arun (alb-negru, benzile roz) — două
+         așezări pe desktop, comutabile din pastilele de jos-dreapta (alegerea
+         se ține minte în browser); pe telefon clipul 9:16 umple natural tot. -->
+    <section class="page-hero erou-box" id="erou-box" data-varianta="lat">
+      <div class="eb-fundal" aria-hidden="true">
+        <img class="eb-poster" src="../assets/video/box-arun-poster.webp" alt="" width="720" height="1280">
+        <video class="eb-video" autoplay muted loop playsinline preload="metadata"
+               poster="../assets/video/box-arun-poster.webp">
+          <source src="../assets/video/box-arun.mp4" type="video/mp4">
+        </video>
+        <span class="eb-val"></span>
       </div>
       <span class="sport-ghost" aria-hidden="true">BOX</span>
-      <img class="hero-art" src="../assets/icons/boxing.webp" alt="" aria-hidden="true" width="600" height="598">
-      <div class="container">
+      <div class="container eb-copy">
         <nav class="breadcrumb reveal"><a href="../index.html">Acasă</a> / <a href="../index.html#sectii">Secții</a> / Box</nav>
         <h1 class="reveal" data-edit="box.h1.box">Box</h1>
         <p class="lead reveal" data-edit="box.lead">Disciplină, curaj și inimă — nobila artă se antrenează la Slatina.</p>
+      </div>
+      <!-- comutator TEMPORAR, cât alege Teo varianta -->
+      <div class="eb-comutator">
+        <button type="button" data-v="lat" class="activ">Lat</button>
+        <button type="button" data-v="panou">Panou</button>
       </div>
     </section>
 
@@ -251,5 +262,27 @@
   <script src="../js/editare.js"></script>
   <script src="../js/galerie.js"></script>
   <script src="../js/stele.js"></script>
+  <script>
+    /* comutatorul temporar dintre cele două așezări ale eroului;
+       alegerea rămâne în browser cât timp Teo compară */
+    (function () {
+      var erou = document.getElementById("erou-box");
+      if (!erou) return;
+      var CHEIE = "csm_box_erou_varianta";
+      var butoane = erou.querySelectorAll(".eb-comutator button");
+      function alege(v) {
+        erou.dataset.varianta = v;
+        butoane.forEach(function (b) { b.classList.toggle("activ", b.dataset.v === v); });
+        try { localStorage.setItem(CHEIE, v); } catch (e) {}
+      }
+      butoane.forEach(function (b) {
+        b.addEventListener("click", function () { alege(b.dataset.v); });
+      });
+      try {
+        var salvat = localStorage.getItem(CHEIE);
+        if (salvat === "lat" || salvat === "panou") alege(salvat);
+      } catch (e) {}
+    })();
+  </script>
 </body>
 </html>
