@@ -60,15 +60,20 @@
               '<span class="i"><b>' + esc(r.infrangeri) + "</b><i>Î</i></span>" +
               '<span class="e"><b>' + esc(r.egaluri) + "</b><i>E</i></span>" +
             "</div>" +
-            '<div class="bv-ko">' +
-              '<div class="bv-ko-cap"><span>Victorii prin KO</span><b>' + esc(s.procentKo) + "</b></div>" +
-              '<div class="bv-bara"><span style="width:' + procent.toFixed(1) + '%"></span></div>' +
-            "</div>" +
-            '<div class="bv-masuri">' +
-              masuri.map(function (m) {
-                return '<span class="bv-masura"><b>' + esc(m.mare) + "</b><i>" + esc(m.mic) + "</i></span>";
-              }).join("") +
-            "</div>" +
+            /* butonul + partea desfășurabilă, exact ca la cardurile de fotbal:
+               închis se văd doar numele și recordul */
+            '<button type="button" class="bv-mai" aria-expanded="false">Detalii <b>+</b></button>' +
+            '<div class="bv-rest"><div>' +
+              '<div class="bv-ko">' +
+                '<div class="bv-ko-cap"><span>Victorii prin KO <i>' + esc(r.ko) + ' din ' + esc(r.victorii) + '</i></span><b>' + esc(s.procentKo) + "</b></div>" +
+                '<div class="bv-bara"><span style="width:' + procent.toFixed(1) + '%"></span></div>' +
+              "</div>" +
+              '<div class="bv-masuri">' +
+                masuri.map(function (m) {
+                  return '<span class="bv-masura"><b>' + esc(m.mare) + "</b><i>" + esc(m.mic) + "</i></span>";
+                }).join("") +
+              "</div>" +
+            "</div></div>" +
           "</div></div>" +
         "</article>";
 
@@ -97,6 +102,17 @@
         "</div>";
 
       gazda.innerHTML = '<div class="bs-duo">' + vizual + fisa + "</div>";
+
+      /* comutatorul „Detalii", identic cu cel de pe cardurile de fotbal */
+      var card = gazda.querySelector(".bv-card");
+      var buton = gazda.querySelector(".bv-mai");
+      if (card && buton) {
+        buton.addEventListener("click", function () {
+          var extins = card.classList.toggle("extins");
+          buton.setAttribute("aria-expanded", extins ? "true" : "false");
+          buton.innerHTML = extins ? "Mai puțin <b>–</b>" : "Detalii <b>+</b>";
+        });
+      }
     })
     .catch(function () { /* fără fișier, secțiunea rămâne goală */ });
 })();

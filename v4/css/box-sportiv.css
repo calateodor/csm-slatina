@@ -19,6 +19,8 @@
 .bv-card {
   position: relative;
   min-height: clamp(430px, 52vw, 580px);
+  /* blurul costa la fiecare recompunere; pe cardul strans e oricum putin
+     de acoperit, deci il pornim la desfacere (regula de la lot.css) */
   border-radius: 22px;                 /* aceeași rază ca la cardurile de fotbal */
   overflow: hidden;
   isolation: isolate;
@@ -27,7 +29,14 @@
     linear-gradient(165deg, var(--navy-900, #14345c) 0%, var(--navy-950, #0a1730) 100%);
   border: 1px solid rgba(255, 255, 255, 0.14);
   box-shadow: 0 26px 60px rgba(7, 19, 48, 0.28);
+  /* aceeași mișcare ca la cardurile de fotbal: cardul se ridică ușor,
+     iar sticla lui crește când îl desfaci */
+  transition: transform 0.45s var(--ease-out), box-shadow 0.45s var(--ease-out);
 }
+@media (hover: hover) and (pointer: fine) {
+  .bv-card:hover { transform: translateY(-6px); box-shadow: 0 34px 70px rgba(7, 19, 48, 0.36); }
+}
+.bv-card.extins { transform: translateY(-4px); box-shadow: 0 34px 74px rgba(7, 19, 48, 0.4); }
 .bv-poza {
   position: absolute;
   left: 50%; bottom: 0;
@@ -151,6 +160,7 @@
   margin-bottom: 5px;
 }
 .bv-ko-cap b { font-family: var(--font-display); font-weight: 800; font-size: 0.9rem; color: #fff; }
+.bv-ko-cap i { font-style: normal; color: rgba(255, 255, 255, 0.5); }
 .bv-bara {
   height: 6px; border-radius: 999px;
   background: rgba(255, 255, 255, 0.16);
@@ -161,6 +171,32 @@
   border-radius: 999px;
   background: linear-gradient(90deg, #ff3f8e, #ff8ab8);
 }
+
+/* butonul „Detalii" și partea desfășurabilă — mecanica de la cardurile
+   de fotbal: grid-template-rows 0fr -> 1fr, deci se desface lin, fără
+   înălțimi ghicite */
+.bv-mai {
+  margin-top: 12px;
+  background: transparent;
+  border: 1px solid rgba(255, 63, 142, 0.55);
+  color: #ff8ab8;
+  font-family: var(--font-display); font-weight: 700;
+  font-size: 0.58rem; letter-spacing: 0.14em; text-transform: uppercase;
+  padding: 6px 14px; border-radius: 999px;
+  cursor: pointer;
+  transition: background-color 0.25s ease, color 0.25s ease, transform 0.18s var(--ease-out);
+}
+.bv-mai:active { transform: scale(0.97); }
+.bv-mai b { font-weight: 800; }
+@media (hover: hover) and (pointer: fine) {
+  .bv-mai:hover { background: rgba(255, 63, 142, 0.16); color: #fff; }
+}
+.bv-rest {
+  display: grid; grid-template-rows: 0fr;
+  transition: grid-template-rows 0.45s ease;
+}
+.bv-rest > div { overflow: hidden; min-height: 0; }
+.bv-card.extins .bv-rest { grid-template-rows: 1fr; }
 
 /* măsurile: meciuri · runde · KO · ani */
 .bv-masuri {
