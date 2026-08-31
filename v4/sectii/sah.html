@@ -304,11 +304,14 @@
           invalidateOnRefresh: true
         }
       })
-        /* coboară — power2.out: cea mai mare viteză e chiar la început,
-           deci piesa intră în cadru din primii ~40px de scroll */
-        .to(cal, { y: function () { return coborare(); }, ease: "power2.out", duration: 2 })
-        /* …apoi pasul la dreapta, cu o mică aplecare la aterizare */
-        .to(cal, { x: function () { return pasDreapta(); }, rotation: 9, ease: "power2.out", duration: 1 });
+        /* Toată mutarea se consumă în PRIMA jumătate a derulării prin erou:
+           coborârea în primele ~28% (cu viteza maximă chiar la început, ca
+           piesa să apară din primii pixeli de scroll), pasul la dreapta
+           până pe la ~50%, iar restul e pauză — calul stă așezat jos și
+           iese din scenă odată cu fotografia. */
+        .to(cal, { y: function () { return coborare(); }, ease: "power2.out", duration: 1 })
+        .to(cal, { x: function () { return pasDreapta(); }, rotation: 9, ease: "power2.out", duration: 0.8 })
+        .to({}, { duration: 1.8 });
     })();
   </script>
 </body>
