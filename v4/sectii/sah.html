@@ -137,13 +137,15 @@
       <span class="sport-ghost" aria-hidden="true">ȘAH</span>
       <!-- calul care face mutarea în L la derulare (silueta: piesele
            Cburnett, aceleași folosite de lichess & Wikipedia) -->
-      <span class="cal-sah" id="cal-sah" aria-hidden="true">
+      <span class="cal-pista" aria-hidden="true">
+      <span class="cal-sah" id="cal-sah">
         <svg viewBox="0 0 45 45">
           <g transform="translate(0,0.3)">
             <path d="M 22,10 C 32.5,11 38.5,18 38,39 L 15,39 C 15,30 25,32.5 23,18"/>
             <path d="M 24,18 C 24.38,20.91 18.45,25.37 16,27 C 13,29 13.18,31.34 11,31 C 9.958,30.06 12.41,27.96 11,28 C 10,28 11.19,29.23 10,30 C 9,30 5.997,31 6,26 C 6,24 12,14 12,14 C 12,14 13.89,12.1 14,10.5 C 13.27,9.506 13.5,8.5 13.5,7.5 C 14.5,6.5 16.5,10 16.5,10 L 18.5,10 C 18.5,10 19.28,8.008 21,7 C 22,7 22,10 22,10"/>
           </g>
         </svg>
+      </span>
       </span>
       <div class="container">
         <nav class="breadcrumb reveal"><a href="../index.html">Acasă</a> / <a href="../index.html#sectii">Secții</a> / Șah</nav>
@@ -280,9 +282,12 @@
          până cu tălpile pe baza ei — cele două căsuțe acoperă exact drumul —
          apoi face pasul la DREAPTA. Pasul lateral e limitat și de marginea
          ecranului, ca piesa să rămână mereu întreagă pe pagină. */
-      /* drumul complet: de deasupra fotografiei până cu tălpile pe baza ei */
+      /* drumul complet: de sub antet până cu tălpile pe baza fotografiei —
+         pista (cal-pista) începe sub antetul fix, deci piesa nu se mai vede
+         prin meniul semi-transparent */
+      var pista = cal.parentElement;
       var coborare = function () {
-        return erou.offsetHeight + cal.offsetHeight * 0.02;
+        return pista.offsetHeight + cal.offsetHeight * 0.02;
       };
       var pasDreapta = function () {
         var maxPeEcran = window.innerWidth / 2 - cal.offsetWidth / 2 - 16;

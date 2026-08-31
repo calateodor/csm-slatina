@@ -74,19 +74,27 @@
 
 /* calul: doar conturul, auriu, pe centrul paginii, peste fotografie —
    pozitia pe orizontala o da GSAP (xPercent -50 + pasul lateral) */
-/* eroul decupează tot ce iese din el: calul nu poate părăsi fotografia */
-.erou-sah.page-hero { overflow: hidden; }
+/* pista calului: fâșia dintre antetul fix și baza fotografiei. Tot ce iese
+   din ea se decupează — deci piesa nu se vede prin meniul semi-transparent
+   și nici nu poate părăsi fotografia. */
+.cal-pista {
+  position: absolute;
+  left: 0; right: 0;
+  top: var(--header-h, 84px);
+  bottom: 0;
+  overflow: hidden;
+  z-index: 1;
+  pointer-events: none;
+}
 .cal-sah {
   position: absolute;
-  /* la încărcare stă ASCUNS cu totul deasupra fotografiei (translate -102%,
-     decupat de overflow-ul eroului) — intră în cadru abia la primul scroll */
+  /* la încărcare stă ASCUNS cu totul deasupra pistei (translate -102%) —
+     intră în cadru abia la primul scroll */
   top: 0;
   left: 50%;
   transform: translate(-50%, -102%);
-  z-index: 1;
-  width: clamp(180px, 26vw, 330px);
+  width: clamp(140px, 15vw, 230px);
   filter: drop-shadow(0 10px 24px rgba(7, 19, 48, 0.55));
-  pointer-events: none;
   will-change: transform;
 }
 .cal-sah svg { display: block; width: 100%; height: auto; }
