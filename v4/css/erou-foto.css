@@ -57,3 +57,45 @@
 @media (prefers-reduced-motion: reduce) {
   .erou-foto .erou-fundal img { animation: none; }
 }
+
+/* =========================================================
+   ȘAH — fotografia iese în față, calul face mutarea în L
+   ========================================================= */
+/* aceeași tentă albastră, dar dozată ca fotografia să se vadă limpede:
+   mai puțină vopsea, văl mai subțire, fără blur */
+.erou-sah.page-hero.erou-foto {
+  --ef-tenta: 0.5;
+  --ef-val-sus: 0.32;
+  --ef-val-jos: 0.74;
+  --ef-saturatie: 0.85;
+  --ef-luminozitate: 0.82;
+  --ef-neclaritate: 0;
+}
+
+/* calul: siluetă aurie cu contur bleumarin, sus-dreapta, peste fotografie */
+.cal-sah {
+  position: absolute;
+  /* sub antetul fix, ca sa nu se calce cu stemele */
+  top: calc(var(--header-h, 84px) + 6vh);
+  right: clamp(16px, 9vw, 150px);
+  z-index: 1;
+  width: clamp(84px, 13vw, 150px);
+  filter: drop-shadow(0 14px 30px rgba(7, 19, 48, 0.45));
+  pointer-events: none;
+  will-change: transform;
+}
+.cal-sah svg { display: block; width: 100%; height: auto; }
+.cal-sah path {
+  fill: var(--gold);
+  stroke: var(--navy-900, #14345c);
+  stroke-width: 1.1;
+  stroke-linejoin: round;
+}
+.cal-sah .ochi { fill: var(--navy-900, #14345c); stroke: none; }
+
+@media (max-width: 880px) {
+  .cal-sah { top: calc(var(--header-h, 72px) + 5vh); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .cal-sah { display: none; }
+}

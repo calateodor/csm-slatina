@@ -128,13 +128,25 @@
   </div>
 
   <main id="continut">
-    <section class="page-hero erou-foto">
+    <section class="page-hero erou-foto erou-sah">
       <div class="erou-fundal" aria-hidden="true">
         <img src="../assets/img/sectii/sah/erou.webp" alt="" width="1600" height="1066">
         <span class="tenta"></span>
         <span class="val"></span>
       </div>
       <span class="sport-ghost" aria-hidden="true">ȘAH</span>
+      <!-- calul care face mutarea în L la derulare (silueta: piesele
+           Cburnett, aceleași folosite de lichess & Wikipedia) -->
+      <span class="cal-sah" id="cal-sah" aria-hidden="true">
+        <svg viewBox="0 0 45 45">
+          <g transform="translate(0,0.3)">
+            <path d="M 22,10 C 32.5,11 38.5,18 38,39 L 15,39 C 15,30 25,32.5 23,18"/>
+            <path d="M 24,18 C 24.38,20.91 18.45,25.37 16,27 C 13,29 13.18,31.34 11,31 C 9.958,30.06 12.41,27.96 11,28 C 10,28 11.19,29.23 10,30 C 9,30 5.997,31 6,26 C 6,24 12,14 12,14 C 12,14 13.89,12.1 14,10.5 C 13.27,9.506 13.5,8.5 13.5,7.5 C 14.5,6.5 16.5,10 16.5,10 L 18.5,10 C 18.5,10 19.28,8.008 21,7 C 22,7 22,10 22,10"/>
+            <path class="ochi" d="M 9.5,25.5 A 0.5,0.5 0 1 1 8.5,25.5 A 0.5,0.5 0 1 1 9.5,25.5 z"/>
+            <path class="ochi" d="M 14.933,15.75 A 0.5,1.5 30 1 1 12.335,14.25 A 0.5,1.5 30 1 1 14.933,15.75 z"/>
+          </g>
+        </svg>
+      </span>
       <div class="container">
         <nav class="breadcrumb reveal"><a href="../index.html">Acasă</a> / <a href="../index.html#sectii">Secții</a> / Șah</nav>
         <h1 class="reveal" data-edit="sah.h1.sah">Șah</h1>
@@ -254,5 +266,32 @@
   <script src="../js/editare.js"></script>
   <script src="../js/galerie.js"></script>
   <script src="../js/stele.js"></script>
+  <script>
+    /* Mutarea în L: pe măsură ce derulezi prin hero, calul coboară două
+       „căsuțe" și face pasul lateral — legat de scroll (scrub), deci merge
+       și înapoi. Căsuța = o fracțiune din înălțimea eroului, ca săritura
+       să arate la fel pe orice ecran. */
+    (function () {
+      if (typeof gsap === "undefined" || typeof ScrollTrigger === "undefined") return;
+      if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+      var cal = document.getElementById("cal-sah");
+      var erou = document.querySelector(".erou-sah");
+      if (!cal || !erou) return;
+      var casuta = function () { return erou.offsetHeight * 0.19; };
+      gsap.timeline({
+        scrollTrigger: {
+          trigger: erou,
+          start: "top top",
+          end: "bottom top",
+          scrub: 0.5,
+          invalidateOnRefresh: true
+        }
+      })
+        /* două în jos… */
+        .to(cal, { y: function () { return casuta() * 2; }, ease: "power1.inOut", duration: 2 })
+        /* …una în lateral, cu o mică aplecare, ca și cum ar ateriza */
+        .to(cal, { x: function () { return -casuta(); }, rotation: -9, ease: "power2.out", duration: 1 });
+    })();
+  </script>
 </body>
 </html>
