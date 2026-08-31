@@ -17,7 +17,7 @@
     { id: "hard",     nume: "Tenis hard",                ico: "🎾", fond: "#3aa0ff", text: "#fff",    tarif: "rezervări: 0349 883 938", poza: POZE + "thumb-hard.webp" },
     { id: "padel",    nume: "Padel",                     ico: "🥎", fond: "#c7f04c", text: "#1e2a08", tarif: "40 lei/oră (10–16) · 60 lei/oră (16–24)", poza: POZE + "thumb-padel.webp" },
     { id: "volei",    nume: "Beach volley",              ico: "🏐", fond: "#f6c81c", text: "#0e1d40", tarif: "25 lei/oră · 13 lei/30 min", poza: POZE + "thumb-volei.webp" },
-    { id: "futnet",   nume: "Futnet (tenis cu piciorul)",ico: "🦶", fond: "#2ec4b6", text: "#fff",    tarif: "80 lei/oră · minge inclusă", poza: POZE + "thumb-futnet.webp" },
+    { id: "futnet",   nume: "Tenis de picior",ico: "🦶", fond: "#2ec4b6", text: "#fff",    tarif: "80 lei/oră · minge inclusă", poza: POZE + "thumb-futnet.webp" },
     { id: "minigolf", nume: "Minigolf",                  ico: "⛳", fond: "#ffffff", text: "#0e1d40", tarif: "11 lei/oră/crosă · 7 lei/30 min", poza: POZE + "thumb-minigolf.webp" },
     { id: "piscina",  nume: "Piscină",                   ico: "🏊", fond: "#3aa0ff", text: "#fff",    tarif: "inclusă în accesul la plajă", poza: POZE + "thumb-piscina.webp" },
     { id: "plaja",    nume: "Plajă & șezlonguri",        ico: "🏖️", fond: "#f6c81c", text: "#0e1d40", tarif: "20 lei adulți · 10 lei copii sub 14 · șezlong 10 lei/zi", poza: POZE + "thumb-plaja.webp" },

@@ -4,7 +4,7 @@
   "hard":     { "nume": "Tenis hard",                   "tarif": "rezervări: 0349 883 938" },
   "minigolf": { "nume": "Minigolf",                     "tarif": "11 lei/oră/crosă · 7 lei/30 min" },
   "volei":    { "nume": "Beach volley",                 "tarif": "25 lei/oră · 13 lei/30 min" },
-  "futnet":   { "nume": "Futnet (tenis cu piciorul)",   "tarif": "80 lei/oră · minge inclusă" },
+  "futnet":   { "nume": "Tenis de picior",   "tarif": "80 lei/oră · minge inclusă" },
   "sintetic": { "nume": "Fotbal pe sintetic",           "tarif": "110 lei/oră ziua · 130 lei/oră nocturn" },
   "fotbal":   { "nume": "Teren fotbal gazon",           "tarif": "" },
   "frizerie": { "nume": "Frizerie",                     "tarif": "de la 40 lei · copii 30 lei" },
