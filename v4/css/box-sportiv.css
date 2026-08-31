@@ -24,11 +24,11 @@
   gap: clamp(18px, 2.6vw, 34px);
   align-items: stretch;
   margin-top: clamp(20px, 3vw, 32px);
-  /* fără perspectivă, rotirile de mai jos ar fi o simplă turtire afină:
-     cardul s-ar deforma, dar nu s-ar „apleca". Aceeași valoare ca la scena
-     lotului de fotbal, cu punctul de fugă puțin deasupra mijlocului. */
-  perspective: 1500px;
-  perspective-origin: 50% 45%;
+  /* Perspectiva NU stă aici, ci în transformul cardului (perspective(1500px)).
+     Pusă pe container, punctul de fugă cădea la 50% din `.bs-duo`, adică între
+     card și fișă — camera virtuală stătea în dreapta cardului, nu în fața lui,
+     iar rotirea ieșea asimetrică. În transformul propriu, punctul de fugă e
+     chiar centrul cardului, deci aplecarea e egală în ambele sensuri. */
 }
 
 /* ---------- stânga: cardul vizual ---------- */
@@ -49,7 +49,8 @@
      (--mx/--my, scrise din JS), se ridică la hover (--salt) și își crește
      sticla când îl desfaci. Un singur transform, compus din variabile —
      altfel regulile de hover s-ar suprascrie una pe alta. */
-  transform: translateY(var(--salt, 0px))
+  transform: perspective(1500px)
+             translateY(var(--salt, 0px))
              rotateY(var(--my, 0deg))
              rotateX(var(--mx, 0deg));
   transition: transform 0.4s var(--ease-out),

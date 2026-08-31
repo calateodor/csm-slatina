@@ -133,8 +133,13 @@
           var px = (ev.clientX - r.left) / r.width - 0.5;
           var py = (ev.clientY - r.top) / r.height - 0.5;
           card.classList.add("urmareste");
-          card.style.setProperty("--my", (px * 6).toFixed(2) + "deg");
-          card.style.setProperty("--mx", (-py * 4).toFixed(2) + "deg");
+          /* Semnele sunt inverse față de cardurile de fotbal: acolo evantaiul
+             are deja o rotire de bază de 15deg, iar mișcarea mouse-ului doar
+             o modulează. Aici cardul stă drept, deci se întoarce CĂTRE cursor —
+             mouse în dreapta, muchia dreaptă vine în față (rotateY negativ
+             aduce dreapta spre privitor). */
+          card.style.setProperty("--my", (px * -6).toFixed(2) + "deg");
+          card.style.setProperty("--mx", (py * 4).toFixed(2) + "deg");
           if (poza) {
             // invers față de înclinare: decupajul pare că plutește deasupra
             poza.style.setProperty("--pax", (px * -14).toFixed(1) + "px");
