@@ -1,0 +1,5 @@
+name = "csm-live"
+main = "worker.js"
+compatibility_date = "2026-08-01"
+account_id = "b1bfa43f92fdcc975a53c69ce3680049"
+workers_dev = true

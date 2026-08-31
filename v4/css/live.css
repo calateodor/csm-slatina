@@ -1,0 +1,93 @@
+/* =========================================================
+   Banda de scor LIVE — apare sub antet doar în zilele cu meci.
+   Mare și citeață: insigna care pulsează, echipele, scorul
+   dominant, minutul care curge. Auriu pe bleumarin, în limbajul
+   site-ului.
+   ========================================================= */
+.banda-live {
+  position: fixed;
+  top: var(--header-h, 84px);
+  left: 0;
+  right: 0;
+  z-index: 190;               /* sub antet (200), peste restul paginii */
+  background: linear-gradient(90deg, #0a1730 0%, #14345c 55%, #0a1730 100%);
+  border-bottom: 2px solid var(--gold, #f6c81c);
+  box-shadow: 0 14px 40px rgba(4, 10, 30, 0.45);
+  color: #fff;
+}
+/* paginile cu banda primesc exact atâta aer cât e banda de înaltă
+   (măsurată de live.js după fiecare desenare) */
+body.cu-banda-live main { padding-top: var(--banda-live-h, 64px); }
+
+.bl-inauntru {
+  width: min(1200px, 94vw);
+  margin-inline: auto;
+  min-height: 60px;
+  padding: 8px 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(10px, 2vw, 22px);
+  flex-wrap: wrap;
+}
+
+.bl-insigna {
+  font-family: var(--font-display); font-weight: 800; font-size: 0.72rem;
+  letter-spacing: 0.18em;
+  padding: 5px 12px;
+  border-radius: 999px;
+  background: #e33; color: #fff;
+}
+.banda-live[data-faza="inainte"] .bl-insigna { background: var(--gold); color: var(--navy-900, #14345c); }
+.banda-live[data-faza="final"] .bl-insigna { background: rgba(255, 255, 255, 0.18); }
+.bl-insigna.puls { animation: bl-puls 1.6s ease-in-out infinite; }
+@keyframes bl-puls { 50% { opacity: 0.55; } }
+
+.bl-sport {
+  font-family: var(--font-display); font-weight: 700; font-size: 0.72rem;
+  letter-spacing: 0.14em; text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.65);
+}
+
+.bl-meci { display: inline-flex; align-items: center; gap: clamp(8px, 1.4vw, 16px); }
+.bl-echipa {
+  font-family: var(--font-display); font-weight: 700;
+  font-size: clamp(0.9rem, 1.6vw, 1.15rem);
+}
+.bl-scor {
+  font-family: var(--font-display); font-weight: 800;
+  font-size: clamp(1.5rem, 3vw, 2.1rem);
+  letter-spacing: 0.02em;
+  color: var(--gold, #f6c81c);
+  line-height: 1;
+}
+.bl-scor.mic { font-size: 1rem; color: rgba(255, 255, 255, 0.6); }
+
+.bl-minut {
+  font-family: var(--font-display); font-weight: 800;
+  font-size: clamp(0.95rem, 1.8vw, 1.2rem);
+  color: #fff;
+  padding: 4px 12px;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+}
+.bl-minut small {
+  display: block;
+  font-weight: 600; font-size: 0.68rem;
+  color: rgba(255, 255, 255, 0.65);
+  text-align: center;
+}
+.bl-minut small:empty { display: none; }
+/* la final, eticheta arată doar scorul de la pauză — insigna spune deja FINAL */
+.bl-minut.doar-pauza { font-weight: 600; font-size: 0.8rem; color: rgba(255, 255, 255, 0.75); }
+
+@media (max-width: 640px) {
+  .bl-inauntru { gap: 8px 12px; padding: 8px 0 9px; }
+  .bl-sport { display: none; }
+  .bl-echipa { font-size: 0.85rem; }
+  .bl-scor { font-size: 1.5rem; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .bl-insigna.puls { animation: none; }
+}
