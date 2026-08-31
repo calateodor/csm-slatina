@@ -142,8 +142,6 @@
           <g transform="translate(0,0.3)">
             <path d="M 22,10 C 32.5,11 38.5,18 38,39 L 15,39 C 15,30 25,32.5 23,18"/>
             <path d="M 24,18 C 24.38,20.91 18.45,25.37 16,27 C 13,29 13.18,31.34 11,31 C 9.958,30.06 12.41,27.96 11,28 C 10,28 11.19,29.23 10,30 C 9,30 5.997,31 6,26 C 6,24 12,14 12,14 C 12,14 13.89,12.1 14,10.5 C 13.27,9.506 13.5,8.5 13.5,7.5 C 14.5,6.5 16.5,10 16.5,10 L 18.5,10 C 18.5,10 19.28,8.008 21,7 C 22,7 22,10 22,10"/>
-            <path class="ochi" d="M 9.5,25.5 A 0.5,0.5 0 1 1 8.5,25.5 A 0.5,0.5 0 1 1 9.5,25.5 z"/>
-            <path class="ochi" d="M 14.933,15.75 A 0.5,1.5 30 1 1 12.335,14.25 A 0.5,1.5 30 1 1 14.933,15.75 z"/>
           </g>
         </svg>
       </span>
@@ -277,10 +275,18 @@
       var cal = document.getElementById("cal-sah");
       var erou = document.querySelector(".erou-sah");
       if (!cal || !erou) return;
-      /* căsuța e mare dinadins: cele două coborâri însumează ~125% din
-         înălțimea eroului, deci calul coboară MAI REPEDE decât derulează
-         pagina — rămâne în fața ochilor cât își face toată mutarea */
-      var casuta = function () { return erou.offsetHeight * 0.42; };
+      /* Calul pornește tăiat de marginea de sus a fotografiei (eroul are
+         overflow:hidden, deci nu poate ieși niciodată din imagine), coboară
+         până cu tălpile pe baza ei — cele două căsuțe acoperă exact drumul —
+         apoi face pasul la DREAPTA. Pasul lateral e limitat și de marginea
+         ecranului, ca piesa să rămână mereu întreagă pe pagină. */
+      var coborare = function () {
+        return Math.max(erou.offsetHeight * 1.15 - cal.offsetHeight, erou.offsetHeight * 0.5);
+      };
+      var pasDreapta = function () {
+        var maxPeEcran = window.innerWidth / 2 - cal.offsetWidth / 2 - 16;
+        return Math.min(coborare() / 2, Math.max(maxPeEcran, 40));
+      };
       gsap.set(cal, { xPercent: -50 });   // centrul paginii (left: 50% în CSS)
       gsap.timeline({
         scrollTrigger: {
@@ -292,9 +298,9 @@
         }
       })
         /* două în jos… */
-        .to(cal, { y: function () { return casuta() * 2; }, ease: "power1.inOut", duration: 2 })
-        /* …una în lateral, cu o mică aplecare, ca și cum ar ateriza */
-        .to(cal, { x: function () { return -casuta(); }, rotation: -9, ease: "power2.out", duration: 1 });
+        .to(cal, { y: function () { return coborare(); }, ease: "power1.inOut", duration: 2 })
+        /* …una la dreapta, cu o mică aplecare, ca și cum ar ateriza */
+        .to(cal, { x: function () { return pasDreapta(); }, rotation: 9, ease: "power2.out", duration: 1 });
     })();
   </script>
 </body>

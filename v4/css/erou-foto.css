@@ -74,14 +74,16 @@
 
 /* calul: doar conturul, auriu, pe centrul paginii, peste fotografie —
    pozitia pe orizontala o da GSAP (xPercent -50 + pasul lateral) */
+/* eroul decupează tot ce iese din el: calul nu poate părăsi fotografia */
+.erou-sah.page-hero { overflow: hidden; }
 .cal-sah {
   position: absolute;
-  /* sub antetul fix, ca sa nu se calce cu stemele */
-  top: calc(var(--header-h, 84px) + 4vh);
+  /* pornește tăiat de marginea de sus a fotografiei și coboară de acolo */
+  top: -18%;
   left: 50%;
   transform: translateX(-50%);
   z-index: 1;
-  width: clamp(84px, 13vw, 150px);
+  width: clamp(180px, 26vw, 330px);
   filter: drop-shadow(0 10px 24px rgba(7, 19, 48, 0.55));
   pointer-events: none;
   will-change: transform;
@@ -94,10 +96,8 @@
   stroke-linejoin: round;
   stroke-linecap: round;
 }
-.cal-sah .ochi { fill: var(--gold); stroke: none; }
-
 @media (max-width: 880px) {
-  .cal-sah { top: calc(var(--header-h, 72px) + 3vh); }
+  .cal-sah { width: clamp(150px, 40vw, 220px); }
 }
 @media (prefers-reduced-motion: reduce) {
   .cal-sah { display: none; }
