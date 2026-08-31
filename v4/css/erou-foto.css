@@ -79,9 +79,10 @@
    și nici nu poate părăsi fotografia. */
 .cal-pista {
   position: absolute;
-  left: 0; right: 0;
-  top: var(--header-h, 84px);
-  bottom: 0;
+  /* pista acoperă tot eroul: tăietura de intrare a piesei cade pe muchia
+     de sus a fotografiei, în spatele antetului aproape opac — nu se mai
+     vede nicio linie de decupare în mijlocul imaginii */
+  inset: 0;
   overflow: hidden;
   /* sub textul eroului: la dimensiunea asta piesa traversează titlul,
      deci trăiește ca filigran, în spatele scrisului */

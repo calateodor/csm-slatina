@@ -289,9 +289,10 @@
       var coborare = function () {
         return pista.offsetHeight + cal.offsetHeight * 0.02;
       };
+      /* pasul lateral merge PÂNĂ LA marginea dreaptă a paginii:
+         centrul piesei ajunge cu o jumătate de piesă + 24px înaintea muchiei */
       var pasDreapta = function () {
-        var maxPeEcran = window.innerWidth / 2 - cal.offsetWidth / 2 - 16;
-        return Math.min(erou.offsetHeight * 0.35, Math.max(maxPeEcran, 40));
+        return Math.max(window.innerWidth / 2 - cal.offsetWidth / 2 - 24, 40);
       };
       // pornirea ascunsă din CSS (translate -50%/-102%), preluată de GSAP
       gsap.set(cal, { xPercent: -50, yPercent: -102 });
