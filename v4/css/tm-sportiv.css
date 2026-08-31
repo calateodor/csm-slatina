@@ -1,0 +1,375 @@
+/* =========================================================
+   Tenis de masă — perechea „card + fișă" a sportivei secției.
+   Aceeași anatomie ca la cardul lui Arun de la box (poză, nume
+   pe verticală, cifră-fantomă, fișă de sticlă desfășurabilă,
+   înclinare 3D după mouse), cu două diferențe:
+
+   1. Fotografia nu e un decupaj pe fundal transparent, ci o
+      imagine întreagă. Deci intră în cadraj „cover" cu un văl
+      peste ea, ca la cardurile de fotbal — iar parallax-ul o
+      mișcă precum un FUNDAL înfundat în card, nu ca un strat
+      care plutește deasupra (semne inverse, vezi tm-sportiv.js).
+   2. Accentul e portocaliul mingii de ping-pong. Auriul e al
+      clubului, rozul e al boxului, verdele-lime e al padelului
+      — portocaliul rămâne liber și e chiar culoarea sportului.
+
+   Accentul stă într-o variabilă, ca să se poată reregla dintr-un
+   singur loc. Fișierul e separat de box-sportiv.css intenționat:
+   cardurile împart anatomia, dar nu și paleta, iar un fișier comun
+   ar fi însemnat să umblu într-un card deja aprobat.
+   ========================================================= */
+.ts-sectiune { position: relative; }
+
+:root {
+  --tm-acc: #ff7a29;        /* portocaliul mingii */
+  --tm-acc-clar: #ffb066;   /* varianta deschisă, pentru text pe bleumarin */
+  --tm-acc-inchis: #c9560d; /* varianta închisă, pentru text pe alb */
+}
+
+/* Variabilele de mișcare, declarate ne-moștenite: altfel rescrierea lor la
+   fiecare mișcare de mouse ar invalida stilul întregului conținut al cardului,
+   nu doar al elementului care se mișcă. Numele sunt proprii secțiunii, ca să
+   nu se bată cu cele din box-sportiv.css dacă vreodată ajung pe aceeași pagină. */
+@property --tsalt { syntax: "<length>"; inherits: false; initial-value: 0px; }
+@property --tmx   { syntax: "<angle>";  inherits: false; initial-value: 0deg; }
+@property --tmy   { syntax: "<angle>";  inherits: false; initial-value: 0deg; }
+@property --tpax  { syntax: "<length>"; inherits: false; initial-value: 0px; }
+@property --tpay  { syntax: "<length>"; inherits: false; initial-value: 0px; }
+@property --tlux  { syntax: "<number>"; inherits: false; initial-value: 0; }
+@property --tluy  { syntax: "<number>"; inherits: false; initial-value: 0; }
+
+.ts-duo {
+  display: grid;
+  grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.05fr);
+  gap: clamp(18px, 2.6vw, 34px);
+  align-items: stretch;
+  margin-top: clamp(20px, 3vw, 32px);
+  /* perspectiva NU stă aici, ci în transformul cardului: pe container punctul
+     de fugă ar cădea între card și fișă, iar rotirea ar ieși asimetrică */
+}
+
+/* ---------- stânga: cardul vizual ---------- */
+.tv-card {
+  position: relative;
+  min-height: clamp(430px, 52vw, 580px);
+  border-radius: 22px;
+  overflow: hidden;
+  isolation: isolate;
+  background:
+    radial-gradient(120% 70% at 50% 0%, rgba(255, 122, 41, 0.26) 0%, rgba(255, 122, 41, 0) 62%),
+    linear-gradient(165deg, var(--navy-900, #14345c) 0%, var(--navy-950, #0a1730) 100%);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  box-shadow: 0 26px 60px rgba(7, 19, 48, 0.28);
+  transform: perspective(1500px)
+             translateY(var(--tsalt, 0px))
+             rotateY(var(--tmy, 0deg))
+             rotateX(var(--tmx, 0deg));
+  transition: transform 0.4s var(--ease-out),
+              box-shadow 0.45s var(--ease-out),
+              border-color 0.35s ease;
+}
+@media (hover: hover) and (pointer: fine) {
+  .tv-card:hover {
+    --tsalt: -6px;
+    border-color: rgba(255, 122, 41, 0.45);
+    box-shadow: 0 34px 70px rgba(7, 19, 48, 0.36);
+  }
+}
+.tv-card.extins {
+  --tsalt: -4px;
+  border-color: rgba(255, 122, 41, 0.55);
+  box-shadow: 0 34px 74px rgba(7, 19, 48, 0.4),
+              0 0 34px -8px rgba(255, 122, 41, 0.38);
+}
+
+/* Fotografia: cadraj „cover", ancorată sus ca să nu coboare capul.
+   Mărirea la 1.14 e rezerva din care se face parallax-ul — fără ea, orice
+   deplasare ar descoperi o dungă de fundal la margine. */
+.tv-poza {
+  position: absolute; inset: 0;
+  width: 100%; height: 100%; max-width: none;
+  object-fit: cover; object-position: 50% 16%;
+  z-index: 0;
+  transform-origin: 50% 30%;
+  transform: translate3d(var(--tpax, 0px), var(--tpay, 0px), 0) scale(var(--tpoza-zoom, 1.14));
+  /* ușor desaturată în repaus, ca fișa de sticlă să rămână elementul citit
+     întâi; la hover sau desfăcut revine complet la culoare */
+  filter: grayscale(0.25);
+  transition: transform 0.35s var(--ease-out), filter 0.45s ease;
+}
+@media (hover: hover) and (pointer: fine) {
+  .tv-card:hover .tv-poza { --tpoza-zoom: 1.17; filter: grayscale(0); }
+  /* cât timp mouse-ul se plimbă, poza urmează cursorul aproape instant —
+     tranziția lungă ar transforma parallax-ul într-o târâre */
+  .tv-card.urmareste .tv-poza { transition: transform 0.12s linear, filter 0.45s ease; }
+}
+.tv-card.extins .tv-poza { filter: grayscale(0); }
+
+/* Vălul de lizibilitate peste fotografie. E mult mai subțire decât la
+   cardurile de fotbal: acolo fotografia umple cadrul cu bustul jucătorului,
+   aici fundalul de sală e deja închis, iar un văl gros o stingea complet.
+   Rolul lui e doar să țină lizibile numele pe verticală și insigna din colț
+   și să coboare lin spre fișa de sticlă. */
+.tv-val {
+  position: absolute; inset: 0; z-index: 1;
+  background: linear-gradient(to top,
+    rgba(7, 19, 48, 0.74) 0%, rgba(7, 19, 48, 0.2) 46%, rgba(7, 19, 48, 0.12) 100%);
+  transition: background 0.45s ease;
+  pointer-events: none;
+}
+.tv-card.extins .tv-val {
+  background: linear-gradient(to top,
+    rgba(7, 19, 48, 0.8) 0%, rgba(7, 19, 48, 0.26) 54%, rgba(7, 19, 48, 0.1) 100%);
+}
+
+/* Cifra-fantomă: numărul medaliilor de aur, doar contur.
+   La Arun stă centrată, pentru că fotografia lui e un decupaj și din cifră se
+   văd fragmentele din jurul siluetei. Aici fotografia umple cadrul, așa că o
+   cifră centrată ar cădea peste chipul ei — o ducem în colțul din dreapta-sus,
+   sub insignă, unde fundalul de sală e închis și conturul se citește. */
+.tv-fantoma {
+  position: absolute;
+  top: 46px; right: 16px;
+  z-index: 2;
+  font-family: var(--font-display); font-weight: 800;
+  font-size: clamp(4.5rem, 9vw, 7rem);
+  line-height: 0.9;
+  color: transparent;
+  -webkit-text-stroke: 2px rgba(255, 122, 41, 0.5);
+  pointer-events: none; user-select: none;
+  transition: -webkit-text-stroke-color 0.45s ease;
+}
+.tv-card:hover .tv-fantoma,
+.tv-card.extins .tv-fantoma { -webkit-text-stroke-color: rgba(255, 122, 41, 0.72); }
+
+/* numele pe verticală */
+.tv-vert {
+  position: absolute;
+  top: 18px; left: 14px;
+  z-index: 3;
+  writing-mode: vertical-rl;
+  text-orientation: mixed;
+  display: flex; align-items: center; gap: 8px;
+  font-family: var(--font-display);
+  text-transform: uppercase; letter-spacing: 0.16em;
+  pointer-events: none;
+  text-shadow: 0 2px 12px rgba(3, 8, 25, 0.85);
+}
+.tv-vert i { font-style: normal; font-weight: 600; font-size: 0.62rem; color: rgba(255, 255, 255, 0.62); }
+.tv-vert b { font-weight: 800; font-size: 0.86rem; color: #fff; }
+
+/* insigna de clasare, sus-dreapta */
+.tv-loc {
+  position: absolute;
+  top: 16px; right: 16px;
+  z-index: 4;
+  padding: 6px 12px;
+  border-radius: 999px;
+  background: var(--tm-acc);
+  color: #2a1200;
+  font-family: var(--font-display); font-weight: 800; font-size: 0.66rem;
+  letter-spacing: 0.08em; text-transform: uppercase;
+  box-shadow: 0 8px 20px rgba(255, 122, 41, 0.38);
+}
+
+/* dunga de lucire care traversează cardul după mouse */
+.tv-lucire { display: none; }
+@media (hover: hover) and (pointer: fine) {
+  .tv-lucire {
+    display: block; position: absolute;
+    top: -25%; left: -100%; width: 300%; height: 150%;
+    z-index: 5; pointer-events: none;
+    background: linear-gradient(115deg,
+      transparent 45%,
+      rgba(255, 255, 255, 0.05) 47.5%,
+      rgba(255, 255, 255, 0.12) 50%,
+      rgba(255, 255, 255, 0.05) 52.5%,
+      transparent 55%);
+    transform: translate3d(calc(var(--tlux, 0) * 50%), calc(var(--tluy, 0) * 26%), 0);
+    opacity: 0;
+    transition: opacity 0.4s ease, transform 0.18s ease-out;
+  }
+  .tv-card:hover .tv-lucire { opacity: 1; }
+}
+
+/* fișa de sticlă din josul cardului */
+.tv-jos {
+  position: absolute;
+  inset: auto 0 0 0;
+  z-index: 6;
+  padding: 12px;
+}
+.tv-sticla {
+  border-radius: 16px;
+  padding: 14px 16px 15px;
+  background: rgba(10, 23, 48, 0.55);
+  backdrop-filter: blur(16px) saturate(1.3);
+  -webkit-backdrop-filter: blur(16px) saturate(1.3);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  color: #fff;
+}
+.tv-cap { display: flex; align-items: flex-end; justify-content: space-between; gap: 12px; }
+.tv-cap p {
+  font-family: var(--font-display); font-weight: 600; font-size: 0.72rem;
+  letter-spacing: 0.14em; text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.7);
+}
+.tv-cap h3 {
+  font-family: var(--font-display); font-weight: 800;
+  font-size: clamp(1.2rem, 2.4vw, 1.6rem);
+  color: #fff; line-height: 1.05;
+}
+.tv-categorie {
+  flex: none;
+  padding: 5px 11px; border-radius: 999px;
+  background: rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  font-weight: 700; font-size: 0.7rem;
+  white-space: nowrap;
+}
+
+/* medaliile: trei cifre mari, ca scorul unei gale */
+.tv-medalii {
+  display: flex; align-items: baseline; gap: 14px;
+  margin-top: 12px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.14);
+}
+.tv-medalii span { display: flex; align-items: baseline; gap: 4px; }
+.tv-medalii b {
+  font-family: var(--font-display); font-weight: 800;
+  font-size: clamp(1.7rem, 3.6vw, 2.4rem);
+  line-height: 1;
+}
+.tv-medalii i {
+  font-style: normal; font-weight: 700; font-size: 0.7rem;
+  letter-spacing: 0.1em;
+  color: rgba(255, 255, 255, 0.6);
+}
+.tv-medalii .aur b { color: var(--tm-acc); }
+.tv-medalii .arg b { color: rgba(255, 255, 255, 0.85); }
+.tv-medalii .brz b { color: rgba(255, 255, 255, 0.55); }
+
+/* butonul „Detalii" și partea desfășurabilă — mecanica de la cardurile de
+   fotbal: grid-template-rows 0fr -> 1fr, deci se desface lin, fără înălțimi
+   ghicite care sacadează */
+.tv-mai {
+  margin-top: 12px;
+  background: transparent;
+  border: 1px solid rgba(255, 122, 41, 0.55);
+  color: var(--tm-acc-clar);
+  font-family: var(--font-display); font-weight: 700;
+  font-size: 0.58rem; letter-spacing: 0.14em; text-transform: uppercase;
+  padding: 6px 14px; border-radius: 999px;
+  cursor: pointer;
+  transition: background-color 0.25s ease, color 0.25s ease, transform 0.18s var(--ease-out);
+}
+.tv-mai:active { transform: scale(0.97); }
+.tv-mai b { font-weight: 800; }
+@media (hover: hover) and (pointer: fine) {
+  .tv-mai:hover { background: rgba(255, 122, 41, 0.18); color: #fff; }
+}
+.tv-rest {
+  display: grid; grid-template-rows: 0fr;
+  transition: grid-template-rows 0.45s ease;
+}
+.tv-rest > div { overflow: hidden; min-height: 0; }
+.tv-card.extins .tv-rest { grid-template-rows: 1fr; }
+
+/* bara aurului: cât din medalii sunt de aur */
+.tv-bara-cap {
+  display: flex; justify-content: space-between; align-items: baseline;
+  font-size: 0.72rem; color: rgba(255, 255, 255, 0.72);
+  margin: 11px 0 5px;
+}
+.tv-bara-cap b { font-family: var(--font-display); font-weight: 800; font-size: 0.9rem; color: #fff; }
+.tv-bara-cap i { font-style: normal; color: rgba(255, 255, 255, 0.5); }
+.tv-bara {
+  height: 6px; border-radius: 999px;
+  background: rgba(255, 255, 255, 0.16);
+  overflow: hidden;
+}
+.tv-bara span {
+  display: block; height: 100%;
+  border-radius: 999px;
+  background: linear-gradient(90deg, var(--tm-acc), var(--tm-acc-clar));
+}
+
+/* măsurile */
+.tv-masuri {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 8px;
+  margin-top: 12px;
+}
+.tv-masura { text-align: center; }
+.tv-masura b {
+  display: block;
+  font-family: var(--font-display); font-weight: 800; font-size: 1.05rem;
+  color: #fff;
+}
+.tv-masura i {
+  font-style: normal; font-size: 0.62rem; letter-spacing: 0.06em;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+/* ---------- dreapta: fișa care continuă cardul ---------- */
+.ts-card {
+  display: flex; flex-direction: column;
+  background: #fff;
+  border: 1px solid rgba(20, 52, 92, 0.08);
+  border-radius: 22px;
+  box-shadow: 0 20px 50px rgba(16, 34, 64, 0.08);
+  padding: clamp(20px, 2.6vw, 30px) clamp(20px, 2.6vw, 32px);
+}
+.ts-eticheta {
+  font-family: var(--font-display); font-weight: 700; font-size: 0.66rem;
+  letter-spacing: 0.18em; text-transform: uppercase;
+  color: var(--tm-acc-inchis);
+  margin-bottom: 14px;
+}
+.ts-palmares { list-style: none; display: grid; gap: 13px; }
+.ts-palmares li { display: flex; gap: 16px; align-items: baseline; }
+.ts-palmares b {
+  flex: none; min-width: 3.2em;
+  font-family: var(--font-display); font-weight: 800;
+  color: var(--tm-acc-inchis);
+}
+.ts-palmares span { color: var(--ink); font-size: 0.95rem; line-height: 1.45; }
+.ts-palmares i {
+  font-style: normal; font-weight: 600; font-size: 0.82rem;
+  color: var(--ink-soft); white-space: nowrap;
+}
+.ts-subsol {
+  margin-top: auto;
+  padding-top: 18px;
+  display: grid; gap: 6px;
+  font-size: 0.88rem; color: var(--ink-soft);
+}
+.ts-subsol b { color: var(--ink); }
+.ts-distinctii, .ts-sursa { font-size: 0.82rem; }
+
+/* ---------- telefon: cardul deasupra, fișa dedesubt ---------- */
+@media (max-width: 900px) {
+  .ts-duo { grid-template-columns: minmax(0, 1fr); }
+  /* Pe desktop cardul se întinde până la înălțimea fișei din dreapta, deci are
+     loc berechet. Pe telefon fișa trece dedesubt, iar cardul rămâne doar cu
+     min-height — iar fișa lui de sticlă, desfăcută, are 365px. La 520px cât
+     avea, acoperea 70% din card și urca peste chipul ei; 620 o coboară sub el. */
+  .tv-card { min-height: 620px; }
+  .tv-fantoma { font-size: 9rem; }
+}
+@media (max-width: 640px) {
+  .tv-card { min-height: 600px; }
+  .tv-poza { object-position: 50% 12%; }
+  .tv-masuri { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px 8px; }
+  .ts-palmares li { flex-direction: column; gap: 2px; }
+  .ts-palmares b { min-width: 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+  /* culorile și desfacerea rămân; cardul nu se mai apleacă, poza nu mai alunecă */
+  .tv-card, .tv-poza, .tv-lucire { transition: none; }
+  .tv-card { transform: none; }
+  .tv-poza { transform: scale(1.14); }
+  .tv-lucire { display: none; }
+}

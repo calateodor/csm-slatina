@@ -1,0 +1,63 @@
+{
+  "_comentariu": "Palmaresul Biancăi Toma. Tenisul de masă de juniori nu are o bază de date publică de tip BoxRec: rezultatele vin din anunțurile WTT, ETTU și FRTM și din presa locală, deci fișierul se ține de mână. Cifrele din «medalii» sunt EXACT suma medaliilor listate în «palmares» — dacă se adaugă o linie nouă, se actualizează și ele, altfel cardul minte.",
+  "sportiv": {
+    "nume": "Bianca Toma",
+    "numeIntreg": "Bianca Ștefania Toma",
+    "varsta": 11,
+    "categorie": "U13",
+    "sezon": 2026,
+    "medalii": {
+      "aur": 5,
+      "argint": 4,
+      "bronz": 1
+    },
+    "turneeWtt": 2,
+    "titluriNationale2025": 4,
+    "insigna": "#1 U11 în Europa",
+    "antrenori": [
+      "Angelica Toma",
+      "Liviu Predoaica",
+      "Gabriela Cuțudi"
+    ],
+    "palmares": [
+      {
+        "an": 2026,
+        "text": "Aur la simplu U13, WTT Youth Contender Luxembourg",
+        "categorie": "simplu fete"
+      },
+      {
+        "an": 2026,
+        "text": "Aur la simplu U13, WTT Youth Contender Panagyurishte — 6 victorii din 6 meciuri, cu un singur set pierdut",
+        "categorie": "Bulgaria, martie"
+      },
+      {
+        "an": 2026,
+        "text": "Două titluri, un argint și un bronz la Campionatul Național individual U13",
+        "categorie": "București, mai"
+      },
+      {
+        "an": 2026,
+        "text": "Aur la dublu mixt pe echipe, argint la simplu și argint la dublu fete, Europe Youth Series — singura din lotul României cu trei finale",
+        "categorie": "Croația, februarie"
+      },
+      {
+        "an": 2026,
+        "text": "Argint la U13, Cupa României",
+        "categorie": "București"
+      },
+      {
+        "an": 2025,
+        "text": "Patru titluri de campioană națională: simplu, echipe, dublu și dublu mixt",
+        "categorie": ""
+      },
+      {
+        "an": 2025,
+        "text": "Cea mai dominantă jucătoare U11 a anului, în țară și în Europa",
+        "categorie": ""
+      }
+    ],
+    "distinctii": "Locul 1 la ETTU Eurotalents Camp · „Personalitatea Anului în Sport” la Slatina",
+    "surse": "Rezultate anunțate de WTT, ETTU și FRTM",
+    "poza": "assets/img/tenis-de-masa/bianca.webp"
+  }
+}
