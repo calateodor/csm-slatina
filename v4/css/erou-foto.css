@@ -72,29 +72,32 @@
   --ef-neclaritate: 0;
 }
 
-/* calul: siluetă aurie cu contur bleumarin, sus-dreapta, peste fotografie */
+/* calul: doar conturul, auriu, pe centrul paginii, peste fotografie —
+   pozitia pe orizontala o da GSAP (xPercent -50 + pasul lateral) */
 .cal-sah {
   position: absolute;
   /* sub antetul fix, ca sa nu se calce cu stemele */
-  top: calc(var(--header-h, 84px) + 6vh);
-  right: clamp(16px, 9vw, 150px);
+  top: calc(var(--header-h, 84px) + 4vh);
+  left: 50%;
+  transform: translateX(-50%);
   z-index: 1;
   width: clamp(84px, 13vw, 150px);
-  filter: drop-shadow(0 14px 30px rgba(7, 19, 48, 0.45));
+  filter: drop-shadow(0 10px 24px rgba(7, 19, 48, 0.55));
   pointer-events: none;
   will-change: transform;
 }
 .cal-sah svg { display: block; width: 100%; height: auto; }
 .cal-sah path {
-  fill: var(--gold);
-  stroke: var(--navy-900, #14345c);
-  stroke-width: 1.1;
+  fill: none;
+  stroke: var(--gold);
+  stroke-width: 1.5;
   stroke-linejoin: round;
+  stroke-linecap: round;
 }
-.cal-sah .ochi { fill: var(--navy-900, #14345c); stroke: none; }
+.cal-sah .ochi { fill: var(--gold); stroke: none; }
 
 @media (max-width: 880px) {
-  .cal-sah { top: calc(var(--header-h, 72px) + 5vh); }
+  .cal-sah { top: calc(var(--header-h, 72px) + 3vh); }
 }
 @media (prefers-reduced-motion: reduce) {
   .cal-sah { display: none; }

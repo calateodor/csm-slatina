@@ -277,7 +277,11 @@
       var cal = document.getElementById("cal-sah");
       var erou = document.querySelector(".erou-sah");
       if (!cal || !erou) return;
-      var casuta = function () { return erou.offsetHeight * 0.19; };
+      /* căsuța e mare dinadins: cele două coborâri însumează ~125% din
+         înălțimea eroului, deci calul coboară MAI REPEDE decât derulează
+         pagina — rămâne în fața ochilor cât își face toată mutarea */
+      var casuta = function () { return erou.offsetHeight * 0.42; };
+      gsap.set(cal, { xPercent: -50 });   // centrul paginii (left: 50% în CSS)
       gsap.timeline({
         scrollTrigger: {
           trigger: erou,
