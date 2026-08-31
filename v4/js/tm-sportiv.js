@@ -109,9 +109,23 @@
 
       /* Înclinarea 3D + parallax + dunga de lucire. Doar unde există hover
          adevărat: pe touch tilt-ul ar rămâne înțepenit după un tap. */
-      if (card &&
-          window.matchMedia("(hover: hover) and (pointer: fine)").matches &&
-          !window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      var cuCursor = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
+      var miscareRedusa = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+      /* Pe ecranele fără cursor mișcarea vine din derulare și din deget —
+         aceiași coeficienți, ca senzația să fie identică cu cea de pe desktop.
+         Vezi js/card-miscare.js. */
+      if (card && !cuCursor && !miscareRedusa && window.CardMiscare) {
+        window.CardMiscare.pornesteTouch({
+          card: card,
+          poza: card.querySelector(".tv-poza"),
+          lucire: card.querySelector(".tv-lucire"),
+          nume: { my: "--tmy", mx: "--tmx", pax: "--tpax", pay: "--tpay", lux: "--tlux", luy: "--tluy" },
+          coef: { my: 20, mx: -12, pax: 30, pay: 14 }
+        });
+      }
+
+      if (card && cuCursor && !miscareRedusa) {
         var poza = card.querySelector(".tv-poza");
         var luc = card.querySelector(".tv-lucire");
 

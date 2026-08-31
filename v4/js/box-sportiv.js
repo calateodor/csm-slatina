@@ -121,9 +121,23 @@
          ar rămâne înțepenit după un tap, iar lucirea la fel.
          Cine cere mișcare redusă rămâne fără ele — CSS-ul le-ar anula oricum,
          dar nici nu are rost să scriem variabile la fiecare cadru. */
-      if (card &&
-          window.matchMedia("(hover: hover) and (pointer: fine)").matches &&
-          !window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      var cuCursor = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
+      var miscareRedusa = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+      /* Pe ecranele fără cursor mișcarea vine din derulare și din deget —
+         aceiași coeficienți, ca senzația să fie identică cu cea de pe desktop.
+         Vezi js/card-miscare.js. */
+      if (card && !cuCursor && !miscareRedusa && window.CardMiscare) {
+        window.CardMiscare.pornesteTouch({
+          card: card,
+          poza: card.querySelector(".bv-poza"),
+          lucire: card.querySelector(".bv-lucire"),
+          nume: { my: "--my", mx: "--mx", pax: "--pax", pay: "--pay", lux: "--lux", luy: "--luy" },
+          coef: { my: 20, mx: -12, pax: 34, pay: 14 }
+        });
+      }
+
+      if (card && cuCursor && !miscareRedusa) {
         var poza = card.querySelector(".bv-poza");
         var luc = card.querySelector(".bv-lucire");
 

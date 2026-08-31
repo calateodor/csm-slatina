@@ -64,6 +64,14 @@
     box-shadow: 0 34px 70px rgba(7, 19, 48, 0.36);
   }
 }
+/* „activ" ține locul lui :hover pe ecranele fără cursor: se aprinde cât
+   cardul e pe la mijlocul ecranului, adică exact cât te uiți la el.
+   Stă înaintea lui .extins ca desfacerea să rămână starea mai puternică. */
+.bv-card.activ {
+  --salt: -6px;
+  border-color: rgba(255, 63, 142, 0.45);
+  box-shadow: 0 34px 70px rgba(7, 19, 48, 0.36);
+}
 /* desfăcut, cardul rămâne ridicat și primește strălucirea roz din jur —
    echivalentul aurei aurii de pe cardul deschis de la fotbal */
 .bv-card.extins {
@@ -95,38 +103,43 @@
   transition: transform 0.35s var(--ease-out), filter 0.45s ease;
 }
 @media (hover: hover) and (pointer: fine) {
-  .bv-card:hover .bv-poza,
-  .bv-card.extins .bv-poza {
+  .bv-card:hover .bv-poza {
     --poza-zoom: 1.035;
     filter: grayscale(0) drop-shadow(0 18px 40px rgba(7, 19, 48, 0.5));
   }
-  /* cât timp mouse-ul se plimbă, poza urmează cursorul aproape instant —
-     tranziția lungă ar transforma parallax-ul într-o târâre */
-  .bv-card.urmareste .bv-poza { transition: transform 0.12s linear, filter 0.45s ease; }
 }
-.bv-card.extins .bv-poza { filter: grayscale(0) drop-shadow(0 18px 40px rgba(7, 19, 48, 0.5)); }
+.bv-card.activ .bv-poza,
+.bv-card.extins .bv-poza {
+  --poza-zoom: 1.035;
+  filter: grayscale(0) drop-shadow(0 18px 40px rgba(7, 19, 48, 0.5));
+}
+/* Cât timp cursorul SAU degetul se plimbă pe card, poza îl urmează aproape
+   instant — tranziția lungă ar transforma parallax-ul într-o târâre. Regula
+   a ieșit din blocul de hover: pe telefon o folosește degetul. */
+.bv-card.urmareste .bv-poza { transition: transform 0.12s linear, filter 0.45s ease; }
 
-/* Dunga de lucire: reflexia diagonală de sticlă care traversează tot cardul
-   după mouse. Elementul e de trei ori mai lat decât cardul, cu banda desenată
-   în treimea din mijloc — la deplasarea maximă marginea lui rămâne în afara
-   zonei vizibile, deci banda nu se termină niciodată cu o tăietură dreaptă.
-   Există doar unde există hover adevărat: pe touch un tap ar lăsa-o înțepenită. */
-.bv-lucire { display: none; }
+/* Dunga de lucire: reflexia diagonală de sticlă care traversează tot cardul.
+   Elementul e de trei ori mai lat decât cardul, cu banda desenată în treimea
+   din mijloc — la deplasarea maximă marginea lui rămâne în afara zonei
+   vizibile, deci banda nu se termină niciodată cu o tăietură dreaptă.
+   Pe telefon o mișcă derularea și degetul (js/card-miscare.js), nu un tap
+   izolat, deci nu mai are cum să rămână înțepenită peste card. */
+.bv-lucire {
+  display: block; position: absolute;
+  top: -25%; left: -100%; width: 300%; height: 150%;
+  z-index: 4; pointer-events: none;
+  background: linear-gradient(115deg,
+    transparent 45%,
+    rgba(255, 255, 255, 0.05) 47.5%,
+    rgba(255, 255, 255, 0.12) 50%,
+    rgba(255, 255, 255, 0.05) 52.5%,
+    transparent 55%);
+  transform: translate3d(calc(var(--lux, 0) * 50%), calc(var(--luy, 0) * 26%), 0);
+  opacity: 0;
+  transition: opacity 0.4s ease, transform 0.18s ease-out;
+}
+.bv-card.activ .bv-lucire { opacity: 1; }
 @media (hover: hover) and (pointer: fine) {
-  .bv-lucire {
-    display: block; position: absolute;
-    top: -25%; left: -100%; width: 300%; height: 150%;
-    z-index: 4; pointer-events: none;
-    background: linear-gradient(115deg,
-      transparent 45%,
-      rgba(255, 255, 255, 0.05) 47.5%,
-      rgba(255, 255, 255, 0.12) 50%,
-      rgba(255, 255, 255, 0.05) 52.5%,
-      transparent 55%);
-    transform: translate3d(calc(var(--lux, 0) * 50%), calc(var(--luy, 0) * 26%), 0);
-    opacity: 0;
-    transition: opacity 0.4s ease, transform 0.18s ease-out;
-  }
   .bv-card:hover .bv-lucire { opacity: 1; }
 }
 
@@ -148,6 +161,7 @@
   transition: -webkit-text-stroke-color 0.45s ease;
 }
 .bv-card:hover .bv-fantoma,
+.bv-card.activ .bv-fantoma,
 .bv-card.extins .bv-fantoma { -webkit-text-stroke-color: rgba(255, 63, 142, 0.5); }
 /* numele pe verticală, ca fâșiile de la Plaja Olt */
 .bv-vert {
