@@ -75,6 +75,8 @@
               "</div>" +
             "</div></div>" +
           "</div></div>" +
+          /* dunga de lucire care traversează cardul după mouse (doar desktop) */
+          '<i class="bv-lucire" aria-hidden="true"></i>' +
         "</article>";
 
       /* ---------- dreapta: fișa care continuă cardul ---------- */
@@ -111,6 +113,51 @@
           var extins = card.classList.toggle("extins");
           buton.setAttribute("aria-expanded", extins ? "true" : "false");
           buton.innerHTML = extins ? "Mai puțin <b>–</b>" : "Detalii <b>+</b>";
+        });
+      }
+
+      /* Înclinarea 3D + plutirea pozei + dunga de lucire, exact ca la cardurile
+         de fotbal (lot.js). Numai unde există hover adevărat: pe touch tilt-ul
+         ar rămâne înțepenit după un tap, iar lucirea la fel.
+         Cine cere mișcare redusă rămâne fără ele — CSS-ul le-ar anula oricum,
+         dar nici nu are rost să scriem variabile la fiecare cadru. */
+      if (card &&
+          window.matchMedia("(hover: hover) and (pointer: fine)").matches &&
+          !window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+        var poza = card.querySelector(".bv-poza");
+        var luc = card.querySelector(".bv-lucire");
+
+        card.addEventListener("mousemove", function (ev) {
+          var r = card.getBoundingClientRect();
+          // fracțiuni -0.5..0.5 față de centrul cardului
+          var px = (ev.clientX - r.left) / r.width - 0.5;
+          var py = (ev.clientY - r.top) / r.height - 0.5;
+          card.classList.add("urmareste");
+          card.style.setProperty("--my", (px * 6).toFixed(2) + "deg");
+          card.style.setProperty("--mx", (-py * 4).toFixed(2) + "deg");
+          if (poza) {
+            // invers față de înclinare: decupajul pare că plutește deasupra
+            poza.style.setProperty("--pax", (px * -14).toFixed(1) + "px");
+            poza.style.setProperty("--pay", (py * -8).toFixed(1) + "px");
+          }
+          if (luc) {
+            luc.style.setProperty("--lux", px.toFixed(3));
+            luc.style.setProperty("--luy", py.toFixed(3));
+          }
+        });
+
+        card.addEventListener("mouseleave", function () {
+          card.classList.remove("urmareste");
+          card.style.removeProperty("--my");
+          card.style.removeProperty("--mx");
+          if (poza) {
+            poza.style.removeProperty("--pax");
+            poza.style.removeProperty("--pay");
+          }
+          if (luc) {
+            luc.style.removeProperty("--lux");
+            luc.style.removeProperty("--luy");
+          }
         });
       }
     })

@@ -7,12 +7,28 @@
    ========================================================= */
 .bs-sectiune { position: relative; }
 
+/* Variabilele de mișcare ale cardului, declarate ne-moștenite (ca la lot.css):
+   altfel rescrierea lor la fiecare mișcare de mouse ar invalida stilul întregului
+   conținut al cardului, nu doar al elementului care se mișcă. */
+@property --salt { syntax: "<length>"; inherits: false; initial-value: 0px; }
+@property --mx   { syntax: "<angle>";  inherits: false; initial-value: 0deg; }
+@property --my   { syntax: "<angle>";  inherits: false; initial-value: 0deg; }
+@property --pax  { syntax: "<length>"; inherits: false; initial-value: 0px; }
+@property --pay  { syntax: "<length>"; inherits: false; initial-value: 0px; }
+@property --lux  { syntax: "<number>"; inherits: false; initial-value: 0; }
+@property --luy  { syntax: "<number>"; inherits: false; initial-value: 0; }
+
 .bs-duo {
   display: grid;
   grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.05fr);
   gap: clamp(18px, 2.6vw, 34px);
   align-items: stretch;
   margin-top: clamp(20px, 3vw, 32px);
+  /* fără perspectivă, rotirile de mai jos ar fi o simplă turtire afină:
+     cardul s-ar deforma, dar nu s-ar „apleca". Aceeași valoare ca la scena
+     lotului de fotbal, cu punctul de fugă puțin deasupra mijlocului. */
+  perspective: 1500px;
+  perspective-origin: 50% 45%;
 }
 
 /* ---------- stânga: cardul vizual ---------- */
@@ -29,31 +45,94 @@
     linear-gradient(165deg, var(--navy-900, #14345c) 0%, var(--navy-950, #0a1730) 100%);
   border: 1px solid rgba(255, 255, 255, 0.14);
   box-shadow: 0 26px 60px rgba(7, 19, 48, 0.28);
-  /* aceeași mișcare ca la cardurile de fotbal: cardul se ridică ușor,
-     iar sticla lui crește când îl desfaci */
-  transition: transform 0.45s var(--ease-out), box-shadow 0.45s var(--ease-out);
+  /* aceeași mișcare ca la cardurile de fotbal: cardul se apleacă după mouse
+     (--mx/--my, scrise din JS), se ridică la hover (--salt) și își crește
+     sticla când îl desfaci. Un singur transform, compus din variabile —
+     altfel regulile de hover s-ar suprascrie una pe alta. */
+  transform: translateY(var(--salt, 0px))
+             rotateY(var(--my, 0deg))
+             rotateX(var(--mx, 0deg));
+  transition: transform 0.4s var(--ease-out),
+              box-shadow 0.45s var(--ease-out),
+              border-color 0.35s ease;
 }
 @media (hover: hover) and (pointer: fine) {
-  .bv-card:hover { transform: translateY(-6px); box-shadow: 0 34px 70px rgba(7, 19, 48, 0.36); }
+  .bv-card:hover {
+    --salt: -6px;
+    border-color: rgba(255, 63, 142, 0.45);
+    box-shadow: 0 34px 70px rgba(7, 19, 48, 0.36);
+  }
 }
-.bv-card.extins { transform: translateY(-4px); box-shadow: 0 34px 74px rgba(7, 19, 48, 0.4); }
+/* desfăcut, cardul rămâne ridicat și primește strălucirea roz din jur —
+   echivalentul aurei aurii de pe cardul deschis de la fotbal */
+.bv-card.extins {
+  --salt: -4px;
+  border-color: rgba(255, 63, 142, 0.55);
+  box-shadow: 0 34px 74px rgba(7, 19, 48, 0.4),
+              0 0 34px -8px rgba(255, 63, 142, 0.35);
+}
+
+/* Poza e un decupaj pe fundal transparent, deci nu se plimbă într-o ramă ca
+   fotografiile de la fotbal: plutește peste card, deplasându-se invers față
+   de înclinare, ca și cum Arun ar ieși puțin din ramă.
+   Deplasarea verticală pleacă de la +8px (împinsă în jos) și se mișcă ±8px,
+   deci rămâne mereu pozitivă: marginea de jos, unde fotografia e tăiată drept,
+   nu se ridică niciodată în interiorul cardului. */
 .bv-poza {
   position: absolute;
   left: 50%; bottom: 0;
   height: 88%;
   width: auto;
-  transform: translateX(-50%);
+  transform: translate3d(calc(-50% + var(--pax, 0px)), calc(8px + var(--pay, 0px)), 0)
+             scale(var(--poza-zoom, 1));
   object-fit: contain;
   object-position: bottom center;
   z-index: 1;
-  filter: drop-shadow(0 18px 40px rgba(7, 19, 48, 0.5));
-  transition: transform 0.5s var(--ease-out);
+  /* ușor desaturată în repaus, ca să stea în limbajul alb-negru al clipului
+     de deasupra; banderolele roz rămân singurul accent viu */
+  filter: grayscale(0.4) drop-shadow(0 18px 40px rgba(7, 19, 48, 0.5));
+  transition: transform 0.35s var(--ease-out), filter 0.45s ease;
 }
 @media (hover: hover) and (pointer: fine) {
-  .bv-card:hover .bv-poza { transform: translateX(-50%) scale(1.035); }
+  .bv-card:hover .bv-poza,
+  .bv-card.extins .bv-poza {
+    --poza-zoom: 1.035;
+    filter: grayscale(0) drop-shadow(0 18px 40px rgba(7, 19, 48, 0.5));
+  }
+  /* cât timp mouse-ul se plimbă, poza urmează cursorul aproape instant —
+     tranziția lungă ar transforma parallax-ul într-o târâre */
+  .bv-card.urmareste .bv-poza { transition: transform 0.12s linear, filter 0.45s ease; }
+}
+.bv-card.extins .bv-poza { filter: grayscale(0) drop-shadow(0 18px 40px rgba(7, 19, 48, 0.5)); }
+
+/* Dunga de lucire: reflexia diagonală de sticlă care traversează tot cardul
+   după mouse. Elementul e de trei ori mai lat decât cardul, cu banda desenată
+   în treimea din mijloc — la deplasarea maximă marginea lui rămâne în afara
+   zonei vizibile, deci banda nu se termină niciodată cu o tăietură dreaptă.
+   Există doar unde există hover adevărat: pe touch un tap ar lăsa-o înțepenită. */
+.bv-lucire { display: none; }
+@media (hover: hover) and (pointer: fine) {
+  .bv-lucire {
+    display: block; position: absolute;
+    top: -25%; left: -100%; width: 300%; height: 150%;
+    z-index: 4; pointer-events: none;
+    background: linear-gradient(115deg,
+      transparent 45%,
+      rgba(255, 255, 255, 0.05) 47.5%,
+      rgba(255, 255, 255, 0.12) 50%,
+      rgba(255, 255, 255, 0.05) 52.5%,
+      transparent 55%);
+    transform: translate3d(calc(var(--lux, 0) * 50%), calc(var(--luy, 0) * 26%), 0);
+    opacity: 0;
+    transition: opacity 0.4s ease, transform 0.18s ease-out;
+  }
+  .bv-card:hover .bv-lucire { opacity: 1; }
 }
 
-/* cifra-fantomă: numărul victoriilor, uriaș în fundal */
+/* cifra-fantomă: numărul victoriilor, uriaș în fundal. Doar contur, ca
+   numărul-fantomă de pe cardurile de fotbal — dar roz, nu auriu. Stă în
+   spatele pozei, deci din ea se văd doar fragmentele din jurul siluetei,
+   ceea ce cere un contur puțin mai apăsat ca să se citească. */
 .bv-fantoma {
   position: absolute;
   top: 2%; left: 50%;
@@ -62,9 +141,13 @@
   font-family: var(--font-display); font-weight: 800;
   font-size: clamp(9rem, 22vw, 15rem);
   line-height: 0.8;
-  color: rgba(255, 255, 255, 0.07);
-  pointer-events: none;
+  color: transparent;
+  -webkit-text-stroke: 2px rgba(255, 63, 142, 0.34);
+  pointer-events: none; user-select: none;
+  transition: -webkit-text-stroke-color 0.45s ease;
 }
+.bv-card:hover .bv-fantoma,
+.bv-card.extins .bv-fantoma { -webkit-text-stroke-color: rgba(255, 63, 142, 0.5); }
 /* numele pe verticală, ca fâșiile de la Plaja Olt */
 .bv-vert {
   position: absolute;
@@ -270,5 +353,10 @@
   .bs-palmares b { min-width: 0; }
 }
 @media (prefers-reduced-motion: reduce) {
-  .bv-poza { transition: none; }
+  /* cine cere mișcare redusă păstrează schimbările de culoare și desfacerea
+     fișei, dar cardul nu se mai apleacă și poza nu mai plutește */
+  .bv-card, .bv-poza, .bv-lucire { transition: none; }
+  .bv-card { transform: none; }
+  .bv-poza { transform: translate3d(-50%, 8px, 0); }
+  .bv-lucire { display: none; }
 }
