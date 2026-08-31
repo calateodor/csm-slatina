@@ -212,7 +212,23 @@
       .catch(function () { /* păstrăm ce aveam; reîncercăm la următorul tact */ });
   }
 
+  /* Antetul se strânge de la 84 la 68px când derulezi (clasa .scrolled),
+     deci banda nu poate sta pironită la o valoare fixă — altfel rămâne un
+     gol între ele. O legăm de înălțimea REALĂ a antetului, urmărită cadru
+     cu cadru cât ține tranziția. */
+  function urmaresteAntetul() {
+    var antet = document.querySelector(".site-header");
+    if (!antet) return;
+    var scrie = function () {
+      document.documentElement.style.setProperty("--banda-sus", antet.offsetHeight + "px");
+    };
+    scrie();
+    if (window.ResizeObserver) new ResizeObserver(scrie).observe(antet);
+    else window.addEventListener("scroll", scrie, { passive: true });
+  }
+
   function porneste() {
+    urmaresteAntetul();
     window.addEventListener("resize", function () {
       if (banda) document.documentElement.style.setProperty("--banda-live-h", banda.offsetHeight + "px");
     });

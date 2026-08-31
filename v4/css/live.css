@@ -6,7 +6,7 @@
    ========================================================= */
 .banda-live {
   position: fixed;
-  top: var(--header-h, 84px);
+  top: var(--banda-sus, var(--header-h, 84px));
   left: 0;
   right: 0;
   z-index: 190;               /* sub antet (200), peste restul paginii */
@@ -25,7 +25,7 @@ body.cu-banda-live::before {
   content: "";
   position: fixed;
   top: 0; left: 0; right: 0;
-  height: calc(var(--header-h, 84px) + var(--banda-live-h, 64px));
+  height: calc(var(--banda-sus, var(--header-h, 84px)) + var(--banda-live-h, 64px));
   background: #0a1730;
   z-index: -1;
 }
