@@ -47,7 +47,6 @@
       var vizual =
         '<article class="tv-card">' +
           (s.poza ? '<img class="tv-poza" src="../' + esc(s.poza) + '" alt="' + esc(s.numeIntreg || s.nume) + '" loading="lazy">' : "") +
-          '<span class="tv-val" aria-hidden="true"></span>' +
           '<span class="tv-fantoma" aria-hidden="true">' + esc(m.aur) + "</span>" +
           '<span class="tv-vert" aria-hidden="true"><i>' + esc(prenume) + "</i><b>" + esc(familie) + "</b></span>" +
           '<span class="tv-loc">' + esc(s.insigna) + "</span>" +
@@ -128,12 +127,14 @@
           card.style.setProperty("--tmy", (px * 20).toFixed(2) + "deg");
           card.style.setProperty("--tmx", (py * -12).toFixed(2) + "deg");
           if (poza) {
-            /* Aici fotografia e FUNDAL, nu decupaj care plutește: stă „în
-               spatele" suprafeței cardului, deci se proiectează cu offsetul
-               -d·sin(unghi) — adică invers față de decupajul lui Arun, și la
-               fel ca la cardurile de fotbal. Rezerva vine din scale(1.14). */
-            poza.style.setProperty("--tpax", (px * -20).toFixed(1) + "px");
-            poza.style.setProperty("--tpay", (py * -14).toFixed(1) + "px");
+            /* Decupajul plutește DEASUPRA cardului, exact ca la Arun: un strat
+               la adâncime pozitivă se rotește odată cu cardul în jurul centrului
+               lui, deci se proiectează cu offsetul d·sin(unghi) — adică pleacă
+               în aceeași parte cu cursorul. Semnele merg mereu împreună cu cele
+               ale rotirii de mai sus; dacă se schimbă unul, se schimbă și
+               celălalt, altfel adâncimea se citește invers. */
+            poza.style.setProperty("--tpax", (px * 30).toFixed(1) + "px");
+            poza.style.setProperty("--tpay", (py * 14).toFixed(1) + "px");
           }
           if (luc) {
             luc.style.setProperty("--tlux", px.toFixed(3));

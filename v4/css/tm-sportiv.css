@@ -82,65 +82,55 @@
               0 0 34px -8px rgba(255, 122, 41, 0.38);
 }
 
-/* Fotografia: cadraj „cover", ancorată sus ca să nu coboare capul.
-   Mărirea la 1.14 e rezerva din care se face parallax-ul — fără ea, orice
-   deplasare ar descoperi o dungă de fundal la margine. */
+/* Fotografia e un DECUPAJ pe fundal transparent, la fel ca la Arun: nu are
+   nevoie de ramă și nici de văl, plutește peste degradeul cardului.
+   Diferența față de el: poza lui e portret, a ei e lată (brațele desfăcute),
+   deci mărimea se dă din LĂȚIME, nu din înălțime — la `height: 88%` ar fi
+   ieșit de o ori și jumătate cât cardul. La 112% vârfurile degetelor ies
+   dinadins peste margini, ca la o poză de card sportiv; silueta rămâne mare.
+   Deplasarea verticală pleacă de la +8px și se mișcă ±7px, deci rămâne mereu
+   pozitivă: marginea de jos, unde decupajul e tăiat drept, nu urcă niciodată
+   în interiorul cardului. */
 .tv-poza {
-  position: absolute; inset: 0;
-  width: 100%; height: 100%; max-width: none;
-  object-fit: cover; object-position: 50% 16%;
-  z-index: 0;
-  transform-origin: 50% 30%;
-  transform: translate3d(var(--tpax, 0px), var(--tpay, 0px), 0) scale(var(--tpoza-zoom, 1.14));
-  /* ușor desaturată în repaus, ca fișa de sticlă să rămână elementul citit
-     întâi; la hover sau desfăcut revine complet la culoare */
-  filter: grayscale(0.25);
+  position: absolute;
+  left: 50%; bottom: 0;
+  width: 126%; height: auto; max-width: none;
+  transform: translate3d(calc(-50% + var(--tpax, 0px)), calc(8px + var(--tpay, 0px)), 0)
+             scale(var(--tpoza-zoom, 1));
+  z-index: 1;
+  filter: grayscale(0.25) drop-shadow(0 18px 40px rgba(7, 19, 48, 0.5));
   transition: transform 0.35s var(--ease-out), filter 0.45s ease;
 }
 @media (hover: hover) and (pointer: fine) {
-  .tv-card:hover .tv-poza { --tpoza-zoom: 1.17; filter: grayscale(0); }
+  .tv-card:hover .tv-poza {
+    --tpoza-zoom: 1.035;
+    filter: grayscale(0) drop-shadow(0 18px 40px rgba(7, 19, 48, 0.5));
+  }
   /* cât timp mouse-ul se plimbă, poza urmează cursorul aproape instant —
      tranziția lungă ar transforma parallax-ul într-o târâre */
   .tv-card.urmareste .tv-poza { transition: transform 0.12s linear, filter 0.45s ease; }
 }
-.tv-card.extins .tv-poza { filter: grayscale(0); }
+.tv-card.extins .tv-poza { filter: grayscale(0) drop-shadow(0 18px 40px rgba(7, 19, 48, 0.5)); }
 
-/* Vălul de lizibilitate peste fotografie. E mult mai subțire decât la
-   cardurile de fotbal: acolo fotografia umple cadrul cu bustul jucătorului,
-   aici fundalul de sală e deja închis, iar un văl gros o stingea complet.
-   Rolul lui e doar să țină lizibile numele pe verticală și insigna din colț
-   și să coboare lin spre fișa de sticlă. */
-.tv-val {
-  position: absolute; inset: 0; z-index: 1;
-  background: linear-gradient(to top,
-    rgba(7, 19, 48, 0.74) 0%, rgba(7, 19, 48, 0.2) 46%, rgba(7, 19, 48, 0.12) 100%);
-  transition: background 0.45s ease;
-  pointer-events: none;
-}
-.tv-card.extins .tv-val {
-  background: linear-gradient(to top,
-    rgba(7, 19, 48, 0.8) 0%, rgba(7, 19, 48, 0.26) 54%, rgba(7, 19, 48, 0.1) 100%);
-}
-
-/* Cifra-fantomă: numărul medaliilor de aur, doar contur.
-   La Arun stă centrată, pentru că fotografia lui e un decupaj și din cifră se
-   văd fragmentele din jurul siluetei. Aici fotografia umple cadrul, așa că o
-   cifră centrată ar cădea peste chipul ei — o ducem în colțul din dreapta-sus,
-   sub insignă, unde fundalul de sală e închis și conturul se citește. */
+/* Cifra-fantomă: numărul medaliilor de aur, doar contur, centrată și în
+   SPATELE siluetei — exact ca la Arun. Din ea se văd doar fragmentele din
+   jurul ei și partea de deasupra capului, ceea ce se citește mai bine decât
+   o cifră plină. */
 .tv-fantoma {
   position: absolute;
-  top: 46px; right: 16px;
-  z-index: 2;
+  top: 2%; left: 50%;
+  transform: translateX(-50%);
+  z-index: 0;
   font-family: var(--font-display); font-weight: 800;
-  font-size: clamp(4.5rem, 9vw, 7rem);
-  line-height: 0.9;
+  font-size: clamp(9rem, 22vw, 15rem);
+  line-height: 0.8;
   color: transparent;
-  -webkit-text-stroke: 2px rgba(255, 122, 41, 0.5);
+  -webkit-text-stroke: 2px rgba(255, 122, 41, 0.34);
   pointer-events: none; user-select: none;
   transition: -webkit-text-stroke-color 0.45s ease;
 }
 .tv-card:hover .tv-fantoma,
-.tv-card.extins .tv-fantoma { -webkit-text-stroke-color: rgba(255, 122, 41, 0.72); }
+.tv-card.extins .tv-fantoma { -webkit-text-stroke-color: rgba(255, 122, 41, 0.5); }
 
 /* numele pe verticală */
 .tv-vert {
@@ -357,11 +347,18 @@
      min-height — iar fișa lui de sticlă, desfăcută, are 365px. La 520px cât
      avea, acoperea 70% din card și urca peste chipul ei; 620 o coboară sub el. */
   .tv-card { min-height: 620px; }
-  .tv-fantoma { font-size: 9rem; }
+  /* Pe telefon silueta se ancorează SUS, nu jos (ca la Arun). Ancorată jos,
+     capul ei cobora odată cu înălțimea cardului, așa că fișa de sticlă
+     desfăcută — 365px — ajungea exact peste chipul ei, oricât măream cardul.
+     Ancorată sus, capul stă pe loc și tot ce crește e spațiul de dedesubt.
+     Lățimea urcă la 165%, ca marginea de jos a decupajului, tăiată drept, să
+     rămână ascunsă în spatele fișei chiar și când e strânsă. */
+  .tv-poza { top: 2%; bottom: auto; width: 165%; }
+  .tv-fantoma { font-size: 11rem; }
 }
 @media (max-width: 640px) {
   .tv-card { min-height: 600px; }
-  .tv-poza { object-position: 50% 12%; }
+  .tv-poza { width: 172%; }
   .tv-masuri { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px 8px; }
   .ts-palmares li { flex-direction: column; gap: 2px; }
   .ts-palmares b { min-width: 0; }
@@ -370,6 +367,6 @@
   /* culorile și desfacerea rămân; cardul nu se mai apleacă, poza nu mai alunecă */
   .tv-card, .tv-poza, .tv-lucire { transition: none; }
   .tv-card { transform: none; }
-  .tv-poza { transform: scale(1.14); }
+  .tv-poza { transform: translate3d(-50%, 8px, 0); }
   .tv-lucire { display: none; }
 }
