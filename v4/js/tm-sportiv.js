@@ -112,11 +112,12 @@
       var cuCursor = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
       var miscareRedusa = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-      /* Pe ecranele fără cursor mișcarea vine din derulare și din deget —
-         aceiași coeficienți, ca senzația să fie identică cu cea de pe desktop.
+      /* Pe ecranele fără cursor mișcarea vine DOAR din derulare, iar atingerea
+         nu face nimic: cardul intră înclinat de jos și se așază drept exact
+         când ajunge în mijlocul ecranului, cu dunga de lucire deja traversată.
          Vezi js/card-miscare.js. */
       if (card && !cuCursor && !miscareRedusa && window.CardMiscare) {
-        window.CardMiscare.pornesteTouch({
+        window.CardMiscare.pornesteDerulare({
           card: card,
           poza: card.querySelector(".tv-poza"),
           lucire: card.querySelector(".tv-lucire"),
