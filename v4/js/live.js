@@ -49,7 +49,12 @@
   function relevant(m) {
     var acum = Date.now() / 1000;
     if (m.stare === 2) return true;                       // în desfășurare
-    if (m.stare === 1) return m.start - acum < 3600 * 3;  // începe în max 3 ore
+    if (m.stare === 1) {
+      // vizibil din dimineața zilei DE DINAINTE (miezul nopții precedent)
+      var ajun = new Date(m.start * 1000);
+      ajun.setHours(0, 0, 0, 0);
+      return acum * 1000 >= ajun.getTime() - 86400e3;
+    }
     if (m.stare === 3) {
       // încheiat: rămâne până la miezul nopții din ziua meciului
       var miez = new Date(m.start * 1000);
@@ -78,7 +83,11 @@
   /* codurile de fază Flashscore pe care le cunoaștem sigur */
   function faza(m) {
     if (m.stare === 3) return "final";
-    if (m.stare !== 2) return "inainte";
+    if (m.stare !== 2) {
+      var startZi = new Date(m.start * 1000); startZi.setHours(0, 0, 0, 0);
+      var aziZi = new Date(); aziZi.setHours(0, 0, 0, 0);
+      return startZi.getTime() > aziZi.getTime() ? "maine" : "azi";
+    }
     if (m.faza === 38) return "pauza";
     var min = minutul(m);
     return min === "Pauză" ? "pauza" : "joc";
@@ -88,11 +97,30 @@
     var f = faza(m);
     if (f === "final") return "Final";
     if (f === "pauza") return "Pauză";
-    if (f === "inainte") {
-      var d = new Date(m.start * 1000);
-      return "Începe la " + ("0" + d.getHours()).slice(-2) + ":" + ("0" + d.getMinutes()).slice(-2);
-    }
+    if (f === "maine" || f === "azi") return countdown(m);
     return minutul(m) || "LIVE";
+  }
+
+  /* numărătoarea inversă până la start: „1z 07:42:15", curge live */
+  function countdown(m) {
+    var ramas = Math.max(0, m.start - Date.now() / 1000);
+    var z = Math.floor(ramas / 86400);
+    var h = Math.floor((ramas % 86400) / 3600);
+    var min = Math.floor((ramas % 3600) / 60);
+    var s = Math.floor(ramas % 60);
+    var hms = ("0" + h).slice(-2) + ":" + ("0" + min).slice(-2) + ":" + ("0" + s).slice(-2);
+    return (z > 0 ? z + "z " : "") + hms;
+  }
+
+  /* „unde": acasă cu numele arenei (regula lui Teo), în deplasare cu gazdele */
+  function unde(m) {
+    var acasa = /csm\s*slatina/i.test(m.gazde);
+    if (acasa) return m.sport === "fotbal" ? "Acasă · Stadionul 1 Mai" : "Acasă, la Slatina";
+    return "În deplasare la " + m.gazde;
+  }
+  function oraStart(m) {
+    var d = new Date(m.start * 1000);
+    return ("0" + d.getHours()).slice(-2) + ":" + ("0" + d.getMinutes()).slice(-2);
   }
 
   function scorPauza(m) {
@@ -115,6 +143,23 @@
       document.body.classList.add("cu-banda-live");
     }
     banda.dataset.faza = f;
+
+    if (f === "maine" || f === "azi") {
+      banda.innerHTML =
+        '<div class="bl-inauntru">' +
+          '<span class="bl-insigna">' + (f === "azi" ? "AZI" : "MÂINE") + "</span>" +
+          (f === "azi" ? '<span class="bl-hai">Hai la meci!</span>' : "") +
+          '<span class="bl-meci">' +
+            '<b class="bl-echipa">' + m.gazde + "</b>" +
+            '<b class="bl-scor mic">vs</b>' +
+            '<b class="bl-echipa">' + m.oaspeti + "</b>" +
+          "</span>" +
+          '<span class="bl-unde">' + unde(m) + " · " + oraStart(m) + "</span>" +
+          '<span class="bl-minut">' + countdown(m) + ' <small>până la start</small></span>' +
+        "</div>";
+      document.documentElement.style.setProperty("--banda-live-h", banda.offsetHeight + "px");
+      return;
+    }
 
     banda.innerHTML =
       '<div class="bl-inauntru">' +
@@ -140,7 +185,24 @@
     document.documentElement.style.setProperty("--banda-live-h", banda.offsetHeight + "px");
   }
 
+  /* pentru verificat vizual fără meci real: ?livetest=maine|azi|joc|pauza|final */
+  var TEST = (location.search.match(/[?&]livetest=([a-z]+)/) || [])[1];
+  function probaDeTest() {
+    var acum = Math.floor(Date.now() / 1000);
+    var m = { fotbal: null, handbal: null };
+    var f = { id: "test", gazde: "CSM Slatina", oaspeti: "Steaua București",
+              scorGazde: null, scorOaspeti: null, pauzaGazde: null, pauzaOaspeti: null };
+    if (TEST === "maine") { f.stare = 1; f.start = acum + 86400 + 7200; }
+    if (TEST === "azi")   { f.stare = 1; f.start = acum + 3600; }   // peste o oră, sigur azi
+    if (TEST === "joc")   { f.stare = 2; f.faza = 12; f.start = acum - 23 * 60; f.scorGazde = "1"; f.scorOaspeti = "0"; }
+    if (TEST === "pauza") { f.stare = 2; f.faza = 38; f.start = acum - 50 * 60; f.scorGazde = "1"; f.scorOaspeti = "0"; f.pauzaGazde = "1"; f.pauzaOaspeti = "0"; }
+    if (TEST === "final") { f.stare = 3; f.faza = 3;  f.start = acum - 2 * 3600; f.scorGazde = "2"; f.scorOaspeti = "1"; f.pauzaGazde = "1"; f.pauzaOaspeti = "0"; }
+    m.fotbal = f;
+    return m;
+  }
+
   function actualizeaza() {
+    if (TEST) { stare = alege(probaDeTest()); deseneaza(); return; }
     fetch(ADRESA, { cache: "no-store" })
       .then(function (r) { return r.json(); })
       .then(function (date) {
@@ -160,9 +222,9 @@
     }, INTERVAL);
     // minutul curge secundă de secundă, fără să așteptăm releul
     cronometru = setInterval(function () {
-      if (stare && stare.stare === 2 && banda) {
+      if (stare && banda && stare.stare !== 3) {
         var el = banda.querySelector(".bl-minut");
-        if (el) el.firstChild.nodeValue = eticheta(stare);
+        if (el) el.firstChild.nodeValue = eticheta(stare) + (stare.stare === 1 ? " " : "");
       }
     }, 1000);
   }

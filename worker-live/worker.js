@@ -32,11 +32,12 @@ function parseazaMeciuri(text) {
 }
 
 function meciulZilei(meciuri, acum) {
-  // meciul „relevant": a început în ultimele 6 ore sau începe în următoarele 12
+  // meciul „relevant": a început în ultimele 6 ore sau începe în următoarele
+  // 48 — fereastra largă acoperă bannerul „mâine e meciul" de pe site
   let ales = null;
   for (const m of meciuri) {
     const start = Number(m.AD) * 1000;
-    if (start > acum - 6 * 3600e3 && start < acum + 12 * 3600e3) {
+    if (start > acum - 6 * 3600e3 && start < acum + 48 * 3600e3) {
       if (!ales || Math.abs(start - acum) < Math.abs(Number(ales.AD) * 1000 - acum)) ales = m;
     }
   }
