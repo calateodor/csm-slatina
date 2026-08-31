@@ -1,94 +1,215 @@
 /* =========================================================
-   Box — cardul sportivului secției (Arun Tudoroiu).
-   Cifrele de palmares domină; restul e sobru, în albastrul
-   clubului, cu un accent roz preluat din benzile lui de mână.
+   Box — perechea „card + fișă" a sportivului secției.
+   Cardul din stânga împrumută formula cardurilor de la fotbal
+   (poză decupată, nume pe verticală, cifră-fantomă, fișă de
+   sticlă jos), dar accentul e rozul benzilor lui de mână, ca
+   să se lege de videoclipul de deasupra.
    ========================================================= */
 .bs-sectiune { position: relative; }
 
-.bs-card {
-  background: #fff;
-  border: 1px solid rgba(20, 52, 92, 0.08);
-  border-radius: var(--raza-panou, 24px);
-  box-shadow: 0 20px 50px rgba(16, 34, 64, 0.08);
-  overflow: hidden;
+.bs-duo {
+  display: grid;
+  grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.05fr);
+  gap: clamp(18px, 2.6vw, 34px);
+  align-items: stretch;
   margin-top: clamp(20px, 3vw, 32px);
 }
 
-/* capul cardului: bleumarin, cu o dungă roz în stânga */
-.bs-cap {
+/* ---------- stânga: cardul vizual ---------- */
+.bv-card {
   position: relative;
-  padding: clamp(22px, 3vw, 30px) clamp(22px, 3vw, 34px);
-  background: linear-gradient(135deg, var(--navy-900, #14345c), var(--navy-800, #1c3f6e));
+  min-height: clamp(430px, 52vw, 580px);
+  border-radius: 22px;                 /* aceeași rază ca la cardurile de fotbal */
+  overflow: hidden;
+  isolation: isolate;
+  background:
+    radial-gradient(120% 70% at 50% 0%, rgba(255, 63, 142, 0.28) 0%, rgba(255, 63, 142, 0) 62%),
+    linear-gradient(165deg, var(--navy-900, #14345c) 0%, var(--navy-950, #0a1730) 100%);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  box-shadow: 0 26px 60px rgba(7, 19, 48, 0.28);
+}
+.bv-poza {
+  position: absolute;
+  left: 50%; bottom: 0;
+  height: 88%;
+  width: auto;
+  transform: translateX(-50%);
+  object-fit: contain;
+  object-position: bottom center;
+  z-index: 1;
+  filter: drop-shadow(0 18px 40px rgba(7, 19, 48, 0.5));
+  transition: transform 0.5s var(--ease-out);
+}
+@media (hover: hover) and (pointer: fine) {
+  .bv-card:hover .bv-poza { transform: translateX(-50%) scale(1.035); }
+}
+
+/* cifra-fantomă: numărul victoriilor, uriaș în fundal */
+.bv-fantoma {
+  position: absolute;
+  top: 2%; left: 50%;
+  transform: translateX(-50%);
+  z-index: 0;
+  font-family: var(--font-display); font-weight: 800;
+  font-size: clamp(9rem, 22vw, 15rem);
+  line-height: 0.8;
+  color: rgba(255, 255, 255, 0.07);
+  pointer-events: none;
+}
+/* numele pe verticală, ca fâșiile de la Plaja Olt */
+.bv-vert {
+  position: absolute;
+  top: 18px; left: 14px;
+  z-index: 2;
+  writing-mode: vertical-rl;
+  text-orientation: mixed;
+  display: flex; align-items: center; gap: 8px;
+  font-family: var(--font-display);
+  text-transform: uppercase; letter-spacing: 0.16em;
+  pointer-events: none;
+}
+.bv-vert i { font-style: normal; font-weight: 600; font-size: 0.62rem; color: rgba(255, 255, 255, 0.6); }
+.bv-vert b { font-weight: 800; font-size: 0.86rem; color: #fff; }
+
+/* insigna de clasare, sus-dreapta */
+.bv-loc {
+  position: absolute;
+  top: 16px; right: 16px;
+  z-index: 3;
+  padding: 6px 12px;
+  border-radius: 999px;
+  background: #ff3f8e;
+  color: #fff;
+  font-family: var(--font-display); font-weight: 800; font-size: 0.66rem;
+  letter-spacing: 0.1em; text-transform: uppercase;
+  box-shadow: 0 8px 20px rgba(255, 63, 142, 0.35);
+}
+
+/* fișa de sticlă din josul cardului */
+.bv-jos {
+  position: absolute;
+  inset: auto 0 0 0;
+  z-index: 3;
+  padding: 12px;
+}
+.bv-sticla {
+  border-radius: 16px;
+  padding: 14px 16px 15px;
+  background: rgba(10, 23, 48, 0.55);
+  backdrop-filter: blur(16px) saturate(1.3);
+  -webkit-backdrop-filter: blur(16px) saturate(1.3);
+  border: 1px solid rgba(255, 255, 255, 0.16);
   color: #fff;
 }
-.bs-cap::before {
-  content: "";
-  position: absolute; left: 0; top: 0; bottom: 0;
-  width: 5px;
-  background: #ff3f8e;          /* roz, ca benzile de mână din videoclip */
+.bv-cap { display: flex; align-items: flex-end; justify-content: space-between; gap: 12px; }
+.bv-cap p {
+  font-family: var(--font-display); font-weight: 600; font-size: 0.72rem;
+  letter-spacing: 0.14em; text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.7);
 }
-.bs-eticheta {
-  display: inline-block;
-  font-family: var(--font-display); font-weight: 700; font-size: 0.66rem;
-  letter-spacing: 0.18em; text-transform: uppercase;
-  color: #ff8ab8;
-  margin-bottom: 6px;
-}
-.bs-cap h3 {
+.bv-cap h3 {
   font-family: var(--font-display); font-weight: 800;
-  font-size: clamp(1.6rem, 3.4vw, 2.4rem);
-  color: #fff; line-height: 1.1;
+  font-size: clamp(1.2rem, 2.4vw, 1.6rem);
+  color: #fff; line-height: 1.05;
 }
-.bs-sub { margin-top: 6px; font-size: 0.9rem; color: rgba(255, 255, 255, 0.75); }
+.bv-categorie {
+  flex: none;
+  padding: 5px 11px; border-radius: 999px;
+  background: rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  font-weight: 700; font-size: 0.7rem;
+  white-space: nowrap;
+}
 
-/* cifrele mari */
-.bs-cifre {
+/* recordul: trei cifre mari, ca scorul unei gale */
+.bv-record {
+  display: flex; align-items: baseline; gap: 14px;
+  margin-top: 12px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.14);
+}
+.bv-record span { display: flex; align-items: baseline; gap: 4px; }
+.bv-record b {
+  font-family: var(--font-display); font-weight: 800;
+  font-size: clamp(1.7rem, 3.6vw, 2.4rem);
+  line-height: 1;
+}
+.bv-record i {
+  font-style: normal; font-weight: 700; font-size: 0.7rem;
+  letter-spacing: 0.1em;
+  color: rgba(255, 255, 255, 0.6);
+}
+.bv-record .v b { color: #ff3f8e; }
+.bv-record .i b { color: rgba(255, 255, 255, 0.85); }
+.bv-record .e b { color: rgba(255, 255, 255, 0.55); }
+
+/* bara de KO-uri */
+.bv-ko { margin-top: 11px; }
+.bv-ko-cap {
+  display: flex; justify-content: space-between; align-items: baseline;
+  font-size: 0.72rem; color: rgba(255, 255, 255, 0.72);
+  margin-bottom: 5px;
+}
+.bv-ko-cap b { font-family: var(--font-display); font-weight: 800; font-size: 0.9rem; color: #fff; }
+.bv-bara {
+  height: 6px; border-radius: 999px;
+  background: rgba(255, 255, 255, 0.16);
+  overflow: hidden;
+}
+.bv-bara span {
+  display: block; height: 100%;
+  border-radius: 999px;
+  background: linear-gradient(90deg, #ff3f8e, #ff8ab8);
+}
+
+/* măsurile: meciuri · runde · KO · ani */
+.bv-masuri {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
-  border-bottom: 1px solid rgba(20, 52, 92, 0.08);
+  gap: 8px;
+  margin-top: 12px;
 }
-.bs-cifra {
-  padding: clamp(16px, 2.4vw, 24px) 14px;
-  text-align: center;
-  border-right: 1px solid rgba(20, 52, 92, 0.07);
-}
-.bs-cifra:last-child { border-right: 0; }
-.bs-cifra strong {
+.bv-masura { text-align: center; }
+.bv-masura b {
   display: block;
-  font-family: var(--font-display); font-weight: 800;
-  font-size: clamp(1.5rem, 3.4vw, 2.2rem);
-  color: var(--navy-900, #14345c);
-  letter-spacing: -0.01em;
+  font-family: var(--font-display); font-weight: 800; font-size: 1.05rem;
+  color: #fff;
 }
-.bs-cifra span {
-  display: block; margin-top: 4px;
-  font-size: 0.72rem; line-height: 1.35;
-  color: var(--ink-soft);
+.bv-masura i {
+  font-style: normal; font-size: 0.62rem; letter-spacing: 0.06em;
+  color: rgba(255, 255, 255, 0.6);
 }
 
-/* palmaresul pe ani */
-.bs-palmares {
-  list-style: none;
-  padding: clamp(18px, 2.6vw, 26px) clamp(22px, 3vw, 34px);
-  display: grid; gap: 12px;
+/* ---------- dreapta: fișa care continuă cardul ---------- */
+.bs-card {
+  display: flex; flex-direction: column;
+  background: #fff;
+  border: 1px solid rgba(20, 52, 92, 0.08);
+  border-radius: 22px;
+  box-shadow: 0 20px 50px rgba(16, 34, 64, 0.08);
+  padding: clamp(20px, 2.6vw, 30px) clamp(20px, 2.6vw, 32px);
 }
+.bs-eticheta {
+  font-family: var(--font-display); font-weight: 700; font-size: 0.66rem;
+  letter-spacing: 0.18em; text-transform: uppercase;
+  color: #c81f66;
+  margin-bottom: 14px;
+}
+.bs-palmares { list-style: none; display: grid; gap: 13px; }
 .bs-palmares li { display: flex; gap: 16px; align-items: baseline; }
 .bs-palmares b {
-  flex: none;
-  min-width: 3.4em;
+  flex: none; min-width: 3.2em;
   font-family: var(--font-display); font-weight: 800;
-  color: #ff3f8e;
+  color: #c81f66;
 }
 .bs-palmares span { color: var(--ink); font-size: 0.95rem; line-height: 1.45; }
 .bs-palmares i {
   font-style: normal; font-weight: 600; font-size: 0.82rem;
-  color: var(--ink-soft);
-  white-space: nowrap;
+  color: var(--ink-soft); white-space: nowrap;
 }
-
-/* subsolul: antrenori, clasamentul clubului, sursa */
 .bs-subsol {
-  padding: 0 clamp(22px, 3vw, 34px) clamp(20px, 2.6vw, 26px);
+  margin-top: auto;
+  padding-top: 18px;
   display: grid; gap: 6px;
   font-size: 0.88rem; color: var(--ink-soft);
 }
@@ -97,10 +218,21 @@
 .bs-subsol a { color: var(--royal, #2457d6); font-weight: 600; }
 .bs-subsol a:hover { text-decoration: underline; }
 
-@media (max-width: 720px) {
-  .bs-cifre { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  .bs-cifra:nth-child(2) { border-right: 0; }
-  .bs-cifra:nth-child(-n+2) { border-bottom: 1px solid rgba(20, 52, 92, 0.07); }
+/* ---------- telefon: cardul deasupra, fișa dedesubt ---------- */
+@media (max-width: 900px) {
+  .bs-duo { grid-template-columns: minmax(0, 1fr); }
+  /* cardul crește, ca fișa de sticlă să nu urce peste fața lui */
+  .bv-card { min-height: 620px; }
+  .bv-poza { height: 78%; bottom: auto; top: 4%; }
+  .bv-fantoma { font-size: 11rem; }
+}
+@media (max-width: 640px) {
+  .bv-card { min-height: 580px; }
+  .bv-poza { height: 72%; }
+  .bv-masuri { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px 8px; }
   .bs-palmares li { flex-direction: column; gap: 2px; }
   .bs-palmares b { min-width: 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .bv-poza { transition: none; }
 }
