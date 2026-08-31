@@ -135,15 +135,26 @@
           card.classList.add("urmareste");
           /* Semnele sunt inverse față de cardurile de fotbal: acolo evantaiul
              are deja o rotire de bază de 15deg, iar mișcarea mouse-ului doar
-             o modulează. Aici cardul stă drept, deci se întoarce CĂTRE cursor —
+             o modulează. Aici cardul stă drept, deci se învârte CĂTRE cursor —
              mouse în dreapta, muchia dreaptă vine în față (rotateY negativ
-             aduce dreapta spre privitor). */
-          card.style.setProperty("--my", (px * -6).toFixed(2) + "deg");
-          card.style.setProperty("--mx", (py * 4).toFixed(2) + "deg");
+             aduce dreapta spre privitor).
+             Coeficienții sunt mult mai mari decât cei de la fotbal pentru că
+             px/py sunt fracțiuni -0,5..0,5, nu -1..1: factorul se înjumătățește.
+             20 și 12 dau ±10° pe orizontală și ±6° pe verticală — la valorile
+             de la fotbal ieșeau ±3°, invizibile pe un card atât de mare. */
+          card.style.setProperty("--my", (px * -20).toFixed(2) + "deg");
+          card.style.setProperty("--mx", (py * 12).toFixed(2) + "deg");
           if (poza) {
-            // invers față de înclinare: decupajul pare că plutește deasupra
-            poza.style.setProperty("--pax", (px * -14).toFixed(1) + "px");
-            poza.style.setProperty("--pay", (py * -8).toFixed(1) + "px");
+            /* Decupajul plutește DEASUPRA cardului, deci se deplasează spre
+               muchia care vine în față: un strat la adâncime pozitivă se
+               proiectează cu offset d·sin(unghi), adică invers față de cursor.
+               (La fotbal fotografia e fundal, adâncime negativă — de-aia acolo
+               aceleași semne dau senzația de poză înfundată în card.)
+               Pe verticală, deplasarea totală rămâne 1..15px față de baza de
+               8px, deci mereu pozitivă: marginea de jos, unde fotografia e
+               tăiată drept, nu urcă niciodată în interiorul cardului. */
+            poza.style.setProperty("--pax", (px * -34).toFixed(1) + "px");
+            poza.style.setProperty("--pay", (py * -14).toFixed(1) + "px");
           }
           if (luc) {
             luc.style.setProperty("--lux", px.toFixed(3));
