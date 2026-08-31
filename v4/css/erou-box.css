@@ -25,7 +25,7 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
-  object-position: 50% 26%;
+  object-position: 50% 45%;
 }
 .eb-val {
   position: absolute;
@@ -48,12 +48,12 @@
   .erou-box[data-varianta="panou"] .eb-video {
     inset: auto;
     top: 50%;
-    right: clamp(28px, 7vw, 130px);
+    right: clamp(28px, 5vw, 90px);
     transform: translateY(-50%);
-    width: auto;
-    height: min(82%, 580px);
-    aspect-ratio: 9 / 16;
-    border-radius: 20px;
+    height: auto;
+    width: min(46%, 640px);
+    aspect-ratio: 16 / 9;      /* clipul e orizontal: se vede cadrul întreg */
+    border-radius: 18px;
     box-shadow: 0 30px 80px rgba(0, 0, 0, 0.55);
   }
   /* panoul arată clipul întreg — vălul de lizibilitate nu mai e necesar
