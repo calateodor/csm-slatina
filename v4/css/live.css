@@ -18,6 +18,17 @@
 /* paginile cu banda primesc exact atâta aer cât e banda de înaltă
    (măsurată de live.js după fiecare desenare) */
 body.cu-banda-live main { padding-top: var(--banda-live-h, 64px); }
+/* conținutul coboară, deci antetul transparent nu mai are hero-ul în
+   spate — fâșia de sus primește fundalul bleumarin al antetului, altfel
+   rămâne albul paginii */
+body.cu-banda-live::before {
+  content: "";
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  height: calc(var(--header-h, 84px) + var(--banda-live-h, 64px));
+  background: #0a1730;
+  z-index: -1;
+}
 
 .bl-inauntru {
   width: min(1200px, 94vw);
