@@ -1,0 +1,143 @@
+/* =========================================================
+   Anunțuri și comunicate oficiale — arhiva preluată din
+   site-ul vechi.
+   Sunt 271 de intrări, aproape toate fără text: doar titlul,
+   data și scanul actului. Deci pagina nu încearcă să arate ca
+   o listă de știri, ci ca un registru: an, dată, titlu. Pentru
+   volumul ăsta contează două lucruri — să găsești repede (an +
+   căutare) și pagina să rămână ușoară (scanurile se încarcă
+   abia la deschiderea unei intrări, nu toate deodată).
+   ========================================================= */
+.an-sectiune { position: relative; }
+
+/* ---------- unelte: căutare + ani ---------- */
+.an-unelte {
+  display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
+  margin: clamp(18px, 2.6vw, 28px) 0 clamp(14px, 2vw, 20px);
+}
+.an-cauta {
+  flex: 1 1 260px; min-width: 0;
+  display: flex; align-items: center; gap: 10px;
+  background: #fff;
+  border: 1px solid rgba(20, 52, 92, 0.14);
+  border-radius: 999px;
+  padding: 10px 18px;
+}
+.an-cauta input {
+  flex: 1; min-width: 0;
+  border: 0; background: transparent; outline: none;
+  font: inherit; font-size: 0.95rem; color: var(--ink);
+}
+.an-cauta input::placeholder { color: var(--ink-soft); opacity: 0.8; }
+.an-cauta:focus-within { border-color: var(--royal, #2457d6); }
+
+.an-ani { display: flex; gap: 7px; flex-wrap: wrap; }
+.an-an-cip {
+  font-family: var(--font-display); font-weight: 700;
+  font-size: 0.74rem; letter-spacing: 0.04em;
+  padding: 8px 14px; border-radius: 999px;
+  border: 1px solid rgba(20, 52, 92, 0.16);
+  background: #fff; color: var(--ink-soft);
+  cursor: pointer;
+  transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+}
+.an-an-cip:hover { border-color: var(--royal, #2457d6); color: var(--royal, #2457d6); }
+.an-an-cip.activ {
+  background: var(--navy-900, #14345c); border-color: var(--navy-900, #14345c); color: #fff;
+}
+
+.an-numar {
+  font-size: 0.85rem; color: var(--ink-soft);
+  margin-bottom: 12px;
+}
+.an-numar b { color: var(--ink); font-weight: 700; }
+
+/* ---------- lista ---------- */
+.an-grup { margin-top: clamp(20px, 2.6vw, 30px); }
+.an-grup > h3 {
+  font-family: var(--font-display); font-weight: 800;
+  font-size: 1.15rem; color: var(--royal, #2457d6);
+  margin: 0 0 10px;
+  padding-bottom: 8px;
+  border-bottom: 2px solid rgba(36, 87, 214, 0.16);
+}
+.an-lista { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
+
+.an-item {
+  background: #fff;
+  border: 1px solid rgba(20, 52, 92, 0.1);
+  border-radius: 12px;
+  overflow: hidden;
+  transition: border-color 0.25s ease;
+}
+.an-item:hover { border-color: rgba(36, 87, 214, 0.3); }
+
+/* capul intrării e un buton: deschide scanurile */
+.an-cap {
+  width: 100%;
+  display: flex; align-items: center; gap: 14px;
+  padding: 13px clamp(13px, 1.8vw, 18px);
+  background: transparent; border: 0;
+  text-align: left; cursor: pointer;
+  font: inherit;
+}
+.an-data {
+  flex: none;
+  font-family: var(--font-display); font-weight: 700;
+  font-size: 0.76rem; letter-spacing: 0.02em;
+  color: var(--ink-soft);
+  min-width: 6.6em;
+}
+.an-titlu { flex: 1; min-width: 0; font-weight: 600; color: var(--ink); line-height: 1.4; }
+.an-nr-pag {
+  flex: none;
+  font-family: var(--font-display); font-weight: 700;
+  font-size: 0.62rem; letter-spacing: 0.08em; text-transform: uppercase;
+  color: var(--royal, #2457d6);
+  background: rgba(36, 87, 214, 0.09);
+  padding: 4px 9px; border-radius: 999px;
+  white-space: nowrap;
+}
+.an-sageata {
+  flex: none; color: var(--ink-soft);
+  transition: transform 0.3s var(--ease-out);
+}
+.an-item.deschis .an-sageata { transform: rotate(90deg); }
+
+/* partea desfășurabilă — aceeași mecanică din lot.css: 0fr -> 1fr */
+.an-corp { display: grid; grid-template-rows: 0fr; transition: grid-template-rows 0.4s ease; }
+.an-corp > div { overflow: hidden; min-height: 0; }
+.an-item.deschis .an-corp { grid-template-rows: 1fr; }
+.an-continut { padding: 0 clamp(13px, 1.8vw, 18px) 16px; }
+.an-text {
+  color: var(--ink-soft); font-size: 0.92rem; line-height: 1.6;
+  margin: 0 0 12px;
+}
+.an-scanuri { display: grid; gap: 12px; }
+.an-scanuri a { display: block; border-radius: 10px; overflow: hidden; background: #f2f5fa; }
+.an-scanuri img {
+  display: block; width: 100%; height: auto;
+  border: 1px solid rgba(20, 52, 92, 0.12);
+  border-radius: 10px;
+}
+.an-desc-fisier {
+  display: inline-flex; align-items: center; gap: 6px;
+  font-family: var(--font-display); font-weight: 700; font-size: 0.7rem;
+  color: var(--royal, #2457d6);
+  border: 1px solid rgba(36, 87, 214, 0.3);
+  padding: 7px 13px; border-radius: 999px;
+}
+.an-desc-fisier:hover { background: var(--royal, #2457d6); color: #fff; }
+
+.an-gol { color: var(--ink-soft); font-size: 0.9rem; font-style: italic; }
+.an-nimic { color: var(--ink-soft); padding: 20px 0; }
+
+@media (max-width: 640px) {
+  .an-cap { flex-wrap: wrap; gap: 6px 10px; }
+  .an-data { min-width: 0; font-size: 0.72rem; }
+  .an-titlu { flex-basis: 100%; order: 3; font-size: 0.94rem; }
+  .an-sageata { margin-left: auto; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .an-corp, .an-sageata { transition: none; }
+}
