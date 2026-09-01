@@ -5,7 +5,10 @@
 
    1. Să se găsească repede — cipuri de an și o căutare după
       titlu, aplicate amândouă local, fără reîncărcare.
-   2. Pagina să rămână ușoară. Scanurile sunt fotografii mari
+   2. Starea listei (an, căutare, pagină) să stea în adresă,
+      ca pagina 2 să fie un link care poate fi trimis și ca
+      butonul „înapoi" să parcurgă paginile, nu să iasă din ele.
+   3. Pagina să rămână ușoară. Scanurile sunt fotografii mari
       ale actelor; dacă le-am pune pe toate în pagină, chiar și
       cu `loading="lazy"`, browserul ar avea de gestionat sute
       de imagini. De aceea marcajul unei intrări se construiește
@@ -163,8 +166,33 @@
     }).join("") + randPaginare(totalPagini);
   }
 
-  function laPagina(p) {
+  /* Starea listei stă în adresă: ?an=2025&p=2&q=raport
+     Fără asta, pagina 2 nu e o adresă reală — cine primește linkul aterizează
+     tot pe pagina 1, iar butonul „înapoi" al browserului iese din pagină în loc
+     să se întoarcă la pagina anterioară. Pe site-ul vechi /page/2/ era link. */
+  function scrieAdresa(impinge) {
+    var p = new URLSearchParams();
+    if (anAles !== "toate") p.set("an", anAles);
+    if (cautare.trim()) p.set("q", cautare.trim());
+    if (pagina > 1) p.set("p", pagina);
+    var q = p.toString();
+    var adresa = location.pathname + (q ? "?" + q : "") + location.hash;
+    try {
+      history[impinge ? "pushState" : "replaceState"](
+        { an: anAles, q: cautare, p: pagina }, "", adresa);
+    } catch (e) { /* fișier local sau istoric plin — nu e nimic critic */ }
+  }
+
+  function citesteAdresa() {
+    var p = new URLSearchParams(location.search);
+    anAles = p.get("an") || "toate";
+    cautare = p.get("q") || "";
+    pagina = Math.max(1, parseInt(p.get("p"), 10) || 1);
+  }
+
+  function laPagina(p, faraIstoric) {
     pagina = p;
+    if (!faraIstoric) scrieAdresa(true);
     deseneaza();
     // ne întoarcem la începutul listei, altfel pagina nouă începe „la mijloc"
     var sus = document.querySelector(".an-unelte");
@@ -197,6 +225,7 @@
 
       var ani = [];
       toate.forEach(function (a) { if (ani.indexOf(a.an) < 0) ani.push(a.an); });
+      citesteAdresa();
       var gazdaAni = document.getElementById("an-ani");
       gazdaAni.innerHTML = '<button type="button" class="an-an-cip activ" data-an="toate">Toate</button>' +
         ani.map(function (an) {
@@ -209,6 +238,7 @@
         cip.classList.add("activ");
         anAles = cip.dataset.an;
         pagina = 1;   // altfel ai ramane pe o pagina care poate nu mai exista
+        scrieAdresa(true);
         deseneaza();
       });
 
@@ -216,10 +246,29 @@
       var asteapta = null;
       camp.addEventListener("input", function () {
         clearTimeout(asteapta);
-        asteapta = setTimeout(function () { cautare = camp.value; pagina = 1; deseneaza(); }, 150);
+        asteapta = setTimeout(function () {
+          cautare = camp.value; pagina = 1;
+          scrieAdresa(false);   // inlocuim, nu impingem: altfel fiecare litera ar fi un pas inapoi
+          deseneaza();
+        }, 150);
       });
 
+      // punem uneltele pe valorile din adresa
+      camp.value = cautare;
+      gazdaAni.querySelectorAll(".an-an-cip").forEach(function (x) {
+        x.classList.toggle("activ", x.dataset.an === anAles);
+      });
       deseneaza();
+
+      // butonul „inapoi" al browserului parcurge paginile, nu iese din pagina
+      window.addEventListener("popstate", function () {
+        citesteAdresa();
+        camp.value = cautare;
+        gazdaAni.querySelectorAll(".an-an-cip").forEach(function (x) {
+          x.classList.toggle("activ", x.dataset.an === anAles);
+        });
+        deseneaza();
+      });
     })
     .catch(function () {
       document.getElementById("an-lista").innerHTML =
