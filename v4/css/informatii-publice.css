@@ -123,3 +123,82 @@
 @media (prefers-reduced-motion: reduce) {
   .ip-card { transition: none; }
 }
+
+/* ---------- Situații financiare ----------
+   Aici nu mai sunt șapte lucruri diferite, ci două arhive cronologice, deci
+   forma potrivită e lista pe ani, nu grila de fișe: ochiul caută anul întâi
+   și abia apoi documentul. */
+.fin-sectiune { position: relative; }
+
+.fin-grup {
+  margin-top: clamp(26px, 3.4vw, 40px);
+  scroll-margin-top: calc(var(--header-h, 84px) + 20px);
+}
+.fin-grup h3 {
+  font-family: var(--font-display); font-weight: 800;
+  font-size: clamp(1.05rem, 1.8vw, 1.3rem);
+  color: var(--ink);
+  margin: 0 0 6px;
+}
+.fin-desc {
+  color: var(--ink-soft);
+  font-size: 0.92rem; line-height: 1.55;
+  margin: 0 0 16px;
+  max-width: 62ch;
+}
+
+.fin-lista { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; }
+.fin-rand {
+  display: flex; align-items: center; gap: clamp(12px, 2vw, 22px);
+  flex-wrap: wrap;
+  background: #fff;
+  border: 1px solid rgba(20, 52, 92, 0.1);
+  border-radius: 14px;
+  padding: 14px clamp(14px, 2vw, 20px);
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+@media (hover: hover) and (pointer: fine) {
+  .fin-rand:hover {
+    border-color: rgba(36, 87, 214, 0.32);
+    box-shadow: 0 12px 30px rgba(16, 34, 64, 0.08);
+  }
+}
+/* anul, coloana care se citește prima */
+.fin-an {
+  flex: none; min-width: 5.5em;
+  font-family: var(--font-display); font-weight: 800;
+  font-size: 0.95rem;
+  color: var(--royal, #2457d6);
+}
+.fin-text { flex: 1 1 260px; min-width: 0; display: flex; flex-direction: column; gap: 2px; }
+.fin-text b { font-weight: 700; color: var(--ink); font-size: 0.92rem; line-height: 1.4; }
+.fin-text i {
+  font-style: normal; font-size: 0.75rem; color: var(--ink-soft);
+}
+.fin-fisiere { flex: none; display: flex; gap: 8px; flex-wrap: wrap; }
+.fin-fisier {
+  display: inline-flex; align-items: center; gap: 6px;
+  font-family: var(--font-display); font-weight: 700;
+  font-size: 0.7rem; letter-spacing: 0.04em;
+  padding: 7px 13px; border-radius: 999px;
+  border: 1px solid rgba(36, 87, 214, 0.3);
+  color: var(--royal, #2457d6);
+  white-space: nowrap;
+  transition: background-color 0.25s ease, color 0.25s ease;
+}
+/* pastila spune singură ce fel de fișier deschizi */
+.fin-fisier::before {
+  font-size: 0.62rem; font-weight: 800; letter-spacing: 0.08em;
+  opacity: 0.75;
+}
+.fin-fisier.pdf::before { content: "PDF"; }
+.fin-fisier.scan::before { content: "SCAN"; }
+.fin-fisier:hover { background: var(--royal, #2457d6); color: #fff; }
+.fin-fisier:hover::before { opacity: 0.9; }
+
+@media (max-width: 640px) {
+  .fin-rand { gap: 8px 12px; padding: 13px 14px; }
+  .fin-an { min-width: 0; }
+  .fin-text { flex-basis: 100%; order: 3; }
+  .fin-fisiere { flex-basis: 100%; order: 4; }
+}
