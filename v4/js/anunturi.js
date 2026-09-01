@@ -44,6 +44,12 @@
   var toate = [];
   var anAles = "toate";
   var cautare = "";
+  var pagina = 1;
+  /* 25 pe pagină: vederea completă avea aproape 20.000 de pixeli, adică vreo
+     43 de ecrane de derulat. Gruparea pe luni ar fi înrăutățit lucrurile —
+     sunt 69 de luni pentru 271 de anunțuri, iar 38% dintre ele au doar unul
+     sau două, deci ar fi ieșit un titlu la fiecare patru rânduri. */
+  var PE_PAGINA = 25;
 
   function filtrate() {
     var q = normal(cautare).trim();
@@ -98,32 +104,81 @@
     gazdaC.dataset.gata = "1";
   }
 
+  /* Numerele de pagină: primele și ultimele, plus vecinii paginii curente.
+     La 11 pagini încă ar încăpea toate, dar dacă arhiva mai crește lista de
+     numere ar ajunge să se reverse pe două rânduri. */
+  function numerePagini(total, curenta) {
+    var n = [];
+    for (var i = 1; i <= total; i++) {
+      if (i === 1 || i === total || Math.abs(i - curenta) <= 1) n.push(i);
+      else if (n[n.length - 1] !== "…") n.push("…");
+    }
+    return n;
+  }
+
+  function randPaginare(total) {
+    if (total <= 1) return "";
+    var h = '<nav class="an-paginare" aria-label="Paginile arhivei">';
+    h += '<button type="button" class="an-pag-sageata" data-pagina="' + (pagina - 1) +
+         '"' + (pagina === 1 ? " disabled" : "") + ' aria-label="Pagina anterioară">‹</button>';
+    numerePagini(total, pagina).forEach(function (x) {
+      if (x === "…") { h += '<span class="an-pag-puncte">…</span>'; return; }
+      h += '<button type="button" class="an-pag-nr' + (x === pagina ? " activ" : "") +
+           '" data-pagina="' + x + '"' + (x === pagina ? ' aria-current="page"' : "") +
+           ">" + x + "</button>";
+    });
+    h += '<button type="button" class="an-pag-sageata" data-pagina="' + (pagina + 1) +
+         '"' + (pagina === total ? " disabled" : "") + ' aria-label="Pagina următoare">›</button>';
+    return h + "</nav>";
+  }
+
   function deseneaza() {
     var lista = filtrate();
+    var totalPagini = Math.max(1, Math.ceil(lista.length / PE_PAGINA));
+    if (pagina > totalPagini) pagina = totalPagini;
+
     var numar = document.getElementById("an-numar");
     numar.innerHTML = "<b>" + lista.length + "</b> " +
       (lista.length === 1 ? "anunț" : "anunțuri") +
-      (anAles === "toate" ? " în arhivă" : " în " + anAles);
+      (anAles === "toate" ? " în arhivă" : " în " + anAles) +
+      (totalPagini > 1 ? " · pagina " + pagina + " din " + totalPagini : "");
 
     var gazdaL = document.getElementById("an-lista");
     if (!lista.length) {
       gazdaL.innerHTML = '<p class="an-nimic">Niciun anunț nu se potrivește căutării.</p>';
       return;
     }
-    // grupate pe ani, cel mai recent întâi
+    var felie = lista.slice((pagina - 1) * PE_PAGINA, pagina * PE_PAGINA);
+
+    // grupate pe ani, cel mai recent întâi; o pagină poate cuprinde doi ani
     var grupe = [];
     var curent = null;
-    lista.forEach(function (a) {
+    felie.forEach(function (a) {
       if (!curent || curent.an !== a.an) { curent = { an: a.an, items: [] }; grupe.push(curent); }
       curent.items.push(a);
     });
     gazdaL.innerHTML = grupe.map(function (g) {
       return '<section class="an-grup"><h3>' + esc(g.an) + "</h3>" +
         '<ul class="an-lista">' + g.items.map(randItem).join("") + "</ul></section>";
-    }).join("");
+    }).join("") + randPaginare(totalPagini);
+  }
+
+  function laPagina(p) {
+    pagina = p;
+    deseneaza();
+    // ne întoarcem la începutul listei, altfel pagina nouă începe „la mijloc"
+    var sus = document.querySelector(".an-unelte");
+    if (sus) {
+      var y = sus.getBoundingClientRect().top + window.pageYOffset -
+              (parseFloat(getComputedStyle(document.documentElement)
+                .getPropertyValue("--header-h")) || 84) - 16;
+      window.scrollTo({ top: y, behavior: "smooth" });
+    }
   }
 
   gazda.addEventListener("click", function (ev) {
+    var pag = ev.target.closest("[data-pagina]");
+    if (pag && !pag.disabled) { laPagina(parseInt(pag.dataset.pagina, 10)); return; }
     var buton = ev.target.closest(".an-cap");
     if (!buton) return;
     var item = buton.closest(".an-item");
@@ -153,6 +208,7 @@
         gazdaAni.querySelectorAll(".an-an-cip").forEach(function (x) { x.classList.remove("activ"); });
         cip.classList.add("activ");
         anAles = cip.dataset.an;
+        pagina = 1;   // altfel ai ramane pe o pagina care poate nu mai exista
         deseneaza();
       });
 
@@ -160,7 +216,7 @@
       var asteapta = null;
       camp.addEventListener("input", function () {
         clearTimeout(asteapta);
-        asteapta = setTimeout(function () { cautare = camp.value; deseneaza(); }, 150);
+        asteapta = setTimeout(function () { cautare = camp.value; pagina = 1; deseneaza(); }, 150);
       });
 
       deseneaza();

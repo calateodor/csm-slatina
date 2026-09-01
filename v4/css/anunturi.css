@@ -141,3 +141,37 @@
 @media (prefers-reduced-motion: reduce) {
   .an-corp, .an-sageata { transition: none; }
 }
+
+/* ---------- paginare ---------- */
+.an-paginare {
+  display: flex; align-items: center; justify-content: center;
+  gap: 6px; flex-wrap: wrap;
+  margin-top: clamp(22px, 3vw, 34px);
+}
+.an-pag-nr, .an-pag-sageata {
+  min-width: 38px; height: 38px;
+  display: inline-flex; align-items: center; justify-content: center;
+  padding: 0 10px;
+  font-family: var(--font-display); font-weight: 700; font-size: 0.82rem;
+  border: 1px solid rgba(20, 52, 92, 0.16);
+  background: #fff; color: var(--ink);
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+}
+.an-pag-nr:hover:not(.activ), .an-pag-sageata:hover:not([disabled]) {
+  border-color: var(--royal, #2457d6); color: var(--royal, #2457d6);
+}
+.an-pag-nr.activ {
+  background: var(--navy-900, #14345c);
+  border-color: var(--navy-900, #14345c);
+  color: #fff;
+  cursor: default;
+}
+.an-pag-sageata { font-size: 1.1rem; }
+.an-pag-sageata[disabled] { opacity: 0.35; cursor: default; }
+.an-pag-puncte { color: var(--ink-soft); padding: 0 2px; }
+
+@media (max-width: 640px) {
+  .an-pag-nr, .an-pag-sageata { min-width: 34px; height: 34px; font-size: 0.78rem; padding: 0 8px; }
+}
