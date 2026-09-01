@@ -281,6 +281,20 @@ body.menu-open .header-crests { opacity: 0; pointer-events: none; transition: op
 }
 .main-nav .sub a:hover { background: rgba(255,255,255,0.08); color: var(--gold); }
 
+/* De la adăugarea intrării „Informații publice" meniul are nouă poziții și
+   ajungea peste steme. Important: `.header-inner` e limitat la ~1320px, deci
+   spațiul NU crește odată cu ecranul — suprapunerea apărea la fel și pe un
+   monitor de 1920px. De aceea strângerea se aplică de la 1200px în sus, fără
+   limită superioară; sub 1200px intră oricum meniul-overlay. */
+@media (min-width: 1200px) {
+  .main-nav > ul { gap: 9px; }
+  .main-nav a { font-size: 0.79rem; padding-inline: 0; }
+  .main-nav .car { font-size: 0.62em; }
+  .header-crests { gap: 8px; margin-right: 10px; }
+  .header-crests img { height: 42px; }
+  .site-header.scrolled .header-crests img { height: 38px; }
+}
+
 /* sub 1200px: navbar-ul cedează locul meniului overlay */
 @media (max-width: 1199px) {
   .main-nav { display: none; }

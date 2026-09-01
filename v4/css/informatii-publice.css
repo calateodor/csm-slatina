@@ -1,0 +1,125 @@
+/* =========================================================
+   Informații de interes public — documentele cerute de
+   Legea 544/2001.
+   O grilă de fișe sobre, pe fundal deschis: aici oamenii vin
+   după un document anume, nu să admire secția, deci accentul
+   cade pe titlu, pe ce e documentul și pe butonul care îl
+   deschide. Fără poze, fără mișcare — doar ierarhie clară.
+   ========================================================= */
+.ip-sectiune { position: relative; }
+
+.ip-grila {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 340px), 1fr));
+  gap: clamp(16px, 2.2vw, 26px);
+  margin-top: clamp(20px, 3vw, 34px);
+}
+
+.ip-card {
+  display: flex;
+  flex-direction: column;
+  background: #fff;
+  border: 1px solid rgba(20, 52, 92, 0.1);
+  border-radius: 20px;
+  box-shadow: 0 18px 44px rgba(16, 34, 64, 0.07);
+  padding: clamp(20px, 2.4vw, 28px);
+  /* ancorele din meniu duc direct la fișă; fără asta, antetul fix ar
+     acoperi titlul spre care tocmai am sărit */
+  scroll-margin-top: calc(var(--header-h, 84px) + 20px);
+  transition: transform 0.35s var(--ease-out), box-shadow 0.35s var(--ease-out),
+              border-color 0.35s ease;
+}
+@media (hover: hover) and (pointer: fine) {
+  .ip-card:hover {
+    transform: translateY(-4px);
+    border-color: rgba(36, 87, 214, 0.35);
+    box-shadow: 0 26px 56px rgba(16, 34, 64, 0.12);
+  }
+}
+/* fișa spre care tocmai s-a sărit din meniu se aprinde o clipă */
+.ip-card:target {
+  border-color: var(--gold);
+  box-shadow: 0 26px 56px rgba(16, 34, 64, 0.12), 0 0 0 3px rgba(246, 200, 28, 0.28);
+}
+
+.ip-cap {
+  display: flex; align-items: flex-start; justify-content: space-between;
+  gap: 12px; flex-wrap: wrap;
+  margin-bottom: 10px;
+}
+.ip-cap h2 {
+  font-family: var(--font-display); font-weight: 800;
+  font-size: clamp(1.05rem, 1.7vw, 1.25rem);
+  line-height: 1.25;
+  color: var(--ink);
+  margin: 0;
+}
+/* pastila care spune ce e: legea, felul fișierului, numărul de pagini */
+.ip-lege {
+  flex: none;
+  font-family: var(--font-display); font-weight: 700;
+  font-size: 0.6rem; letter-spacing: 0.1em; text-transform: uppercase;
+  color: var(--royal, #2457d6);
+  background: rgba(36, 87, 214, 0.09);
+  border: 1px solid rgba(36, 87, 214, 0.18);
+  padding: 5px 10px; border-radius: 999px;
+  white-space: nowrap;
+}
+
+.ip-desc {
+  color: var(--ink-soft);
+  font-size: 0.92rem; line-height: 1.55;
+  margin: 0 0 16px;
+}
+
+/* datele de contact de la protecția avertizorilor */
+.ip-date {
+  display: grid; gap: 10px;
+  margin: 0 0 4px;
+  padding-top: 14px;
+  border-top: 1px solid rgba(20, 52, 92, 0.1);
+}
+.ip-date dt {
+  font-family: var(--font-display); font-weight: 700;
+  font-size: 0.58rem; letter-spacing: 0.12em; text-transform: uppercase;
+  color: var(--ink-soft);
+  margin-bottom: 2px;
+}
+.ip-date dd {
+  margin: 0;
+  font-weight: 700;
+  color: var(--ink);
+}
+.ip-date a { color: var(--royal, #2457d6); }
+.ip-date a:hover { text-decoration: underline; }
+
+.ip-actiuni {
+  display: flex; align-items: center; gap: 16px; flex-wrap: wrap;
+  margin-top: auto;          /* butoanele se aliniază jos, oricât text ar fi deasupra */
+  padding-top: 6px;
+}
+.ip-desc-link {
+  font-family: var(--font-display); font-weight: 700;
+  font-size: 0.72rem; letter-spacing: 0.06em;
+  color: var(--ink-soft);
+  border-bottom: 1px solid rgba(20, 52, 92, 0.25);
+  padding-bottom: 2px;
+}
+.ip-desc-link:hover { color: var(--royal, #2457d6); border-bottom-color: currentColor; }
+
+.ip-nota {
+  margin-top: clamp(22px, 3vw, 32px);
+  font-size: 0.88rem; line-height: 1.6;
+  color: var(--ink-soft);
+}
+.ip-nota a { color: var(--royal, #2457d6); font-weight: 600; }
+.ip-nota a:hover { text-decoration: underline; }
+
+@media (max-width: 640px) {
+  .ip-card { border-radius: 16px; }
+  .ip-cap { gap: 8px; }
+  .ip-actiuni { gap: 12px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .ip-card { transition: none; }
+}
