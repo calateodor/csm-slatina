@@ -1,9 +1,14 @@
 # Publicarea site-ului pe hostingul csmslatina.ro.
 #
 # Deocamdată conține DOAR proba în gol: se conectează prin FTPS, listează
-# folderele de pe server și nu scrie absolut nimic. Job-urile de publicare
-# propriu-zisă (test / live) se adaugă abia după ce proba confirmă
-# conexiunea și structura folderelor.
+# folderele de pe server și nu scrie absolut nimic.
+#
+# Certificatul serviciului FTP de pe host e emis pentru alt nume
+# (server-0423.whmpanels.com) și a expirat pe 18 aug 2026, deci
+# verificarea strictă pică. Pentru LISTARE mergem criptat dar fără
+# verificare (--insecure): nu trece nicio parolă necriptată, doar nu
+# putem dovedi identitatea serverului. Pentru publicarea propriu-zisă
+# vrem certificatul reparat de gazdă înainte.
 #
 # Rulează numai la push pe ramura `proba` sau pornit de mână. Niciun
 # declanșator pe `main` — nimic nu se poate publica din greșeală.
@@ -19,7 +24,7 @@ jobs:
     name: Proba in gol (doar citire)
     runs-on: ubuntu-latest
     steps:
-      - name: Listeaza radacina contului FTP
+      - name: Listeaza folderele contului FTP
         env:
           FTP_SERVER: ${{ secrets.FTP_SERVER }}
           FTP_USER: ${{ secrets.FTP_USER }}
@@ -27,26 +32,39 @@ jobs:
         run: |
           set +e
           if [ -z "$FTP_SERVER" ] || [ -z "$FTP_USER" ] || [ -z "$FTP_PASS" ]; then
-            echo "::error::Unul dintre secrete lipseste. Verifica numele: FTP_SERVER, FTP_USER, FTP_PASS."
-            [ -z "$FTP_SERVER" ] && echo "  FTP_SERVER: LIPSA"
-            [ -z "$FTP_USER" ]   && echo "  FTP_USER:   LIPSA"
-            [ -z "$FTP_PASS" ]   && echo "  FTP_PASS:   LIPSA"
+            echo "::error::Unul dintre secrete lipseste (FTP_SERVER / FTP_USER / FTP_PASS)."
             exit 1
           fi
-          echo "Secretele sunt prezente. Ma conectez prin FTPS (explicit, port 21)..."
-          echo "=================== RADACINA (/) ==================="
-          curl -sS --ssl-reqd --connect-timeout 30 -u "$FTP_USER:$FTP_PASS" "ftp://$FTP_SERVER:21/"
+          # adnotarile GitHub cer noile linii codificate ca %0A
+          noteaza() { printf '::notice title=%s::%s\n' "$1" "$(printf '%s' "$2" | head -c 3500 | sed ':a;N;$!ba;s/\n/%0A/g')"; }
+          lst() { curl -sS --ssl-reqd --insecure --connect-timeout 30 -u "$FTP_USER:$FTP_PASS" "ftp://$FTP_SERVER:21/$1"; }
+
+          echo "=== verificare stricta a certificatului ==="
+          curl -sS --ssl-reqd --connect-timeout 30 -u "$FTP_USER:$FTP_PASS" "ftp://$FTP_SERVER:21/" >/dev/null 2>&1
+          if [ $? -eq 0 ]; then noteaza "Certificat" "Verificarea stricta a certificatului a TRECUT."
+          else noteaza "Certificat" "Verificarea stricta PICA (cod curl $?); listarea de mai jos e criptata dar fara verificarea identitatii serverului."; fi
+
+          echo "=== radacina ==="
+          RAD=$(lst "")
           cod=$?
-          if [ $cod -ne 0 ]; then
-            echo "::error::Conexiunea FTPS a esuat (cod curl $cod)."
-            echo "Incerc si fara verificarea certificatului, doar ca sa stim daca asta e cauza:"
-            curl -sS --ssl-reqd --insecure --connect-timeout 30 -u "$FTP_USER:$FTP_PASS" "ftp://$FTP_SERVER:21/" && echo "(a mers fara verificare -> certificatul serverului nu e valid pentru $FTP_SERVER)"
+          if [ $cod -ne 0 ] || [ -z "$RAD" ]; then
+            echo "::error::Nu am putut lista radacina nici fara verificare (cod curl $cod)."
             exit 1
           fi
-          for d in public_html www httpdocs htdocs csmslatina.ro domains; do
-            echo ""
-            echo "=================== /$d/ ==================="
-            curl -sS --ssl-reqd --connect-timeout 30 -u "$FTP_USER:$FTP_PASS" "ftp://$FTP_SERVER:21/$d/" 2>/dev/null || echo "(nu exista sau nu e accesibil)"
+          echo "$RAD"
+          noteaza "Radacina" "$RAD"
+          {
+            echo "## Proba in gol — ce e pe server"
+            echo; echo '```'; echo "$RAD"; echo '```'
+          } >> "$GITHUB_STEP_SUMMARY"
+
+          # un nivel mai jos: fiecare folder din radacina (maximum 12)
+          echo "$RAD" | awk '$1 ~ /^d/ {print $NF}' | grep -vE '^\.\.?$' | head -12 | while read -r d; do
+            echo "=== /$d/ ==="
+            SUB=$(lst "$d/")
+            [ -z "$SUB" ] && SUB="(gol sau inaccesibil)"
+            echo "$SUB"
+            noteaza "Folder /$d" "$SUB"
+            { echo; echo "### /$d/"; echo '```'; echo "$SUB"; echo '```'; } >> "$GITHUB_STEP_SUMMARY"
           done
-          echo ""
           echo "Gata. Nu s-a scris nimic pe server."
