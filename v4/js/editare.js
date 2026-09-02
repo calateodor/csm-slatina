@@ -10,12 +10,21 @@
      (optimizat și publicat în repository) sau lipești un link;
    - pe paginile cu lot: creion pe cardul deschis din evantai + butonul
      plutitor „Lotul" cu lista completă, adăugare și scoatere.
-   Fiecare salvare = un commit; site-ul viu se reface în ~1 minut. */
+   Fiecare salvare = un commit pe ramura aleasă în bara plutitoare
+   (Test -> csmslatina.ro/test/, Live -> site-ul public). */
 (function () {
   "use strict";
 
   var REPO = "calateodor/csm-slatina";
-  var RAMURA = "main";
+  /* Editările din pagină se salvează imediat (un commit fiecare), deci nu au
+     un „publică” separat: ținta lor e comutatorul Test | Live din bara
+     plutitoare. Aceeași alegere (localStorage.panou_ramura) o folosește și
+     panoul, ca cele două să nu se contrazică. */
+  var RAMURI = { test: "test", live: "main" };
+  var LIVE_ACTIV = false;   // devine true la trecerea site-ului pe csmslatina.ro
+  var LINK_TEST = "https://www.csmslatina.ro/test/";
+  function tinta() { return localStorage.getItem("panou_ramura") === "test" ? "test" : "live"; }
+  function ramura() { return RAMURI[tinta()]; }
   var RAD = /\/sectii\//.test(location.pathname) ? "../" : "";
   /* versiunea se citeste din adresa (v3, v4, ...), ca sa nu mai fie nevoie
      de editat fisierul cand se face o versiune noua a site-ului */
@@ -35,7 +44,7 @@
     return { Authorization: "Bearer " + token(), Accept: "application/vnd.github+json" };
   }
   function apiCiteste(cale) {
-    return fetch("https://api.github.com/repos/" + REPO + "/contents/" + cale + "?ref=" + RAMURA,
+    return fetch("https://api.github.com/repos/" + REPO + "/contents/" + cale + "?ref=" + ramura(),
       { headers: anteturi() }).then(function (r) {
       if (r.status === 404) return { text: null, sha: null };
       if (!r.ok) throw new Error("GitHub " + r.status);
@@ -45,7 +54,7 @@
     });
   }
   function apiScrie(cale, continutB64, mesaj, sha) {
-    var corp = { message: "panou: " + mesaj, branch: RAMURA, content: continutB64 };
+    var corp = { message: "panou: " + mesaj, branch: ramura(), content: continutB64 };
     if (sha) corp.sha = sha;
     return fetch("https://api.github.com/repos/" + REPO + "/contents/" + cale, {
       method: "PUT", headers: anteturi(), body: JSON.stringify(corp)
@@ -170,6 +179,14 @@
       ".edit-bara button{border:0; cursor:pointer; border-radius:999px; padding:8px 14px;" +
       " font:700 12px/1 Manrope,sans-serif; background:#f6c81c; color:#14345c}" +
       ".edit-bara .gri{background:rgba(255,255,255,.15); color:#fff}" +
+      ".edit-tinta{display:inline-flex; align-items:center; gap:4px; padding:3px 3px 3px 10px;" +
+      " border-radius:999px; background:rgba(255,255,255,.08)}" +
+      ".edit-tinta em{font:700 10px/1 Manrope,sans-serif; letter-spacing:.08em; text-transform:uppercase;" +
+      " font-style:normal; color:rgba(255,255,255,.7); margin-right:4px}" +
+      ".edit-bara .edit-tinta-btn{background:transparent; color:#fff; padding:7px 12px}" +
+      ".edit-bara .edit-tinta-btn.activ{background:#2ec27e; color:#06261a}" +
+      ".edit-bara .edit-tinta-btn[disabled]{opacity:.4; cursor:not-allowed}" +
+      ".edit-bara .edit-link{color:#f6c81c; font:700 12px/1 Manrope,sans-serif; text-decoration:underline}" +
       ".edit-modal{position:fixed; inset:0; z-index:110; display:grid; place-items:center;" +
       " background:rgba(10,20,40,.65); padding:16px; overflow:auto}" +
       ".edit-modal .cutie{width:min(700px,94vw); max-height:92vh; overflow:auto; background:#fff;" +
@@ -208,12 +225,35 @@
     b.className = "edit-bara";
     b.innerHTML = "<span>✏️ Mod editare — texte, poze" +
       (document.getElementById("lot-app") ? ", lot" : "") + "</span>" +
+      '<span class="edit-tinta" title="Unde se salvează editările din pagină">' +
+        "<em>Salvez pe</em>" +
+        '<button type="button" class="edit-tinta-btn" data-tinta="test">Test</button>' +
+        '<button type="button" class="edit-tinta-btn" data-tinta="live">Live</button>' +
+      "</span>" +
+      '<a class="edit-link" href="' + LINK_TEST + '" target="_blank" rel="noopener">vezi testul ↗</a>' +
       '<button type="button" id="edit-iesi" class="gri">Ieși din editare</button>';
     document.body.appendChild(b);
     document.getElementById("edit-iesi").addEventListener("click", function () {
       localStorage.setItem("panou_editare", "0");
       location.reload();
     });
+    function arataTinta() {
+      b.querySelectorAll(".edit-tinta-btn").forEach(function (x) {
+        x.classList.toggle("activ", x.dataset.tinta === tinta());
+        if (x.dataset.tinta === "live") {
+          x.disabled = !LIVE_ACTIV;
+          x.title = LIVE_ACTIV ? "" : "Se activează la trecerea site-ului pe csmslatina.ro";
+        }
+      });
+    }
+    b.querySelectorAll(".edit-tinta-btn").forEach(function (x) {
+      x.addEventListener("click", function () {
+        if (x.disabled) return;
+        localStorage.setItem("panou_ramura", x.dataset.tinta);
+        arataTinta();
+      });
+    });
+    arataTinta();
   }
 
   /* ================= modalul generic ================= */

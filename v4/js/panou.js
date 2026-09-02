@@ -1,11 +1,21 @@
 /* Panoul de administrare — publică modificări direct în repository prin
-   API-ul GitHub (fiecare „Publică" = un commit; GitHub Pages reface site-ul
-   în ~1 minut). Token-ul stă doar în browserul administratorului. */
+   API-ul GitHub (fiecare „Publică" = un commit). Două ținte: „Publică test"
+   scrie pe ramura `test` (csmslatina.ro/test/), „Publică live" pe `main`
+   (site-ul public). Token-ul stă doar în browserul administratorului. */
 (function () {
   "use strict";
 
   var REPO = "calateodor/csm-slatina";
-  var RAMURA = "main";
+  /* Două ținte de publicare, două ramuri:
+       test -> ramura `test` -> csmslatina.ro/test/   (o vede doar cine are linkul)
+       live -> ramura `main` -> site-ul public
+     Ramura de pe care s-au citit datele se ține minte (localStorage), ca să
+     putem avertiza când se publică pe cealaltă: ai suprascrie ce e acolo. */
+  var RAMURI = { test: "test", live: "main" };
+  var LIVE_ACTIV = false;   // devine true la trecerea site-ului pe csmslatina.ro
+  var LINK_TEST = "https://www.csmslatina.ro/test/";
+  function tinta() { return localStorage.getItem("panou_ramura") === "test" ? "test" : "live"; }
+  function ramura(t) { return RAMURI[t || tinta()]; }
   var VERSIUNE = (location.pathname.match(/\/(v\d+)\//) || [null, "v4"])[1];
   var PREFIX = VERSIUNE + "/data/";
 
@@ -14,8 +24,8 @@
   function anteturi() {
     return { Authorization: "Bearer " + token(), Accept: "application/vnd.github+json" };
   }
-  function citeste(fisier) {
-    return fetch("https://api.github.com/repos/" + REPO + "/contents/" + PREFIX + fisier + "?ref=" + RAMURA,
+  function citeste(fisier, ram) {
+    return fetch("https://api.github.com/repos/" + REPO + "/contents/" + PREFIX + fisier + "?ref=" + (ram || ramura()),
       { headers: anteturi() }).then(function (r) {
       if (r.status === 404) return { date: null, sha: null };
       if (!r.ok) throw new Error("GitHub " + r.status);
@@ -24,11 +34,12 @@
       });
     });
   }
-  function scrie(fisier, date, mesaj) {
-    // citim intai sha-ul curent, ca sa nu suprascriem orbeste
-    return citeste(fisier).then(function (f) {
+  function scrie(fisier, date, mesaj, ram) {
+    ram = ram || ramura();
+    // citim intai sha-ul curent DE PE RAMURA TINTA, ca sa nu suprascriem orbeste
+    return citeste(fisier, ram).then(function (f) {
       var corp = {
-        message: "panou: " + mesaj, branch: RAMURA,
+        message: "panou: " + mesaj, branch: ram,
         content: btoa(unescape(encodeURIComponent(JSON.stringify(date, null, 2))))
       };
       if (f.sha) corp.sha = f.sha;
@@ -53,8 +64,31 @@
   function marcheaza(fisier) {
     murdare[fisier] = true;
     document.getElementById("pn-publica").hidden = false;
+    document.getElementById("pn-publica").classList.remove("fara-modificari");
     document.getElementById("pn-publica-text").textContent =
       "Modificări nepublicate: " + Object.keys(murdare).join(", ");
+  }
+
+  /* bara plutitoare de publicare e mereu vizibila cand esti logat; fara
+     modificari arata doar de unde s-au citit datele si linkul spre test */
+  function stareBara() {
+    var t = tinta();
+    var bara = document.getElementById("pn-publica");
+    bara.hidden = false;
+    var goale = !Object.keys(murdare).length;
+    bara.classList.toggle("fara-modificari", goale);
+    if (goale) {
+      document.getElementById("pn-publica-text").innerHTML =
+        "Datele sunt citite de pe <b>" + (t === "test" ? "TEST" : "LIVE") + "</b>" +
+        ' · <a href="' + LINK_TEST + '" target="_blank" rel="noopener">vezi testul</a>';
+    }
+    var live = document.getElementById("pn-publica-live");
+    live.disabled = !LIVE_ACTIV;
+    live.title = LIVE_ACTIV ? "Trimite pe site-ul public"
+                            : "Se activează la trecerea site-ului pe csmslatina.ro";
+    document.querySelectorAll("[data-tinta]").forEach(function (b) {
+      b.classList.toggle("activ", b.dataset.tinta === t);
+    });
   }
 
   /* ================= poarta: utilizator + parola =================
@@ -185,6 +219,7 @@
         suprascrieri = r[3].date || { meciuri: {}, lot: {} };
         tarife = r[4].date || {};
         deseneazaStiri(); deseneazaLot(); deseneazaMeciuri(); deseneazaTarife();
+        stareBara();
       })
       .catch(function (e) { alert("Nu am putut încărca datele: " + e.message); });
   }
@@ -475,8 +510,15 @@
   stareEditare();
 
   /* ================= PUBLICAREA ================= */
-  document.getElementById("pn-publica-buton").addEventListener("click", function () {
-    var b = this;
+  function publica(t) {
+    var ram = RAMURI[t];
+    var deUnde = tinta();
+    if (t !== deUnde && Object.keys(murdare).length &&
+        !confirm("Datele au fost citite de pe " + deUnde.toUpperCase() + ", iar tu publici pe " +
+                 t.toUpperCase() + ". Fișierele modificate vor suprascrie ce e acum pe " +
+                 t.toUpperCase() + ". Continui?")) return;
+    var b = document.getElementById(t === "test" ? "pn-publica-test" : "pn-publica-live");
+    var text0 = b.textContent;
     b.disabled = true; b.textContent = "Se publică…";
     var pasi = [];
     if (murdare["stiri.json"]) pasi.push(["stiri.json", stiri, "știri actualizate"]);
@@ -487,16 +529,32 @@
     (function urmatorul() {
       if (!pasi.length) {
         murdare = {};
-        document.getElementById("pn-publica").hidden = true;
-        b.disabled = false; b.textContent = "Publică pe site";
-        alert("Publicat! Site-ul viu se actualizează în ~1 minut.");
+        localStorage.setItem("panou_ramura", t);   // de acum datele sunt de pe ramura asta
+        b.disabled = false; b.textContent = text0;
+        stareBara();
+        alert(t === "test"
+          ? "Publicat pe TEST. Apare în ~1 minut la " + LINK_TEST
+          : "Publicat pe LIVE. Site-ul public se actualizează în ~1 minut.");
         return;
       }
       var p = pasi.shift();
-      scrie(p[0], p[1], p[2]).then(urmatorul).catch(function (e) {
-        b.disabled = false; b.textContent = "Publică pe site";
+      scrie(p[0], p[1], p[2], ram).then(urmatorul).catch(function (e) {
+        b.disabled = false; b.textContent = text0;
         alert("Eroare la " + p[0] + ": " + e.message);
       });
     })();
+  }
+  document.getElementById("pn-publica-test").addEventListener("click", function () { publica("test"); });
+  document.getElementById("pn-publica-live").addEventListener("click", function () { publica("live"); });
+
+  /* comutatorul „citesc datele de pe”: reincarca panoul de pe cealalta ramura */
+  document.querySelectorAll("[data-tinta]").forEach(function (b) {
+    b.addEventListener("click", function () {
+      if (b.dataset.tinta === tinta()) return;
+      if (Object.keys(murdare).length &&
+          !confirm("Ai modificări nepublicate. Le pierzi dacă schimbi sursa. Continui?")) return;
+      localStorage.setItem("panou_ramura", b.dataset.tinta);
+      location.reload();
+    });
   });
 })();
