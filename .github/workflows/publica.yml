@@ -1,0 +1,97 @@
+# Publicarea site-ului pe hostingul csmslatina.ro, prin FTPS.
+#
+#   ramura `test`  ->  csmslatina.ro/test/   (ascuns de motoarele de căutare)
+#   ramura `proba` ->  doar proba în gol: listează folderele, nu scrie nimic
+#
+# Publicarea pe site-ul public (ramura `main` -> rădăcină) NU e încă aici.
+# Se adaugă abia la trecerea live, după ce testul e verificat.
+#
+# Certificatul serviciului FTP de pe host e emis pentru alt nume și a
+# expirat pe 18 aug 2026, deci folosim `security: loose`: conexiunea e
+# criptată (parola nu circulă niciodată în clar), dar identitatea serverului
+# nu poate fi verificată. Când gazda reînnoiește certificatul, se trece pe
+# `strict` — o singură linie.
+#
+# Contul FTP intră direct în rădăcina site-ului (nu există public_html).
+# Acțiunea de publicare șterge de pe server DOAR fișiere pe care le-a urcat
+# ea (le ține evidența în .ftp-deploy-sync-state.json); ce n-a urcat ea —
+# wp-config.php, baze de date, fișiere de configurare — nu atinge niciodată.
+name: Publica
+
+on:
+  push:
+    branches: [test, proba]
+  workflow_dispatch:
+
+concurrency:
+  group: publica-${{ github.ref_name }}
+  cancel-in-progress: false
+
+jobs:
+  publica-test:
+    name: Publica pe csmslatina.ro/test/
+    if: github.ref_name == 'test'
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Fisiere doar pentru test (nu intra in repo)
+        run: |
+          # motoarele de cautare nu au ce cauta in folderul de test
+          printf 'User-agent: *\nDisallow: /\n' > v4/robots.txt
+          cat > v4/.htaccess <<'HT'
+          Header set X-Robots-Tag "noindex, nofollow"
+          DirectoryIndex index.html
+          ErrorDocument 404 /test/404.html
+          HT
+
+      - name: Urca pe server (FTPS)
+        uses: SamKirkland/FTP-Deploy-Action@v5.0.0
+        with:
+          server: ${{ secrets.FTP_SERVER }}
+          username: ${{ secrets.FTP_USER }}
+          password: ${{ secrets.FTP_PASS }}
+          port: 21
+          protocol: ftps
+          security: loose
+          local-dir: ./v4/
+          server-dir: ./test/
+          exclude: |
+            **/.git*
+            **/.git*/**
+            **/__pycache__/**
+            **/*.py
+
+      - name: Confirmare
+        if: always()
+        env:
+          FTP_SERVER: ${{ secrets.FTP_SERVER }}
+          FTP_USER: ${{ secrets.FTP_USER }}
+          FTP_PASS: ${{ secrets.FTP_PASS }}
+        run: |
+          set +e
+          COD=$(curl -sS -o /dev/null -w '%{http_code}' --max-time 30 "https://csmslatina.ro/test/")
+          ROBOTI=$(curl -sS -o /dev/null -w '%{http_code}' --max-time 30 -I "https://csmslatina.ro/test/" | head -c 3)
+          XR=$(curl -sSI --max-time 30 "https://csmslatina.ro/test/" | grep -i 'x-robots-tag' | tr -d '\r')
+          NR=$(curl -sS --ssl-reqd --insecure --connect-timeout 30 -u "$FTP_USER:$FTP_PASS" "ftp://$FTP_SERVER:21/test/" 2>/dev/null | wc -l)
+          NRA=$(curl -sS --ssl-reqd --insecure --connect-timeout 30 -u "$FTP_USER:$FTP_PASS" "ftp://$FTP_SERVER:21/test/assets/anunturi/2026/" 2>/dev/null | grep -c '^-')
+          echo "::notice title=Rezultat::csmslatina.ro/test/ raspunde cu HTTP $COD | antet: ${XR:-fara X-Robots-Tag} | intrari in /test/: $NR | scanuri 2026 urcate: $NRA"
+
+  proba-in-gol:
+    name: Proba in gol (doar citire)
+    if: github.ref_name == 'proba'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Listeaza folderele contului FTP
+        env:
+          FTP_SERVER: ${{ secrets.FTP_SERVER }}
+          FTP_USER: ${{ secrets.FTP_USER }}
+          FTP_PASS: ${{ secrets.FTP_PASS }}
+        run: |
+          set +e
+          noteaza() { printf '::notice title=%s::%s\n' "$1" "$(printf '%s' "$2" | head -c 3500 | sed ':a;N;$!ba;s/\n/%0A/g')"; }
+          RAD=$(curl -sS --ssl-reqd --insecure --connect-timeout 30 -u "$FTP_USER:$FTP_PASS" "ftp://$FTP_SERVER:21/")
+          [ -z "$RAD" ] && { echo "::error::Nu am putut lista radacina."; exit 1; }
+          noteaza "Radacina" "$RAD"
+          echo "Gata. Nu s-a scris nimic pe server."
