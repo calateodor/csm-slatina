@@ -47,7 +47,7 @@ jobs:
           HT
 
       - name: Urca pe server (FTPS)
-        uses: SamKirkland/FTP-Deploy-Action@v5.0.0
+        uses: SamKirkland/FTP-Deploy-Action@v4.4.0
         with:
           server: ${{ secrets.FTP_SERVER }}
           username: ${{ secrets.FTP_USER }}
