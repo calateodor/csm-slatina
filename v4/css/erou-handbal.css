@@ -10,8 +10,11 @@
   /* ============ SCARA ECHIPEI — modifică DOAR cifra asta ============
      Imaginea e ancorată JOS (tălpile pe marginea eroului) și crește în
      sus, peste calendar. 1 = cât banda; 1.5 = cu 50% mai mare; 1.8 = și
-     mai sus peste calendar. */
-  --echipa-scara: 1.2;
+     mai sus peste calendar.
+     Măsurat la 1290×870: 1.2 urca 130px peste grilă (2,4 rânduri de
+     calendar) — prea mult, cum a spus Teo; 1.06 urcă 57px, adică un rând,
+     „puțin peste”. Prețul: fetele sunt cu ~12% mai mici. */
+  --echipa-scara: 1.06;
 }
 
 /* centrarea din margin-left, ca la fotbal (transformul rămâne al GSAP):
