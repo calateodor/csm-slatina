@@ -164,3 +164,17 @@
 }
 #pn-tarife-lista input:focus { outline: 2px solid rgba(18, 58, 158, 0.3); }
 #pn-tarife-lista .pn-rand strong { font-family: var(--font-display); font-size: 0.92rem; }
+
+/* ---------- bara de publicare: test / live ---------- */
+.pn-publica { flex-wrap: wrap; justify-content: center; max-width: min(96vw, 780px); }
+.pn-publica.fara-modificari { background: rgba(15, 35, 71, 0.92); }
+.pn-publica a { color: #f6c81c; text-decoration: underline; }
+.pn-sursa { display: inline-flex; gap: 4px; padding: 3px; border-radius: 999px; background: rgba(255,255,255,0.08); }
+.pn-sursa .pn-btn { background: transparent; color: #fff; border-color: transparent; }
+.pn-sursa .pn-btn.activ { background: #fff; color: #14345c; }
+.pn-publica .pn-btn-test { background: #2ec27e; border-color: #2ec27e; color: #06261a; }
+.pn-publica .pn-btn-test:hover { background: #3fd68f; }
+.pn-publica .pn-btn-plin[disabled] { opacity: 0.45; cursor: not-allowed; }
+@media (max-width: 640px) {
+  .pn-publica { left: 10px; right: 10px; transform: none; bottom: 10px; gap: 8px; }
+}
