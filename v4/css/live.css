@@ -132,3 +132,44 @@ body.cu-banda-live::before {
   .bl-unde { font-size: 0.74rem; flex-basis: 100%; text-align: center; }
   .bl-hai { font-size: 0.95rem; }
 }
+
+/* ---------- banda strânsă: un singur rând, odată cu antetul micșorat ----------
+   Rămân insigna, echipele și cronometrul (sau scorul). „Hai la meci!”, locul,
+   ora, sportul și subtitlul cronometrului dispar. Echipele se taie cu „…” dacă
+   nu încap — pe telefon rândul trebuie să rămână UN rând orice s-ar întâmpla. */
+.bl-inauntru {
+  transition: min-height 0.3s var(--ease-out), padding 0.3s var(--ease-out), gap 0.3s var(--ease-out);
+}
+.bl-echipa, .bl-scor, .bl-minut, .bl-insigna { transition: font-size 0.3s var(--ease-out), padding 0.3s var(--ease-out); }
+
+.banda-live.stransa { cursor: pointer; }
+.banda-live.stransa .bl-inauntru {
+  min-height: 40px;
+  padding: 4px 0;
+  gap: clamp(8px, 1.6vw, 14px);
+  flex-wrap: nowrap;
+}
+.banda-live.stransa .bl-hai,
+.banda-live.stransa .bl-unde,
+.banda-live.stransa .bl-sport,
+.banda-live.stransa .bl-minut small,
+.banda-live.stransa .bl-minut.doar-pauza { display: none; }
+.banda-live.stransa .bl-insigna { font-size: 0.6rem; padding: 3px 8px; letter-spacing: 0.14em; }
+.banda-live.stransa .bl-meci { min-width: 0; gap: clamp(6px, 1vw, 10px); }
+.banda-live.stransa .bl-echipa {
+  font-size: 0.86rem;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  min-width: 0; max-width: 34vw;
+}
+.banda-live.stransa .bl-scor { font-size: 1.15rem; white-space: nowrap; }   /* „1–0” nu se rupe în două rânduri */
+.banda-live.stransa .bl-scor.mic { font-size: 0.8rem; }
+.banda-live.stransa .bl-minut { font-size: 0.85rem; padding: 2px 8px; border-radius: 8px; white-space: nowrap; }
+.banda-live.stransa:focus-visible { outline: 2px solid var(--gold, #f6c81c); outline-offset: -2px; }
+@media (max-width: 640px) {
+  .banda-live.stransa .bl-inauntru { padding: 4px 0; gap: 8px; }
+  .banda-live.stransa .bl-echipa { font-size: 0.78rem; max-width: 32vw; }
+  .banda-live.stransa .bl-minut { font-size: 0.78rem; padding: 2px 7px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .bl-inauntru, .bl-echipa, .bl-scor, .bl-minut, .bl-insigna { transition: none; }
+}

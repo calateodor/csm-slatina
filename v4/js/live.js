@@ -157,7 +157,7 @@
           '<span class="bl-unde">' + unde(m) + " · " + oraStart(m) + "</span>" +
           '<span class="bl-minut">' + countdown(m) + ' <small>până la start</small></span>' +
         "</div>";
-      document.documentElement.style.setProperty("--banda-live-h", banda.offsetHeight + "px");
+      masoaraDesfacuta();
       return;
     }
 
@@ -182,7 +182,57 @@
 
     // înălțimea reală a benzii împinge conținutul paginii (mobilul o
     // frânge pe două rânduri, deci nu putem ghici o valoare fixă)
-    document.documentElement.style.setProperty("--banda-live-h", banda.offsetHeight + "px");
+    masoaraDesfacuta();
+  }
+
+  /* ---------- banda strânsă ----------
+     La derulare (același prag ca antetul, 40px) banda trece pe un singur
+     rând: insigna, echipele, cronometrul/scorul. Sus revine mare. O apăsare
+     pe banda strânsă o desface la loc; se strânge iar la următoarea mișcare
+     de derulare mai mare de 24px, ca să nu se închidă din tremurul degetului.
+     Aerul de sub antet rămâne cât banda desfăcută — conținutul nu sare. */
+  var desfacutaManual = false;
+  var yDesfacere = 0;
+
+  function masoaraDesfacuta() {
+    if (!banda) return;
+    var clona = banda.cloneNode(true);
+    clona.classList.remove("stransa");
+    clona.style.cssText = "position:fixed; visibility:hidden; pointer-events:none; transition:none";
+    clona.querySelectorAll("*").forEach(function (el) { el.style.transition = "none"; });
+    document.body.appendChild(clona);
+    var h = clona.offsetHeight;
+    clona.remove();
+    document.documentElement.style.setProperty("--banda-live-h", h + "px");
+    aplicaStrangerea();
+  }
+
+  function aplicaStrangerea() {
+    if (!banda) return;
+    var y = window.scrollY || window.pageYOffset || 0;
+    if (desfacutaManual && Math.abs(y - yDesfacere) > 24) desfacutaManual = false;
+    var stransa = y > 40 && !desfacutaManual;
+    banda.classList.toggle("stransa", stransa);
+    if (stransa) {
+      banda.setAttribute("role", "button");
+      banda.setAttribute("tabindex", "0");
+      banda.setAttribute("aria-expanded", "false");
+      banda.setAttribute("title", "Apasă pentru detalii");
+    } else {
+      banda.removeAttribute("role");
+      banda.removeAttribute("tabindex");
+      banda.removeAttribute("aria-expanded");
+      banda.removeAttribute("title");
+    }
+  }
+
+  function desfaLaApasare(ev) {
+    if (!banda || !banda.classList.contains("stransa")) return;
+    if (ev.type === "keydown" && ev.key !== "Enter" && ev.key !== " ") return;
+    ev.preventDefault();
+    desfacutaManual = true;
+    yDesfacere = window.scrollY || window.pageYOffset || 0;
+    aplicaStrangerea();
   }
 
   /* pentru verificat vizual fără meci real: ?livetest=maine|azi|joc|pauza|final */
@@ -229,8 +279,13 @@
 
   function porneste() {
     urmaresteAntetul();
-    window.addEventListener("resize", function () {
-      if (banda) document.documentElement.style.setProperty("--banda-live-h", banda.offsetHeight + "px");
+    window.addEventListener("resize", masoaraDesfacuta);
+    window.addEventListener("scroll", aplicaStrangerea, { passive: true });
+    document.addEventListener("click", function (ev) {
+      if (banda && banda.contains(ev.target)) desfaLaApasare(ev);
+    });
+    document.addEventListener("keydown", function (ev) {
+      if (banda && ev.target === banda) desfaLaApasare(ev);
     });
     actualizeaza();
     setInterval(function () {
