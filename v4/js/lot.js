@@ -54,7 +54,7 @@
     return nume.indexOf("CSM Slatina") === 0 ? "<b>" + esc(nume) + "</b>" : esc(nume);
   }
 
-  fetch("../data/echipe.json")
+  fetch("../data/echipe.json", { cache: "no-cache" })
     .then(function (r) { return r.json(); })
     .then(function (toate) {
       var e = toate[sport];
