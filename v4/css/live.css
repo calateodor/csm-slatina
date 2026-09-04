@@ -173,3 +173,7 @@ body.cu-banda-live::before {
 @media (prefers-reduced-motion: reduce) {
   .bl-inauntru, .bl-echipa, .bl-scor, .bl-minut, .bl-insigna { transition: none; }
 }
+
+/* „Începe acum": ora de start a trecut, așteptăm fluierul de la releu */
+.bl-minut.puls { animation: bl-puls 1.6s ease-in-out infinite; }
+@media (prefers-reduced-motion: reduce) { .bl-minut.puls { animation: none; } }

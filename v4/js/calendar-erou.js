@@ -165,7 +165,7 @@
     }
   }
 
-  fetch("../data/echipe.json")
+  fetch("../data/echipe.json", { cache: "no-cache" })
     .then(function (r) { return r.json(); })
     .then(function (date) {
       var prog = (date[sport] && date[sport].program) || [];

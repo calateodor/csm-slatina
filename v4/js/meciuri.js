@@ -18,7 +18,7 @@
     return nume.replace(/\s+F$/, "");
   }
 
-  fetch("data/meciuri.json")
+  fetch("data/meciuri.json", { cache: "no-cache" })
     .then(function (r) { return r.json(); })
     .then(function (d) {
       var acum = Date.now() / 1000;

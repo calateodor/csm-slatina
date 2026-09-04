@@ -101,6 +101,10 @@
     return minutul(m) || "LIVE";
   }
 
+  /* ora de start a trecut, dar releul n-a raportat încă fluierul (poate
+     dura 1–2 minute): nu lăsăm 00:00:00 pe ecran */
+  function laStart(m) { return m.stare === 1 && m.start - Date.now() / 1000 <= 0; }
+
   /* numărătoarea inversă până la start: „1z 07:42:15", curge live */
   function countdown(m) {
     var ramas = Math.max(0, m.start - Date.now() / 1000);
@@ -155,7 +159,9 @@
             '<b class="bl-echipa">' + m.oaspeti + "</b>" +
           "</span>" +
           '<span class="bl-unde">' + unde(m) + " · " + oraStart(m) + "</span>" +
-          '<span class="bl-minut">' + countdown(m) + ' <small>până la start</small></span>' +
+          (laStart(m)
+            ? '<span class="bl-minut puls">Începe acum <small>așteptăm fluierul</small></span>'
+            : '<span class="bl-minut">' + countdown(m) + ' <small>până la start</small></span>') +
         "</div>";
       masoaraDesfacuta();
       return;
@@ -235,10 +241,26 @@
     aplicaStrangerea();
   }
 
-  /* pentru verificat vizual fără meci real: ?livetest=maine|azi|joc|pauza|final */
+  /* pentru verificat vizual fără meci real: ?livetest=maine|azi|joc|pauza|final
+     ?livetest=demo trece singur prin stări: azi (15 s până la start) →
+     începe acum → joc → pauză → final, cam 15 s fiecare, apoi o ia de la capăt */
   var TEST = (location.search.match(/[?&]livetest=([a-z]+)/) || [])[1];
+  var DEMO_START = Date.now();
   function probaDeTest() {
     var acum = Math.floor(Date.now() / 1000);
+    if (TEST === "demo") {
+      var t = ((Date.now() - DEMO_START) / 1000) % 75;
+      var m0 = { fotbal: null, handbal: null };
+      var d = { id: "demo", gazde: "CSM Slatina", oaspeti: "Steaua București",
+                scorGazde: null, scorOaspeti: null, pauzaGazde: null, pauzaOaspeti: null };
+      if (t < 15)      { d.stare = 1; d.start = acum + Math.ceil(15 - t); }
+      else if (t < 25) { d.stare = 1; d.start = acum - 5; }
+      else if (t < 45) { d.stare = 2; d.faza = 12; d.start = acum - 23 * 60; d.scorGazde = "1"; d.scorOaspeti = "0"; }
+      else if (t < 60) { d.stare = 2; d.faza = 38; d.start = acum - 50 * 60; d.scorGazde = "1"; d.scorOaspeti = "0"; d.pauzaGazde = "1"; d.pauzaOaspeti = "0"; }
+      else             { d.stare = 3; d.faza = 3;  d.start = acum - 2 * 3600; d.scorGazde = "2"; d.scorOaspeti = "1"; d.pauzaGazde = "1"; d.pauzaOaspeti = "0"; }
+      m0.fotbal = d;
+      return m0;
+    }
     var m = { fotbal: null, handbal: null };
     var f = { id: "test", gazde: "CSM Slatina", oaspeti: "Steaua București",
               scorGazde: null, scorOaspeti: null, pauzaGazde: null, pauzaOaspeti: null };
@@ -288,12 +310,26 @@
       if (banda && ev.target === banda) desfaLaApasare(ev);
     });
     actualizeaza();
+    var ultimulTact = Date.now();
     setInterval(function () {
-      if (!document.hidden) actualizeaza();
-    }, INTERVAL);
+      if (document.hidden) return;
+      // în minutele de după ora de start întrebăm releul la 5 s, ca trecerea
+      // de la cronometru la scor să se vadă aproape instantaneu
+      var tact = TEST === "demo" ? 1000 : (stare && laStart(stare) ? 5000 : INTERVAL);
+      if (Date.now() - ultimulTact >= tact - 200) { ultimulTact = Date.now(); actualizeaza(); }
+    }, 1000);
+    // telefon deblocat, tab readus în față, net revenit: nu așteptăm tactul
+    var reia = function () { if (!document.hidden) { ultimulTact = Date.now(); actualizeaza(); } };
+    document.addEventListener("visibilitychange", reia);
+    window.addEventListener("pageshow", reia);
+    window.addEventListener("online", reia);
     // minutul curge secundă de secundă, fără să așteptăm releul
     cronometru = setInterval(function () {
       if (stare && banda && stare.stare !== 3) {
+        if (laStart(stare)) {
+          if (!banda.querySelector(".bl-minut.puls")) deseneaza();
+          return;
+        }
         var el = banda.querySelector(".bl-minut");
         if (el) el.firstChild.nodeValue = eticheta(stare) + (stare.stare === 1 ? " " : "");
       }
