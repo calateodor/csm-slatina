@@ -36,6 +36,9 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: Versiuni pe CSS si JS (browserele iau varianta noua imediat)
+        run: python3 scripts/versiuni.py
+
       - name: Fisiere doar pentru test (nu intra in repo)
         run: |
           # motoarele de cautare nu au ce cauta in folderul de test
@@ -44,6 +47,27 @@ jobs:
           Header set X-Robots-Tag "noindex, nofollow"
           DirectoryIndex index.html
           ErrorDocument 404 /test/404.html
+
+          # Hostingul trimite implicit „pastreaza 7 zile" pentru orice fisier,
+          # iar telefoanele chiar asculta: dupa o publicare, paginile, datele
+          # si scripturile ramaneau vechi si dupa refresh. Le cerem sa
+          # reverifice de fiecare data (raspunsul e 304, cateva sute de octeti,
+          # daca nu s-a schimbat nimic). Pozele, filmele si fonturile pot
+          # sta mult in cache — se schimba rar si sunt grele.
+          <IfModule mod_expires.c>
+            ExpiresActive Off
+          </IfModule>
+          <FilesMatch "\.(html|json|css|js|xml|txt|webmanifest)$">
+            Header set Cache-Control "no-cache, must-revalidate"
+          </FilesMatch>
+          <FilesMatch "\.(webp|jpe?g|png|gif|svg|ico|mp4|webm|woff2?|ttf|pdf)$">
+            Header set Cache-Control "public, max-age=2592000"
+          </FilesMatch>
+
+          # evidenta publicarii nu e treaba nimanui
+          <Files ".ftp-deploy-sync-state.json">
+            Require all denied
+          </Files>
           HT
 
       - name: Urca pe server (FTPS)
@@ -72,11 +96,10 @@ jobs:
         run: |
           set +e
           COD=$(curl -sS -o /dev/null -w '%{http_code}' --max-time 30 "https://csmslatina.ro/test/")
-          ROBOTI=$(curl -sS -o /dev/null -w '%{http_code}' --max-time 30 -I "https://csmslatina.ro/test/" | head -c 3)
           XR=$(curl -sSI --max-time 30 "https://csmslatina.ro/test/" | grep -i 'x-robots-tag' | tr -d '\r')
+          CC=$(curl -sSI --max-time 30 "https://csmslatina.ro/test/css/live.css" | grep -i 'cache-control' | tr -d '\r')
           NR=$(curl -sS --ssl-reqd --insecure --connect-timeout 30 -u "$FTP_USER:$FTP_PASS" "ftp://$FTP_SERVER:21/test/" 2>/dev/null | wc -l)
-          NRA=$(curl -sS --ssl-reqd --insecure --connect-timeout 30 -u "$FTP_USER:$FTP_PASS" "ftp://$FTP_SERVER:21/test/assets/anunturi/2026/" 2>/dev/null | grep -c '^-')
-          echo "::notice title=Rezultat::csmslatina.ro/test/ raspunde cu HTTP $COD | antet: ${XR:-fara X-Robots-Tag} | intrari in /test/: $NR | scanuri 2026 urcate: $NRA"
+          echo "::notice title=Rezultat::csmslatina.ro/test/ raspunde cu HTTP $COD | antet: ${XR:-fara X-Robots-Tag} | css: ${CC:-fara Cache-Control} | intrari in /test/: $NR"
 
   proba-in-gol:
     name: Proba in gol (doar citire)
