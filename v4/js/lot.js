@@ -59,6 +59,7 @@
     .then(function (toate) {
       var e = toate[sport];
       if (!e) return;
+      (e.lot || []).forEach(function (j) { j.post = postNormal(j.post); });
       if (sezonEl) deseneazaSezon(e);
       if (radacina && e.lot && e.lot.length) deseneazaLot(e);
     })
@@ -95,15 +96,23 @@
 
   /* ================= Lotul ================= */
   var GRUPE_FOTBAL = ["Portar", "Fundaș", "Mijlocaș", "Atacant"];
-  var GRUPE_HANDBAL = ["Portar", "Extremă stânga", "Extremă dreapta", "Inter stânga", "Inter dreapta", "Coordonator", "Pivot"];
+  /* ordinea din afișul oficial al echipei, de la poartă spre linia de 9m:
+     portar, extreme, pivoți, interi, centru */
+  var GRUPE_HANDBAL = ["Portar", "Extremă stânga", "Extremă dreapta", "Pivot", "Inter stânga", "Inter dreapta", "Centru"];
+  /* datele mai vechi (sau panoul) pot spune încă „Coordonator”: e același post */
+  function postNormal(p) { return p === "Coordonator" ? "Centru" : p; }
 
   // toate posturile posibile, cu coordonatele lor pe teren (% din teren)
   function posturiTeren() {
     if (sport === "handbal") {
+      /* Poarta e în stânga desenului, deci atacantele privesc spre stânga:
+         „stânga” lor e JOSUL desenului, „dreapta” lor e SUSUL — exact ca
+         în afișul oficial, unde poarta e sus și extrema stângă e în stânga.
+         Pivotul stă pe linia de 6m, interii pe 9m, centrul cel mai departe. */
       return [
-        ["Portar", 6, 50], ["Extremă stânga", 22, 12], ["Extremă dreapta", 22, 88],
-        ["Pivot", 30, 50], ["Inter stânga", 48, 22], ["Inter dreapta", 48, 78],
-        ["Coordonator", 60, 50]
+        ["Portar", 6, 50], ["Extremă dreapta", 22, 12], ["Extremă stânga", 22, 88],
+        ["Pivot", 30, 50], ["Inter dreapta", 48, 22], ["Inter stânga", 48, 78],
+        ["Centru", 62, 50]
       ];
     }
     return [["Portar", 8, 50], ["Fundaș", 30, 50], ["Mijlocaș", 55, 50], ["Atacant", 79, 50]];
