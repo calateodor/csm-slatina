@@ -2,9 +2,16 @@
    Browserul vizitatorului nu are voie să citească flashscore.ro direct
    (CORS), așa că worker-ul ăsta gratuit face cererea în locul lui:
    ia pagina de meciuri a fiecărei echipe, alege meciul zilei și întoarce
-   un JSON mic. Răspunsul stă 10 secunde în cache-ul Cloudflare, deci
-   oricâți vizitatori am avea, Flashscore e întrebat de cel mult ~6 ori
-   pe minut. */
+   un JSON mic. Răspunsul stă câteva secunde în cache-ul Cloudflare, deci
+   oricâți vizitatori am avea, Flashscore e întrebat de cel mult ~12 ori
+   pe minut.
+
+   Pagina de echipă e ținută de CDN-ul Flashscore 3–4 minute, deci scorul
+   de acolo întârzie. Starea, faza și scorul meciului zilei le luăm din
+   feed-ul de detaliu al meciului (dc_1_<id>) — același pe care îl citește
+   pagina live de pe Flashscore, împrospătat la secundă. Pagina de echipă
+   rămâne doar ca să aflăm CARE e meciul zilei, numele echipelor și scorul
+   de la pauză (care nu se mai schimbă după pauză). */
 
 const ECHIPE = {
   fotbal: "zRqy53ur",
@@ -113,13 +120,41 @@ function meciulZilei(meciuri, acum) {
 }
 
 const ADRESA_ECHIPA = (id) => `https://www.flashscore.ro/echipa/csm-slatina/${id}/meciuri/`;
+/* proiectul 9 = flashscore.ro; semnătura e cea publică din paginile lor */
+const ADRESA_DETALIU = (id) => `https://global.flashscore.ninja/9/x/feed/dc_1_${id}`;
+const UA = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126 Safari/537.36";
+
+/* Feed-ul de detaliu: DA = stare (1/2/3), DB = faza, DC = start,
+   DE/DF = scorul curent. Verificat pe meciuri live: lista de pe pagina de
+   echipă (și chiar feed-ul zilei) rămâne în urma lui. */
+async function detaliuMeci(id) {
+  const r = await fetch(ADRESA_DETALIU(id), {
+    headers: { "x-fsign": "SW9D1eZo", "User-Agent": UA, "Referer": "https://www.flashscore.ro/" },
+    cf: { cacheTtl: 5, cacheEverything: true },
+  });
+  if (!r.ok) throw new Error(`detaliu ${r.status}`);
+  const d = {};
+  for (const p of (await r.text()).split("¬")) {
+    const i = p.indexOf("÷");
+    if (i > 0) d[p.slice(0, i)] = p.slice(i + 1);
+  }
+  if (!d.DA) throw new Error("detaliu gol");
+  return d;
+}
+
+/* pune peste meciul ales ce spune feed-ul de detaliu */
+function cuDetaliu(m, d) {
+  m.stare = Number(d.DA) || m.stare;
+  m.faza = Number(d.DB) || 0;
+  if (d.DE != null && d.DE !== "") { m.scorGazde = d.DE; m.scorOaspeti = d.DF ?? null; }
+  if (d.DC) m.start = Number(d.DC);
+  m.sursa = "detaliu";
+  return m;
+}
 
 async function paginaEchipei(id, ttl) {
   const r = await fetch(ADRESA_ECHIPA(id), {
-    headers: {
-      "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126 Safari/537.36",
-      "Accept-Language": "ro-RO,ro;q=0.9",
-    },
+    headers: { "User-Agent": UA, "Accept-Language": "ro-RO,ro;q=0.9" },
     cf: { cacheTtl: ttl, cacheEverything: true },
   });
   if (!r.ok) throw new Error(`flashscore ${r.status}`);
@@ -128,7 +163,16 @@ async function paginaEchipei(id, ttl) {
 
 async function iaEchipa(sport, id) {
   try {
-    return meciulZilei(await paginaEchipei(id, 8), Date.now());
+    // pagina de echipă doar alege meciul zilei; poate sta liniștită 60 s
+    const m = meciulZilei(await paginaEchipei(id, 60), Date.now());
+    if (!m) return null;
+    try {
+      return cuDetaliu(m, await detaliuMeci(m.id));
+    } catch (e) {
+      m.sursa = "pagina";           // feed-ul n-a mers: rămânem pe ce știe pagina
+      m.eroareDetaliu = String(e.message || e);
+      return m;
+    }
   } catch (e) {
     return { eroare: String(e.message || e) };
   }
@@ -159,6 +203,12 @@ export default {
     // Calendarul stă pe /calendar, cu cheie de cache proprie — altfel cele
     // două răspunsuri, de forme complet diferite, s-ar suprascrie în cache.
     const calendar = url.pathname === "/calendar";
+    // /meci/<id> — doar pentru verificat: ce spune feed-ul de detaliu
+    const proba = url.pathname.match(/^\/meci\/([A-Za-z0-9]+)$/);
+    if (proba) {
+      try { return json(await detaliuMeci(proba[1]), 5); }
+      catch (e) { return json({ eroare: String(e.message || e) }, 5); }
+    }
     const cache = caches.default;
     const cheie = new Request(url.origin + (calendar ? "/c-calendar" : "/live"), cerere);
     const dinCache = await cache.match(cheie);
@@ -191,7 +241,7 @@ export default {
         iaEchipa("fotbal", ECHIPE.fotbal).catch((e) => ({ eroare: String(e) })),
         iaEchipa("handbal", ECHIPE.handbal).catch((e) => ({ eroare: String(e) })),
       ]);
-      raspuns = json({ fotbal, handbal, luatLa: Math.floor(Date.now() / 1000) }, 10);
+      raspuns = json({ fotbal, handbal, luatLa: Math.floor(Date.now() / 1000) }, 5);
     }
 
     ctx.waitUntil(cache.put(cheie, raspuns.clone()));

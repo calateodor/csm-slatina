@@ -313,9 +313,9 @@
     var ultimulTact = Date.now();
     setInterval(function () {
       if (document.hidden) return;
-      // în minutele de după ora de start întrebăm releul la 5 s, ca trecerea
-      // de la cronometru la scor să se vadă aproape instantaneu
-      var tact = TEST === "demo" ? 1000 : (stare && laStart(stare) ? 5000 : INTERVAL);
+      // la start și cât ține meciul întrebăm la 5 s (releul răspunde din
+      // cache-ul Cloudflare, deci nu costă nimic); altfel la 15 s
+      var tact = TEST === "demo" ? 1000 : (stare && (laStart(stare) || stare.stare === 2) ? 5000 : INTERVAL);
       if (Date.now() - ultimulTact >= tact - 200) { ultimulTact = Date.now(); actualizeaza(); }
     }, 1000);
     // telefon deblocat, tab readus în față, net revenit: nu așteptăm tactul
