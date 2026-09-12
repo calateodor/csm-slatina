@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-"""Scrie sitemap.xml pentru versiunea publicată a site-ului.
+"""Scrie v4/sitemap.xml pentru site-ul publicat pe www.csmslatina.ro.
 
 Rulare (din rădăcina repository-ului):
     python scripts/genereaza-sitemap.py
@@ -12,9 +12,9 @@ import io
 import os
 import time
 
-BAZA = "https://calateodor.github.io/csm-slatina"
+BAZA = "https://www.csmslatina.ro"
 VERSIUNE = "v4"
-EXCLUSE = {"panou.html", "admin.html", "harta.html", "stire.html"}
+EXCLUSE = {"panou.html", "admin.html", "harta.html", "stire.html", "404.html"}
 
 # prioritate și frecvență, pe tipuri de pagină
 PROFIL = {
@@ -47,7 +47,7 @@ def main():
                '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">']
     for cale in pagini(radacina):
         prio, freq = PROFIL.get(cale, IMPLICIT)
-        adresa = BAZA + "/" + VERSIUNE + "/" + ("" if cale == "index.html" else cale)
+        adresa = BAZA + "/" + ("" if cale == "index.html" else cale)
         mtime = os.path.getmtime(os.path.join(radacina, cale.replace("/", os.sep)))
         randuri += [
             "  <url>",
@@ -59,7 +59,7 @@ def main():
         ]
     randuri.append("</urlset>")
 
-    iesire = os.path.join(os.path.dirname(radacina), "sitemap.xml")
+    iesire = os.path.join(radacina, "sitemap.xml")   # se publica in radacina domeniului
     io.open(iesire, "w", encoding="utf-8", newline="\n").write("\n".join(randuri) + "\n")
     print("scris:", iesire, "(%d adrese)" % len(pagini(radacina)))
 

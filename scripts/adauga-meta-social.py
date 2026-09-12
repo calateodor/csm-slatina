@@ -14,7 +14,7 @@ import os
 import re
 
 VERSIUNE = "v4"
-BAZA_URL = "https://calateodor.github.io/csm-slatina/" + VERSIUNE + "/"
+BAZA_URL = "https://www.csmslatina.ro/"   # site-ul sta in radacina domeniului
 RADACINA = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SITE = os.path.join(RADACINA, VERSIUNE)
 

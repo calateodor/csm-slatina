@@ -1,0 +1,218 @@
+# Publicarea site-ului pe hostingul csmslatina.ro, prin FTPS.
+#
+#   ramura `main`  ->  www.csmslatina.ro        (site-ul public)
+#   ramura `test`  ->  www.csmslatina.ro/test/  (ascuns de motoarele de căutare)
+#   ramura `proba` ->  doar proba în gol: listează folderele, nu scrie nimic
+#
+# Certificatul serviciului FTP de pe host e emis pentru alt nume și a
+# expirat pe 18 aug 2026, deci folosim `security: loose`: conexiunea e
+# criptată (parola nu circulă niciodată în clar), dar identitatea serverului
+# nu poate fi verificată. Când gazda reînnoiește certificatul, se trece pe
+# `strict` — o singură linie.
+#
+# Contul FTP intră direct în rădăcina site-ului (nu există public_html), unde
+# a stat WordPress-ul vechi. Acțiunea de publicare șterge de pe server DOAR
+# fișiere pe care le-a urcat ea (le ține evidența în .ftp-deploy-sync-state.json);
+# ce n-a urcat ea — wp-config.php, baze de date, fișierele WordPress — nu
+# atinge niciodată. Fișierele WordPress rămân pe disc până le șterge gazda;
+# .htaccess-ul de mai jos le face inaccesibile din browser.
+name: Publica
+
+on:
+  push:
+    branches: [main, test, proba]
+  workflow_dispatch:
+
+concurrency:
+  group: publica-${{ github.ref_name }}
+  cancel-in-progress: false
+
+jobs:
+  publica-live:
+    name: Publica pe www.csmslatina.ro
+    if: github.ref_name == 'main'
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Versiuni pe CSS si JS (browserele iau varianta noua imediat)
+        run: python3 scripts/versiuni.py
+
+      - name: Reguli de server (nu intra in repo)
+        run: |
+          cat > v4/.htaccess <<'HT'
+          # www.csmslatina.ro — site static, publicat din GitHub (ramura main).
+          # Fisierul e generat la publicare din .github/workflows/publica.yml.
+          DirectoryIndex index.html
+          ErrorDocument 404 /404.html
+          AddDefaultCharset UTF-8
+
+          <IfModule mod_rewrite.c>
+          RewriteEngine On
+
+          # O singura adresa: https + www. Validarea certificatului (Let's Encrypt)
+          # trece prin /.well-known/ pe http, deci pe ea n-o redirectionam.
+          RewriteCond %{REQUEST_URI} !^/\.well-known/
+          RewriteCond %{HTTPS} !=on [OR]
+          RewriteCond %{HTTP_HOST} !^www\.csmslatina\.ro$ [NC]
+          RewriteRule ^ https://www.csmslatina.ro%{REQUEST_URI} [R=301,L]
+
+          # Adresele vechiului site (WordPress), ca linkurile date pe Facebook,
+          # in emailuri sau din Google sa nu moara.
+          # anunturile: /2026/08/17/raport-final-concurs/ -> anuntul cu acelasi slug
+          RewriteRule ^(\d{4})/(\d{2})/(\d{2})/([^/]+)/?$ /anunturi.html?a=$1-$2-$3-$4 [R=301,L,NE]
+          RewriteRule ^category/informatii-comunicate/page/(\d+)/?$ /anunturi.html?p=$1 [R=301,L]
+          RewriteRule ^category/informatii-comunicate/?$ /anunturi.html [R=301,L]
+          RewriteRule ^category/(situatii-financiare-2|bilant-si-cpp|sport/situatii-financiare)/?$ /informatii-publice.html#bilant-cpp [R=301,L,NE]
+          RewriteRule ^category/venituri-si-cheltuieli/?$ /informatii-publice.html#venituri-cheltuieli [R=301,L,NE]
+          RewriteRule ^informatii-de-interes-public/?$ /informatii-publice.html [R=301,L]
+          RewriteRule ^organigrama/?$ /informatii-publice.html#organigrama [R=301,L,NE]
+          RewriteRule ^protectia-avertizorilor[^/]*/?$ /informatii-publice.html#avertizori [R=301,L,NE]
+          RewriteRule ^(echipa-de-fotbal|program-competitional-la-fotbal|clasament-fotbal|istoric-fotbal|category/sport/forbal)/?$ /sectii/fotbal.html [R=301,L]
+          RewriteRule ^(echipa-de-handbal|program-competitional-handbal-tur|program-competitional-handbal-retur|clasament-handbal|istoric-sezonul-2017-2018-la-handbal|tombolahandbal|category/sport/handbal)/?$ /sectii/handbal.html [R=301,L]
+          RewriteRule ^(echipa-de-box|program-competitional-la-box|rezultate-box|category/sport/box)/?$ /sectii/box.html [R=301,L]
+          RewriteRule ^(echipa-de-karate|program-competitional-karate|rezultate-karate)/?$ /sectii/karate.html [R=301,L]
+          RewriteRule ^(echipa-lupte|program-competitional-lupte|rezultate-lupte)/?$ /sectii/lupte.html [R=301,L]
+          RewriteRule ^(echipa-tenis-de-masa|program-competitional|rezultate-tenis-de-masa|category/sport/tenis-de-masa)/?$ /sectii/tenis-de-masa.html [R=301,L]
+          RewriteRule ^(program-competitional-atletism|rezultate-atletism-2017|category/sport/atletism)/?$ /sectii/atletism.html [R=301,L]
+          RewriteRule ^(echipa|category/sport)/?$ /#sectii [R=301,L,NE]
+          RewriteRule ^(politica-cookies|politica-de-confidentialitate-2|informare-privind-prelucrarea-datelor-cu-caracter-personal|politica-privind-combaterea-rasismului)/?$ / [R=301,L]
+          RewriteRule ^(page/\d+|category/fara-categorie|type/[a-z]+|pagin.+-exemplu|feed)/?$ / [R=301,L]
+          </IfModule>
+
+          # WordPress-ul vechi ramane pe disc pana il sterge gazda, dar nu mai
+          # raspunde din browser (nici panoul lui de login, nici scripturile).
+          # Pozele din wp-content/uploads raman accesibile: sunt legate de pe Facebook.
+          RedirectMatch 404 ^/(wp-admin|wp-includes|wp-content/(plugins|themes|mu-plugins|upgrade|litespeed|cache)|cgi-bin|bkp)(/|$)
+          RedirectMatch 404 ^/(wp-[a-z-]+\.php|xmlrpc\.php|index\.php|readme\.html|license\.txt|radio\.txt|error_log)$
+
+          # fisierele ascunse nu sunt ale nimanui (evidenta publicarii, config)
+          <FilesMatch "^\.">
+            Require all denied
+          </FilesMatch>
+
+          # Hostingul trimite implicit „pastreaza 7 zile" pentru orice fisier,
+          # iar telefoanele chiar asculta. Paginile, datele si scripturile se
+          # reverifica la fiecare incarcare (304 daca nu s-a schimbat nimic);
+          # pozele, filmele si fonturile pot sta 30 de zile.
+          <IfModule mod_expires.c>
+            ExpiresActive Off
+          </IfModule>
+          <FilesMatch "\.(html|json|css|js|xml|txt|webmanifest)$">
+            Header set Cache-Control "no-cache, must-revalidate"
+          </FilesMatch>
+          <FilesMatch "\.(webp|jpe?g|png|gif|svg|ico|mp4|webm|woff2?|ttf|pdf)$">
+            Header set Cache-Control "public, max-age=2592000"
+          </FilesMatch>
+          Header always set Referrer-Policy "strict-origin-when-cross-origin"
+          HT
+
+      - name: Urca pe server (FTPS)
+        uses: SamKirkland/FTP-Deploy-Action@v4.4.0
+        with:
+          server: ${{ secrets.FTP_SERVER }}
+          username: ${{ secrets.FTP_USER }}
+          password: ${{ secrets.FTP_PASS }}
+          port: 21
+          protocol: ftps
+          security: loose
+          local-dir: ./v4/
+          server-dir: ./
+          exclude: |
+            **/.git*
+            **/.git*/**
+            **/__pycache__/**
+            **/*.py
+
+      - name: Confirmare
+        if: always()
+        run: |
+          set +e
+          c() { curl -sS -o /dev/null --max-time 30 -w '%{http_code}' "$@"; }
+          r() { curl -sS -o /dev/null --max-time 30 -w '%{http_code} -> %{redirect_url}' "$@"; }
+          echo "::notice title=Prima pagina::https://www.csmslatina.ro/ -> HTTP $(c https://www.csmslatina.ro/) | 404: $(c https://www.csmslatina.ro/nu-exista) | sitemap: $(c https://www.csmslatina.ro/sitemap.xml) | robots: $(c https://www.csmslatina.ro/robots.txt)"
+          echo "::notice title=O singura adresa::http: $(r http://csmslatina.ro/) | https fara www: $(r https://csmslatina.ro/sectii/fotbal.html) | http www: $(r http://www.csmslatina.ro/)"
+          echo "::notice title=Adrese vechi::anunt: $(r https://www.csmslatina.ro/2026/07/22/raportul-procedurii-final/) | categorie: $(r https://www.csmslatina.ro/category/informatii-comunicate/page/3/) | fotbal: $(r https://www.csmslatina.ro/echipa-de-fotbal/)"
+          echo "::notice title=WordPress inchis::wp-login: $(c https://www.csmslatina.ro/wp-login.php) | wp-admin: $(c https://www.csmslatina.ro/wp-admin/) | xmlrpc: $(c https://www.csmslatina.ro/xmlrpc.php) | evidenta: $(c https://www.csmslatina.ro/.ftp-deploy-sync-state.json)"
+          echo "::notice title=Cache::html: $(curl -sSI --max-time 30 https://www.csmslatina.ro/ | grep -i cache-control | tr -d '\r') | poza: $(curl -sSI --max-time 30 https://www.csmslatina.ro/assets/img/logo.webp | grep -i cache-control | tr -d '\r')"
+
+  publica-test:
+    name: Publica pe csmslatina.ro/test/
+    if: github.ref_name == 'test'
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Versiuni pe CSS si JS (browserele iau varianta noua imediat)
+        run: python3 scripts/versiuni.py
+
+      - name: Fisiere doar pentru test (nu intra in repo)
+        run: |
+          # motoarele de cautare nu au ce cauta in folderul de test
+          printf 'User-agent: *\nDisallow: /\n' > v4/robots.txt
+          rm -f v4/sitemap.xml
+          cat > v4/.htaccess <<'HT'
+          Header set X-Robots-Tag "noindex, nofollow"
+          DirectoryIndex index.html
+          ErrorDocument 404 /test/404.html
+
+          <IfModule mod_expires.c>
+            ExpiresActive Off
+          </IfModule>
+          <FilesMatch "\.(html|json|css|js|xml|txt|webmanifest)$">
+            Header set Cache-Control "no-cache, must-revalidate"
+          </FilesMatch>
+          <FilesMatch "\.(webp|jpe?g|png|gif|svg|ico|mp4|webm|woff2?|ttf|pdf)$">
+            Header set Cache-Control "public, max-age=2592000"
+          </FilesMatch>
+
+          <Files ".ftp-deploy-sync-state.json">
+            Require all denied
+          </Files>
+          HT
+
+      - name: Urca pe server (FTPS)
+        uses: SamKirkland/FTP-Deploy-Action@v4.4.0
+        with:
+          server: ${{ secrets.FTP_SERVER }}
+          username: ${{ secrets.FTP_USER }}
+          password: ${{ secrets.FTP_PASS }}
+          port: 21
+          protocol: ftps
+          security: loose
+          local-dir: ./v4/
+          server-dir: ./test/
+          exclude: |
+            **/.git*
+            **/.git*/**
+            **/__pycache__/**
+            **/*.py
+
+      - name: Confirmare
+        if: always()
+        run: |
+          set +e
+          COD=$(curl -sS -o /dev/null -w '%{http_code}' --max-time 30 "https://www.csmslatina.ro/test/")
+          XR=$(curl -sSI --max-time 30 "https://www.csmslatina.ro/test/" | grep -i 'x-robots-tag' | tr -d '\r')
+          CC=$(curl -sSI --max-time 30 "https://www.csmslatina.ro/test/css/live.css" | grep -i 'cache-control' | tr -d '\r')
+          echo "::notice title=Rezultat::csmslatina.ro/test/ raspunde cu HTTP $COD | antet: ${XR:-fara X-Robots-Tag} | css: ${CC:-fara Cache-Control}"
+
+  proba-in-gol:
+    name: Proba in gol (doar citire)
+    if: github.ref_name == 'proba'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Listeaza folderele contului FTP
+        env:
+          FTP_SERVER: ${{ secrets.FTP_SERVER }}
+          FTP_USER: ${{ secrets.FTP_USER }}
+          FTP_PASS: ${{ secrets.FTP_PASS }}
+        run: |
+          set +e
+          noteaza() { printf '::notice title=%s::%s\n' "$1" "$(printf '%s' "$2" | head -c 3500 | sed ':a;N;$!ba;s/\n/%0A/g')"; }
+          RAD=$(curl -sS --ssl-reqd --insecure --connect-timeout 30 -u "$FTP_USER:$FTP_PASS" "ftp://$FTP_SERVER:21/")
+          [ -z "$RAD" ] && { echo "::error::Nu am putut lista radacina."; exit 1; }
+          noteaza "Radacina" "$RAD"
+          echo "Gata. Nu s-a scris nimic pe server."

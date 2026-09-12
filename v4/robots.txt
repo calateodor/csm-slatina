@@ -1,0 +1,16 @@
+# CSM Slatina — www.csmslatina.ro
+# Site static; paginile publice se pot indexa toate. Uneltele interne, nu.
+
+User-agent: *
+Allow: /
+Disallow: /panou.html
+Disallow: /admin.html
+Disallow: /harta.html
+Disallow: /404.html
+
+# rămășițele vechiului site (WordPress) nu mai sunt conținut
+Disallow: /wp-
+Disallow: /category/
+Disallow: /xmlrpc.php
+
+Sitemap: https://www.csmslatina.ro/sitemap.xml
