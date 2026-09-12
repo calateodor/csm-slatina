@@ -1,0 +1,25 @@
+/* Paginile de politici (confidențialitate, cookie-uri): text de citit,
+   așezat pe o coloană îngustă, cu blocuri numerotate. */
+.pl-sectiune { position: relative; }
+.pl-coloana { max-width: 780px; }
+.pl-bloc { padding: clamp(22px, 3vw, 34px) 0; border-top: 1px solid var(--line, rgba(20, 52, 92, 0.12)); }
+.pl-bloc:first-child { border-top: 0; padding-top: 0; }
+.pl-bloc h2 {
+  font-family: var(--font-display); font-weight: 800;
+  font-size: clamp(1.2rem, 2vw, 1.5rem); color: var(--navy-900, #14345c);
+  margin: 0 0 12px;
+}
+.pl-bloc p, .pl-bloc li { color: var(--ink-soft, #3a4a63); font-size: 1rem; line-height: 1.7; }
+.pl-bloc p { margin: 0 0 12px; }
+.pl-bloc ul { margin: 0 0 12px; padding-left: 22px; list-style: disc; }
+.pl-bloc li::marker { color: var(--navy-900, #14345c); }
+.pl-bloc li { margin-bottom: 8px; }
+.pl-bloc a { color: var(--navy-900, #14345c); font-weight: 600; text-decoration: underline; text-underline-offset: 3px; }
+.pl-bloc strong { color: var(--navy-900, #14345c); }
+.pl-cuprins { display: flex; flex-wrap: wrap; gap: 8px; margin: 0 0 clamp(20px, 3vw, 32px); padding: 0; list-style: none; }
+.pl-cuprins a {
+  display: inline-block; padding: 7px 14px; border-radius: 999px;
+  border: 1px solid var(--line, rgba(20, 52, 92, 0.18));
+  font-size: 0.82rem; font-weight: 600; color: var(--navy-900, #14345c); text-decoration: none;
+}
+.pl-cuprins a:hover { background: var(--navy-900, #14345c); color: #fff; }

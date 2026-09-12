@@ -373,3 +373,34 @@
   .pv-schema img { width: min(120px, 74%); }
   .pv-schema figcaption { font-size: 0.74rem; }
 }
+
+/* ---------- „al 2-lea teren, în curând" ---------- */
+.pv-curand {
+  display: inline-block;
+  padding: 7px 14px; border-radius: 999px;
+  background: var(--lime) !important; color: var(--lime-text) !important;
+  border: 1px dashed rgba(76, 106, 0, 0.55) !important;
+  font-family: var(--font-display); font-weight: 800 !important;
+  font-size: 0.72rem !important; letter-spacing: 0.08em; text-transform: uppercase;
+  transform: rotate(-2deg);
+  box-shadow: 0 6px 18px rgba(180, 234, 31, 0.25);
+}
+.pv-tarif-curand { position: relative; overflow: visible; }
+.pv-curand-colt {
+  position: absolute; top: 14px; right: 14px;
+  padding: 5px 11px; font-size: 0.62rem !important;
+  transform: rotate(3deg);
+}
+.pv-tarif-curand { padding-top: 46px; }
+.pv-tel-card {
+  background: var(--pitch-800); border: 1px solid var(--pitch-line);
+  border-radius: 18px; padding: clamp(22px, 3vw, 34px);
+}
+.pv-tel-card > p { color: rgba(237, 239, 229, 0.85); font-size: 1.05rem; line-height: 1.6; }
+.pv-tel-mare {
+  margin-top: 18px; font-size: clamp(1.15rem, 2.2vw, 1.5rem) !important;
+  padding: 16px 26px !important; display: inline-flex; align-items: center; gap: 12px;
+}
+.pv-tel-mare svg { width: 22px; height: 22px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+.pv-tel-nota { margin-top: 16px; font-size: 0.88rem; color: rgba(237, 239, 229, 0.6); }
+@media (prefers-reduced-motion: reduce) { .pv-curand { transform: none; } }

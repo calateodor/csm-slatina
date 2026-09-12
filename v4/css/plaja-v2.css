@@ -505,3 +505,10 @@
   .v2-tarif small { font-size: 0.72rem; }
   .v2-buton { width: 100%; min-height: 44px; padding: 0 14px; font-size: 0.8rem; }
 }
+
+/* padel: al doilea teren e în construcție */
+.v2-tag.v2-curand {
+  background: #b4ea1f; color: #2e4300;
+  border: 1px dashed rgba(46, 67, 0, 0.5);
+  margin-left: 6px;
+}
