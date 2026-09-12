@@ -188,6 +188,39 @@
     anAles = p.get("an") || "toate";
     cautare = p.get("q") || "";
     pagina = Math.max(1, parseInt(p.get("p"), 10) || 1);
+    slugCerut = p.get("a") || "";
+  }
+
+  /* ?a=<slug> — adresele vechiului site (/2026/08/17/raport-final-concurs/)
+     ajung aici prin redirecționare de pe server. Dacă anunțul există, îl
+     deschidem pe pagina lui; dacă nu (era o știre, nu un anunț), arătăm
+     măcar anul respectiv. */
+  var slugCerut = "";
+  function aseazaPeAnunt() {
+    if (!slugCerut) return null;
+    var a = toate.filter(function (x) { return x.slug === slugCerut; })[0];
+    cautare = "";
+    if (a) {
+      anAles = a.an;
+      pagina = Math.floor(filtrate().indexOf(a) / PE_PAGINA) + 1;
+    } else {
+      var an = (slugCerut.match(/^(\d{4})-/) || [])[1];
+      anAles = an && toate.some(function (x) { return x.an === an; }) ? an : "toate";
+      pagina = 1;
+    }
+    scrieAdresa(false);   // adresa devine cea normală (?an=&p=), fără „a"
+    slugCerut = "";
+    return a || null;
+  }
+  function deschide(a) {
+    var item = gazda.querySelector('.an-item[data-slug="' + a.slug.replace(/"/g, "") + '"]');
+    if (!item) return;
+    umple(item, a);
+    item.classList.add("deschis");
+    var cap = item.querySelector(".an-cap");
+    if (cap) cap.setAttribute("aria-expanded", "true");
+    var y = item.getBoundingClientRect().top + window.pageYOffset - 120;
+    window.scrollTo({ top: Math.max(0, y), behavior: "auto" });
   }
 
   function laPagina(p, faraIstoric) {
@@ -254,11 +287,13 @@
       });
 
       // punem uneltele pe valorile din adresa
+      var cerut = aseazaPeAnunt();
       camp.value = cautare;
       gazdaAni.querySelectorAll(".an-an-cip").forEach(function (x) {
         x.classList.toggle("activ", x.dataset.an === anAles);
       });
       deseneaza();
+      if (cerut) deschide(cerut);
 
       // butonul „inapoi" al browserului parcurge paginile, nu iese din pagina
       window.addEventListener("popstate", function () {

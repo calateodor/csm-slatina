@@ -5,6 +5,14 @@
 (function () {
   "use strict";
 
+  /* Site-ul locuiește pe www.csmslatina.ro. Copia de pe GitHub Pages rămâne
+     doar ca linkurile vechi să ajungă la aceeași pagină pe domeniul nou. */
+  if (/\.github\.io$/i.test(location.hostname)) {
+    location.replace("https://www.csmslatina.ro" +
+      location.pathname.replace(/^\/csm-slatina\/v\d+/, "") + location.search + location.hash);
+    return;
+  }
+
   var reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   var hasGsap = typeof gsap !== "undefined";
 

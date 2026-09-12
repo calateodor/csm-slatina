@@ -12,7 +12,7 @@
      Ramura de pe care s-au citit datele se ține minte (localStorage), ca să
      putem avertiza când se publică pe cealaltă: ai suprascrie ce e acolo. */
   var RAMURI = { test: "test", live: "main" };
-  var LIVE_ACTIV = false;   // devine true la trecerea site-ului pe csmslatina.ro
+  var LIVE_ACTIV = true;    // site-ul e pe www.csmslatina.ro: ramura main = live
   var LINK_TEST = "https://www.csmslatina.ro/test/";
   function tinta() { return localStorage.getItem("panou_ramura") === "test" ? "test" : "live"; }
   function ramura(t) { return RAMURI[t || tinta()]; }

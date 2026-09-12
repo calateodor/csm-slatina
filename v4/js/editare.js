@@ -21,7 +21,7 @@
      plutitoare. Aceeași alegere (localStorage.panou_ramura) o folosește și
      panoul, ca cele două să nu se contrazică. */
   var RAMURI = { test: "test", live: "main" };
-  var LIVE_ACTIV = false;   // devine true la trecerea site-ului pe csmslatina.ro
+  var LIVE_ACTIV = true;    // site-ul e pe www.csmslatina.ro: ramura main = live
   var LINK_TEST = "https://www.csmslatina.ro/test/";
   function tinta() { return localStorage.getItem("panou_ramura") === "test" ? "test" : "live"; }
   function ramura() { return RAMURI[tinta()]; }
