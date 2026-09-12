@@ -77,7 +77,9 @@ jobs:
           RewriteRule ^(echipa-tenis-de-masa|program-competitional|rezultate-tenis-de-masa|category/sport/tenis-de-masa)/?$ /sectii/tenis-de-masa.html [R=301,L]
           RewriteRule ^(program-competitional-atletism|rezultate-atletism-2017|category/sport/atletism)/?$ /sectii/atletism.html [R=301,L]
           RewriteRule ^(echipa|category/sport)/?$ /#sectii [R=301,L,NE]
-          RewriteRule ^(politica-cookies|politica-de-confidentialitate-2|informare-privind-prelucrarea-datelor-cu-caracter-personal|politica-privind-combaterea-rasismului)/?$ / [R=301,L]
+          RewriteRule ^politica-cookies/?$ /cookies.html [R=301,L]
+          RewriteRule ^(politica-de-confidentialitate-2|informare-privind-prelucrarea-datelor-cu-caracter-personal)/?$ /confidentialitate.html [R=301,L]
+          RewriteRule ^politica-privind-combaterea-rasismului/?$ / [R=301,L]
           RewriteRule ^(page/\d+|category/fara-categorie|type/[a-z]+|pagin.+-exemplu|feed)/?$ / [R=301,L]
           </IfModule>
 
