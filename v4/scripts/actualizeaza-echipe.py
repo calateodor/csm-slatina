@@ -109,6 +109,13 @@ def extrage_meciuri(html):
     return sorted(meciuri.values(), key=lambda x: x["timestamp"])
 
 
+def e_de_campionat(m):
+    """Cupa și amicalele nu spun nimic despre parcursul din campionat, deci nu
+    intră în forma echipei. Rezultatele rămân în listă, marcate pe site."""
+    c = m.get("competitie", "") or ""
+    return not re.search(r"cupa|amical", c, re.I)
+
+
 def rezumat_meci(m):
     """Formă compactă pentru site + litera de formă din perspectiva CSM."""
     acasa = m["gazde"].startswith("CSM Slatina")
@@ -459,7 +466,8 @@ def main():
                      if m["stare"] == "3" and "scor" in m][-6:]
         echipa["program"] = program
         echipa["rezultate"] = list(reversed(rezultate))  # cele mai noi primele
-        echipa["forma"] = "".join(r.get("forma", "?") for r in rezultate[-5:])
+        echipa["forma"] = "".join(r.get("forma", "?")
+                                  for r in [x for x in rezultate if e_de_campionat(x)][-5:])
         if cfg["areLot"]:
             try:
                 lot, antrenor = lot_fotbal(descarca(cfg["baza"] + "lot/"))
