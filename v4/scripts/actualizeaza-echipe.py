@@ -296,16 +296,25 @@ def aplica_lot_club(lot, cale_lot):
     dupa_nume = {_fara_diacritice(j.get("nume", "")): j for j in lot}
     iesire = []
     for c in club["jucatori"]:
-        cheie = _fara_diacritice(c.get("numeFlashscore") or c["nume"])
-        vechi = dupa_nume.get(cheie)
+        # cautam si dupa numele de pe Flashscore, si dupa cel oficial: asa
+        # merge si cand scriptul e rulat peste un echipe.json deja aliniat
+        vechi = None
+        for cheie in (c.get("numeFlashscore"), c["nume"]):
+            if cheie and _fara_diacritice(cheie) in dupa_nume:
+                vechi = dupa_nume[_fara_diacritice(cheie)]
+                break
         juc = dict(vechi) if vechi else {}
         juc.update({k: c[k] for k in ("numar", "nume", "post", "varsta", "nascut") if k in c})
         juc.setdefault("nat", "România")
         iesire.append(juc)
         if not vechi:
             print("lot club: %s nu are corespondent pe Flashscore (fără statistici)" % c["nume"])
-    lipsa = [j["nume"] for j in lot if _fara_diacritice(j["nume"]) not in
-             {_fara_diacritice(c.get("numeFlashscore") or c["nume"]) for c in club["jucatori"]}]
+    cunoscute = set()
+    for c in club["jucatori"]:
+        for cheie in (c.get("numeFlashscore"), c["nume"]):
+            if cheie:
+                cunoscute.add(_fara_diacritice(cheie))
+    lipsa = [j["nume"] for j in lot if _fara_diacritice(j["nume"]) not in cunoscute]
     if lipsa:
         print("lot club: scoși (nu sunt în lotul oficial): " + ", ".join(lipsa))
     return iesire, club.get("sursa", "")

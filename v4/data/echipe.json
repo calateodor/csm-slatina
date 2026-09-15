@@ -856,42 +856,6 @@
         "pozaCredit": "Portret generat AI, după fotografiile CSM Slatina"
       },
       {
-        "numar": 14,
-        "nume": "Sorescu Yanis",
-        "post": "Atacant central",
-        "varsta": 19,
-        "nat": "România",
-        "url": "https://www.flashscore.ro/jucator/sorescu-yanis/4hs6rJ1l/",
-        "sezonStats": "2026/2027",
-        "stats": [
-          [
-            "Meciuri jucate",
-            "3"
-          ],
-          [
-            "Goluri marcate",
-            "2"
-          ],
-          [
-            "Cartonașe galbene",
-            "0"
-          ],
-          [
-            "Cartonașe roșii",
-            "0"
-          ]
-        ],
-        "nascut": "03.02.2008",
-        "cariera": {
-          "sezoane": 2,
-          "debut": 2024,
-          "meciuri": "4",
-          "goluri": "2"
-        },
-        "poza": "assets/img/lot/fotbal/sorescu-yanis-incrucisate.jpg",
-        "pozaCredit": "Portret generat AI, după fotografiile CSM Slatina"
-      },
-      {
         "numar": 19,
         "nume": "Magyari Szilard",
         "post": "Atacant central",
@@ -924,7 +888,43 @@
           "meciuri": "156",
           "goluri": "26"
         },
-        "poza": "assets/img/lot/fotbal/magyari-szilard-default.jpg",
+        "poza": "assets/img/lot/fotbal/magyari-szilard-incrucisate.jpg",
+        "pozaCredit": "Portret generat AI, după fotografiile CSM Slatina"
+      },
+      {
+        "numar": 29,
+        "nume": "Mbanga Calvin",
+        "post": "Atacant central",
+        "varsta": 24,
+        "nat": "Franţa",
+        "url": "https://www.flashscore.ro/jucator/mbanga-jean/lQCLV5wi/",
+        "sezonStats": "2025/2026",
+        "stats": [
+          [
+            "Meciuri jucate",
+            "12"
+          ],
+          [
+            "Goluri marcate",
+            "3"
+          ],
+          [
+            "Cartonașe galbene",
+            "0"
+          ],
+          [
+            "Cartonașe roșii",
+            "0"
+          ]
+        ],
+        "nascut": "01.10.2002",
+        "cariera": {
+          "sezoane": 4,
+          "debut": 2023,
+          "meciuri": "41",
+          "goluri": "19"
+        },
+        "poza": "assets/img/lot/fotbal/mbanga-jean-default.jpg",
         "pozaCredit": "Portret generat AI, după fotografiile CSM Slatina"
       },
       {
@@ -966,41 +966,39 @@
         "pozaCredit": "Portret generat AI, după fotografiile CSM Slatina"
       },
       {
-        "numar": 98,
-        "nume": "Mihaiu Andreas",
-        "post": "Atacant central",
-        "varsta": 28,
+        "numar": 14,
+        "nume": "Sorescu Yanis",
+        "post": "Atacant lateral",
+        "varsta": 19,
         "nat": "România",
-        "url": "https://www.flashscore.ro/jucator/mihaiu-andreas-mircea/vcX5gLhH/",
-        "sezonStats": "2025/2026",
+        "url": "https://www.flashscore.ro/jucator/sorescu-yanis/4hs6rJ1l/",
+        "sezonStats": "2026/2027",
         "stats": [
           [
             "Meciuri jucate",
-            "13"
+            "3"
           ],
           [
             "Goluri marcate",
-            "0"
+            "2"
           ],
           [
             "Cartonașe galbene",
-            "1"
+            "0"
           ],
           [
             "Cartonașe roșii",
             "0"
           ]
         ],
-        "nascut": "19.08.1998",
-        "valoare": "€110k",
+        "nascut": "03.02.2008",
         "cariera": {
-          "sezoane": 8,
-          "debut": 2018,
-          "meciuri": "105",
-          "goluri": "9",
-          "pase": "1"
+          "sezoane": 2,
+          "debut": 2024,
+          "meciuri": "4",
+          "goluri": "2"
         },
-        "poza": "assets/img/lot/fotbal/mihaiu-andreas-incrucisate.jpg",
+        "poza": "assets/img/lot/fotbal/sorescu-yanis-incrucisate.jpg",
         "pozaCredit": "Portret generat AI, după fotografiile CSM Slatina"
       },
       {
@@ -1076,42 +1074,6 @@
         "pozaCredit": "Portret generat AI, după fotografiile CSM Slatina"
       },
       {
-        "numar": 29,
-        "nume": "Mbanga Calvin",
-        "post": "Atacant lateral",
-        "varsta": 24,
-        "nat": "Franţa",
-        "url": "https://www.flashscore.ro/jucator/mbanga-jean/lQCLV5wi/",
-        "sezonStats": "2025/2026",
-        "stats": [
-          [
-            "Meciuri jucate",
-            "12"
-          ],
-          [
-            "Goluri marcate",
-            "3"
-          ],
-          [
-            "Cartonașe galbene",
-            "0"
-          ],
-          [
-            "Cartonașe roșii",
-            "0"
-          ]
-        ],
-        "nascut": "01.10.2002",
-        "cariera": {
-          "sezoane": 4,
-          "debut": 2023,
-          "meciuri": "41",
-          "goluri": "19"
-        },
-        "poza": "assets/img/lot/fotbal/mbanga-jean-incrucisate.jpg",
-        "pozaCredit": "Portret generat AI, după fotografiile CSM Slatina"
-      },
-      {
         "numar": 31,
         "nume": "Velea Rares",
         "post": "Atacant lateral",
@@ -1144,7 +1106,45 @@
           "meciuri": "6",
           "goluri": "0"
         },
-        "poza": "assets/img/lot/fotbal/velea-rares-default.jpg",
+        "poza": "assets/img/lot/fotbal/velea-rares-incrucisate.jpg",
+        "pozaCredit": "Portret generat AI, după fotografiile CSM Slatina"
+      },
+      {
+        "numar": 98,
+        "nume": "Mihaiu Andreas",
+        "post": "Atacant lateral",
+        "varsta": 28,
+        "nat": "România",
+        "url": "https://www.flashscore.ro/jucator/mihaiu-andreas-mircea/vcX5gLhH/",
+        "sezonStats": "2025/2026",
+        "stats": [
+          [
+            "Meciuri jucate",
+            "13"
+          ],
+          [
+            "Goluri marcate",
+            "0"
+          ],
+          [
+            "Cartonașe galbene",
+            "1"
+          ],
+          [
+            "Cartonașe roșii",
+            "0"
+          ]
+        ],
+        "nascut": "19.08.1998",
+        "valoare": "€110k",
+        "cariera": {
+          "sezoane": 8,
+          "debut": 2018,
+          "meciuri": "105",
+          "goluri": "9",
+          "pase": "1"
+        },
+        "poza": "assets/img/lot/fotbal/mihaiu-andreas-default.jpg",
         "pozaCredit": "Portret generat AI, după fotografiile CSM Slatina"
       }
     ],
