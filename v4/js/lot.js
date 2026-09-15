@@ -81,8 +81,8 @@
                  scor: [Number(r.scor[0]), Number(r.scor[1])] };
       });
       // forma se citește de la cel mai vechi la cel mai nou, ca în echipe.json
-      iesire.forma = rez.slice(0, 5).map(function (r) { return r.forma || "?"; })
-        .reverse().join("");
+      iesire.forma = rez.filter(eDeCampionat).slice(0, 5)
+        .map(function (r) { return r.forma || "?"; }).reverse().join("");
     }
     if (prog.length) {
       iesire.program = prog.map(function (m) {
@@ -110,7 +110,23 @@
     })
     .catch(function () { /* fără date, secțiunile rămân goale */ });
 
+  /* Meciurile din afara campionatului — cupa, amicalele — rămân în listă,
+     fiindcă sunt rezultate adevărate, dar poartă o etichetă și nu intră în
+     forma echipei: forma spune cum merge echipa în campionat. */
+  function etichetaCompetitie(competitie) {
+    var c = competitie || "";
+    if (/cupa/i.test(c)) return "Cupă";
+    if (/amical/i.test(c)) return "Amical";
+    return "";
+  }
+  function eDeCampionat(m) { return !etichetaCompetitie(m.competitie); }
+
   /* ================= Sezonul ================= */
+  function eticheta(m) {
+    var et = etichetaCompetitie(m.competitie);
+    return et ? ' <em class="meci-eticheta" title="' + esc(m.competitie || "") + '">' + esc(et) + "</em>" : "";
+  }
+
   function deseneazaSezon(e) {
     var h = '<div class="sezon-panou">';
     h += '<div class="sezon-cap"><span class="competitie">' + esc(e.competitie) + "</span>";
@@ -123,14 +139,16 @@
     h += '<div class="sezon-coloane"><div><h3>Rezultate recente</h3>';
     (e.rezultate || []).slice(0, 5).forEach(function (m) {
       h += '<div class="meci-rand"><span class="data">' + dataScurta(m.timestamp) + "</span>" +
-        '<span class="echipe">' + numeIngrosat(m.gazde) + " – " + numeIngrosat(m.oaspeti) + "</span>" +
+        '<span class="echipe">' + numeIngrosat(m.gazde) + " – " + numeIngrosat(m.oaspeti) +
+          eticheta(m) + "</span>" +
         '<span class="scor">' + m.scor[0] + ":" + m.scor[1] + "</span>" +
         '<span class="insigna ' + m.forma + '">' + m.forma + "</span></div>";
     });
     h += "</div><div><h3>Urmează</h3>";
     (e.program || []).slice(0, 5).forEach(function (m) {
       h += '<div class="meci-rand"><span class="data">' + dataScurta(m.timestamp) + "</span>" +
-        '<span class="echipe">' + numeIngrosat(m.gazde) + " – " + numeIngrosat(m.oaspeti) + "</span>" +
+        '<span class="echipe">' + numeIngrosat(m.gazde) + " – " + numeIngrosat(m.oaspeti) +
+          eticheta(m) + "</span>" +
         '<span class="loc ' + (m.acasa ? "acasa" : "") + '">' + (m.acasa ? "acasă" : "depl.") + "</span></div>";
     });
     h += "</div></div>";
