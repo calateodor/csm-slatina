@@ -12,7 +12,7 @@
   var SERVICII = [
     { id: "fotbal",   nume: "Teren fotbal gazon",        ico: "⚽", fond: "#ffffff", text: "#0e1d40", tarif: "", poza: POZE + "thumb-fotbal.webp" },
     { id: "sintetic", nume: "Fotbal pe sintetic",        ico: "⚽", fond: "#c7f04c", text: "#1e2a08", tarif: "110 lei/oră ziua · 130 lei/oră nocturn", poza: POZE + "thumb-sintetic.webp" },
-    { id: "balon",    nume: "Teren acoperit (balon)",    ico: "🎪", fond: "#8f7bff", text: "#fff",    tarif: "", poza: "" },
+    { id: "balon",    nume: "Teren acoperit (balon)",    ico: "🎪", fond: "#8f7bff", text: "#fff",    tarif: "", poza: POZE + "thumb-balon.webp" },
     { id: "zgura",    nume: "Tenis zgură",               ico: "🎾", fond: "#ff6b57", text: "#fff",    tarif: "40 lei/oră ziua · 45 lei/oră nocturn", poza: POZE + "thumb-zgura.webp" },
     { id: "hard",     nume: "Tenis hard",                ico: "🎾", fond: "#3aa0ff", text: "#fff",    tarif: "rezervări: 0349 883 938", poza: POZE + "thumb-hard.webp" },
     { id: "padel",    nume: "Padel",                     ico: "🥎", fond: "#c7f04c", text: "#1e2a08", tarif: "40 lei/oră (10–16) · 60 lei/oră (16–24)", poza: POZE + "thumb-padel.webp" },

@@ -40,7 +40,7 @@ LUCRARI = [
 # cardurile de secție: pe telefon caseta are 343px, deci 800px acoperă și
 # ecranele cu densitate mare, fără cele 900px de dinainte
 CARDURI = ["atletism", "box", "fotbal", "handbal", "inot", "judo", "karate",
-           "kempo", "lupte", "sah", "tenis-de-camp", "tenis-de-masa"]
+           "lupte", "sah", "tenis-de-camp", "tenis-de-masa"]
 for slug in CARDURI:
     LUCRARI.append(("cards/%s.webp" % slug, "cards/%s.webp" % slug, 800, 80))
 
