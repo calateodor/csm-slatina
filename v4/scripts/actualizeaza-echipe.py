@@ -223,67 +223,111 @@ def cariera_jucator(html):
 # celelalte două rămân în depozit ca să poată fi schimbate oricând doar
 # rescriind sufixul aici.
 #
-# Poza alternează din card în card: primul brațe încrucișate, al doilea default,
-# al treilea mâinile la spate, apoi de la capăt. ATENȚIE: contează ordinea în
-# care lot.js desenează cardurile, care este pe posturi (întâi portarii, apoi
-# fundașii, mijlocașii, atacanții) — nu ordinea din echipe.json. Lista de mai
-# jos este scrisă chiar în ordinea de pe pagină, ca să se vadă alternanța.
-# Dacă lotul se schimbă, ordinea se recalculează de acolo.
+# Fotografiile de lot: fiecare jucător are trei variante (brațe încrucișate,
+# poziție normală, mâinile la spate). Aici stă doar numele de bază; varianta se
+# alege automat, ca să alterneze din card în card în ordinea de pe pagină
+# (portari, apoi fundași centrali, laterali, mijlocași, atacanți). Așa rămâne
+# alternanța corectă și când clubul schimbă lotul sau posturile.
 #
-# Jucătorii pentru care clubul nu are încă nicio fotografie primesc silueta.
-# Se aplică la fiecare rulare, ca să nu se piardă la refresh.
+# Cheia e numele oficial, din data/lot-fotbal.json. Jucătorii pentru care
+# clubul nu are încă nicio fotografie primesc silueta.
 SILUETA = "assets/img/lot/fotbal/silueta.jpg"
-
-
-def _p(nume):
-    return "assets/img/lot/fotbal/%s.jpg" % nume
-
+VARIANTE = ("incrucisate", "default", "spate")
 
 POZE_CLUB = {
     "fotbal": {
-        # portari
-        "Racasan Mihai": _p("racasan-mihai-incrucisate"),
-        "Glodean Alexandru": _p("glodean-alexandru-default"),
-        "Maxim Alexandru": _p("maxim-alexandru-spate"),
-        "Predut Catalin": _p("predut-catalin-incrucisate"),
-        # fundași
-        "Baraitaru Mario": _p("baraitaru-mario-default"),
-        "Georgescu Alex": _p("georgescu-alex-spate"),
-        "Munoz Pol": _p("munoz-pol-incrucisate"),
-        "Riza Robert": _p("riza-robert-default"),
-        "Serbanica Daniel": _p("serbanica-daniel-spate"),
-        "Stancu Claudiu": _p("stancu-claudiu-incrucisate"),
-        "Ureche Alexandru": _p("ureche-alexandru-default"),
-        "Andres Ionut": _p("andres-ionut-spate"),
-        "Tolu Eduard": _p("tolu-eduard-incrucisate"),
-        # mijlocași
-        "Gheoroae Stefan": _p("gheoroae-stefan-default"),
-        "Granja Ronald": _p("granja-ronald-spate"),
-        "Lapadatescu Robert": _p("lapadatescu-robert-incrucisate"),
-        "Pacionel Emilian": _p("pacionel-emilian-default"),
-        "Rauta Alexandru": _p("rauta-alexandru-spate"),
-        "Solcan Alexandru Stefano": _p("solcan-alexandru-stefano-incrucisate"),
-        "Velea Rares": _p("velea-rares-default"),
-        "Joia Antonio": SILUETA,
-        # atacanți
-        "Mihaiu Andreas": _p("mihaiu-andreas-incrucisate"),
-        "Muntean Denys": _p("muntean-denys-incrucisate"),
-        "Radu Constantin": _p("radu-constantin-spate"),
-        "Serban Sebastian": _p("serban-sebastian-default"),
-        "Tabarcea Matei": _p("tabarcea-matei-incrucisate"),
-        # fără post trecut în lot
-        "Bordusanu Antonio": _p("bordusanu-antonio-spate"),
-        "Magyari Szilard": _p("magyari-szilard-default"),
-        "Matis Razvan": _p("matis-razvan-incrucisate"),
-        "Nastasie Ionut": SILUETA,
-        "Sorescu Yanis": _p("sorescu-yanis-spate"),
-        "Stan Alexandru": _p("stan-alexandru-default"),
-        "Mbanga Jean": _p("mbanga-jean-incrucisate"),
-        "Stan Abel": _p("stan-abel-spate"),
-        "Tudorache Alexandru": SILUETA,
+        "Preduț Alexandru": "predut-catalin",
+        "Vîlceleanu Darius": None,
+        "Răcășan Mihai": "racasan-mihai",
+        "Stan Abel": "stan-abel",
+        "Riza Robert": "riza-robert",
+        "Andres Ionut": "andres-ionut",
+        "Serbanica Daniel": "serbanica-daniel",
+        "Baraitaru Mario": "baraitaru-mario",
+        "Ureche Alexandru": "ureche-alexandru",
+        "Munoz Pol": "munoz-pol",
+        "Stancu Claudiu": "stancu-claudiu",
+        "Radu Constantin": "radu-constantin",
+        "Georgescu Alex": "georgescu-alex",
+        "Rauta Alexandru": "rauta-alexandru",
+        "Lăpădătescu Robert": "lapadatescu-robert",
+        "Năstăsie Ionuț": None,
+        "Matis Razvan": "matis-razvan",
+        "Pacionel Emilian": "pacionel-emilian",
+        "Gheoroae Stefan": "gheoroae-stefan",
+        "Solcan Alexandru": "solcan-alexandru-stefano",
+        "Stan Alexandru": "stan-alexandru",
+        "Sorescu Yanis": "sorescu-yanis",
+        "Magyari Szilard": "magyari-szilard",
+        "Bordusanu Antonio": "bordusanu-antonio",
+        "Mihaiu Andreas": "mihaiu-andreas",
+        "Granja Roland": "granja-ronald",
+        "Tolu Eduard": "tolu-eduard",
+        "Mbanga Calvin": "mbanga-jean",
+        "Velea Rares": "velea-rares",
     },
     "handbal": {},
 }
+
+# ordinea posturilor pe pagină; aceeași cu GRUPE_FOTBAL din v4/js/lot.js
+ORDINE_POSTURI = ["Portar", "Fundaș central", "Fundaș lateral",
+                  "Mijlocaș central", "Mijlocaș lateral",
+                  "Atacant central", "Atacant lateral"]
+
+
+def _fara_diacritice(t):
+    return (t.replace("ă", "a").replace("â", "a").replace("î", "i")
+             .replace("ș", "s").replace("ş", "s").replace("ț", "t").replace("ţ", "t")
+             .lower().strip())
+
+
+def aplica_lot_club(lot, cale_lot):
+    """Lotul oficial al clubului are ultimul cuvânt.
+
+    Flashscore ține propria listă: are jucători plecați, nume scrise altfel
+    („Mbanga Jean" în loc de „Mbanga Calvin"), numere vechi și doar patru
+    posturi. Clubul ne trimite lotul real, cu posturile amănunțite. Păstrăm de
+    pe Flashscore doar ce el știe mai bine — statisticile, cariera, linkul —
+    și le lipim peste jucătorii din lotul oficial. Cine nu e în lotul oficial
+    nu apare pe site.
+    """
+    with io.open(cale_lot, encoding="utf-8") as fh:
+        club = json.load(fh)
+    dupa_nume = {_fara_diacritice(j.get("nume", "")): j for j in lot}
+    iesire = []
+    for c in club["jucatori"]:
+        cheie = _fara_diacritice(c.get("numeFlashscore") or c["nume"])
+        vechi = dupa_nume.get(cheie)
+        juc = dict(vechi) if vechi else {}
+        juc.update({k: c[k] for k in ("numar", "nume", "post", "varsta", "nascut") if k in c})
+        juc.setdefault("nat", "România")
+        iesire.append(juc)
+        if not vechi:
+            print("lot club: %s nu are corespondent pe Flashscore (fără statistici)" % c["nume"])
+    lipsa = [j["nume"] for j in lot if _fara_diacritice(j["nume"]) not in
+             {_fara_diacritice(c.get("numeFlashscore") or c["nume"]) for c in club["jucatori"]}]
+    if lipsa:
+        print("lot club: scoși (nu sunt în lotul oficial): " + ", ".join(lipsa))
+    return iesire, club.get("sursa", "")
+
+
+def pune_pozele(lot, sport):
+    """Varianta de portret alternează din card în card, în ordinea de pe pagină."""
+    poze = POZE_CLUB.get(sport, {})
+    if not poze:
+        return
+    ordine = sorted(range(len(lot)),
+                    key=lambda k: (ORDINE_POSTURI.index(lot[k]["post"])
+                                   if lot[k].get("post") in ORDINE_POSTURI else len(ORDINE_POSTURI)))
+    for rand, k in enumerate(ordine):
+        juc = lot[k]
+        baza = poze.get(juc["nume"], "")
+        if baza:
+            juc["poza"] = "assets/img/lot/%s/%s-%s.jpg" % (sport, baza, VARIANTE[rand % len(VARIANTE)])
+            juc["pozaCredit"] = "Portret generat AI, după fotografiile CSM Slatina"
+        else:
+            juc["poza"] = SILUETA
+            juc["pozaCredit"] = "Siluetă generată AI"
 
 
 def bio_jucator(html):
@@ -430,6 +474,13 @@ def main():
                     time.sleep(0.25)
             except Exception as e:
                 print("AVERTISMENT: lot %s: %s" % (cheie, e), file=sys.stderr)
+            # lotul oficial al clubului are ultimul cuvânt
+            cale_lot = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
+                                    "data", "lot-fotbal.json")
+            if os.path.exists(cale_lot) and echipa.get("lot"):
+                echipa["lot"], sursa = aplica_lot_club(echipa["lot"], cale_lot)
+                if sursa:
+                    echipa["sursaLot"] = sursa
         print("%s: %d program, %d rezultate, forma %s, lot %d" % (
             cheie, len(program), len(echipa["rezultate"]), echipa["forma"], len(echipa.get("lot", []))))
         date[cheie] = echipa
@@ -452,12 +503,11 @@ def main():
                 zi, luna, an = (int(x) for x in juc["nascut"].split("."))
                 azi = time.localtime()
                 juc["varsta"] = azi.tm_year - an - ((azi.tm_mon, azi.tm_mday) < (luna, zi))
-            # portretele de lot au prioritate fata de pozele luate din Wikidata
-            poza_club = POZE_CLUB.get(cheie, {}).get(juc["nume"])
-            if poza_club:
-                juc["poza"] = poza_club
-                juc["pozaCredit"] = ("Siluetă generată AI" if poza_club == SILUETA
-                                     else "Portret generat AI, după fotografiile CSM Slatina")
+
+    # portretele de lot au prioritate fata de pozele luate din Wikidata
+    for cheie in ("fotbal", "handbal"):
+        if date.get(cheie, {}).get("lot"):
+            pune_pozele(date[cheie]["lot"], cheie)
 
     radacina = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
     cale = os.path.join(radacina, "data", "echipe.json")

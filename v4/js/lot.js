@@ -54,11 +54,56 @@
     return nume.indexOf("CSM Slatina") === 0 ? "<b>" + esc(nume) + "</b>" : esc(nume);
   }
 
-  fetch("../data/echipe.json", { cache: "no-cache" })
-    .then(function (r) { return r.json(); })
-    .then(function (toate) {
-      var e = toate[sport];
+  /* Rezultatele și programul stăteau doar în data/echipe.json, un fișier care
+     se reface abia când rulează cineva scriptul — de aceea „Rezultate recente”
+     rămăsese blocat la un meci vechi. Le luăm din același releu ca banda de
+     scor și pagina de știri, iar fișierul rămâne plasa de siguranță (lotul tot
+     de acolo vine, el nu se schimbă de la un meci la altul). */
+  var RELEU = "https://csm-live.worker-live.workers.dev/calendar";
+  var NUME_SPORT = { fotbal: "Fotbal", handbal: "Handbal" };
+
+  function eAcasa(m) { return /csm\s*slatina/i.test(m.gazde || ""); }
+
+  function cuMeciurileLive(e, live) {
+    var nume = NUME_SPORT[sport];
+    var rez = (live.rezultate || []).filter(function (r) {
+      return r.sport === nume && r.scor && r.scor.length === 2;
+    }).sort(function (a, b) { return b.timestamp - a.timestamp; });
+    var prog = (live.meciuri || []).filter(function (m) { return m.sport === nume; })
+      .sort(function (a, b) { return a.timestamp - b.timestamp; });
+    if (!rez.length && !prog.length) return e;   // releul n-are nimic pentru sportul ăsta
+    var iesire = {};
+    Object.keys(e).forEach(function (k) { iesire[k] = e[k]; });
+    if (rez.length) {
+      iesire.rezultate = rez.map(function (r) {
+        return { timestamp: r.timestamp, gazde: r.gazde, oaspeti: r.oaspeti,
+                 competitie: r.competitie, acasa: eAcasa(r), forma: r.forma,
+                 scor: [Number(r.scor[0]), Number(r.scor[1])] };
+      });
+      // forma se citește de la cel mai vechi la cel mai nou, ca în echipe.json
+      iesire.forma = rez.slice(0, 5).map(function (r) { return r.forma || "?"; })
+        .reverse().join("");
+    }
+    if (prog.length) {
+      iesire.program = prog.map(function (m) {
+        return { timestamp: m.timestamp, gazde: m.gazde, oaspeti: m.oaspeti,
+                 competitie: m.competitie, acasa: eAcasa(m) };
+      });
+    }
+    return iesire;
+  }
+
+  Promise.all([
+    fetch("../data/echipe.json", { cache: "no-cache" }).then(function (r) { return r.json(); }),
+    fetch(RELEU).then(function (r) {
+      if (!r.ok) throw new Error(r.status);
+      return r.json();
+    }).catch(function () { return null; })
+  ])
+    .then(function (perechi) {
+      var e = perechi[0][sport];
       if (!e) return;
+      if (perechi[1]) e = cuMeciurileLive(e, perechi[1]);
       (e.lot || []).forEach(function (j) { j.post = postNormal(j.post); });
       if (sezonEl) deseneazaSezon(e);
       if (radacina && e.lot && e.lot.length) deseneazaLot(e);
@@ -95,12 +140,25 @@
   }
 
   /* ================= Lotul ================= */
-  var GRUPE_FOTBAL = ["Portar", "Fundaș", "Mijlocaș", "Atacant"];
+  /* posturile din lotul oficial al clubului (data/lot-fotbal.json), în ordinea
+     de pe teren: poarta, apărarea, mijlocul, atacul */
+  var GRUPE_FOTBAL = ["Portar", "Fundaș central", "Fundaș lateral",
+                      "Mijlocaș central", "Mijlocaș lateral",
+                      "Atacant central", "Atacant lateral"];
   /* ordinea din afișul oficial al echipei, de la poartă spre linia de 9m:
      portar, extreme, pivoți, interi, centru */
   var GRUPE_HANDBAL = ["Portar", "Extremă stânga", "Extremă dreapta", "Pivot", "Inter stânga", "Inter dreapta", "Centru"];
-  /* datele mai vechi (sau panoul) pot spune încă „Coordonator”: e același post */
-  function postNormal(p) { return p === "Coordonator" ? "Centru" : p; }
+  /* Datele mai vechi (sau panoul) pot folosi denumirile de dinainte: la handbal
+     „Coordonator” era numele vechi al centrului, iar la fotbal existau doar
+     patru posturi. Fără potrivirea asta, un jucător cu post vechi n-ar intra în
+     nicio grupă și ar dispărea de pe pagină. */
+  var POSTURI_VECHI = {
+    "Coordonator": "Centru",
+    "Fundaș": "Fundaș central",
+    "Mijlocaș": "Mijlocaș central",
+    "Atacant": "Atacant central"
+  };
+  function postNormal(p) { return POSTURI_VECHI[p] || p; }
 
   // toate posturile posibile, cu coordonatele lor pe teren (% din teren)
   function posturiTeren() {
@@ -110,12 +168,32 @@
          în afișul oficial, unde poarta e sus și extrema stângă e în stânga.
          Pivotul stă pe linia de 6m, interii pe 9m, centrul cel mai departe. */
       return [
-        ["Portar", 6, 50], ["Extremă dreapta", 22, 12], ["Extremă stânga", 22, 88],
+        ["Portar", 6, 50], ["Extremă dreapta", 22, 16], ["Extremă stânga", 22, 84],
         ["Pivot", 30, 50], ["Inter dreapta", 48, 22], ["Inter stânga", 48, 78],
         ["Centru", 62, 50]
       ];
     }
-    return [["Portar", 8, 50], ["Fundaș", 30, 50], ["Mijlocaș", 55, 50], ["Atacant", 79, 50]];
+    /* Atacăm spre dreapta desenului. „Lateral” înseamnă banda — clubul nu
+       desparte stânga de dreapta, deci fiecare linie are un punct în centru și
+       unul pe bandă, iar cele trei puncte de bandă formează flancul. */
+    return [
+      ["Portar", 8, 50],
+      ["Fundaș lateral", 27, 17], ["Fundaș central", 27, 55],
+      ["Mijlocaș lateral", 50, 17], ["Mijlocaș central", 50, 55],
+      ["Atacant lateral", 73, 17], ["Atacant central", 73, 55]
+    ];
+  }
+
+  /* Numele postului stă sub punct. „Fundaș lateral" sau „Extremă stânga" nu
+     încap pe un rând fără să se ciocnească de vecini, așa că al doilea cuvânt
+     coboară pe rândul următor. */
+  function numePost(post) {
+    var vorbe = post.split(" ");
+    var h = '<text class="p-nume" y="20">' + esc(vorbe[0]) + "</text>";
+    if (vorbe.length > 1) {
+      h += '<text class="p-nume p-nume-2" y="30">' + esc(vorbe.slice(1).join(" ")) + "</text>";
+    }
+    return h;
   }
 
   function terenSvg() {
@@ -138,8 +216,7 @@
     var puncte = posturiTeren().map(function (p) {
       var x = 6 + (p[1] / 100) * 388, y = 6 + (p[2] / 100) * 208;
       return '<g class="post-punct" data-post="' + esc(p[0]) + '" transform="translate(' + x + "," + y + ')">' +
-        '<circle class="p-disc" r="7"/>' +
-        '<text class="p-nume" y="21">' + esc(p[0]) + "</text></g>";
+        '<circle class="p-disc" r="7"/>' + numePost(p[0]) + "</g>";
     }).join("");
     return '<svg viewBox="0 0 400 230" aria-hidden="true">' + schita + puncte +
       '<g id="lot-marcaj"><circle class="lot-halo" r="14" stroke-width="2"/></g></svg>';

@@ -616,6 +616,7 @@
   text-anchor: middle;
   transition: fill 0.4s ease;
 }
+.post-punct .p-nume-2 { font-size: 7.5px; letter-spacing: 0.06em; }
 .post-punct.activ .p-disc { fill: var(--gold); stroke: var(--gold); }
 .post-punct.activ .p-nume { fill: var(--gold); font-weight: 800; }
 .lot-halo { fill: none; stroke: var(--gold); opacity: 0.5; }
@@ -690,6 +691,7 @@
   .g-cariera { font-size: 0.6rem; }
   .g-mai { font-size: 0.5rem; padding: 4px 10px; }
   .post-punct .p-nume { font-size: 10.5px; }
+  .post-punct .p-nume-2 { font-size: 9px; }
 }
 
 
