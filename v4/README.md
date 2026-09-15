@@ -53,7 +53,7 @@ oficiale (nu preluăm poze de agenție fără licență).
 ## Credite foto
 Fundalurile estompate ale cardurilor de secții folosesc fotografii proprii ale clubului plus:
 - Handbal: „Team Handball Jumpshot 09 USA Nationals" — Wikimedia Commons, licență CC BY-SA 3.0
-- Tenis de câmp, Box, Kempo: fotografii Unsplash (licență Unsplash)
+- Tenis de câmp, Box: fotografii Unsplash (licență Unsplash)
 
 ## Tehnologii
 HTML/CSS/JS static, animații GSAP + ScrollTrigger, fonturi Google (Poppins, Manrope, Barlow Condensed pe pagina de padel). Fără build — se poate servi direct (GitHub Pages).

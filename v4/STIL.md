@@ -8,7 +8,7 @@ Site-ul (codul) rămâne sursa adevărului; documentul e harta.
 
 **1. Registrele (hibrid pe roluri).** Rolul paginii alege registrul, limbajul
 rămâne același peste tot:
-- **Club** (secțiile sportive: fotbal, kempo, box…): albastru instituțional +
+- **Club** (secțiile sportive: fotbal, handbal, box…): albastru instituțional +
   foi albe. Oficial, curat.
 - **Agrement** (Clubul Nautic): întunecat, imersiv, capitole cu fundaluri foto.
 - **Plaja** (pagina nouă, separată de nautic): luminoasă, de vară — cer, apă,

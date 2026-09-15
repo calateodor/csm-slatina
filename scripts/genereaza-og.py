@@ -23,7 +23,7 @@ IESIRE = os.path.join(BAZA, "og")
 
 SECTII = [
     "atletism", "box", "fotbal", "handbal", "inot", "judo", "karate",
-    "kempo", "lupte", "sah", "tenis-de-camp", "tenis-de-masa",
+    "lupte", "sah", "tenis-de-camp", "tenis-de-masa",
 ]
 
 # (sursa relativa la assets/img, nume iesire, stema?, ancora verticala, taiere de jos)

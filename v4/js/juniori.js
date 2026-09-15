@@ -5,7 +5,9 @@
   "use strict";
 
   // grupele sezonului 2026/2027 — anul nasterii da grupa
+  // baietii de la U10 la U19, fetele la U13 si U15
   var GRUPE = [
+    { id: "U10", gen: "masculin", an: 2016 },
     { id: "U11", gen: "masculin", an: 2015 },
     { id: "U12", gen: "masculin", an: 2014 },
     { id: "U13", gen: "masculin", an: 2013 },
@@ -14,7 +16,8 @@
     { id: "U16", gen: "masculin", an: 2010 },
     { id: "U17", gen: "masculin", an: 2009 },
     { id: "U18", gen: "masculin", an: 2008 },
-    { id: "U14F", gen: "feminin", an: 2012 },
+    { id: "U19", gen: "masculin", an: 2007 },
+    { id: "U13F", gen: "feminin", an: 2013 },
     { id: "U15F", gen: "feminin", an: 2011 }
   ];
 
