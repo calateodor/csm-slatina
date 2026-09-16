@@ -312,6 +312,26 @@ def aplica_lot_club(lot, cale_lot):
                 break
         juc = dict(vechi) if vechi else {}
         juc.update({k: c[k] for k in ("numar", "nume", "post", "varsta", "nascut") if k in c})
+        # Cifrele date de club (carieră, sezonul curent) bat ce numără Flashscore,
+        # care nu vede toate meciurile. Se completează câmp cu câmp.
+        if c.get("cariera"):
+            cariera = dict(juc.get("cariera") or {})
+            cariera.update({k: str(v) if k != "debut" else int(v) for k, v in c["cariera"].items()})
+            if "debut" in c["cariera"]:
+                # sezoane de la debut până la sezonul în curs (sezonul începe în iulie)
+                azi = time.localtime()
+                an_sezon = azi.tm_year if azi.tm_mon >= 7 else azi.tm_year - 1
+                cariera["sezoane"] = an_sezon - int(c["cariera"]["debut"]) + 1
+            juc["cariera"] = cariera
+        if c.get("sezon"):
+            stats = [list(x) for x in (juc.get("stats") or [])]
+            for eticheta, valoare in c["sezon"].items():
+                for x in stats:
+                    if x[0] == eticheta:
+                        x[1] = str(valoare); break
+                else:
+                    stats.append([eticheta, str(valoare)])
+            juc["stats"] = stats
         juc.setdefault("nat", "România")
         iesire.append(juc)
         if not vechi:
