@@ -182,12 +182,48 @@
         ],
         "nascut": "01.07.2007",
         "cariera": {
-          "sezoane": 3,
-          "debut": 2024,
-          "meciuri": "40",
-          "faraGol": "3"
+          "sezoane": 2,
+          "debut": 2025,
+          "meciuri": "48",
+          "faraGol": "15"
         },
         "poza": "assets/img/lot/fotbal/racasan-mihai-spate.jpg",
+        "pozaCredit": "Portret generat AI, după fotografiile CSM Slatina"
+      },
+      {
+        "numar": 3,
+        "nume": "Ureche Alexandru",
+        "post": "Fundaș central",
+        "varsta": 20,
+        "nat": "România",
+        "url": "https://www.flashscore.ro/jucator/ureche-alexandru/lvUHHU4e/",
+        "sezonStats": "2026/2027",
+        "stats": [
+          [
+            "Meciuri jucate",
+            "1"
+          ],
+          [
+            "Goluri marcate",
+            "0"
+          ],
+          [
+            "Cartonașe galbene",
+            "0"
+          ],
+          [
+            "Cartonașe roșii",
+            "0"
+          ]
+        ],
+        "nascut": "20.03.2006",
+        "cariera": {
+          "sezoane": 4,
+          "debut": 2023,
+          "meciuri": "16",
+          "goluri": "0"
+        },
+        "poza": "assets/img/lot/fotbal/ureche-alexandru-incrucisate.jpg",
         "pozaCredit": "Portret generat AI, după fotografiile CSM Slatina"
       },
       {
@@ -223,7 +259,7 @@
           "meciuri": "45",
           "goluri": "0"
         },
-        "poza": "assets/img/lot/fotbal/stan-abel-incrucisate.jpg",
+        "poza": "assets/img/lot/fotbal/stan-abel-default.jpg",
         "pozaCredit": "Portret generat AI, după fotografiile CSM Slatina"
       },
       {
@@ -254,13 +290,13 @@
         ],
         "nascut": "09.06.1999",
         "cariera": {
-          "sezoane": 7,
-          "debut": 2019,
-          "meciuri": "55",
-          "goluri": "3",
+          "sezoane": 9,
+          "debut": 2018,
+          "meciuri": "80",
+          "goluri": "4",
           "pase": "0"
         },
-        "poza": "assets/img/lot/fotbal/riza-robert-default.jpg",
+        "poza": "assets/img/lot/fotbal/riza-robert-spate.jpg",
         "pozaCredit": "Portret generat AI, după fotografiile CSM Slatina"
       },
       {
@@ -298,45 +334,7 @@
           "goluri": "2",
           "pase": "0"
         },
-        "poza": "assets/img/lot/fotbal/andres-ionut-spate.jpg",
-        "pozaCredit": "Portret generat AI, după fotografiile CSM Slatina"
-      },
-      {
-        "numar": 30,
-        "nume": "Serbanica Daniel",
-        "post": "Fundaș central",
-        "varsta": 30,
-        "nat": "România",
-        "url": "https://www.flashscore.ro/jucator/serbanica-daniel/8QfXswj6/",
-        "sezonStats": "2026/2027",
-        "stats": [
-          [
-            "Meciuri jucate",
-            "4"
-          ],
-          [
-            "Goluri marcate",
-            "0"
-          ],
-          [
-            "Cartonașe galbene",
-            "0"
-          ],
-          [
-            "Cartonașe roșii",
-            "0"
-          ]
-        ],
-        "nascut": "25.06.1996",
-        "valoare": "€323k",
-        "cariera": {
-          "sezoane": 10,
-          "debut": 2017,
-          "meciuri": "188",
-          "goluri": "10",
-          "pase": "3"
-        },
-        "poza": "assets/img/lot/fotbal/serbanica-daniel-incrucisate.jpg",
+        "poza": "assets/img/lot/fotbal/andres-ionut-incrucisate.jpg",
         "pozaCredit": "Portret generat AI, după fotografiile CSM Slatina"
       },
       {
@@ -376,42 +374,6 @@
         "pozaCredit": "Portret generat AI, după fotografiile CSM Slatina"
       },
       {
-        "numar": 3,
-        "nume": "Ureche Alexandru",
-        "post": "Fundaș lateral",
-        "varsta": 20,
-        "nat": "România",
-        "url": "https://www.flashscore.ro/jucator/ureche-alexandru/lvUHHU4e/",
-        "sezonStats": "2026/2027",
-        "stats": [
-          [
-            "Meciuri jucate",
-            "1"
-          ],
-          [
-            "Goluri marcate",
-            "0"
-          ],
-          [
-            "Cartonașe galbene",
-            "0"
-          ],
-          [
-            "Cartonașe roșii",
-            "0"
-          ]
-        ],
-        "nascut": "20.03.2006",
-        "cariera": {
-          "sezoane": 4,
-          "debut": 2023,
-          "meciuri": "16",
-          "goluri": "0"
-        },
-        "poza": "assets/img/lot/fotbal/ureche-alexandru-spate.jpg",
-        "pozaCredit": "Portret generat AI, după fotografiile CSM Slatina"
-      },
-      {
         "numar": 16,
         "nume": "Munoz Pol",
         "post": "Fundaș lateral",
@@ -446,7 +408,7 @@
           "goluri": "1",
           "pase": "0"
         },
-        "poza": "assets/img/lot/fotbal/munoz-pol-incrucisate.jpg",
+        "poza": "assets/img/lot/fotbal/munoz-pol-spate.jpg",
         "pozaCredit": "Portret generat AI, după fotografiile CSM Slatina"
       },
       {
@@ -484,7 +446,45 @@
           "goluri": "0",
           "pase": "0"
         },
-        "poza": "assets/img/lot/fotbal/stancu-claudiu-default.jpg",
+        "poza": "assets/img/lot/fotbal/stancu-claudiu-incrucisate.jpg",
+        "pozaCredit": "Portret generat AI, după fotografiile CSM Slatina"
+      },
+      {
+        "numar": 30,
+        "nume": "Serbanica Daniel",
+        "post": "Fundaș lateral",
+        "varsta": 30,
+        "nat": "România",
+        "url": "https://www.flashscore.ro/jucator/serbanica-daniel/8QfXswj6/",
+        "sezonStats": "2026/2027",
+        "stats": [
+          [
+            "Meciuri jucate",
+            "4"
+          ],
+          [
+            "Goluri marcate",
+            "0"
+          ],
+          [
+            "Cartonașe galbene",
+            "0"
+          ],
+          [
+            "Cartonașe roșii",
+            "0"
+          ]
+        ],
+        "nascut": "25.06.1996",
+        "valoare": "€323k",
+        "cariera": {
+          "sezoane": 10,
+          "debut": 2017,
+          "meciuri": "188",
+          "goluri": "10",
+          "pase": "3"
+        },
+        "poza": "assets/img/lot/fotbal/serbanica-daniel-default.jpg",
         "pozaCredit": "Portret generat AI, după fotografiile CSM Slatina"
       },
       {
@@ -661,10 +661,10 @@
         ],
         "nascut": "07.01.1992",
         "cariera": {
-          "sezoane": 14,
-          "debut": 2011,
-          "meciuri": "195",
-          "goluri": "33"
+          "sezoane": 18,
+          "debut": 2009,
+          "meciuri": "270",
+          "goluri": "42"
         },
         "inaltime": 179,
         "greutate": 70,
@@ -720,15 +720,15 @@
         "stats": [
           [
             "Meciuri jucate",
-            "1"
+            "4"
           ],
           [
             "Goluri marcate",
-            "0"
+            "1"
           ],
           [
             "Cartonașe galbene",
-            "0"
+            "2"
           ],
           [
             "Cartonașe roșii",
@@ -740,7 +740,7 @@
           "sezoane": 7,
           "debut": 2020,
           "meciuri": "90",
-          "goluri": "10"
+          "goluri": "12"
         },
         "poza": "assets/img/lot/fotbal/pacionel-emilian-spate.jpg",
         "pozaCredit": "Portret generat AI, după fotografiile CSM Slatina"
@@ -782,42 +782,6 @@
         "pozaCredit": "Portret generat AI, după fotografiile CSM Slatina"
       },
       {
-        "numar": 47,
-        "nume": "Solcan Alexandru",
-        "post": "Mijlocaș lateral",
-        "varsta": 24,
-        "nat": "Spania",
-        "url": "https://www.flashscore.ro/jucator/solcan-alexandru-stefano/z5DPXSil/",
-        "sezonStats": "2026/2027",
-        "stats": [
-          [
-            "Meciuri jucate",
-            "2"
-          ],
-          [
-            "Goluri marcate",
-            "1"
-          ],
-          [
-            "Cartonașe galbene",
-            "0"
-          ],
-          [
-            "Cartonașe roșii",
-            "0"
-          ]
-        ],
-        "nascut": "19.09.2002",
-        "cariera": {
-          "sezoane": 3,
-          "debut": 2024,
-          "meciuri": "8",
-          "goluri": "7"
-        },
-        "poza": "assets/img/lot/fotbal/solcan-alexandru-stefano-default.jpg",
-        "pozaCredit": "Portret generat AI, după fotografiile CSM Slatina"
-      },
-      {
         "numar": 9,
         "nume": "Stan Alexandru",
         "post": "Atacant central",
@@ -852,7 +816,7 @@
           "goluri": "5",
           "pase": "1"
         },
-        "poza": "assets/img/lot/fotbal/stan-alexandru-spate.jpg",
+        "poza": "assets/img/lot/fotbal/stan-alexandru-default.jpg",
         "pozaCredit": "Portret generat AI, după fotografiile CSM Slatina"
       },
       {
@@ -883,12 +847,12 @@
         ],
         "nascut": "20.05.1998",
         "cariera": {
-          "sezoane": 8,
-          "debut": 2019,
-          "meciuri": "156",
+          "sezoane": 10,
+          "debut": 2017,
+          "meciuri": "163",
           "goluri": "26"
         },
-        "poza": "assets/img/lot/fotbal/magyari-szilard-incrucisate.jpg",
+        "poza": "assets/img/lot/fotbal/magyari-szilard-spate.jpg",
         "pozaCredit": "Portret generat AI, după fotografiile CSM Slatina"
       },
       {
@@ -924,45 +888,7 @@
           "meciuri": "41",
           "goluri": "19"
         },
-        "poza": "assets/img/lot/fotbal/mbanga-jean-default.jpg",
-        "pozaCredit": "Portret generat AI, după fotografiile CSM Slatina"
-      },
-      {
-        "numar": 97,
-        "nume": "Bordusanu Antonio",
-        "post": "Atacant central",
-        "varsta": 22,
-        "nat": "România",
-        "url": "https://www.flashscore.ro/jucator/bordusanu-antonio/zTTrKTBp/",
-        "sezonStats": "2026/2027",
-        "stats": [
-          [
-            "Meciuri jucate",
-            "1"
-          ],
-          [
-            "Goluri marcate",
-            "0"
-          ],
-          [
-            "Cartonașe galbene",
-            "0"
-          ],
-          [
-            "Cartonașe roșii",
-            "0"
-          ]
-        ],
-        "nascut": "10.08.2004",
-        "valoare": "€94k",
-        "cariera": {
-          "sezoane": 7,
-          "debut": 2020,
-          "meciuri": "66",
-          "goluri": "2",
-          "pase": "3"
-        },
-        "poza": "assets/img/lot/fotbal/bordusanu-antonio-spate.jpg",
+        "poza": "assets/img/lot/fotbal/mbanga-jean-incrucisate.jpg",
         "pozaCredit": "Portret generat AI, după fotografiile CSM Slatina"
       },
       {
@@ -998,7 +924,7 @@
           "meciuri": "4",
           "goluri": "2"
         },
-        "poza": "assets/img/lot/fotbal/sorescu-yanis-incrucisate.jpg",
+        "poza": "assets/img/lot/fotbal/sorescu-yanis-default.jpg",
         "pozaCredit": "Portret generat AI, după fotografiile CSM Slatina"
       },
       {
@@ -1034,7 +960,7 @@
           "meciuri": "39",
           "goluri": "15"
         },
-        "poza": "assets/img/lot/fotbal/granja-ronald-default.jpg",
+        "poza": "assets/img/lot/fotbal/granja-ronald-spate.jpg",
         "pozaCredit": "Portret generat AI, după fotografiile CSM Slatina"
       },
       {
@@ -1070,7 +996,7 @@
           "meciuri": "1",
           "goluri": "0"
         },
-        "poza": "assets/img/lot/fotbal/tolu-eduard-spate.jpg",
+        "poza": "assets/img/lot/fotbal/tolu-eduard-incrucisate.jpg",
         "pozaCredit": "Portret generat AI, după fotografiile CSM Slatina"
       },
       {
@@ -1106,7 +1032,81 @@
           "meciuri": "6",
           "goluri": "0"
         },
-        "poza": "assets/img/lot/fotbal/velea-rares-incrucisate.jpg",
+        "poza": "assets/img/lot/fotbal/velea-rares-default.jpg",
+        "pozaCredit": "Portret generat AI, după fotografiile CSM Slatina"
+      },
+      {
+        "numar": 47,
+        "nume": "Solcan Alexandru",
+        "post": "Atacant lateral",
+        "varsta": 24,
+        "nat": "Spania",
+        "url": "https://www.flashscore.ro/jucator/solcan-alexandru-stefano/z5DPXSil/",
+        "sezonStats": "2026/2027",
+        "stats": [
+          [
+            "Meciuri jucate",
+            "2"
+          ],
+          [
+            "Goluri marcate",
+            "1"
+          ],
+          [
+            "Cartonașe galbene",
+            "0"
+          ],
+          [
+            "Cartonașe roșii",
+            "0"
+          ]
+        ],
+        "nascut": "19.09.2002",
+        "cariera": {
+          "sezoane": 3,
+          "debut": 2024,
+          "meciuri": "8",
+          "goluri": "7"
+        },
+        "poza": "assets/img/lot/fotbal/solcan-alexandru-stefano-spate.jpg",
+        "pozaCredit": "Portret generat AI, după fotografiile CSM Slatina"
+      },
+      {
+        "numar": 97,
+        "nume": "Bordusanu Antonio",
+        "post": "Atacant lateral",
+        "varsta": 22,
+        "nat": "România",
+        "url": "https://www.flashscore.ro/jucator/bordusanu-antonio/zTTrKTBp/",
+        "sezonStats": "2026/2027",
+        "stats": [
+          [
+            "Meciuri jucate",
+            "1"
+          ],
+          [
+            "Goluri marcate",
+            "0"
+          ],
+          [
+            "Cartonașe galbene",
+            "0"
+          ],
+          [
+            "Cartonașe roșii",
+            "0"
+          ]
+        ],
+        "nascut": "10.08.2004",
+        "valoare": "€94k",
+        "cariera": {
+          "sezoane": 7,
+          "debut": 2020,
+          "meciuri": "66",
+          "goluri": "2",
+          "pase": "3"
+        },
+        "poza": "assets/img/lot/fotbal/bordusanu-antonio-incrucisate.jpg",
         "pozaCredit": "Portret generat AI, după fotografiile CSM Slatina"
       },
       {
