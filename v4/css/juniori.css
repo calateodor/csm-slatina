@@ -232,14 +232,9 @@
   font: 800 1.6rem/1 Poppins, sans-serif; color: var(--royal); opacity: 0.55; font-style: normal;
 }
 .jl-poza.gol .jl-initiale, .jl-poza:not(:has(img)) .jl-initiale { display: grid; }
-.jl-nume { display: block; padding: 10px 12px 2px; line-height: 1.15; }
+.jl-nume { display: block; padding: 10px 12px 12px; line-height: 1.15; }
 .jl-nume small { display: block; font-size: 0.72rem; color: var(--ink-soft); }
 .jl-nume b { display: block; font-family: Poppins, sans-serif; font-size: 0.98rem; color: var(--ink); }
-.jl-det {
-  display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;
-  padding: 4px 12px 11px; overflow: hidden;
-  font-size: 0.7rem; line-height: 1.35; color: var(--ink-soft);
-}
 .jl-sosiri { margin-top: clamp(28px, 4vw, 44px); }
 .jl-sosiri ul { list-style: none; margin: 0; padding: 0; }
 .jl-sosiri li {
