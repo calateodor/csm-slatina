@@ -260,7 +260,6 @@ async function sosiriFRF(env, categorie, gen) {
       gen,
       tip: x.sysLegitimationTypeId,
       data: String(x.startDate || "").slice(0, 10),
-      dinClub: curataNume(x.previousClubName || x.internationalFromClubName || "") || null,
       poza: x.photoPath ? FRF.cdn + x.photoPath + (x.photoExtension || "") : null,
     }));
 }

@@ -4,7 +4,7 @@
    publică toate legitimările și transferurile din fotbalul românesc. Releul
    nostru Cloudflare (/juniori) o citește și întoarce doar sosirile la CSM
    Slatina: legitimări, relegitimări, transferuri și împrumuturi LA noi.
-   Plecările nu apar (decizia clubului).
+   Plecările nu apar și nici clubul de proveniență (decizia clubului).
 
    Lotul de aici e construit din aceste sosiri, deci cuprinde doar copiii
    legitimați sau transferați de când există datele (ianuarie 2026). Când
@@ -19,7 +19,6 @@
 
   var RELEU = "https://csm-live.worker-live.workers.dev/juniori";
   var SEZON = 2026;                    // sezonul 2026/2027: U-N = născuți în 2026 − N
-  var TIPURI = { 1: "legitimat", 2: "relegitimat", 3: "transferat", 4: "împrumutat" };
   var LUNI = ["ian", "feb", "mar", "apr", "mai", "iun", "iul", "aug", "sept", "oct", "nov", "dec"];
 
   function esc(s) {
@@ -79,17 +78,15 @@
     return v.length ? v[0] + " " + (v[1] || "") : "";
   }
 
+  // doar numele și poza: clubul nu afișează de unde vine un copil
   function card(j) {
     var p = parti(j.nume);
-    var det = TIPURI[j.tip] || "";
-    if (j.dinClub && (j.tip === 3 || j.tip === 4)) det += " de la " + j.dinClub;
     return '<article class="jl-card">' +
       '<span class="jl-poza">' +
         (j.poza ? '<img src="' + esc(j.poza) + '" alt="" loading="lazy" onerror="this.parentNode.classList.add(\'gol\'); this.remove()">' : "") +
         '<i class="jl-initiale" aria-hidden="true">' + esc((p.prenume[0] || "") + (p.familie[0] || "")) + "</i>" +
       "</span>" +
       '<span class="jl-nume"><small>' + esc(p.prenume) + "</small><b>" + esc(p.familie) + "</b></span>" +
-      '<span class="jl-det" title="' + esc(det) + '">' + esc(det) + "</span>" +
       "</article>";
   }
 
@@ -115,8 +112,7 @@
         var p = parti(j.nume);
         return "<li><time>" + esc(dataScurta(j.data)) + "</time>" +
           "<b>" + esc(p.prenume + " " + p.familie) + "</b>" +
-          "<span>" + esc(grupa(j)) + " · " + esc(TIPURI[j.tip] || "") +
-          (j.dinClub && (j.tip === 3 || j.tip === 4) ? " de la " + esc(j.dinClub) : "") + "</span></li>";
+          "<span>" + esc(grupa(j)) + "</span></li>";
       }).join("") + "</ul></section>";
 
     h += '<p class="jl-sursa">' + jucatori.length + " de juniori sosiți din ianuarie 2026 · date " +
