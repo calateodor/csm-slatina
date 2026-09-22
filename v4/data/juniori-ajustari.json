@@ -1,0 +1,7 @@
+{
+  "_comentariu": "Ajustări făcute de club peste datele FRF de pe pagina de juniori. „ascunde”: copii care nu apar deloc pe site (id-ul din FRF), de exemplu la cererea părinților. „faraPoza”: copii care apar, dar fără fotografie (rămân inițialele), de exemplu când FRF are un scan de document în loc de portret. Id-urile se iau din data/juniori.json.",
+  "ascunde": [],
+  "faraPoza": [
+    "751ba0f1-c48c-4dc6-9b40-2fd737d20094"
+  ]
+}

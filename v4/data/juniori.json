@@ -1,0 +1,627 @@
+{
+ "_comentariu": "Copie de siguranță a sosirilor de juniori la CSM Slatina, din datele FRF (Hai la fotbal). Site-ul citește întâi releul Cloudflare (/juniori); fișierul ăsta e folosit doar dacă releul nu răspunde. Se reface cu v4/scripts/actualizeaza-juniori.py.",
+ "sursa": "FRF · Hai la fotbal (hailafotbal.ro), sosiri din 2026",
+ "luatLa": "2026-09-22",
+ "jucatori": [
+  {
+   "id": "1ca97962-64b5-48b4-9758-9834e754cb8e",
+   "nume": "Popescu Ema Maria",
+   "an": 2018,
+   "gen": "F",
+   "tip": 1,
+   "data": "2026-09-09",
+   "dinClub": null,
+   "poza": "https://cdn-fcrd.hailafotbal.ro/media/Get?guid=47c146a3-028e-4f1c-9daf-b4c000ba91c2.jpg"
+  },
+  {
+   "id": "b8c71ff0-5a12-4480-a076-1f35262bfcae",
+   "nume": "Popescu Natalia Elena",
+   "an": 2018,
+   "gen": "F",
+   "tip": 1,
+   "data": "2026-09-09",
+   "dinClub": null,
+   "poza": "https://cdn-fcrd.hailafotbal.ro/media/Get?guid=ba11d339-91fe-4e4a-a1d4-b4c000b61258.jpg"
+  },
+  {
+   "id": "0a035559-5450-4e7f-bcf2-bf5d839655c1",
+   "nume": "Bercia Elisa Maria",
+   "an": 2013,
+   "gen": "F",
+   "tip": 1,
+   "data": "2026-09-09",
+   "dinClub": null,
+   "poza": "https://cdn-fcrd.hailafotbal.ro/media/Get?guid=522333f0-4843-40a1-96e6-b4c0006c7b98.jpg"
+  },
+  {
+   "id": "644a296e-3500-4707-998b-b3144708e43b",
+   "nume": "Pătrulescu Andreas Florin",
+   "an": 2012,
+   "gen": "M",
+   "tip": 3,
+   "data": "2026-09-07",
+   "dinClub": "Atletic Filip Șerbănești",
+   "poza": "https://cdn-fcrd.hailafotbal.ro/media/Get?guid=31e12345-f4d5-45eb-a6c9-b4be00b51edb.jpg"
+  },
+  {
+   "id": "ce9b8621-bb31-4478-942f-342471c0127e",
+   "nume": "Roșca Ștefan",
+   "an": 2011,
+   "gen": "M",
+   "tip": 3,
+   "data": "2026-09-07",
+   "dinClub": "CSS Caracal",
+   "poza": "https://cdn-fcrd.hailafotbal.ro/media/Get?guid=f3287891-7203-4026-aeb0-b4be0098714c.jpg"
+  },
+  {
+   "id": "60a09c5b-25fa-44a9-a4c7-c51ec8695065",
+   "nume": "Badea Raul Marian",
+   "an": 2013,
+   "gen": "M",
+   "tip": 3,
+   "data": "2026-09-04",
+   "dinClub": "Cs Gladius Dobrosloveni",
+   "poza": "https://cdn-fcrd.hailafotbal.ro/media/Get?guid=327c9c9a-6ee2-489f-a5ef-b4bb0098c269.jpg"
+  },
+  {
+   "id": "42e61325-1536-4122-8755-08af78014cb6",
+   "nume": "Graure Luca Andrei",
+   "an": 2011,
+   "gen": "M",
+   "tip": 3,
+   "data": "2026-09-04",
+   "dinClub": "Campionii FC Argeș",
+   "poza": "https://cdn-fcrd.hailafotbal.ro/media/Get?guid=4189f722-67bb-47cc-a32f-b3e900ca0b5a.jpg"
+  },
+  {
+   "id": "b8bfa514-30a1-4418-b670-beb52bf2b49a",
+   "nume": "Mîndroc Luca Mihai",
+   "an": 2011,
+   "gen": "M",
+   "tip": 3,
+   "data": "2026-09-04",
+   "dinClub": "Campionii FC Argeș",
+   "poza": "https://cdn-fcrd.hailafotbal.ro/media/Get?guid=7189300f-65dd-4477-9aa4-b39500ae7791.jpg"
+  },
+  {
+   "id": "b4f05cd0-0d1f-47d8-8133-9991abd30bf1",
+   "nume": "Ciocan Vlad Andrei",
+   "an": 2013,
+   "gen": "M",
+   "tip": 3,
+   "data": "2026-09-03",
+   "dinClub": "ACS Ciprian Dinu",
+   "poza": "https://cdn-fcrd.hailafotbal.ro/media/Get?guid=fa400a84-87d0-4432-abbc-b4ba00a9408b.jpg"
+  },
+  {
+   "id": "b84163a4-914f-43f2-8186-3224d9780aed",
+   "nume": "Crăciun George Antonius",
+   "an": 2010,
+   "gen": "M",
+   "tip": 2,
+   "data": "2026-09-01",
+   "dinClub": null,
+   "poza": "https://cdn-fcrd.hailafotbal.ro/media/Get?guid=97fbb060-728a-4a54-b425-b29c00d8c4df.jpg"
+  },
+  {
+   "id": "e6886415-d402-4998-8822-f73b83aec8d6",
+   "nume": "Brînzan Ana Maria",
+   "an": 2016,
+   "gen": "F",
+   "tip": 3,
+   "data": "2026-08-31",
+   "dinClub": "LPS Slatina",
+   "poza": "https://cdn-fcrd.hailafotbal.ro/media/Get?guid=3adb959d-b720-4bdd-987f-b4ba009a3930.jpg"
+  },
+  {
+   "id": "3be0315f-d1c7-42d2-9de7-a297669f0ea1",
+   "nume": "Mihalache David Andrei",
+   "an": 2012,
+   "gen": "M",
+   "tip": 3,
+   "data": "2026-08-28",
+   "dinClub": "LPS Slatina",
+   "poza": "https://cdn-fcrd.hailafotbal.ro/media/Get?guid=1603c301-3d18-481c-90b6-b4b4009348e3.jpg"
+  },
+  {
+   "id": "fc64f3b6-3409-49cf-9d69-35be045d8d1c",
+   "nume": "Florea David",
+   "an": 2014,
+   "gen": "M",
+   "tip": 3,
+   "data": "2026-08-19",
+   "dinClub": "Athletic Slatina",
+   "poza": "https://cdn-fcrd.hailafotbal.ro/media/Get?guid=00d37491-1f98-4ebf-867a-b4ab0086cf85.jpg"
+  },
+  {
+   "id": "446909c5-4d87-44d4-926d-22eaa5cb8005",
+   "nume": "Trică Teodor Cosmin",
+   "an": 2014,
+   "gen": "M",
+   "tip": 3,
+   "data": "2026-08-17",
+   "dinClub": "Athletic Slatina",
+   "poza": "https://cdn-fcrd.hailafotbal.ro/media/Get?guid=5385e13d-8c8c-4fb2-9f93-b4aa00af3551.jpg"
+  },
+  {
+   "id": "85467f66-fdfd-4914-85bc-03a0820b5f76",
+   "nume": "Bogeanu Nicolas Titus",
+   "an": 2014,
+   "gen": "M",
+   "tip": 3,
+   "data": "2026-08-17",
+   "dinClub": "Athletic Slatina",
+   "poza": "https://cdn-fcrd.hailafotbal.ro/media/Get?guid=732004e3-9c3f-4fa3-8425-b4a6009663d1.jpg"
+  },
+  {
+   "id": "029d5929-cac1-4647-a247-526cb20f5c88",
+   "nume": "Șerban Dănuț Ionuț",
+   "an": 2012,
+   "gen": "M",
+   "tip": 3,
+   "data": "2026-08-12",
+   "dinClub": "MCA Drăgănești",
+   "poza": "https://cdn-fcrd.hailafotbal.ro/media/Get?guid=b2114a7d-1e9f-4c42-847f-b4a40091058b.jpg"
+  },
+  {
+   "id": "85a6219b-63c5-44bc-901b-8d819aaf4d34",
+   "nume": "Oneață Alexia Maria",
+   "an": 2014,
+   "gen": "F",
+   "tip": 1,
+   "data": "2026-08-11",
+   "dinClub": null,
+   "poza": "https://cdn-fcrd.hailafotbal.ro/media/Get?guid=71b93745-aad5-42ce-8647-b4a3007f1feb.jpg"
+  },
+  {
+   "id": "736738b1-4477-4071-b82c-5200ff5b1982",
+   "nume": "Olteanu Bianca Florina",
+   "an": 2017,
+   "gen": "F",
+   "tip": 1,
+   "data": "2026-08-11",
+   "dinClub": null,
+   "poza": "https://cdn-fcrd.hailafotbal.ro/media/Get?guid=be4c3cca-af00-4866-86c4-b4a3007a5af5.jpg"
+  },
+  {
+   "id": "7049e3e8-84f6-4004-891b-519c8071a054",
+   "nume": "Busuioc Maria Cristina",
+   "an": 2016,
+   "gen": "F",
+   "tip": 1,
+   "data": "2026-08-11",
+   "dinClub": null,
+   "poza": "https://cdn-fcrd.hailafotbal.ro/media/Get?guid=7f12071f-a745-4e99-a0db-b4a3007d84fb.jpg"
+  },
+  {
+   "id": "51ee62a8-9d80-4a46-8019-3264fc52017d",
+   "nume": "Voicu Erica Maria",
+   "an": 2015,
+   "gen": "F",
+   "tip": 1,
+   "data": "2026-08-11",
+   "dinClub": null,
+   "poza": "https://cdn-fcrd.hailafotbal.ro/media/Get?guid=870b5c65-e20d-4087-8feb-b4a30080a3ce.jpg"
+  },
+  {
+   "id": "09bc8c93-1fef-4b93-8eaa-be662d0d90c8",
+   "nume": "Stăvărache Valentina Ionela",
+   "an": 2014,
+   "gen": "F",
+   "tip": 1,
+   "data": "2026-08-11",
+   "dinClub": null,
+   "poza": "https://cdn-fcrd.hailafotbal.ro/media/Get?guid=cac066c0-826c-4f6c-b4cf-b4a30077a9e9.jpg"
+  },
+  {
+   "id": "7a04f422-9797-4167-9ebf-186e3e13fe2e",
+   "nume": "Olteanu Florentina Ștefania",
+   "an": 2015,
+   "gen": "F",
+   "tip": 1,
+   "data": "2026-08-11",
+   "dinClub": null,
+   "poza": "https://cdn-fcrd.hailafotbal.ro/media/Get?guid=3d193b2e-b9aa-4eff-b1a7-b4a30073cfbd.jpg"
+  },
+  {
+   "id": "c32d6937-3a88-4678-8167-f3c9a847be52",
+   "nume": "Costea Răzvan Andrei",
+   "an": 2014,
+   "gen": "M",
+   "tip": 3,
+   "data": "2026-08-06",
+   "dinClub": "ACS Ciprian Dinu",
+   "poza": "https://cdn-fcrd.hailafotbal.ro/media/Get?guid=96a19023-ca79-46b9-a9ab-b49e008b3a10.jpg"
+  },
+  {
+   "id": "3b639951-da3b-44fb-a727-a166434b14e8",
+   "nume": "Țuinea Dario Gabriel",
+   "an": 2010,
+   "gen": "M",
+   "tip": 3,
+   "data": "2026-08-05",
+   "dinClub": "FCU 1948 Craiova",
+   "poza": "https://cdn-fcrd.hailafotbal.ro/media/Get?guid=3a366ca8-6b40-442f-bf2f-b27a00d5e07c.jpg"
+  },
+  {
+   "id": "188a1f7d-7121-4ed6-b5d1-61038f211c3d",
+   "nume": "Voicu Nicolas Alexandru",
+   "an": 2011,
+   "gen": "M",
+   "tip": 3,
+   "data": "2026-08-05",
+   "dinClub": "Academia Răzvan Raț",
+   "poza": "https://cdn-fcrd.hailafotbal.ro/media/Get?guid=817745fa-c8be-4144-905f-b49c00b1b028.jpg"
+  },
+  {
+   "id": "f84aa397-7178-4b04-b1bb-9af94cade1ae",
+   "nume": "Iacob Ianis Alexandru",
+   "an": 2014,
+   "gen": "M",
+   "tip": 3,
+   "data": "2026-08-05",
+   "dinClub": "Athletic Slatina",
+   "poza": "https://cdn-fcrd.hailafotbal.ro/media/Get?guid=1b6f7ab9-7954-449f-b93b-b49700d3be93.jpg"
+  },
+  {
+   "id": "f93943ba-7788-4d34-907d-4257a973f055",
+   "nume": "Feraru Ianis Andrei",
+   "an": 2011,
+   "gen": "M",
+   "tip": 2,
+   "data": "2026-08-04",
+   "dinClub": null,
+   "poza": "https://cdn-fcrd.hailafotbal.ro/media/Get?guid=347b83d1-4813-462f-bba1-b321009f08ca.jpg"
+  },
+  {
+   "id": "49f15299-a22a-4491-b45f-63ac0d72384a",
+   "nume": "Petrovici Vlad Andrei",
+   "an": 2014,
+   "gen": "M",
+   "tip": 3,
+   "data": "2026-08-04",
+   "dinClub": "Athletic Slatina",
+   "poza": "https://cdn-fcrd.hailafotbal.ro/media/Get?guid=1de224e1-eb03-470a-ad1e-b49c008e0eff.jpg"
+  },
+  {
+   "id": "f731a91e-b0cb-4bcb-ad3e-cdd1991a9fa5",
+   "nume": "Ivan Matei Ștefan",
+   "an": 2014,
+   "gen": "M",
+   "tip": 3,
+   "data": "2026-08-04",
+   "dinClub": "Athletic Slatina",
+   "poza": "https://cdn-fcrd.hailafotbal.ro/media/Get?guid=8c16daa2-d85b-42c2-a7e9-b49c00a102ad.jpg"
+  },
+  {
+   "id": "686f1452-a9ca-4b94-8e38-997787248797",
+   "nume": "Truică Mihai Cristian",
+   "an": 2014,
+   "gen": "M",
+   "tip": 3,
+   "data": "2026-08-04",
+   "dinClub": "Athletic Slatina",
+   "poza": "https://cdn-fcrd.hailafotbal.ro/media/Get?guid=4874cdd2-7995-4d11-ae26-b49700d5f345.jpg"
+  },
+  {
+   "id": "312aece7-e050-4fd2-94f0-35a20397c556",
+   "nume": "Altomi Darko",
+   "an": 2014,
+   "gen": "M",
+   "tip": 3,
+   "data": "2026-08-04",
+   "dinClub": "Athletic Slatina",
+   "poza": "https://cdn-fcrd.hailafotbal.ro/media/Get?guid=25c55ed7-c7aa-4701-8f87-b49c00a0a69a.jpg"
+  },
+  {
+   "id": "2b5716e2-9e91-4357-9dca-0ea1ee710364",
+   "nume": "Dincă Eduard Rafael Florin",
+   "an": 2014,
+   "gen": "M",
+   "tip": 3,
+   "data": "2026-08-04",
+   "dinClub": "Athletic Slatina",
+   "poza": "https://cdn-fcrd.hailafotbal.ro/media/Get?guid=1cafda2b-d66a-4648-ad52-b49700c2f069.jpg"
+  },
+  {
+   "id": "ed5b74fa-f2b7-4a7c-9c50-c649a6f634ba",
+   "nume": "Tuțu George Răzvan",
+   "an": 2012,
+   "gen": "M",
+   "tip": 3,
+   "data": "2026-08-04",
+   "dinClub": "Academia Răzvan Raț",
+   "poza": "https://cdn-fcrd.hailafotbal.ro/media/Get?guid=4e5000b6-318b-4456-a8d2-b49c00b36c1b.jpg"
+  },
+  {
+   "id": "4ba27585-854c-492f-8a57-69bed039a123",
+   "nume": "Roșoga Ayan-Gabriel",
+   "an": 2015,
+   "gen": "M",
+   "tip": 3,
+   "data": "2026-08-03",
+   "dinClub": "Athletic Slatina",
+   "poza": "https://cdn-fcrd.hailafotbal.ro/media/Get?guid=f4405e0b-2715-4398-b924-b49700b74f51.jpg"
+  },
+  {
+   "id": "6bdb866d-9168-42c1-97d8-d5c34c03ba69",
+   "nume": "Manea Mihnea Constantin",
+   "an": 2014,
+   "gen": "M",
+   "tip": 3,
+   "data": "2026-07-31",
+   "dinClub": "Athletic Slatina",
+   "poza": "https://cdn-fcrd.hailafotbal.ro/media/Get?guid=566000de-a71d-4f0f-bcda-b49700d1930f.jpg"
+  },
+  {
+   "id": "bc790f37-4184-4eef-9fac-42e42a0fd025",
+   "nume": "Sakin Mohamad Yanis",
+   "an": 2014,
+   "gen": "M",
+   "tip": 3,
+   "data": "2026-07-31",
+   "dinClub": "Athletic Slatina",
+   "poza": "https://cdn-fcrd.hailafotbal.ro/media/Get?guid=5d5ad31e-a3e4-4b6c-a3d5-b49700cac529.jpg"
+  },
+  {
+   "id": "36afeb61-e45f-429a-ae3a-fd1c4bad6a50",
+   "nume": "Timofte Tudor Gabriel",
+   "an": 2014,
+   "gen": "M",
+   "tip": 3,
+   "data": "2026-07-31",
+   "dinClub": "Athletic Slatina",
+   "poza": "https://cdn-fcrd.hailafotbal.ro/media/Get?guid=843fd0e7-7fcc-4fa5-899c-b49700d28bfc.jpg"
+  },
+  {
+   "id": "ddf6518f-d9e6-4e87-9902-02ca4b3a33ce",
+   "nume": "Turiac Rareș Gabriel",
+   "an": 2014,
+   "gen": "M",
+   "tip": 3,
+   "data": "2026-07-31",
+   "dinClub": "Athletic Slatina",
+   "poza": "https://cdn-fcrd.hailafotbal.ro/media/Get?guid=92895ac5-1bf2-456a-98e6-b49700c47d45.jpg"
+  },
+  {
+   "id": "9a7fd3a7-bc16-413e-a4dd-64fdfd7f6056",
+   "nume": "Crîngeanu Robert Florin",
+   "an": 2014,
+   "gen": "M",
+   "tip": 3,
+   "data": "2026-07-31",
+   "dinClub": "Athletic Slatina",
+   "poza": "https://cdn-fcrd.hailafotbal.ro/media/Get?guid=6d44d042-6a99-4ab1-b927-b49700c78835.jpg"
+  },
+  {
+   "id": "0c1dfadf-6bfb-4b83-8de8-fefd30ec638a",
+   "nume": "Feran-Ciocioi Eduard Cristian",
+   "an": 2014,
+   "gen": "M",
+   "tip": 3,
+   "data": "2026-07-31",
+   "dinClub": "Athletic Slatina",
+   "poza": "https://cdn-fcrd.hailafotbal.ro/media/Get?guid=bd6c7250-8694-454e-83a1-b49700c11d80.jpg"
+  },
+  {
+   "id": "a396a2be-775a-48d1-9239-9973322e09d5",
+   "nume": "Răduleț Andrei Nicholas",
+   "an": 2014,
+   "gen": "M",
+   "tip": 3,
+   "data": "2026-07-31",
+   "dinClub": "Athletic Slatina",
+   "poza": "https://cdn-fcrd.hailafotbal.ro/media/Get?guid=05e28ff3-1d89-4754-a17c-b49700c64107.jpg"
+  },
+  {
+   "id": "fe3e3b16-8dfe-45da-ab99-448b39bbb125",
+   "nume": "Enache Alexandru Daniel",
+   "an": 2014,
+   "gen": "M",
+   "tip": 3,
+   "data": "2026-07-31",
+   "dinClub": "Athletic Slatina",
+   "poza": "https://cdn-fcrd.hailafotbal.ro/media/Get?guid=3f087cca-954d-4acb-9968-b49700d09587.jpg"
+  },
+  {
+   "id": "b907cd5e-f355-4440-a1aa-6ec2b8e937ac",
+   "nume": "Dorobanțu Nicolas Lucian",
+   "an": 2014,
+   "gen": "M",
+   "tip": 3,
+   "data": "2026-07-31",
+   "dinClub": "Athletic Slatina",
+   "poza": "https://cdn-fcrd.hailafotbal.ro/media/Get?guid=0eb88b90-537b-49f6-bbdc-b49700cf4140.jpg"
+  },
+  {
+   "id": "2dcb1ea1-e669-4ddf-93ab-88b89cdfca93",
+   "nume": "Drăghici David-Florinel",
+   "an": 2014,
+   "gen": "M",
+   "tip": 3,
+   "data": "2026-07-31",
+   "dinClub": "Athletic Slatina",
+   "poza": "https://cdn-fcrd.hailafotbal.ro/media/Get?guid=a234ca57-4373-4101-ab47-b49700bdf81f.jpg"
+  },
+  {
+   "id": "5ce18520-e716-4fac-93bd-789d37216484",
+   "nume": "Tabarcea Matei",
+   "an": 2009,
+   "gen": "M",
+   "tip": 3,
+   "data": "2026-07-28",
+   "dinClub": "FC Player",
+   "poza": "https://cdn-fcrd.hailafotbal.ro/media/Get?guid=b15bc371-fa7c-465c-81cc-b49500bc9f4c.jpg"
+  },
+  {
+   "id": "751ba0f1-c48c-4dc6-9b40-2fd737d20094",
+   "nume": "Roșu Sebastian Aurel Gabriel",
+   "an": 2010,
+   "gen": "M",
+   "tip": 3,
+   "data": "2026-07-01",
+   "dinClub": "LPS Slatina",
+   "poza": "https://cdn-fcrd.hailafotbal.ro/media/Get?guid=323fdc7f-fba0-4313-9b71-b1ca009c72e6.jpg"
+  },
+  {
+   "id": "ab6f028f-03a2-4690-beba-039c946da6f4",
+   "nume": "Stănescu Alexandru Florin",
+   "an": 2010,
+   "gen": "M",
+   "tip": 3,
+   "data": "2026-07-01",
+   "dinClub": "LPS Slatina",
+   "poza": "https://cdn-fcrd.hailafotbal.ro/media/Get?guid=8f903803-9ef3-47ab-bc19-b29100e9fda6.jpg"
+  },
+  {
+   "id": "b4c06a86-5ad9-4157-ab38-6249a36f3898",
+   "nume": "Ristea Matei Gabriel",
+   "an": 2010,
+   "gen": "M",
+   "tip": 3,
+   "data": "2026-07-01",
+   "dinClub": "LPS Slatina",
+   "poza": "https://cdn-fcrd.hailafotbal.ro/media/Get?guid=1b575a1c-8f81-4ada-a1dd-b4bc008b12d9.jpg"
+  },
+  {
+   "id": "d83c8279-0723-4e0f-8f00-241d7a581c8b",
+   "nume": "Stancu Claudiu Constantin",
+   "an": 2009,
+   "gen": "M",
+   "tip": 4,
+   "data": "2026-02-09",
+   "dinClub": "Campionii FC Argeș",
+   "poza": "https://cdn-fcrd.hailafotbal.ro/media/Get?guid=06053752-64f6-4f10-ac2f-b38c008b11cb.jpg"
+  },
+  {
+   "id": "5ccc5389-0f2e-4193-b16f-2a4f71f488fe",
+   "nume": "Știrbu Alexis Darrien",
+   "an": 2013,
+   "gen": "M",
+   "tip": 3,
+   "data": "2026-02-09",
+   "dinClub": "FCU 1948 Craiova",
+   "poza": "https://cdn-fcrd.hailafotbal.ro/media/Get?guid=ba226f89-9622-4680-a5d5-b4ad009a80d7.jpg"
+  },
+  {
+   "id": "d4464582-094c-4fd8-9d86-ee80ff13d3c7",
+   "nume": "Iancu Matei Nicolae",
+   "an": 2012,
+   "gen": "M",
+   "tip": 3,
+   "data": "2026-02-09",
+   "dinClub": "Academia Răzvan Raț",
+   "poza": "https://cdn-fcrd.hailafotbal.ro/media/Get?guid=db15ed14-55a1-4aff-979c-b4ab00a53d91.jpg"
+  },
+  {
+   "id": "684426fe-872e-43c2-be2e-400bdab89865",
+   "nume": "Tănase Ștefan Laurențiu",
+   "an": 2012,
+   "gen": "M",
+   "tip": 3,
+   "data": "2026-02-09",
+   "dinClub": "MCA Drăgănești",
+   "poza": "https://cdn-fcrd.hailafotbal.ro/media/Get?guid=8e57619e-7f5b-4f12-992f-b3ec009dd7bd.jpg"
+  },
+  {
+   "id": "3944e0fe-2ac6-482c-8494-a40f3f0d9a66",
+   "nume": "Lupu Ionuț Alberto",
+   "an": 2012,
+   "gen": "M",
+   "tip": 3,
+   "data": "2026-02-09",
+   "dinClub": "MCA Drăgănești",
+   "poza": "https://cdn-fcrd.hailafotbal.ro/media/Get?guid=63d52e2e-4b36-4a61-8cb5-b3ec008e407e.jpg"
+  },
+  {
+   "id": "20e26ae8-8e04-4644-85cd-92f59306b773",
+   "nume": "Bădălan Rareș Nicolas",
+   "an": 2013,
+   "gen": "M",
+   "tip": 3,
+   "data": "2026-02-09",
+   "dinClub": "Academia Răzvan Raț",
+   "poza": "https://cdn-fcrd.hailafotbal.ro/media/Get?guid=1bde7488-2f82-4c95-9feb-b3ec0081dd94.jpg"
+  },
+  {
+   "id": "f5c87c38-0450-40a6-9fff-a8c2dbc5e435",
+   "nume": "Cazacu Răzvan Gabriel",
+   "an": 2010,
+   "gen": "M",
+   "tip": 3,
+   "data": "2026-02-09",
+   "dinClub": "CSJ Știința U Craiova",
+   "poza": "https://cdn-fcrd.hailafotbal.ro/media/Get?guid=f5053560-5301-4660-aa13-b27d00c77f49.jpg"
+  },
+  {
+   "id": "846345d1-3325-4966-9124-2f3ee4430b1e",
+   "nume": "Zaharia Eduard Constantin",
+   "an": 2011,
+   "gen": "M",
+   "tip": 3,
+   "data": "2026-02-02",
+   "dinClub": "ACS Sport Team",
+   "poza": "https://cdn-fcrd.hailafotbal.ro/media/Get?guid=a7c4dcf2-a109-43bf-90d4-b32100b1c6d7.jpg"
+  },
+  {
+   "id": "eb4bf51d-2c87-4dcb-98d0-ead45f2c3a67",
+   "nume": "Enoae Emanuel",
+   "an": 2011,
+   "gen": "M",
+   "tip": 3,
+   "data": "2026-01-22",
+   "dinClub": "ACS Petrolul 52",
+   "poza": "https://cdn-fcrd.hailafotbal.ro/media/Get?guid=8aeeb18e-161a-4712-a865-b321009e2094.jpg"
+  },
+  {
+   "id": "951c81d5-b29e-45b7-bd2b-9fb537f13dbe",
+   "nume": "Bloțu Gabriel Marius",
+   "an": 2009,
+   "gen": "M",
+   "tip": 3,
+   "data": "2026-01-22",
+   "dinClub": "LPS Slatina",
+   "poza": "https://cdn-fcrd.hailafotbal.ro/media/Get?guid=48ebb294-1f54-4f22-8a9a-b3da009661ea.jpg"
+  },
+  {
+   "id": "34fd5e89-0ad4-46b0-b794-34742c47c251",
+   "nume": "Cace Mario Răzvan",
+   "an": 2009,
+   "gen": "M",
+   "tip": 3,
+   "data": "2026-01-22",
+   "dinClub": "LPS Slatina",
+   "poza": "https://cdn-fcrd.hailafotbal.ro/media/Get?guid=658a8f91-d41c-4394-b91e-b4a300b3076f.jpg"
+  },
+  {
+   "id": "73db2497-1131-4929-84ce-0f511b802072",
+   "nume": "Țolu Eduard Andrei",
+   "an": 2011,
+   "gen": "M",
+   "tip": 3,
+   "data": "2026-01-14",
+   "dinClub": "Athletic Slatina",
+   "poza": "https://cdn-fcrd.hailafotbal.ro/media/Get?guid=a57926e3-9f39-4d60-a66a-b37d00935f49.jpg"
+  },
+  {
+   "id": "1b6332b9-b640-44e2-b6d5-0ed4ca4436c6",
+   "nume": "Pescaru Aris Constantin",
+   "an": 2011,
+   "gen": "M",
+   "tip": 3,
+   "data": "2026-01-13",
+   "dinClub": "Oltul Curtișoara",
+   "poza": "https://cdn-fcrd.hailafotbal.ro/media/Get?guid=d643b50c-39c8-40c6-b352-b3d100d3bc0f.jpg"
+  },
+  {
+   "id": "f44bfaf9-3cf3-471e-ac59-67004a706d74",
+   "nume": "Fota Petru Iustin",
+   "an": 2011,
+   "gen": "M",
+   "tip": 3,
+   "data": "2026-01-13",
+   "dinClub": "Oltul Curtișoara",
+   "poza": "https://cdn-fcrd.hailafotbal.ro/media/Get?guid=5ecb2cf2-4616-4d7f-9a65-b3d100d29e53.jpg"
+  }
+ ]
+}
