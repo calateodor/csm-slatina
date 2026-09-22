@@ -196,6 +196,81 @@ function json(corp, secunde) {
   });
 }
 
+/* ---------- juniorii, din datele FRF („Hai la fotbal") ----------
+   hailafotbal.ro e aplicația oficială FRF pentru legitimări și transferuri.
+   Datele ei vin din api.datalake.frf.ro, cu un token luat cu cheile
+   aplicației (FRF_API_USER / FRF_API_PASS, puse ca secrete ale worker-ului,
+   nu în repo). Cerem doar mișcările clubului CSM Slatina și păstrăm doar
+   sosirile: legitimări (1), relegitimări (2), transferuri (3), împrumuturi
+   la noi (4). Categoriile FRF: 1 = juniori, 4 = junioare. */
+const FRF = {
+  api: "https://api.datalake.frf.ro",
+  club: "bcb504eb-a4e9-4c8d-9178-ed07c251ea0c",   // CSM Slatina în baza FRF
+  cdn: "https://cdn-fcrd.hailafotbal.ro/media/Get?guid=",
+};
+let tokenFrf = { valoare: null, expira: 0 };
+
+async function tokenFRF(env) {
+  if (tokenFrf.valoare && Date.now() < tokenFrf.expira - 60e3) return tokenFrf.valoare;
+  if (!env.FRF_API_USER || !env.FRF_API_PASS) throw new Error("lipsesc cheile FRF");
+  const r = await fetch(FRF.api + "/Auth/GetToken", {
+    method: "POST",
+    headers: { "Content-Type": "application/json", "Accept": "application/json" },
+    body: JSON.stringify({ apiUser: env.FRF_API_USER, apiPassword: env.FRF_API_PASS }),
+  });
+  if (!r.ok) throw new Error(`token FRF ${r.status}`);
+  const t = (await r.json()).token;
+  if (!t) throw new Error("token FRF gol");
+  // JWT: expirarea e în corp; dacă nu o putem citi, ținem tokenul 20 de minute
+  let expira = Date.now() + 20 * 60e3;
+  try {
+    const corp = JSON.parse(atob(t.split(".")[1].replace(/-/g, "+").replace(/_/g, "/")));
+    if (corp.exp) expira = corp.exp * 1000;
+  } catch (e) { /* rămâne pe 20 de minute */ }
+  tokenFrf = { valoare: t, expira };
+  return t;
+}
+
+function curataNume(n) {
+  n = String(n || "").replace(/\s+/g, " ").trim()
+    .replace(/ş/g, "ș").replace(/ţ/g, "ț").replace(/Ş/g, "Ș").replace(/Ţ/g, "Ț");
+  if (n && n === n.toUpperCase()) {
+    n = n.toLowerCase().split(" ").map((w) =>
+      w.split("-").map((p) => p.charAt(0).toUpperCase() + p.slice(1)).join("-")).join(" ");
+  }
+  return n;
+}
+
+async function sosiriFRF(env, categorie, gen) {
+  const token = await tokenFRF(env);
+  const r = await fetch(FRF.api + "/HaiLaFotbal/GetTransfers", {
+    method: "POST",
+    headers: { "Authorization": "Bearer " + token, "Content-Type": "application/json", "Accept": "application/json" },
+    body: JSON.stringify({ pageIndex: 0, rowsPerPage: 500, categories: categorie, playerId: null, clubId: FRF.club }),
+  });
+  if (r.status === 401) { tokenFrf = { valoare: null, expira: 0 }; throw new Error("token FRF respins"); }
+  if (!r.ok) throw new Error(`FRF ${r.status}`);
+  const d = await r.json();
+  return (d.items || [])
+    .filter((x) => x.clubId === FRF.club)          // doar sosirile la noi
+    .map((x) => ({
+      id: x.playerId,
+      nume: curataNume(x.playerName),
+      an: x.birthYear,
+      gen,
+      tip: x.sysLegitimationTypeId,
+      data: String(x.startDate || "").slice(0, 10),
+      dinClub: curataNume(x.previousClubName || x.internationalFromClubName || "") || null,
+      poza: x.photoPath ? FRF.cdn + x.photoPath + (x.photoExtension || "") : null,
+    }));
+}
+
+async function juniori(env) {
+  const [baieti, fete] = await Promise.all([sosiriFRF(env, 1, "M"), sosiriFRF(env, 4, "F")]);
+  const jucatori = baieti.concat(fete).sort((a, b) => (a.data < b.data ? 1 : -1));
+  return { sursa: "FRF · Hai la fotbal", jucatori, luatLa: Math.floor(Date.now() / 1000) };
+}
+
 export default {
   async fetch(cerere, env, ctx) {
     const url = new URL(cerere.url);
@@ -209,13 +284,22 @@ export default {
       try { return json(await detaliuMeci(proba[1]), 5); }
       catch (e) { return json({ eroare: String(e.message || e) }, 5); }
     }
+    // /juniori — sosirile de juniori la club, din datele FRF (10 minute în cache)
+    const eJuniori = url.pathname === "/juniori";
     const cache = caches.default;
-    const cheie = new Request(url.origin + (calendar ? "/c-calendar" : "/live"), cerere);
+    const cheie = new Request(url.origin + (eJuniori ? "/c-juniori" : calendar ? "/c-calendar" : "/live"), cerere);
     const dinCache = await cache.match(cheie);
     if (dinCache) return dinCache;
 
     let raspuns;
-    if (calendar) {
+    if (eJuniori) {
+      try {
+        raspuns = json(await juniori(env), 600);
+      } catch (e) {
+        // fără cache: site-ul cade pe copia lui salvată, iar noi reîncercăm imediat
+        return json({ eroare: String(e.message || e), jucatori: [] }, 0);
+      }
+    } else if (calendar) {
       const [fotbal, handbal] = await Promise.all([
         iaCalendarul("Fotbal", ECHIPE.fotbal),
         iaCalendarul("Handbal", ECHIPE.handbal),
