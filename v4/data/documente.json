@@ -1,0 +1,113 @@
+{
+  "_comentariu": "Documentele de pe pagina Informații de interes public (informatii-publice.html). „carduri” = câte un card cu un document (sau un link extern, sau o persoană de contact); „financiare” = grupurile din secțiunea Situații financiare, cu câte un rând pe an. Se editează din panoul de administrare, tabul Documente. Fișierele stau în assets/documente/.",
+  "carduri": [
+    {
+      "id": "e-consultare",
+      "titlu": "E-Consultare",
+      "eticheta": "Site extern",
+      "descriere": "Platforma națională pentru consultare publică, unde pot fi urmărite și comentate proiectele de acte normative puse în dezbatere.",
+      "link": "https://e-consultare.gov.ro/"
+    },
+    {
+      "id": "avertizori",
+      "titlu": "Protecția avertizorilor în interes public",
+      "eticheta": "Legea nr. 361/2022",
+      "descriere": "Persoana desemnată cu atribuții privind primirea, înregistrarea, examinarea, efectuarea de acțiuni subsecvente și soluționarea raportărilor:",
+      "persoana": "Gaia Maria Nicoleta",
+      "email": "office@csmslatina.ro"
+    },
+    {
+      "id": "organigrama",
+      "titlu": "Organigramă",
+      "eticheta": "PDF · 1 pagină",
+      "descriere": "Structura organizatorică a Clubului Sportiv Municipal Slatina.",
+      "fisier": "assets/documente/organigrama.pdf"
+    },
+    {
+      "id": "venituri-salariale",
+      "titlu": "Situația veniturilor salariale",
+      "eticheta": "PDF · 4 pagini",
+      "descriere": "Situația privind veniturile salariale ale personalului clubului, publicată conform legii.",
+      "fisier": "assets/documente/venituri-salariale.pdf"
+    },
+    {
+      "id": "buletin-informativ",
+      "titlu": "Buletin informativ 2026",
+      "eticheta": "PDF · 10 pagini",
+      "descriere": "Buletinul informativ prevăzut de articolul 5 din Legea 544/2001, pentru anul 2026.",
+      "fisier": "assets/documente/buletin-informativ-2026.pdf"
+    },
+    {
+      "id": "raport-evaluare",
+      "titlu": "Raport de evaluare Legea 544 — 2025",
+      "eticheta": "PDF · 6 pagini",
+      "descriere": "Raportul anual de evaluare a implementării Legii 544/2001 privind liberul acces la informațiile de interes public.",
+      "fisier": "assets/documente/raport-evaluare-544-2025.pdf"
+    },
+    {
+      "id": "raport-activitate",
+      "titlu": "Raport de activitate 2025",
+      "eticheta": "PDF · 17 pagini",
+      "descriere": "Raportul de activitate al clubului pe anul 2025.",
+      "fisier": "assets/documente/raport-activitate-2025.pdf"
+    }
+  ],
+  "financiare": [
+    {
+      "id": "bilant-cpp",
+      "titlu": "Bilanț și CPP",
+      "descriere": "Bilanțul contabil și contul de profit și pierdere depuse pentru licențierea echipei de fotbal în Liga a II-a.",
+      "randuri": [
+        {
+          "an": "2025–2026",
+          "titlu": "Bilanț și CPP — licențiere Liga a II-a",
+          "publicat": "15 mai 2024",
+          "fisiere": ["assets/documente/bilant-cpp-2025-2026.pdf"]
+        },
+        {
+          "an": "2023",
+          "titlu": "Bilanț și CPP — licențiere Liga a II-a",
+          "publicat": "23 mai 2023",
+          "fisiere": ["assets/documente/bilant-cpp-2023-p1.jpg", "assets/documente/bilant-cpp-2023-p2.jpg"]
+        },
+        {
+          "an": "2022",
+          "titlu": "Bilanț și CPP — licențiere Liga a 2-a",
+          "publicat": "27 mai 2022",
+          "fisiere": ["assets/documente/bilant-cpp-2022-p1.jpg", "assets/documente/bilant-cpp-2022-p2.jpg"]
+        }
+      ]
+    },
+    {
+      "id": "venituri-cheltuieli",
+      "titlu": "Venituri și cheltuieli — Centrul de Copii și Juniori",
+      "descriere": "Bugetele de venituri și cheltuieli ale Centrului de Copii și Juniori — Fotbal, publicate anual.",
+      "randuri": [
+        {
+          "an": "2024–2025",
+          "titlu": "Bugetul de venituri și cheltuieli al Centrului de Copii și Juniori",
+          "publicat": "17 aprilie 2025",
+          "fisiere": ["assets/documente/buget-ccj-2024-2025.pdf"]
+        },
+        {
+          "an": "2023–2024",
+          "titlu": "Bugetul de venituri și cheltuieli al Centrului de Copii și Juniori",
+          "publicat": "11 aprilie 2024",
+          "fisiere": ["assets/documente/buget-ccj-2023-2024.pdf"]
+        },
+        {
+          "an": "2023",
+          "titlu": "Veniturile și cheltuielile Centrului de Copii și Juniori — Fotbal",
+          "publicat": "10 aprilie 2023",
+          "fisiere": ["assets/documente/venituri-ccj-2023.jpg"]
+        },
+        {
+          "an": "2022",
+          "titlu": "Veniturile și cheltuielile Centrului de Copii și Juniori — Fotbal",
+          "publicat": "25 mai 2022",
+          "fisiere": ["assets/documente/venituri-ccj-2022.jpg"]
+        }
+      ]
+    }
+  ]
+}
