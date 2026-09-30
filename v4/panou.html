@@ -10,7 +10,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700;800&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/style.css?v=6629a269">
-  <link rel="stylesheet" href="css/panou.css?v=88dcdd83">
+  <link rel="stylesheet" href="css/panou.css?v=cfe24252">
 </head>
 <body class="pn-body">
   <a class="sari-la-continut" href="#continut">Sari la conținut</a>
@@ -64,7 +64,11 @@
       </div>
       <nav class="pn-tab-uri">
         <button class="pn-tab activ" data-tab="stiri" type="button">Știri</button>
+        <button class="pn-tab" data-tab="anunturi" type="button">Anunțuri</button>
+        <button class="pn-tab" data-tab="documente" type="button">Documente</button>
         <button class="pn-tab" data-tab="lot" type="button">Loturi</button>
+        <button class="pn-tab" data-tab="juniori" type="button">Juniori</button>
+        <button class="pn-tab" data-tab="sportivi" type="button">Sportivi</button>
         <button class="pn-tab" data-tab="meciuri" type="button">Meciuri</button>
         <button class="pn-tab" data-tab="tarife" type="button">Tarife</button>
         <button class="pn-tab" data-tab="editare" type="button">Editare în pagină</button>
@@ -80,8 +84,40 @@
           <button class="pn-btn pn-btn-plin" id="stire-noua" type="button">+ Adaugă știre</button>
         </div>
         <p class="pn-nota">Articolele apar pe <a href="stiri.html" target="_blank">pagina de știri</a>.
-           „Nepublicat" înseamnă ciornă: rămâne salvată, dar nu se vede pe site.</p>
+           „Nepublicat" înseamnă ciornă: rămâne salvată, dar nu se vede pe site.
+           Poza se încarcă de pe calculator din fereastra de editare.</p>
         <div class="pn-lista" id="stiri-lista"></div>
+      </section>
+
+      <section class="pn-sectiune" id="tab-anunturi" hidden>
+        <div class="pn-cap">
+          <h2>Anunțuri &amp; concursuri</h2>
+          <button class="pn-btn pn-btn-plin" id="anunt-nou" type="button">+ Adaugă anunț</button>
+        </div>
+        <p class="pn-nota">Anunțurile de concurs, rezultatele de selecție, probele scrise, interviurile,
+           rapoartele finale și licitațiile apar pe <a href="anunturi.html" target="_blank">pagina de anunțuri</a>,
+           grupate pe ani. Un anunț = titlu, dată și documentul: paginile scanate (JPG/PNG, se
+           optimizează singure) sau un PDF. Nimic nu pleacă pe site până nu apeși „Publică".</p>
+        <div class="pn-unelte">
+          <input type="search" id="anunturi-cauta" placeholder="Caută după titlu sau dată (ex. 2026-07)…" aria-label="Caută în anunțuri">
+          <span class="pn-nota" id="anunturi-numar"></span>
+        </div>
+        <div class="pn-lista" id="anunturi-lista"></div>
+      </section>
+
+      <section class="pn-sectiune" id="tab-documente" hidden>
+        <div class="pn-cap">
+          <h2>Informații de interes public</h2>
+          <button class="pn-btn pn-btn-plin" id="document-nou" type="button">+ Adaugă document</button>
+        </div>
+        <p class="pn-nota">Ce apare pe <a href="informatii-publice.html" target="_blank">pagina de informații publice</a>:
+           organigrama, situația veniturilor salariale, buletinul informativ, rapoartele anuale.
+           La „Editează" poți schimba titlul, eticheta, descrierea și înlocui documentul cu unul nou.</p>
+        <div class="pn-lista" id="documente-lista"></div>
+        <h3 class="pn-subtitlu">Situații financiare</h3>
+        <p class="pn-nota">Bilanțul și CPP, bugetele Centrului de Copii și Juniori: câte un rând pe an,
+           cu PDF-ul sau paginile scanate. „+ Adaugă an" pune rândul nou primul în listă.</p>
+        <div id="financiare-lista"></div>
       </section>
 
       <section class="pn-sectiune" id="tab-lot" hidden>
@@ -95,6 +131,34 @@
         <p class="pn-nota" id="lot-nota"></p>
         <div class="pn-lista" id="lot-lista"></div>
         <button class="pn-btn" id="lot-adauga" type="button">+ Adaugă jucător</button>
+      </section>
+
+      <section class="pn-sectiune" id="tab-juniori" hidden>
+        <div class="pn-cap">
+          <h2>Fotbal juniori</h2>
+        </div>
+        <p class="pn-nota">Lotul de pe <a href="sectii/fotbal-juniori.html#lot" target="_blank">pagina de juniori</a>
+           vine automat din evidența FRF („Hai la fotbal"): copiii legitimați și transferați la club, pe grupe de
+           vârstă. De aici poți <b>ascunde</b> un copil (de exemplu la cererea părinților) sau îi poți
+           <b>scoate poza</b> (rămân inițialele) când FRF are un scan de document în loc de portret.</p>
+        <div class="pn-unelte">
+          <input type="search" id="juniori-cauta" placeholder="Caută după nume…" aria-label="Caută în juniori">
+          <span class="pn-nota" id="juniori-numar"></span>
+        </div>
+        <div class="pn-lista" id="juniori-lista"><p class="pn-nota">Se încarcă lista…</p></div>
+      </section>
+
+      <section class="pn-sectiune" id="tab-sportivi" hidden>
+        <h2>Sportivii secțiilor individuale</h2>
+        <p class="pn-nota">Cardurile de sportiv de pe paginile de <a href="sectii/box.html" target="_blank">box</a>
+           și <a href="sectii/tenis-de-masa.html" target="_blank">tenis de masă</a>: cifrele, palmaresul,
+           antrenorii, fotografia. Palmaresul se scrie un rând pe linie: <b>an | text | categorie</b>.</p>
+        <div class="pn-lista">
+          <div class="pn-rand"><div class="pn-info" id="sportiv-box"></div>
+            <button class="pn-btn pn-btn-mic" id="sportiv-box-ed" type="button">Editează</button></div>
+          <div class="pn-rand"><div class="pn-info" id="sportiv-tm"></div>
+            <button class="pn-btn pn-btn-mic" id="sportiv-tm-ed" type="button">Editează</button></div>
+        </div>
       </section>
 
       <section class="pn-sectiune" id="tab-meciuri" hidden>
@@ -129,11 +193,27 @@
         <span class="pn-nota" id="editare-stare"></span>
         <div class="pn-linkuri">
           <a href="index.html" target="_blank">Acasă</a>
+          <a href="stiri.html" target="_blank">Știri</a>
+          <a href="padel.html" target="_blank">Padel</a>
           <a href="plaja-olt.html" target="_blank">Plaja Olt</a>
           <a href="club-nautic.html" target="_blank">Clubul Nautic</a>
+          <a href="informatii-publice.html" target="_blank">Informații publice</a>
+          <a href="anunturi.html" target="_blank">Anunțuri</a>
           <a href="contact.html" target="_blank">Contact</a>
           <a href="sectii/fotbal.html" target="_blank">Fotbal</a>
+          <a href="sectii/fotbal-juniori.html" target="_blank">Fotbal juniori</a>
           <a href="sectii/handbal.html" target="_blank">Handbal</a>
+          <a href="sectii/tenis-de-camp.html" target="_blank">Tenis de câmp</a>
+          <a href="sectii/tenis-de-masa.html" target="_blank">Tenis de masă</a>
+          <a href="sectii/inot.html" target="_blank">Înot</a>
+          <a href="sectii/atletism.html" target="_blank">Atletism</a>
+          <a href="sectii/box.html" target="_blank">Box</a>
+          <a href="sectii/karate.html" target="_blank">Karate</a>
+          <a href="sectii/judo.html" target="_blank">Judo</a>
+          <a href="sectii/lupte.html" target="_blank">Lupte</a>
+          <a href="sectii/sah.html" target="_blank">Șah</a>
+          <a href="confidentialitate.html" target="_blank">Confidențialitate</a>
+          <a href="cookies.html" target="_blank">Cookie-uri</a>
         </div>
       </section>
 
@@ -152,6 +232,6 @@
 
   <div class="pn-editor" id="pn-editor" hidden></div>
 
-  <script src="js/panou.js?v=ec10dbf6"></script>
+  <script src="js/panou.js?v=35d2a83b"></script>
 </body>
 </html>

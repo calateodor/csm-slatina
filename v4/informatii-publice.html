@@ -154,7 +154,9 @@
 
     <section class="sectiune-chenar ip-sectiune">
       <div class="container">
-        <div class="ip-grila">
+        <!-- cardurile se redesenează din data/documente.json (js/informatii-publice.js);
+             marcajul de mai jos e rezerva, identică cu datele -->
+        <div class="ip-grila" id="ip-carduri">
         <article class="ip-card" id="e-consultare">
           <div class="ip-cap">
             <h2>E-Consultare</h2>
@@ -241,6 +243,7 @@
       <div class="container">
         <span class="eyebrow">Transparență</span>
         <h2 class="section-title reveal" id="situatii-financiare">Situații financiare</h2>
+        <div id="fin-grupuri">
         <div class="fin-grup" id="bilant-cpp">
           <h3>Bilanț și CPP</h3>
           <p class="fin-desc">Bilanțul contabil și contul de profit și pierdere depuse pentru licențierea echipei de fotbal în Liga a II-a.</p>
@@ -303,6 +306,7 @@
               </span>
             </li>
           </ol>
+        </div>
         </div>
         <p class="ip-nota">Documentele mai vechi sunt scanări ale actelor semnate, publicate în forma în care au fost depuse.</p>
       </div>
@@ -367,5 +371,6 @@
   <script src="js/main.js?v=c6101f57"></script>
   <script src="js/editare.js?v=2a093f55"></script>
   <script src="js/stele.js?v=930d1da5"></script>
+  <script src="js/informatii-publice.js?v=751cd8a8"></script>
 </body>
 </html>

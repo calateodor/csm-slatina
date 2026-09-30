@@ -178,3 +178,69 @@
 @media (max-width: 640px) {
   .pn-publica { left: 10px; right: 10px; transform: none; bottom: 10px; gap: 8px; }
 }
+
+/* ---------- unelte de listă (căutare + număr) ---------- */
+.pn-unelte { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; margin-bottom: 14px; }
+.pn-unelte input[type="search"] {
+  flex: 1; min-width: 220px; max-width: 420px;
+  border: 1px solid rgba(20, 52, 92, 0.18); border-radius: 999px;
+  padding: 10px 16px; font: inherit; color: #14345c; background: #fff;
+}
+.pn-unelte input[type="search"]:focus { outline: 2px solid rgba(18, 58, 158, 0.3); }
+.pn-unelte .pn-nota { margin: 0; }
+.pn-subtitlu { font-family: var(--font-display); font-size: 1.1rem; margin: 26px 0 6px; }
+.pn-rand-stins { opacity: 0.55; }
+.pn-rand a.pn-btn { text-decoration: none; display: inline-block; }
+
+/* grupurile de rânduri (situațiile financiare) */
+.pn-grup { margin-bottom: 18px; }
+.pn-grup-cap { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin-bottom: 8px; }
+.pn-grup-cap strong { flex: 1; min-width: 200px; font-family: var(--font-display); font-size: 1rem; }
+.pn-grup .pn-rand { margin-bottom: 8px; }
+
+/* ---------- editorul: poze și fișiere ---------- */
+.pn-eticheta {
+  display: block; margin-bottom: 8px;
+  font: 700 0.72rem/1.2 var(--font-body, Manrope, sans-serif);
+  letter-spacing: 0.1em; text-transform: uppercase; color: #47617f;
+}
+.pn-poza-camp { display: flex; gap: 8px; align-items: center; margin-top: 6px; }
+.pn-poza-camp input { margin-top: 0 !important; flex: 1; }
+.pn-poza-camp .pn-btn { white-space: nowrap; }
+.pn-poza-prev { display: block; max-height: 120px; max-width: 100%; border-radius: 10px; margin-top: 8px; }
+.pn-camp-fisiere { margin-bottom: 14px; }
+.pn-fisiere { display: grid; grid-template-columns: repeat(auto-fill, minmax(110px, 1fr)); gap: 10px; }
+.pn-fisier {
+  position: relative; display: flex; flex-direction: column; gap: 6px;
+  border: 1px solid rgba(20, 52, 92, 0.15); border-radius: 12px; padding: 8px; background: #f6f8fc;
+}
+.pn-fisier img { width: 100%; aspect-ratio: 3 / 4; object-fit: cover; object-position: top; border-radius: 8px; background: #fff; }
+.pn-fisier-pdf {
+  display: grid; place-items: center; aspect-ratio: 3 / 4; border-radius: 8px;
+  background: #14345c; color: #f6c81c; font: 800 1rem/1 var(--font-display, Poppins, sans-serif);
+}
+.pn-fisier-nume { font-size: 0.66rem; color: #47617f; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.pn-fisier-x {
+  position: absolute; top: 4px; right: 4px; width: 24px; height: 24px; border-radius: 50%;
+  border: 0; cursor: pointer; background: #fff; color: #c02626; font-weight: 700; font-size: 0.8rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+.pn-fisiere-actiuni { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; margin-top: 10px; }
+.pn-fisiere-actiuni small { font-size: 0.74rem; color: #47617f; }
+@media (max-width: 640px) {
+  .pn-fisiere { grid-template-columns: repeat(auto-fill, minmax(86px, 1fr)); gap: 8px; }
+  .pn-poza-camp { flex-wrap: wrap; }
+  .pn-editor .pn-cutie { padding: 18px; }
+}
+
+/* pe telefon, taburile stau pe un singur rând derulabil, sub siglă */
+@media (max-width: 640px) {
+  .pn-antet { gap: 10px 12px; }
+  .pn-tab-uri {
+    order: 3; flex-basis: 100%; flex-wrap: nowrap; overflow-x: auto;
+    -webkit-overflow-scrolling: touch; scrollbar-width: none; padding-bottom: 2px;
+  }
+  .pn-tab-uri::-webkit-scrollbar { display: none; }
+  .pn-tab { white-space: nowrap; flex: none; }
+  .pn-antet .pn-btn { margin-left: auto; }
+}
