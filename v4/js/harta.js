@@ -43,7 +43,7 @@
     { s: "zgura",    x: 60.64, y: 29.56 },
     { s: "hard",     x: 67.15, y: 19.33 },
     { s: "padel",    x: 18.84, y: 16.33 },
-    { s: "zgura",    x: 22.73, y: 18.71 },
+    { s: "zgura",    x: 22.73, y: 18.71, poza: "thumb-zgura-balon.webp" },   // terenul de zgură de sub balon
     { s: "apa",      x: 12.38, y: 50.13 },
     { s: "futnet",   x: 72.85, y: 33.39 },
     { s: "fotbal",   x: 74.71, y: 21.71 }
@@ -76,7 +76,11 @@
         }
       } catch (e) {}
     }
-    return PORNIRE.map(function (p) { return { s: p.s, x: p.x, y: p.y }; });
+    return PORNIRE.map(function (p) {
+      var pin = { s: p.s, x: p.x, y: p.y };
+      if (p.poza) pin.poza = p.poza;   // un pin poate avea poza lui (ex. zgura de sub balon)
+      return pin;
+    });
   }
   function salveaza() {
     try { localStorage.setItem(CHEIE, JSON.stringify(pini)); } catch (e) {}
@@ -96,6 +100,7 @@
     Array.prototype.forEach.call(scena.querySelectorAll(".hpin"), function (el) { el.remove(); });
     pini.forEach(function (pin, idx) {
       var sv = serviciu(pin.s);
+      var poza = pin.poza ? POZE + pin.poza : sv.poza;
       var el = document.createElement("div");
       el.className = "hpin" +
         (pin.y < 38 ? " sus" : "") +          // cardul se deschide sub pin, nu peste marginea hartii
@@ -110,10 +115,10 @@
         '<span class="hpin-umbra"></span>' +
         '<span class="hpin-corp">' +
           '<span class="hpin-card">' +
-            (sv.poza ? '<img src="' + sv.poza + '" alt="" loading="lazy">' : "") +
+            (poza ? '<img src="' + poza + '" alt="" loading="lazy">' : "") +
             "<b>" + sv.nume + "</b>" +
             (sv.tarif ? "<i>" + tarifMarcat(sv.tarif) + "</i>" : "") +
-            (sv.poza ? '<em class="hpin-cta">Rezervă <span>→</span></em>' : "") +
+            (poza ? '<em class="hpin-cta">Rezervă <span>→</span></em>' : "") +
           "</span>" +
           '<span class="hpin-cap">' + sv.ico + '<span class="hpin-x">×</span></span>' +
           '<span class="hpin-tija"></span>' +
