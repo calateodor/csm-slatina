@@ -1,7 +1,7 @@
 {
   "padel":    { "nume": "Padel",                        "tarif": "40 lei/oră (10–16) · 60 lei/oră (16–24)" },
   "zgura":    { "nume": "Tenis zgură",                  "tarif": "40 lei/oră ziua · 45 lei/oră nocturn" },
-  "hard":     { "nume": "Tenis hard",                   "tarif": "rezervări: 0349 883 938" },
+  "hard":     { "nume": "Tenis hard",                   "tarif": "40 lei/oră ziua · 45 lei/oră nocturn" },
   "minigolf": { "nume": "Minigolf",                     "tarif": "11 lei/oră/crosă · 7 lei/30 min" },
   "volei":    { "nume": "Beach volley",                 "tarif": "25 lei/oră · 13 lei/30 min" },
   "futnet":   { "nume": "Tenis de picior",   "tarif": "80 lei/oră · minge inclusă" },
