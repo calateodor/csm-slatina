@@ -1,7 +1,17 @@
 {
   "_comentariu": "Anunțurile și comunicatele oficiale preluate din arhiva site-ului vechi (categoria „Anunturi și comunicate oficiale\"). Sunt documente scanate, publicate ca imagini; textul lipsește la majoritatea, fiindcă lipsea și acolo.",
-  "actualizat": "2026-10-12",
+  "actualizat": "2026-10-28",
   "anunturi": [
+    {
+      "slug": "2026-10-28-rezultate-selectie-dosare",
+      "data": "2026-10-28",
+      "an": "2026",
+      "titlu": "Rezultate selectie dosare",
+      "text": "",
+      "fisiere": [
+        "assets/anunturi/2026/2026-10-28-rezultate-selectie-dosare-1.jpg"
+      ]
+    },
     {
       "slug": "2026-10-12-anunt-concurs",
       "data": "2026-10-12",
