@@ -1,7 +1,17 @@
 {
   "_comentariu": "Anunțurile și comunicatele oficiale preluate din arhiva site-ului vechi (categoria „Anunturi și comunicate oficiale\"). Sunt documente scanate, publicate ca imagini; textul lipsește la majoritatea, fiindcă lipsea și acolo.",
-  "actualizat": "2026-11-04",
+  "actualizat": "2026-11-11",
   "anunturi": [
+    {
+      "slug": "2026-11-11-rezultate-interviu",
+      "data": "2026-11-11",
+      "an": "2026",
+      "titlu": "Rezultate interviu",
+      "text": "",
+      "fisiere": [
+        "assets/anunturi/2026/2026-11-11-rezultate-interviu-1.pdf"
+      ]
+    },
     {
       "slug": "2026-11-04-rezultate-proba-scrisa",
       "data": "2026-11-04",
