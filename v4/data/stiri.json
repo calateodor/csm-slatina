@@ -9,6 +9,16 @@
   },
   "stiri": [
     {
+      "slug": "rezultate-interviu",
+      "categorie": "stiri-club",
+      "data": "2026-11-11",
+      "titlu": "Rezultate interviu",
+      "rezumat": "",
+      "poza": "assets/img/stiri/mwbtvilf-rez-interviu-11-11-page-0001.webp",
+      "publicat": true,
+      "corp": []
+    },
+    {
       "slug": "victorie-clara-in-derbiul-oltului",
       "categorie": "rezultate",
       "data": "2026-05-18",
