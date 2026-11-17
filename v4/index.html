@@ -31,6 +31,14 @@
 
   <!-- Datele clubului în format citibil de Google: din ele se construiesc
        fișa din rezultatele căutării și cardul din Maps. -->
+  <!-- Festivalul „Trofeul Unirii": hero-ul de festival stă pe prima pagină
+       până la sfârșitul concursului (30 noiembrie 2026, inclusiv), apoi
+       revine singur hero-ul obișnuit. Clasa se pune înainte de desenare,
+       ca să nu clipească hero-ul vechi. -->
+  <script>
+    if (Date.now() < Date.parse("2026-12-01T00:00:00+02:00")) document.documentElement.classList.add("festival");
+  </script>
+  <link rel="stylesheet" href="css/festival.css?v=f584d250">
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -191,6 +199,58 @@
   </div>
 
   <main id="continut">
+    <!-- ================= Hero de festival (temporar, vezi <head>) ================= -->
+    <section class="hf" id="festival" aria-labelledby="hf-titlu">
+      <div class="hf-fundal" aria-hidden="true"></div>
+      <div class="hero-vignette"></div>
+      <div class="hf-continut">
+        <div class="hf-titlu-strat">
+          <a class="hf-eticheta" href="stire.html?s=slatina-gazduieste-cea-de-a-iii-a-editie-a-festivalului-inte">Șah · 27–30 noiembrie 2026 · Liceul cu Program Sportiv</a>
+          <h1 class="hf-titlu" id="hf-titlu"><a href="stire.html?s=slatina-gazduieste-cea-de-a-iii-a-editie-a-festivalului-inte">Slatina găzduiește cea de-a III-a ediție a Festivalului Internațional de Șah „Trofeul Unirii”</a></h1>
+        </div>
+        <a class="hf-afis" href="stire.html?s=slatina-gazduieste-cea-de-a-iii-a-editie-a-festivalului-inte">
+          <img src="assets/img/stiri/mwj95i71-whatsapp-image-2026-11-10-at-1.webp" alt="Afișul Festivalului Internațional de Șah „Trofeul Unirii”, ediția a III-a, Slatina, 27–30 noiembrie 2026" width="1106" height="1422" fetchpriority="high">
+        </a>
+      </div>
+      <div class="hero-bottom-fade"></div>
+
+      <!-- înscrierile, pe categorii, pe quchess.com -->
+      <div class="hero-actions hf-actiuni">
+        <a class="ha-card reveal" href="https://quchess.com/tournaments/festivalul-trofeul-unirii-slatina-1787317255973?tab=participants&amp;category=Amatori" target="_blank" rel="noopener">
+          <span class="ha-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2 4 14h7l-1 8 9-12h-7z"/></svg>
+          </span>
+          <span class="ha-kicker">Vineri 27 nov · ora 17:30</span>
+          <strong class="ha-title">Amatori — șah rapid</strong>
+          <span class="ha-mic" aria-hidden="true">Șah rapid, vineri 27 nov, 17:30</span>
+          <span class="ha-text">Turneu de șah rapid pentru amatori<br>Premierea la 20:00, în aceeași zi</span>
+          <span class="ha-arrow" aria-hidden="true">→</span>
+        </a>
+
+        <a class="ha-card reveal" data-delay="0.12" href="https://quchess.com/tournaments/festivalul-trofeul-unirii-slatina-1787317255973?tab=participants&amp;category=Open" target="_blank" rel="noopener">
+          <span class="ha-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
+          </span>
+          <span class="ha-kicker">27–30 nov · șah clasic</span>
+          <strong class="ha-title">Open</strong>
+          <span class="ha-mic" aria-hidden="true">Șah clasic, 27–30 noiembrie</span>
+          <span class="ha-text">Turneul principal de șah clasic<br>Start vineri 27 nov, ora 13:30</span>
+          <span class="ha-arrow" aria-hidden="true">→</span>
+        </a>
+
+        <a class="ha-card reveal" data-delay="0.24" href="https://quchess.com/tournaments/festivalul-trofeul-unirii-slatina-1787317255973?tab=participants&amp;category=U+1600" target="_blank" rel="noopener">
+          <span class="ha-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="6" r="3"/><path d="M8 21v-6l-2-3 3-2h6l3 2-2 3v6"/></svg>
+          </span>
+          <span class="ha-kicker">Copii sub 14 ani · rating sub 1600</span>
+          <strong class="ha-title">Copii U14</strong>
+          <span class="ha-mic" aria-hidden="true">Șah clasic pentru copii, rating sub 1600</span>
+          <span class="ha-text">Șah clasic pentru copii, rating sub 1600<br>27–30 noiembrie</span>
+          <span class="ha-arrow" aria-hidden="true">→</span>
+        </a>
+      </div>
+    </section>
+
     <!-- ================= Hero parallax ================= -->
     <section class="hero" id="hero">
       <div class="layer layer-bg" data-depth="bg"></div>
@@ -599,7 +659,8 @@
   <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>
   <script src="js/main.js?v=c6101f57"></script>
   <script src="js/editare.js?v=2a093f55"></script>
-  <script src="js/meciuri.js?v=84288981"></script>
+  <script src="js/meciuri.js?v=c6d384a8"></script>
+  <script src="js/festival.js?v=115fa6a5"></script>
   <script src="js/live.js?v=2b1b5c60"></script>
 </body>
 </html>

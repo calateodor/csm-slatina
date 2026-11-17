@@ -1,0 +1,80 @@
+/* Hero-ul de festival („Trofeul Unirii", 27–30 noiembrie 2026).
+   Apare doar când <html> are clasa „festival", pusă de scriptul din <head>
+   al primei pagini până la sfârșitul concursului; atunci hero-ul obișnuit
+   (#hero) se ascunde. Fundalul e același cu al hero-ului obișnuit, iar
+   cardurile refolosesc stilul .ha-card. */
+.hf { display: none; }
+html.festival .hf { display: flex; }
+html.festival #hero { display: none; }
+
+.hf {
+  position: relative;
+  flex-direction: column; align-items: center;
+  min-height: 100svh;
+  padding: calc(var(--header-h) + clamp(14px, 3svh, 34px)) 0 clamp(18px, 3.2svh, 34px);
+  overflow: hidden;
+  background: var(--navy-900);
+}
+.hf-fundal {
+  position: absolute; inset: -12% 0 0 0; height: 124%;
+  background: url("../assets/img/fundal.webp") center 30% / cover no-repeat;
+  will-change: transform;
+}
+.hf .hero-vignette { z-index: 1; }
+
+.hf-continut {
+  position: relative; z-index: 3;
+  width: min(1100px, 92vw);
+  display: flex; flex-direction: column; align-items: center;
+  gap: clamp(14px, 2.4svh, 26px);
+  text-align: center;
+}
+.hf-titlu-strat { will-change: transform; }
+.hf-eticheta {
+  display: inline-block;
+  font-family: var(--font-display); font-weight: 700;
+  font-size: 0.68rem; letter-spacing: 0.18em; text-transform: uppercase;
+  color: var(--gold); text-decoration: none;
+  margin-bottom: 10px;
+}
+.hf-titlu {
+  margin: 0;
+  font-family: var(--font-display); font-weight: 800;
+  font-size: clamp(1.45rem, 2.9vw, 2.6rem); line-height: 1.12;
+  letter-spacing: -0.01em;
+  text-wrap: balance;
+  text-shadow: 0 4px 24px rgba(3, 8, 25, 0.55);
+}
+.hf-titlu a { color: #fff; text-decoration: none; }
+.hf-titlu a:hover { color: var(--gold); }
+
+/* afișul: portret, cât încape în ecran deasupra cardurilor */
+.hf-afis {
+  display: block; will-change: transform;
+  border-radius: 18px; overflow: hidden;
+  box-shadow: 0 30px 70px -20px rgba(3, 8, 25, 0.75), 0 0 0 1px rgba(255, 255, 255, 0.18);
+  transition: box-shadow 0.35s ease;   /* nu transform: îl conduce GSAP */
+}
+.hf-afis img {
+  display: block;
+  /* titlul, cardurile și antetul iau ~470px; afișul primește restul ecranului */
+  height: clamp(300px, calc(100svh - 470px), 640px); width: auto; max-width: 100%;
+}
+@media (hover: hover) {
+  .hf-afis:hover { box-shadow: 0 34px 80px -20px rgba(3, 8, 25, 0.85), 0 0 0 2px rgba(246, 200, 28, 0.7); }
+}
+
+/* cardurile curg sub afiș, nu mai stau lipite de marginea de jos */
+.hf .hero-bottom-fade { z-index: 2; }
+.hf .hf-actiuni {
+  position: relative; left: auto; right: auto; bottom: auto;
+  margin-top: clamp(18px, 3svh, 30px);
+}
+
+@media (max-width: 640px) {
+  .hf { min-height: 0; padding-bottom: 20px; }
+  .hf-eticheta { font-size: 0.58rem; letter-spacing: 0.12em; margin-bottom: 8px; }
+  .hf-titlu { font-size: 1.3rem; }
+  .hf-afis { border-radius: 14px; }
+  .hf-afis img { height: auto; width: min(80vw, 46svh * 0.778); }
+}
